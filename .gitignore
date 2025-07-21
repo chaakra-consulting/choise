@@ -1,0 +1,17 @@
+vendor/
+node_modules/
+.env
+storage/
+*.log
+assets.zip
+application.zip
+
+# Log files
+application/logs/
+
+# File upload
+upload/berkas_pelamar/
+
+# File konfigurasi sensitif
+application/config/config.php
+application/config/database.php
