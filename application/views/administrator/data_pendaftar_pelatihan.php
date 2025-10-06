@@ -48,13 +48,15 @@
                 <tr>
                   <th>No</th>
                   <th>Pelatihan / Talent Test</th>
-                  <th>Tanggal Pelatihan</th>
+                  <th>Tanggal Pelatihan / Jadwal Test</th>
                   <th>Nama</th>
                   <th>Email</th>
                   <th>Telp</th>
-                  <th>Pendidikan</th>
-                  <th>Minat</th>
-                  <th>Sekolah/Instansi</th>
+                  <th>Tempat Lahir</th>
+                  <th>Tanggal Lahir</th>
+                  <th>Kepentingan</th>
+                  <th>Status Pembayaran</th>
+                  <th>Nomor VA</th>
                   <th>Waktu Mendaftar</th>
                   <th>Aksi</th>
                 </tr>
@@ -63,7 +65,7 @@
                 <?php
                 $modal = 0;
                 $no = 1;
-                $array = $this->db->query("SELECT * FROM tb_pendaftar_pelatihan a left join tb_pelatihan b on a.id_pelatihan=b.id_pelatihan")->result_array();
+                $array = $this->db->query("SELECT a.*, b.nama_pelatihan, b.tanggal_pelatihan, b.jenis, c.nama_paket FROM tb_pendaftar_pelatihan a LEFT JOIN tb_pelatihan b ON a.id_pelatihan = b.id_pelatihan LEFT JOIN tb_paket_talent_test c ON a.id_paket = c.id_paket")->result_array();
                 foreach ($array as $key) {
                 ?>
                   <div class="modal fade" id="ModalHapus<?php echo $modal ?>" role="dialog">
@@ -85,20 +87,20 @@
                   </div>
                   <tr>
                     <td><?php echo $no++ ?></td>
-                    <td><?php echo $key['nama_pelatihan'] ?></td>
-                    <td><?php if($key['jenis']!='talent'){echo $key['tanggal_pelatihan'];} ?></td>
+                    <td><?php echo (!empty($key['nama_paket'])) ? $key['nama_paket'] : $key['nama_pelatihan']; ?></td>
+                    <td><?php if(!empty($key['nama_paket'])){ echo $key['jadwal_test']; } elseif($key['jenis']!='talent'){ echo $key['tanggal_pelatihan']; } ?></td>
                     <td><?php echo $key['nama_pendaftar_pelatihan'] ?></td>
                     <td><?php echo $key['email_pendaftar'] ?></td>
                     <td><?php echo $key['no_telp'] ?></td>
-                    <td><?php echo $key['pendidikan'] ?></td>
-                    <td><?php echo $key['minat'] ?></td>
-                    <td><?php echo $key['sekolah'] ?></td>
-                    <td><?php echo $key['waktu'] ?></td>
+                    <td><?php echo $key['tempat_lahir'] ?></td>
+                    <td><?php echo $key['tanggal_lahir'] ?></td>
+                    <td><?php echo $key['kepentingan'] ?></td>
+                    <td><?php echo $key['jadwal_test'] ?></td>
+                    <td><?php echo $key['status_pembayaran'] ?></td>
+                    <td><?php echo $key['nomor_va'] ?></td>
                     <td>
                       <div class="btn-group" role="group" aria-label="Basic example">
                       &nbsp;<button data-placement="bottom" data-original-title="Hapus" data-toggle="modal" data-target="#ModalHapus<?php echo $modal ?>" type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-
-
                       </div>
                     </td>
                   </tr>
