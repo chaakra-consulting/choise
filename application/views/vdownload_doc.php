@@ -114,7 +114,15 @@
 				}
 			}
 			?>
+			<b style="color: red">"UNTUK PELAMAR UMUM"</b><br><br>
 
+			<b>Kelengkapan berkas yang wajib diunduh:</b><br><br>
+
+			<p>1. <a href="<?php echo base_url('upload/dokumen/ESAI KOMPETENSI.docx') ?>" download="ESAI KOMPETENSI.docx">Essay Kompetensi</a></p>
+
+			<p>2. <a href="<?php echo base_url('upload/dokumen/SELF ASSESSMENT CC_2021 .pdf') ?>" download="SELF_ASSESSMENT&BIODATA .pdf">Self Assesment & Biodata</a></p>
+
+			<p>3. <a href="<?php echo base_url('upload/dokumen/Informed Consent.pdf') ?>" download="Informed Consent.pdf">Informed Consent</a></p></br><br><br>
 			<?php if (in_array('6', $data)) {
 				$cek = 1; ?>
 
@@ -227,17 +235,7 @@
 			<?php }
 			if ($cek > 0) { ?>
 				<b>Silahkan Upload Berkas Pada Menu "<b style="color: red">Upload Berkas</b>" Sesuai Dengan Ketentuan.</b><br><br>
-			<?php } else { ?>
-				<b style="color: red">"UNTUK PELAMAR UMUM"</b><br><br>
-
-				<b>Kelengkapan berkas yang wajib diunduh:</b><br><br>
-
-				<p>1. <a href="<?php echo base_url('upload/dokumen/ESAI KOMPETENSI.docx') ?>" download="ESAI KOMPETENSI.docx">Essay Kompetensi</a></p>
-
-				<p>2. <a href="<?php echo base_url('upload/dokumen/SELF ASSESSMENT CC_2021 .pdf') ?>" download="SELF_ASSESSMENT&BIODATA .pdf">Self Assesment & Biodata</a></p>
-
-				<p>3. <a href="<?php echo base_url('upload/dokumen/Informed Consent.pdf') ?>" download="Informed Consent.pdf">Informed Consent</a></p></br><br><br> <?php } ?>
-
+			<?php } ?>
 		</div>
 
 	</div>

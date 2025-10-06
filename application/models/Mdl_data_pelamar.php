@@ -26,12 +26,12 @@ class Mdl_data_pelamar extends CI_Model
 	// 	$query=$this->db->query("SELECT * FROM tb_apply WHERE id_pelamar=$id");
 	// 	return $query->result_array();
 	// }
-
-	public function modelupdate($send)
-	{
-		$sql = "UPDATE tb_data_diri SET id_pelamar = ?, nik = ?, nama_pelamar = ?, tempat_lahir = ? , tanggal_lahir = ? , jenis_kelamin = ?, alamat_ktp = ?, status_perkawinan = ?, agama = ?, anak_ke = ?, dari_x_sdr = ?, no_hp = ?, facebook = ?, instagram = ?,  alamat = ?, twitter = ?, linkedin = ? WHERE id_pelamar = ?";
-		$query = $this->db->query($sql, array($send['id_pelamar'], $send['nik'], $send['nama_pelamar'], $send['tempat_lahir'], $send['tanggal_lahir'], $send['jenis_kelamin'], $send['alamat_ktp'], $send['status_perkawinan'], $send['agama'], $send['anak_ke'], $send['dari_x_sdr'], $send['no_hp'], $send['facebook'], $send['instagram'], $send['alamat'], $send['twitter'], $send['linkedin'], $send['id_pelamar']));
-	}
+	
+	public function modelupdate($id_pelamar, $data)
+    {
+        $this->db->where('id_pelamar', $id_pelamar);
+        $this->db->update('tb_data_diri', $data);
+    }
 
 	public function uploadImage($send)
 	{
@@ -89,133 +89,85 @@ class Mdl_data_pelamar extends CI_Model
 
 	public function ambildata_pendidikan($id = FALSE)
 	{
-
 		if ($id == TRUE) {
-
 			$this->db->from('tb_data_pendidikan');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		} else {
-
 			$this->db->from('tb_data_diri');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		}
-
 		return $query->result_array();
 	}
 
 	public function ambildata_pendidikan_non($id = FALSE)
 	{
-
 		if ($id == TRUE) {
-
 			$this->db->from('tb_data_pendidikan_nonformal');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		} else {
-
 			$this->db->from('tb_data_diri');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		}
-
 		return $query->result_array();
 	}
 
 	public function ambildata_berkas($id = FALSE)
 	{
-
 		if ($id == TRUE) {
-
 			$this->db->from('tb_berkas');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		} else {
-
 			$this->db->from('tb_data_diri');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		}
-
 		return $query->result_array();
 	}
 
 	public function ambildata_keluarga($id = FALSE)
 	{
-
 		if ($id == TRUE) {
-
 			$this->db->from('tb_data_keluarga');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		} else {
-
 			$this->db->from('tb_data_diri');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		}
-
 		return $query->result_array();
 	}
 
 	public function ambildata_pengalaman($id = FALSE)
 	{
-
 		if ($id == TRUE) {
-
 			$this->db->from('tb_data_pengalaman_kerja');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		} else {
-
 			$this->db->from('tb_data_diri');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		}
-
 		return $query->result_array();
 	}
 
 	public function ambildata_motlet($id = FALSE)
 	{
-
 		if ($id == TRUE) {
-
 			$this->db->from('tb_motivation_letter');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		} else {
-
 			$this->db->from('tb_data_diri');
-
 			$this->db->where('id_pelamar', $id);
-
 			$query = $this->db->get();
 		}
-
 		return $query->result_array();
 	}
 
@@ -232,9 +184,4 @@ class Mdl_data_pelamar extends CI_Model
 		$this->db->SET('status_lamaran', 'Tidak lolos');
 		$this->db->update($table);
 	}
-
-	// END DATA LEVEL
-
-	// ============================================================================================
-
 }

@@ -1,3 +1,8 @@
+<?php
+// Set default values to prevent undefined variable warnings
+$is_talent_test = isset($is_talent_test) ? $is_talent_test : false;
+$is_pelamar = isset($is_pelamar) ? $is_pelamar : false;
+?>
 <body>
 	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
@@ -26,7 +31,15 @@
 							<li class="divider"></li>
 							<li>
 								<div class="dropdown-messages-box"><a href="" class="pull-left">
-									<a href="<?php echo base_url('Login_pelamar/logout') ?>" style="color: #283339;">Keluar</a>
+									<a href="<?php 
+										if (isset($is_talent_test) && $is_talent_test) {
+											echo base_url('talent-test/logout');
+										} elseif (isset($is_pelamar) && $is_pelamar) {
+											echo base_url('Login_pelamar/logout');
+										} else {
+											echo base_url('Home');
+										}
+									?>" style="color: #283339;">Keluar</a>
 								</div>
 							</li>
 						</ul>

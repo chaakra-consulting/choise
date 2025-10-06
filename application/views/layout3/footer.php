@@ -131,15 +131,19 @@
 	    confirm_password = document.getElementById("confirm_password");
 
 	  function validatePassword() {
-	    if (password.value != confirm_password.value) {
-	      confirm_password.setCustomValidity("Passwords Tidak Sama");
-	    } else {
-	      confirm_password.setCustomValidity('');
-	    }
+		if (password && confirm_password && password.value != confirm_password.value) {
+			confirm_password.setCustomValidity("Passwords Tidak Sama");
+		} else if (confirm_password) {
+			confirm_password.setCustomValidity('');
+		}
 	  }
 
-	  password.onchange = validatePassword;
-	  confirm_password.onkeyup = validatePassword;
+	  if (password) {
+		password.onchange = validatePassword;
+	  }
+	  if (confirm_password) {
+		confirm_password.onkeyup = validatePassword;
+	  }
 	</script>
 
 

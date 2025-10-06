@@ -33,52 +33,25 @@
         <h3 class="tile-title">Edit FAQ</h3>
 
         <div class="tile-body">
-
-          <?php foreach ($data as $d) {
-
-          ?>
-
-            <form action="<?php echo base_url("Administrator/Welcome/edit_faq/" . $d['id_faq']) ?>" method="post">
-
-              <!--<input class="form-control" name="id_faq" type="text" value="<?= $d['id_faq'] ?>">-->
-
-              <div class="form-group">
-
-                <label class="control-label">Pertanyaan</label>
-
-                <input class="form-control" name="pertanyaan" type="text" placeholder="Pertanyaan" value="<?= $d['pertanyaan'] ?>">
-
-              </div>
-
-              <div class="form-group">
-
-                <label class="control-label">Jawaban</label>
-
-                <textarea name="jawaban" class="ckeditor" id="ckeditor" rows="3"><?= $d['jawaban'] ?></textarea>
-
-              </div>
-
-              <div class="form-group">
-
-                <label class="control-label">STATUS : </label>
-
-                <input class="form-input" type="checkbox" value="aktif" name="status" <?php if ($d['status'] == "aktif") {
-
-                                                                                        echo "checked";
-
-                                                                                      } ?>>
-
-              </div>
-
-              <input type="submit" value="Kirim" class="btn btn-primary">
-
-              <a href="<?php echo base_url('Administrator/Welcome/data_faq') ?>" class="btn btn-secondary"> Cancel</a>
-
-            </form>
-
+          <?php $faq = $data[0]; ?>
+          <form action="<?php echo base_url("Administrator/Welcome/edit_faq/" . $faq['id_faq']) ?>" method="post">
+            <!--<input class="form-control" name="id_faq" type="text" value="<?= $faq['id_faq'] ?>">-->
+            <div class="form-group">
+              <label class="control-label">Pertanyaan</label>
+              <input class="form-control" name="pertanyaan" type="text" placeholder="Pertanyaan" value="<?= htmlspecialchars($faq['pertanyaan']) ?>">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Jawaban</label>
+              <textarea name="jawaban" class="ckeditor" id="ckeditor" rows="3"><?= htmlspecialchars($faq['jawaban']) ?></textarea>
+            </div>
+            <div class="form-group">
+              <label class="control-label">STATUS : </label>
+              <input class="form-input" type="checkbox" value="aktif" name="status" <?php echo ($faq['status'] == "aktif") ? "checked" : ""; ?>>
+            </div>
+            <input type="submit" value="Kirim" class="btn btn-primary">
+            <a href="<?php echo base_url('Administrator/Welcome/data_faq') ?>" class="btn btn-secondary"> Cancel</a>
+          </form>
         </div>
-
-      <?php } ?>
 
       </div>
 
