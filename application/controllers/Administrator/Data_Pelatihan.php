@@ -3,35 +3,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Data_Pelatihan extends CI_Controller
 {
-
 	public function __construct() //MEMPERSIAPKAN
 	{
 		parent::__construct();
 		$this->load->helper('url', 'form');
 		$this->load->model('Mdl_data_motlet');
 		$this->load->library('form_validation');
+		$this->load->library('session');
 		$this->load->database();
 		if ($this->session->userdata('masuk') == FALSE) {
 			redirect('Login', 'refresh');
 		}
 	}
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
+	
 	// CRUD Motlet
 	public function pendaftar()
 	{
@@ -43,7 +27,6 @@ class Data_Pelatihan extends CI_Controller
 		$this->load->view('administrator/data_pelatihan');
 	}
 	
-
 	public function tambahmaster()
 	{
 		$this->form_validation->set_rules('nama_pelatihan', 'Nama_Pelatihan', 'trim|required');
@@ -78,6 +61,7 @@ class Data_Pelatihan extends CI_Controller
 		$this->session->set_flashdata('msg_delete', 'Data Berhasil dihapus');
 		redirect('Administrator/Data_Pelatihan/master');
 	}
+
 	public function hapuspendaftar($id)
 	{
 		$where = array('id_pendaftar_pelatihan' => $id);
@@ -118,8 +102,18 @@ class Data_Pelatihan extends CI_Controller
 		}
 	}
 
-	// END CRUD Motlet
-	// ============================================================================================
+	public function pendaftar_talent_test()
+	{
+		$this->db->select('p.*, pk.nama_paket, pk.harga');
+		$this->db->from('tb_pendaftaran_pelatihan p');
+		$this->db->join('tb_paket_talent_test pk', 'p.id_paket = pk.id_paket', 'left');
+		$this->db->where('p.order_id IS NOT NULL');
+		$this->db->order_by('p.waktu', 'DESC');
+		$query = $this->db->get();
 
+		$data['title'] = 'Data Pendaftar Talent Test (Paket)';
+		$data['pendaftar_list'] = $query->result_array();
 
+		$this->load->view('administrator/data_pelatihan/talent_test_list', $data);
+	}
 }

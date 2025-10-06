@@ -17,16 +17,16 @@
   <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
   <?php
   if ($this->session->userdata('ses_idLevel') == 'Administrator') {
-    $tittle = "Administrator Panel";
+    $title = "Administrator Panel";
   } else if ($this->session->userdata('ses_idLevel') == 'Admin Sdm') {
-    $tittle = "Admin SDM Panel";
+    $title = "Admin SDM Panel";
   } else if ($this->session->userdata('ses_idLevel') == 'Psikolog') {
-    $tittle = "Psikolog Panel";
+    $title = "Psikolog Panel";
   } else if ($this->session->userdata('ses_idLevel') == 'Perusahaan') {
-    $tittle = "Perusahaan Panel";
+    $title = "Perusahaan Panel";
   }
   ?>
-  <title><?php echo $tittle ?> || Sistem E-recruitment</title>
+  <title><?php echo $title ?> || Sistem E-recruitment</title>
   <link href=" <?php echo base_url('assets/images/shortcuticon.png') ?>" rel="shortcut icon">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,6 +37,7 @@
   <link href="<?php echo base_url('assets/datetimepicker/css/bootstrap-datetimepicker.css'); ?>" rel="stylesheet">
   <!-- Font-icon css-->
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/font-awesome/4.7.0/css/font-awesome.min.css') ?>">
+  <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="app sidebar-mini">

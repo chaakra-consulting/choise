@@ -49,8 +49,9 @@
               <input class="form-control" name="jadwal_seleksi" type="date" value="<?php echo $data[0]['jadwal_seleksi'] ?>">
             </div>
             <div class="form-group">
-              <label class="control-label">Kota Penempatan</label>
-              <input class="form-control" name="kota_penempatan" type="text" value="<?php echo $data[0]['kota_penempatan'] ?>" >
+              <label for="input-kota" class="control-label">Kota Penempatan</label>
+              <input name="kota_penempatan" class="form-control" id="input-kota" value="<?php echo htmlspecialchars($data[0]['kota_penempatan']); ?>">
+              <small class="from-text text-muted">Anda bida menambahkan lebih dari satu kota penempatan.</small>
             </div>
             <div class="form-group">
               <label class="control-label">Persyaratan</label>
@@ -70,4 +71,22 @@
     </div>
   </div>
 </main>
+<script src="https://unpkg.com/@yaireo/tagify"></script>
+<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+<script>
+  let input = document.querySelector('input[name=kota_penempatan]');
+  let whitelist_kota = <?php echo json_encode($semua_kota); ?>;
+
+  if (input) {
+    new Tagify(input, {
+      whitelist: whitelist_kota,
+      dropdown: {
+        maxItems: 20,
+        classname: "tags-look",
+        enabled: 0,
+        closeOnSelect: false
+      }
+    });
+  }
+</script>
 <?php $this->load->view('layout/footer') ?>

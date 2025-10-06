@@ -904,7 +904,7 @@ class Ujian extends CI_Controller
 
 
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_cfit WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_cfit WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 
 
@@ -1007,7 +1007,7 @@ class Ujian extends CI_Controller
 
 
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_cfit WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_cfit WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 
 
@@ -1098,7 +1098,7 @@ class Ujian extends CI_Controller
 
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_cfit WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_cfit WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 
@@ -1183,7 +1183,7 @@ class Ujian extends CI_Controller
 
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_cfit WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_cfit WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 
@@ -1634,7 +1634,7 @@ class Ujian extends CI_Controller
 			'nilai' => $nilai
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -1713,7 +1713,7 @@ class Ujian extends CI_Controller
 			'nilai' => $nilai
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -2857,7 +2857,7 @@ class Ujian extends CI_Controller
 
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -2918,7 +2918,7 @@ class Ujian extends CI_Controller
 
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -2978,7 +2978,7 @@ class Ujian extends CI_Controller
 
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -3038,7 +3038,7 @@ class Ujian extends CI_Controller
 
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -3116,7 +3116,7 @@ class Ujian extends CI_Controller
 			'nilai' => $nilai
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -3195,7 +3195,7 @@ class Ujian extends CI_Controller
 			'nilai' => $nilai
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -3257,7 +3257,7 @@ class Ujian extends CI_Controller
 
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -3316,7 +3316,7 @@ class Ujian extends CI_Controller
 			'nilai' => $nilai,
 
 		);
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -3375,7 +3375,7 @@ class Ujian extends CI_Controller
 
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_ist WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -5093,7 +5093,7 @@ class Ujian extends CI_Controller
 			'jawaban_kunci' => $kuncijawaban
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_leadership WHERE id_lowongan=$id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_leadership WHERE id_lowongan=$id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
@@ -8509,7 +8509,7 @@ public function masukkan_jawaban_endtpa2_3($redirect = null)
 
 
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 
 
@@ -8594,7 +8594,7 @@ public function masukkan_jawaban_endtpa2_3($redirect = null)
 
 
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 
 
@@ -8678,7 +8678,7 @@ public function masukkan_jawaban_endtpa2_3($redirect = null)
 
 
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 
 
@@ -8762,7 +8762,7 @@ public function masukkan_jawaban_endtpa2_3($redirect = null)
 
 
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 
 
@@ -8846,7 +8846,7 @@ public function masukkan_jawaban_endtpa2_3($redirect = null)
 
 
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 
 
@@ -8928,7 +8928,7 @@ public function masukkan_jawaban_endtpa2_3($redirect = null)
 
 
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 
 
@@ -9005,7 +9005,7 @@ public function masukkan_jawaban_endtpa2_3($redirect = null)
 
 		);
 
-		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND $id_pelamar = $id_pelamar");
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_belbin WHERE id_lowongan = $id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
 
 		if ($query->num_rows() == 0) {
 

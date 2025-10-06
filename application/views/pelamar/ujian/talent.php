@@ -6,7 +6,7 @@ $id_pelamar = $this->session->userdata('ses_id');
 $idTalent = $this->session->userdata('ses_ujianTalent');
 $idLowongan = $this->session->userdata('sesIdLowongan');
 
-$talent = $this->db->query("SELECT * FROM tb_ujian_talent WHERE id_ujian_talent = $idTalent");
+$talent = $this->db->query("SELECT * FROM tb_ujian_talent WHERE id_ujian_talent = ?", array($idTalent));
 foreach ($talent->result() as $key_uTalent) {
 	$timeTalent = $key_uTalent->waktu_akhir;
 }

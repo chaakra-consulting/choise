@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(0);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 
 date_default_timezone_set('Asia/Jakarta');
 $nilai = $this->db->query("SELECT nama_jabatan,nama_perusahaan FROM tb_lowongan a LEFT JOIN tb_perusahaan b ON a.`id_perusahaan`=b.`id_perusahaan` WHERE id_lowongan=$lowongan")->result_array();
@@ -2310,10 +2310,26 @@ header("Expires: 0");
 			}
 
 			// IST PERHITUNGAN-----------------------------------------------------------------------
+			// $umurdb = $this->db->query("SELECT tanggal_lahir as tgl_lhr FROM tb_data_diri WHERE id_pelamar = $keypel->id_pelamar")->result_array();
+			// $from = new DateTime($umurdb[0]['tgl_lhr']);
+			// $to   = new DateTime('today');
+			// $umur = $from->diff($to)->y;
+			// GANTI DENGAN BLOK INI
+			$umur = 0; // Nilai default
 			$umurdb = $this->db->query("SELECT tanggal_lahir as tgl_lhr FROM tb_data_diri WHERE id_pelamar = $keypel->id_pelamar")->result_array();
-			$from = new DateTime($umurdb[0]['tgl_lhr']);
-			$to   = new DateTime('today');
-			$umur = $from->diff($to)->y;
+
+			if (!empty($umurdb) && !empty($umurdb[0]['tgl_lhr']) && $umurdb[0]['tgl_lhr'] != '0000-00-00') {
+				try {
+					$from = new DateTime($umurdb[0]['tgl_lhr']);
+					$to   = new DateTime('today');
+					$umur = $from->diff($to)->y;
+				} catch (Exception $e) {
+					$umur = 21; // Usia default jika format tanggal salah
+				}
+			} else {
+				// Usia default jika data diri tidak ditemukan sama sekali
+				$umur = 21; 
+			}
 			// echo "Lahir = " . $umurdb[0]['tgl_lhr'] . "<br>";
 			// echo "UMUR = " . $umur . "<br>";
 			// echo "-----------------------<br>";
@@ -2328,7 +2344,9 @@ header("Expires: 0");
 				// echo "<br>";
 				// echo "SELECT count(tb_data_jawaban_ist.nilai) AS jumlah,tb_data_diri.tanggal_lahir as tgl_lhr FROM tb_data_jawaban_ist INNER JOIN tb_data_diri ON tb_data_jawaban_ist.id_pelamar=tb_data_diri.id_pelamar WHERE tb_data_jawaban_ist.subtes=$i AND tb_data_jawaban_ist.nilai=1 AND tb_data_jawaban_ist.id_lowongan = $lowongan AND tb_data_jawaban_ist.id_pelamar = $keypel->id_pelamar";
 				// echo "<br>";
-				$nilai = $this->db->query("SELECT count(tb_data_jawaban_ist.nilai) AS jumlah,tb_data_diri.tanggal_lahir as tgl_lhr FROM tb_data_jawaban_ist INNER JOIN tb_data_diri ON tb_data_jawaban_ist.id_pelamar=tb_data_diri.id_pelamar WHERE tb_data_jawaban_ist.subtes=$i AND tb_data_jawaban_ist.nilai=1 AND tb_data_jawaban_ist.id_lowongan = $lowongan AND tb_data_jawaban_ist.id_pelamar = $keypel->id_pelamar")->result_array();
+				// $nilai = $this->db->query("SELECT count(tb_data_jawaban_ist.nilai) AS jumlah,tb_data_diri.tanggal_lahir as tgl_lhr FROM tb_data_jawaban_ist INNER JOIN tb_data_diri ON tb_data_jawaban_ist.id_pelamar=tb_data_diri.id_pelamar WHERE tb_data_jawaban_ist.subtes=$i AND tb_data_jawaban_ist.nilai=1 AND tb_data_jawaban_ist.id_lowongan = $lowongan AND tb_data_jawaban_ist.id_pelamar = $keypel->id_pelamar")->result_array();
+				$nilai = $this->db->query("SELECT COUNT(nilai) AS jumlah FROM tb_data_jawaban_ist WHERE subtes=$i AND nilai=1 AND id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar")->result_array();
+
 				$nilaipersubtes = $nilai[0]['jumlah'];
 				if ($umur >= 21 && $umur <= 25) {
 					if ($i == 1) {
@@ -5784,7 +5802,7 @@ header("Expires: 0");
 					} else {
 						$gesamtss = 0;
 					}
-				} elseif ($umur >= 41 && $umur <= 45) {
+				} elseif ($umur >= 41) {
 					if ($i == 1) {
 						$arrayconvert = [71, 74, 77, 80, 83, 86, 89, 91, 94, 97, 100, 103, 106, 109, 111, 114, 117, 120, 123, 126, 129];
 						if ($nilaipersubtes == 0) {
@@ -9483,7 +9501,8 @@ header("Expires: 0");
 		?>
 			<tr>
 				<td rowspan="2"><?= $nourutpelamar; ?></td>
-				<td rowspan="2"><?= $pelamar[0]['nama_pelamar']; ?></td>
+				<!-- <td rowspan="2"><?= $pelamar[0]['nama_pelamar']; ?></td> -->
+				 <td rowspan="2"><?= !empty($pelamar) ? $pelamar[0]['nama_pelamar'] : 'ID: ' . $keypel->id_pelamar; ?></td>
 				<td rowspan="2"><?= $total_nilai_sub; ?></td>
 				<td rowspan="2"><?= $iqcfit; ?></td>
 				<td rowspan="2"><b><?= $katecfit; ?></b></td>
@@ -9622,13 +9641,11 @@ header("Expires: 0");
 				<td>&nbsp;</td>
 				<td><b><?= $kategoriM; ?></b></td>
 				<!-- Cepat Teliti -->
-				
-				<td rowspan="2"><?= $benarcepat * 1 ?></td>
-				<td rowspan="2"><?php kategori_cepat_p($benarcepat * 1) ?></td>
+				<td rowspan="2"><?= $benarcepat * 0.5 ?></td>
+				<td rowspan="2"><?php kategori_cepat_p($benarcepat * 0.5) ?></td>
 				<!-- TKP -->
 				<td rowspan="2"><?= number_format($benartkp * 1) ?></td>
 				<td rowspan="2"><?php kategori_n($benartkp) ?></td>
-
 				<!-- Army -->
 				<td rowspan="2"><?= $benararmy * 1 ?></td>
 				<td rowspan="2"><?php kategori_army(($benararmy * 1)) ?></td>

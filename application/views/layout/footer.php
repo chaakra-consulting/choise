@@ -109,29 +109,12 @@
     $('#idperusahaan').val(perusahaan);
   });
 </script>
-
 <script type="text/javascript">
-  var list = {
-    '2': '#answer-2',
-  };
-
-  $('select[name=subtes]').change(function() {
-
-    $('.hide').hide();
-
-    var value = $(this).val();
-
-    if (value in list) {
-      $(list[value]).show();
-    }
-  });
-  
-    $(document).ready(function() {
-    $(document).on('click', ".downloadPelamar", function(e) {
+  $(document).ready(function() {
+    $(document).on('click', ".downloadPelamar", function(e){
       e.preventDefault();
-
       $("#container-form").show();
-      $("#container-results").hide();
+      $("#container-results-tabs").hide();
       $("#loading-data").hide();
       $("#btnKembaliSorting").hide();
       $("#btnDownloadPelamar").hide();
@@ -145,32 +128,14 @@
       let jadwal_seleksi = $(this).data('jadwal_seleksi');
 
       $("#table-lowongan").html(`
-       <tr>
-              <th>Posisi Jabatan</th>
-              <td>:</td>
-              <td>${nama_jabatan}</td>
-            </tr> 
-            <tr>
-              <th>Perusahaan</th>
-              <td>:</td>
-              <td>${nama_perusahaan}</td>
-            </tr>
-            <tr>
-              <th>Jenis Lowongan</th>
-              <td>:</td>
-              <td>${jenis_lowongan}</td>
-            </tr>
-            <tr>
-              <th>Jadwal Seleksi</th>
-              <td>:</td>
-              <td>${jadwal_seleksi}</td>
-            </tr>
-      `)
+        <tr><th>Posisi Jabatan</th><td>:</td><td>${nama_jabatan}</td></tr>
+        <tr><th>Perusahaan</th><td>:</td><td>${nama_perusahaan}</td></tr>
+        <tr><th>Jenis Lowongan</th><td>:</td><td>${jenis_lowongan}</td></tr>
+        <tr><th>Jadwal Seleksi</th><td>:</td><td>${jadwal_seleksi}</td></tr>
+      `);
       $("#formDownloadPelamar").attr('action', `<?= base_url('Administrator/Data_lowongan/preview_download_pelamar/') ?>${id_lowongan}`);
-    })
+    });
 
-    $("#container-results").hide();
-    $("#loading-data").hide();
     $("#formDownloadPelamar").submit(function(e) {
       e.preventDefault();
       $.ajax({
@@ -181,93 +146,124 @@
         beforeSend: function() {
           $("#container-form").slideUp(300);
           $("#loading-data").show();
-          $("#btnKembaliSorting").show();
           $("#btnPreviewPelamar").hide();
         },
-        success: function(data) {
-              if (data.length == 0) {
-            $("#container-results").hide();
-            $("#loading-data").hide();
-            $("#container-form").slideDown(300);
-            $("#btnKembaliSorting").hide();
-            $("#btnPreviewPelamar").show();
-            $("#btnDownloadPelamar").hide();
-            $("#btnKembaliSorting").hide();
-            $("#btnDownloadPelamar").hide();
-            $("#btnPreviewPelamar").show();
-            alert('Data Kosong');
-            return false;
+        success: function(response) {
+          $('#loading-data').hide();
+          $('#container-results-tabs').show();
+          $('#btnKembaliSorting').show();
+
+          const downloadBaseUrl = $("#formDownloadPelamar").attr('action').replace('preview_download_pelamar', 'download_pelamar');
+          const filterData = $("#formDownloadPelamar").serialize();
+          const downloadUrl = `${downloadBaseUrl}?${filterData}`;
+
+          $("#btnDownloadPelamar").attr('href', downloadUrl).show();
+          
+          $('#city-tabs').empty();
+          $('#city-tab-content').empty();
+          
+          if (Object.keys(response).length === 0) {
+            $('#city-tab-content').html('<div class="alert alert-warning text-center">Tidak ada data pelamar yang ditemukan.</div>');
+            $('#btnDownloadPelamar').hide();
+            return;
           }
-          $("#container-results").slideDown(300);
-          $("#loading-data").hide();
 
-          let html = '';
-          data.forEach(function(pelamar, index) {
-            const dataDiri = pelamar.data_diri;
+          let isFirstTab = true;
+          for (const kota in response) {
+            const pelamarData = response[kota];
+            const safeKotaId = kota.replace(/[^A-Z0-9]/ig, "_");
 
-            let pendidikanList = pelamar.data_pendidikan
-              .map(p => `- ${p.jenjang_pendidikan} - ${p.nama_institusi} (${p.jurusan})`)
-              .join('<br>');
+            $('#city-tabs').append(`<li class="nav-item"><a class="nav-link ${isFirstTab ? 'active' : ''}" data-toggle="tab" href="#content-${safeKotaId}">${kota} <span class="badge badge-info">${pelamarData.length}</span></a></li>`);
+            
+            let tableRows = '';
+            pelamarData.forEach((pelamar, index) => {
+              const dataDiri = pelamar.data_diri;
+              let pendidikanList = pelamar.data_pendidikan.map(p => `- ${p.jenjang_pendidikan} - ${p.nama_institusi} (${p.jurusan})`).join('<br>');
+              let pengalamanList = pelamar.data_pengalaman_kerja.map(p => `- ${p.jabatan_akhir} - ${p.nama_perusahaan}`).join('<br>');
+              let pelatihanList = pelamar.data_pendidikan_nonformal.map(p => `- ${p.nama_pendidikan_nonformal}`).join('<br>');
 
-            let pendidikanNonformal = pelamar.data_pendidikan_nonformal
-              .map(p => `- ${p.nama_pendidikan_nonformal}`)
-              .join('<br>');
+              tableRows += `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${dataDiri.nama_pelamar}</td>
+                  <td>${dataDiri.tempat_lahir}, ${dataDiri.tanggal_lahir}</td>
+                  <td>${pelamar.umur}</td>
+                  <td>${dataDiri.jenis_kelamin}</td>
+                  <td>${dataDiri.agama}</td>
+                  <td>${dataDiri.alamat}</td>
+                  <td>${pelamar.domisili_provinsi || ''}</td>
+                  <td>${pelamar.domisili_kota || ''}</td>
+                  <td>${pelamar.domisili_kecamatan || ''}</td>
+                  <td>${pelamar.domisili_kelurahan || ''}</td>
+                  <td>${dataDiri.no_hp}</td>
+                  <td>${dataDiri.facebook}</td>
+                  <td>${dataDiri.instagram}</td>
+                  <td>${dataDiri.twitter}</td>
+                  <td>${dataDiri.linkedin}</td>
+                  <td>${dataDiri.email}</td>
+                  <td>${pelamar.gaji_diinginkan}</td>
+                  <td>${pendidikanList}</td>
+                  <td>${pengalamanList}</td>
+                  <td>${pelatihanList}</td>
+                  <td>${pelamar.keterangan_berkas}</td>
+                </tr>`;
+            });
 
-            let dataPengalamanKerja = pelamar.data_pengalaman_kerja
-              .map(p => `- ${p.jabatan_akhir} - ${p.nama_perusahaan}`)
-              .join('<br>');
-
-            html += `
-            <tr>
-            <td>${index + 1}</td>
-            <td>${dataDiri.nama_pelamar}</td>
-            <td>${dataDiri.tempat_lahir}, ${dataDiri.tanggal_lahir}</td>
-            <td>${pelamar.umur}</td>
-            <td>${dataDiri.jenis_kelamin}</td>
-            <td>${dataDiri.agama}</td>
-            <td>${dataDiri.alamat}</td>
-            <td>${dataDiri.no_hp}</td>
-            <td>${dataDiri.facebook}</td>
-            <td>${dataDiri.instagram}</td>
-            <td>${dataDiri.twitter}</td>
-            <td>${dataDiri.linkedin}</td>
-            <td>${dataDiri.email}</td>
-            <td>${pelamar.gaji_diinginkan}</td>
-            <td>${pendidikanList}</td>
-            <td>${dataPengalamanKerja}</td>
-            <td>${pendidikanNonformal}</td>
-            <td>${pelamar.keterangan_berkas}</td>
-            </tr>
-            `
-          })
-
-          $("#result-pelamar").html(html);
-          $("#btnDownloadPelamar").show();
+            $('#city-tab-content').append(`
+              <div class="tab-pane fade ${isFirstTab ? 'show active' : ''}" id="content-${safeKotaId}">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>TTL</th>
+                        <th>Usia</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Agama</th>
+                        <th>Domisili</th>
+                        <th>Domisili Provinsi</th>
+                        <th>Domisili Kota</th>
+                        <th>Domisili Kecamatan</th>
+                        <th>Domisili Kelurahan</th>
+                        <th>No HP</th>
+                        <th>Facebook</th>
+                        <th>Instagram</th>
+                        <th>Twitter</th>
+                        <th>LinkedIn</th>
+                        <th>Email</th>
+                        <th>Gaji</th>
+                        <th>Pendidikan</th>
+                        <th>Pengalaman</th>
+                        <th>Pelatihan</th>
+                        <th>Berkas</th>
+                      </tr>
+                    </thead>
+                    <tbody>${tableRows}</tbody>
+                  </table>
+                </div>
+              </div>`);
+            isFirstTab = false;
+          }
+        },
+        error: function() {
+          $('#loading-data').hide();
+          $("#container-form").slideDown(300);
+          $("#btnPreviewPelamar").show();
+          alert("Terjadi kesalahan saat memuat data. Silakan coba lagi.");
         }
-      })
-    })
+      });
+    });
 
     $("#btnKembaliSorting").click(function() {
-      $("#container-results").slideUp(300);
+      $("#container-results-tabs").slideUp(300);
       $("#loading-data").hide();
       $("#container-form").slideDown(300);
-      $("#btnKembaliSorting").hide();
+      $(this).hide();
       $("#btnDownloadPelamar").hide();
       $("#btnPreviewPelamar").show();
-    })
-
-    $("#btnDownloadPelamar").click(function(e) {
-      console.log("download pelamar");
-      $("#tablePelamar").table2excel({
-        exclude: ".excludeThisClass",
-        name: "Worksheet Name",
-        filename: "Pelamar.xls"
-      })
-    })
-  })
+    });
+  });
 </script>
-
-
 </body>
-
 </html>

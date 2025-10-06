@@ -116,12 +116,6 @@
 
 		</form>
 	</div>
-	<?php
-	$this->load->view('pelamar/ujian/cepat/panel_ujian');
-	?>
-
+<?php $this->load->view('pelamar/ujian/cepat/panel_ujian'); ?>
 </div>
-
-<?php
-
-$this->load->view('layout3/footer') ?>
+<?php $this->load->view('layout3/footer') ?>

@@ -4,10 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mdl_data_lowongan extends CI_Model {
 
 	public function __construct()
-		{
-			parent::__construct();
-			$this->load->database();
-		}
+	{
+		parent::__construct();
+		$this->load->database();
+	}
 
 	// DATA LEVEL
 	public function ambildata_lowongan(){
@@ -19,6 +19,7 @@ class Mdl_data_lowongan extends CI_Model {
 		$query=$this->db->query("SELECT * FROM tb_lowongan WHERE id_perusahaan=$id");
 		return $query->result_array();
 	}
+
 	public function ambildata_apply($id = FALSE, $limit = 100, $offset = 0)
 	{
 		if($id==TRUE){
@@ -37,18 +38,21 @@ class Mdl_data_lowongan extends CI_Model {
 
 		return $query->result_array();
 	}
-	public function ambildata2_lowongan($id){
+
+	public function ambildata2_lowongan($id)
+	{
 		$query=$this->db->query("SELECT * FROM tb_lowongan WHERE id_lowongan=$id");
 		return $query->result_array();
 	}
 
 	public function tambahdata_lowongan($paket)
-		{
-			$this->db->insert('tb_lowongan', $paket);
-			return $this->db->affected_rows();
-		}
+	{
+		$this->db->insert('tb_lowongan', $paket);
+		return $this->db->affected_rows();
+	}
 
-	public function do_delete($where,$table){
+	public function do_delete($where,$table)
+	{
 		$this->db->where($where);
 		$this->db->delete($table);
 	}
@@ -62,8 +66,4 @@ class Mdl_data_lowongan extends CI_Model {
 		$sql="UPDATE tb_lowongan SET id_lowongan = ?, status = ? WHERE id_lowongan = ?";
 		$query=$this->db->query($sql, array( $send['id_lowongan'], $send['status'], $send['id_lowongan']));
 	}	
-	// END DATA LEVEL
-
-// ============================================================================================
-	
 }

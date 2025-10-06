@@ -107,39 +107,15 @@
               </select>
             </div>
           </div>
-          <div id="container-results" style="height: 500px; overflow-y: scroll; overflow-x: scroll;">
-            <table class="table table-bordered table-hover table-stripped" id="tablePelamar" border="1">
-              <thead>
-                <tr>
-                  <th width="35">No</th>
-                  <th width="238">Nama</th>
-                  <th>TTL</th>
-                  <th>Usia</th>
-                  <th>Jenis Kelamin</th>
-                  <th>Agama</th>
-                  <th>Domisili</th>
-                  <th>No Hp</th>
-                  <th>facebook</th>
-                  <th>Instagram</th>
-                  <th>Twitter</th>
-                  <th>Linkedln</th>
-                  <th>Email</th>
-                  <th>Gaji yang diinginkan</th>
-                  <th>Pendidikan</th>
-                  <th>Pengalaman Kerja</th>
-                  <th>Jenis Pelatihan</th>
-                  <th>Kelengkaan Berkas</th>
-                </tr>
-              </thead>
-              <tbody id="result-pelamar">
-              </tbody>
-            </table>
+          <div id="container-results-tabs">
+            <ul class="nav nav-tabs" id="city-tabs" role="tabList"></ul>
+            <div class="tab-content" id="city-tab-content" style="height: 500px; overflow-x: auto; padding-top: 10px;"></div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
           <button type="button" class="btn btn-danger" id="btnKembaliSorting">Kembali</button>
-          <button type="button" class="btn btn-success" id="btnDownloadPelamar"><i class="fa fa-download"></i> Download</button>
+          <a href="#" class="btn btn-success" id="btnDownloadPelamar" style="display: none;"><i class="fa fa-dowload"></i> Download</a>
           <button type="submit" class="btn btn-primary" id="btnPreviewPelamar">Preview</button>
         </div>
       </form>

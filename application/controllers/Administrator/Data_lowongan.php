@@ -1,4 +1,7 @@
 <?php
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Data_lowongan extends CI_Controller
@@ -17,158 +20,326 @@ class Data_lowongan extends CI_Controller
 			redirect('Login', 'refresh');
 		}
 	}
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
+	
 	// CRUD Lowongan
-
 	public function index()
 	{
 		$paket['array'] = $this->Mdl_data_lowongan->ambildata_lowongan();
 		$this->load->view('administrator/data_lowongan', $paket);
 	}
-
+	
 	public function download_pelamar($id)
 	{
-		$paket['pelamar'] = $this->Mdl_data_lowongan->ambildata_apply($id);
-		$paket['data_pelamar'] = $this->Mdl_data_pelamar->ambildata_pelamar_();
-		$paket['data_pendidikan'] = $this->Mdl_data_pelamar->ambildata_pendidikan_();
-		$paket['data_pengalaman'] = $this->Mdl_data_pelamar->ambildata_pengalaman_();
-		$paket['data_pelatihan'] = $this->Mdl_data_pelamar->ambildata_pendidikan_non_();
-		$paket['data_motivasi'] = $this->Mdl_data_pelamar->ambildata_mot();
-		$dataLowongan = $this->db->query("SELECT * FROM tb_lowongan a LEFT JOIN tb_perusahaan b ON
-		a.`id_perusahaan`=b.`id_perusahaan` WHERE id_lowongan =$id")->result();
-		foreach ($dataLowongan as $dl) {
-			if ($dl->nama_perusahaan == "RSUD Krian" || $dl->nama_perusahaan == "Dinas Kesehatan Kabupaten Sidoarjo" || $dl->nama_perusahaan == "Puskesmas Kabupaten Sidoajo") {
-				$this->load->view('administrator/export_excel_khusus_krian', $paket);
-			} else {
-				$this->load->view('administrator/export_excel', $paket);
+		$prioritas_jenjang = $this->input->get('tingkat_pendidikan');
+		$range_gaji = $this->input->get('gaji');
+		$usia = $this->input->get('usia');
+
+		if ($range_gaji != '') {
+			$range_gaji = ($range_gaji == "up") ? "DESC" : "ASC";
+		}
+
+		if ($usia != '') {
+			$usia = ($usia == "up") ? "ASC" : "DESC";
+		}
+		
+		$this->db->from('tb_apply')
+			->select('
+				tb_apply.id_apply,
+				tb_apply.id_lowongan,
+				tb_apply.id_pelamar,
+				tb_apply.id_perusahaan,
+				tb_apply.kota_penempatan,
+				tb_apply.status_lamaran,
+				tb_apply.status_ujian,
+				tb_pelamar.email,
+				tb_data_diri.*,
+				tb_motivation_letter.gaji,
+				t_provinsi.nama as domisili_provinsi_nama,
+				t_kota.nama as domisili_kota_nama,
+				t_kecamatan.nama as domisili_kecamatan_nama,
+				t_kelurahan.nama as domisili_kelurahan_nama,
+			')
+			->join('tb_pelamar', 'tb_pelamar.id_pelamar = tb_apply.id_pelamar')
+			->join('tb_data_diri', 'tb_data_diri.id_pelamar = tb_pelamar.id_pelamar')
+			->join('tb_motivation_letter', 'tb_motivation_letter.id_pelamar = tb_pelamar.id_pelamar', 'left')
+			->join('t_provinsi', 't_provinsi.id = tb_data_diri.domisili_provinsi_id', 'left')
+			->join('t_kota', 't_kota.id = tb_data_diri.domisili_kota_id', 'left')
+			->join('t_kecamatan', 't_kecamatan.id = tb_data_diri.domisili_kecamatan_id', 'left')
+			->join('t_kelurahan', 't_kelurahan.id = tb_data_diri.domisili_kelurahan_id', 'left')
+			->where('tb_apply.id_lowongan', $id);
+
+		if ($prioritas_jenjang != '') {
+			$this->db->order_by("CASE WHEN tb_data_pendidikan.jenjang_pendidikan = '$prioritas_jenjang' THEN 1 ELSE 2 END", 'ASC');
+		}
+
+		if ($range_gaji != '') {
+			$this->db->order_by('tb_motivation_letter.gaji', $range_gaji);
+		}
+
+		if ($usia != '') {
+			$this->db->order_by('tb_data_diri.tanggal_lahir', $usia);
+		}
+		$getPelamar = $this->db->get()->result_array();
+
+		$grouped_pelamar = [];
+		$unique_pelamar = [];
+		foreach ($getPelamar as $key) {
+			if (isset($unique_pelamar[$key['id_pelamar']])) continue;
+			$unique_pelamar[$key['id_pelamar']] = true;
+			$kota = !empty($key['kota_penempatan']) ? $key['kota_penempatan'] : 'Belum Ditentukan';
+			if (!isset($grouped_pelamar[$kota])) {
+				$grouped_pelamar[$kota] = [];
 			}
+			$grouped_pelamar[$kota][] = $key;
+		}
+		
+		$query = $this->db->query("SELECT a.nama_jabatan, b.nama_perusahaan FROM tb_lowongan a JOIN tb_perusahaan b ON a.id_perusahaan = b.id_perusahaan WHERE a.id_lowongan = $id");
+		$dataLowongan = $query->row();
+		$nama_lowongan = $dataLowongan->nama_jabatan;
+		$nama_perusahaan = $dataLowongan->nama_perusahaan;
+
+		$perusahaan_khusus = ["RSUD Krian", "Dinas Kesehatan Kabupaten Sidoarjo", "Puskesmas Kabupaten Sidoarjo"];
+
+		if (in_array($nama_perusahaan, $perusahaan_khusus)) {
+			$this->buat_excel_krian($grouped_pelamar, $nama_lowongan, $nama_perusahaan);
+		} else {
+			$this->buat_excel_umum($grouped_pelamar, $nama_lowongan, $nama_perusahaan);
 		}
 	}
-	
-		public function preview_download_pelamar($id)
+
+	private function buat_excel_krian($grouped_pelamar, $nama_lowongan, $nama_perusahaan)
 	{
-		// Tangkap jenjang pendidikan dari request (default ke 'S1' jika tidak ada input)
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->setTitle('Data Pelamar Krian');
+		$sheet->setCellValue('A1', 'ini adalah format khusus untuk ' . $nama_perusahaan);
+		$sheet->setCellValue('A2', 'No');
+		$sheet->setCellValue('B2', 'Nama Peserta');
+		$sheet->setCellValue('C2', 'No Hp');
+		$sheet->setCellValue('D2', 'Email');
+		$sheet->setCellValue('E2', 'Pendidikan Terakhir');
+		$sheet->setCellValue('F2', 'Pengalaman Kerja');
+		$sheet->setCellValue('G2', 'Jenis Pelatihan');
+		$sheet->setCellValue('H2', 'Kelengkapan Berkas');
+
+		$writer = new Xlsx($spreadsheet);
+		$nama_lowongan_clean = preg_replace('/[^A-Za-z0-9\-]/', '_', $nama_lowongan);
+		$nama_perusahaan_clean = preg_replace('/[^A-Za-z0-9\-]/', '_', $nama_perusahaan);
+		$tanggal_sekarang = date('Y-m-d');
+		$filename = 'Pelamar_Khusus_Krian_' . $nama_lowongan_clean . '_' . $nama_perusahaan_clean . '_' . $tanggal_sekarang . '.xlsx';
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment; filename="' . $filename . '"');
+		header('Cache-Control: max-age=0');
+		$writer->save('php://output');
+		exit();
+	}
+	
+	private function buat_excel_umum($grouped_pelamar, $nama_lowongan, $nama_perusahaan)
+    {
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->removeSheetByIndex(0);
+
+        foreach ($grouped_pelamar as $kota => $pelamarData) {
+            $sheet = $spreadsheet->createSheet();
+            $sheetTitle = substr(preg_replace('/[\\\\\/\?\*\[\]]/', '', $kota), 0, 31);
+            $sheet->setTitle($sheetTitle);
+
+            $headers = ['No', 'Nama', 'TTL', 'Usia', 'Jenis Kelamin', 'Agama', 'Domisili', 'Domisili Provinsi', 'Domisili Kota/Kabupaten', 'Domisili Kecamatan', 'Domisili Kelurahan', 'No Hp', 'Facebook', 'Instagram', 'Twitter', 'Linkedln', 'Email', 'Gaji yang diinginkan', 'Pendidikan', 'Pengalaman Kerja', 'Jenis Pelatihan', 'Kelengkapan Berkas'];
+            $sheet->fromArray($headers, NULL, 'A1');
+            $sheet->getStyle('A1:V1')->getFont()->setBold(true);
+
+            $rowNumber = 2;
+            foreach ($pelamarData as $index => $pelamar) {
+                // PERBAIKAN 5: Ambil data detail untuk setiap pelamar
+                $usia = !empty($pelamar['tanggal_lahir']) && $pelamar['tanggal_lahir'] != '0000-00-00' ? date_diff(date_create($pelamar['tanggal_lahir']), date_create('now'))->y : 0;
+                $pendidikan_list = $this->db->from('tb_data_pendidikan')->where('id_pelamar', $pelamar['id_pelamar'])->get()->result();
+                $pengalaman_list = $this->db->from('tb_data_pengalaman_kerja')->where('id_pelamar', $pelamar['id_pelamar'])->get()->result();
+                $pelatihan_list = $this->db->from('tb_data_pendidikan_nonformal')->where('id_pelamar', $pelamar['id_pelamar'])->get()->result();
+                
+                $pendidikanStr = implode("\n", array_map(function($p) { return "- {$p->jenjang_pendidikan} - {$p->nama_institusi} ({$p->jurusan})"; }, $pendidikan_list));
+                $pengalamanStr = implode("\n", array_map(function($p) { return "- {$p->jabatan_akhir} - {$p->nama_perusahaan}"; }, $pengalaman_list));
+                $pelatihanStr = implode("\n", array_map(function($p) { return "- {$p->nama_pendidikan_nonformal}"; }, $pelatihan_list));
+
+                // Logika kelengkapan berkas
+                $berkas_list = $this->db->from('tb_berkas')->where('id_pelamar', $pelamar['id_pelamar'])->get()->result_array();
+                $arr_kat = ['ktp', 'foto', 'ijasah terakhir', 'berkas chaakra', 'surat referensi kerja', 'transkip nilai'];
+                $arr_kat_hasil = [];
+                foreach ($berkas_list as $b) {
+                    $kat = $b['kategori'];
+                    if ($kat == 'ktp' || $kat == 'foto') { array_push($arr_kat_hasil, $kat); } 
+                    elseif ($kat == 'ijasah') { array_push($arr_kat_hasil, 'ijasah terakhir'); } 
+                    elseif ($kat == 'berkaschaakra') { array_push($arr_kat_hasil, 'berkas chaakra'); } 
+                    elseif ($kat == 'referensi') { array_push($arr_kat_hasil, 'surat referensi kerja'); } 
+                    elseif ($kat == 'transkip') { array_push($arr_kat_hasil, 'transkip nilai'); }
+                }
+                $arr_hasil_berkas = array_diff($arr_kat, $arr_kat_hasil);
+                $ket_berkas = (count($arr_kat_hasil) >= count($arr_kat)) ? 'Lengkap' : 'Tidak ada ' . implode(', ', $arr_hasil_berkas);
+
+                $data_row = [
+                    $index + 1, 
+					$pelamar['nama_pelamar'], 
+					$pelamar['tempat_lahir'] . ', ' . $pelamar['tanggal_lahir'],
+                    $usia, 
+					$pelamar['jenis_kelamin'], 
+					$pelamar['agama'], 
+					$pelamar['alamat'], 
+					$pelamar['domisili_provinsi_nama'] ?? '',
+					$pelamar['domisili_kota_nama'] ?? '',
+					$pelamar['domisili_kecamatan_nama'] ?? '',
+					$pelamar['domisili_kelurahan_nama'] ?? '',
+					$pelamar['no_hp'],
+                    $pelamar['facebook'], 
+					$pelamar['instagram'], 
+					$pelamar['twitter'], 
+					$pelamar['linkedin'],
+                    $pelamar['email'], 
+					is_numeric($pelamar['gaji']) ? number_format((float)$pelamar['gaji']) : '0',
+                    $pendidikanStr, 
+					$pengalamanStr, 
+					$pelatihanStr, 
+					$ket_berkas
+                ];
+
+                $sheet->fromArray($data_row, NULL, 'A' . $rowNumber);
+                $sheet->getStyle('S'.$rowNumber.':U'.$rowNumber)->getAlignment()->setWrapText(true);
+                $rowNumber++;
+            }
+            
+            foreach (range('A', 'V') as $col) {
+                $sheet->getColumnDimension($col)->setAutoSize(true);
+            }
+        }
+
+        $spreadsheet->setActiveSheetIndex(0);
+        $writer = new Xlsx($spreadsheet);
+		$nama_lowongan_clean = preg_replace('/[^A-Za-z0-9\-]/', '_', $nama_lowongan);
+		$nama_perusahaan_clean = preg_replace('/[^A-Za-z0-9\-]/', '_', $nama_perusahaan);
+		$tanggal_sekarang = date('Y-m-d');
+		$filename = 'Pelamar_' . $nama_lowongan_clean . '_' . $nama_perusahaan_clean . '_' . $tanggal_sekarang . '.xlsx';
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+        exit();
+    }
+
+	public function preview_download_pelamar($id)
+	{
 		$prioritas_jenjang = $this->input->post('tingkat_pendidikan');
 		$range_gaji = $this->input->post('gaji');
 		$usia = $this->input->post('usia');
 
 		if ($range_gaji != '') {
-			if ($range_gaji == "up") {
-				$range_gaji = "DESC";
-			} else {
-				$range_gaji = "ASC";
-			}
+			$range_gaji = ($range_gaji == "up") ? "DESC" : "ASC";
 		}
 
 		if ($usia != '') {
-			if ($usia == "up") {
-				$usia = "ASC";
-			} else {
-				$usia = "DESC";
-			}
+			$usia = ($usia == "up") ? "ASC" : "DESC";
 		}
-
-		// Query gabungan
+		
 		$this->db->from('tb_apply')
 			->select('
-        tb_apply.*, 
-        tb_pelamar.id_pelamar, tb_pelamar.email, 
-        tb_data_diri.*, 
-		tb_data_pendidikan.id_pelamar, 
-		tb_data_pendidikan.jenjang_pendidikan,
-		tb_data_pendidikan.nama_institusi,
-        tb_motivation_letter.gaji,
-        COUNT(tb_berkas.id_berkas) AS jumlah_berkas
-    	')
+				tb_apply.id_apply,
+				tb_apply.id_lowongan,
+				tb_apply.id_pelamar,
+				tb_apply.id_perusahaan,
+				tb_apply.kota_penempatan,
+				tb_apply.status_lamaran,
+				tb_apply.status_ujian,
+				tb_pelamar.id_pelamar,
+				tb_pelamar.email,
+				tb_data_diri.tanggal_lahir,
+				tb_data_diri.tempat_lahir,
+				tb_data_diri.nama_pelamar,
+				tb_data_diri.no_hp,
+				tb_data_diri.jenis_kelamin,
+				tb_data_diri.agama,
+				tb_data_diri.alamat,
+				tb_data_diri.alamat_ktp,
+				tb_data_diri.domisili_jalan,
+				tb_data_diri.domisili_provinsi_id,
+				tb_data_diri.domisili_kota_id,
+				tb_data_diri.domisili_kecamatan_id,
+				tb_data_diri.domisili_kelurahan_id,
+				tb_data_diri.facebook,
+				tb_data_diri.instagram,
+				tb_data_diri.twitter,
+				tb_data_diri.linkedin,
+				tb_motivation_letter.gaji,
+				t_provinsi.nama as domisili_provinsi_nama,
+				t_kota.nama as domisili_kota_nama,
+				t_kecamatan.nama as domisili_kecamatan_nama,
+				t_kelurahan.nama as domisili_kelurahan_nama,
+			')
 			->join('tb_pelamar', 'tb_pelamar.id_pelamar = tb_apply.id_pelamar')
 			->join('tb_data_diri', 'tb_data_diri.id_pelamar = tb_pelamar.id_pelamar')
-			->join('tb_data_pendidikan', 'tb_data_pendidikan.id_pelamar = tb_pelamar.id_pelamar')
 			->join('tb_motivation_letter', 'tb_motivation_letter.id_pelamar = tb_pelamar.id_pelamar')
-			->join('tb_berkas', 'tb_berkas.id_pelamar = tb_pelamar.id_pelamar', 'left')
-			->where('tb_apply.id_lowongan', $id)
-			->group_by('tb_pelamar.id_pelamar');
+			->join('tb_data_pendidikan', 'tb_data_pendidikan.id_pelamar = tb_pelamar.id_pelamar', 'left')
+			->join('t_provinsi', 't_provinsi.id = tb_data_diri.domisili_provinsi_id', 'left')
+			->join('t_kota', 't_kota.id = tb_data_diri.domisili_kota_id', 'left')
+			->join('t_kecamatan', 't_kecamatan.id = tb_data_diri.domisili_kecamatan_id', 'left')
+			->join('t_kelurahan', 't_kelurahan.id = tb_data_diri.domisili_kelurahan_id', 'left')
+			->where('tb_apply.id_lowongan', $id);
 
-		// Tambahkan pengurutan berdasarkan prioritas_jenjang jika diisi
 		if ($prioritas_jenjang != '') {
 			$this->db->order_by("
-			CASE 
-				WHEN tb_data_pendidikan.jenjang_pendidikan = '$prioritas_jenjang' THEN 1
-				ELSE 2
-			END
-   		", 'ASC');
+				CASE 
+					WHEN tb_data_pendidikan.jenjang_pendidikan = '$prioritas_jenjang' THEN 1
+					ELSE 2
+				END
+			", 'ASC');
 		}
 
-		// Tambahkan pengurutan berdasarkan gaji jika diisi
 		if ($range_gaji != '') {
 			$this->db->order_by('tb_motivation_letter.gaji', $range_gaji);
 		}
 
-		// Tambahkan pengurutan berdasarkan usia jika diisi
 		if ($usia != '') {
 			$this->db->order_by('tb_data_diri.tanggal_lahir', $usia);
 		}
-
-		// Tambahkan pengurutan default untuk jumlah berkas
-		$this->db->order_by('jumlah_berkas', 'DESC');
-
-		// Eksekusi query
+		
 		$getPelamar = $this->db->get();
+		
+		$groupep_pelamar = [];
+		$unique_pelamar = [];
 
-		// Format data pelamar
-		$data_pelamar = [];
 		foreach ($getPelamar->result() as $key) {
-			$tgl = strtotime($key->tanggal_lahir);
-			$current_time = time();
-			$age_years = date('Y', $current_time) - date('Y', $tgl);
-			$age_months = date('m', $current_time) - date('m', $tgl);
-			$age_days = date('d', $current_time) - date('d', $tgl);
-			if ($age_days < 0) {
-				$days_in_month = date('t', $current_time);
-				$age_months--;
-				$age_days = $days_in_month + $age_days;
+			if (isset($unique_pelamar[$key->id_pelamar])) {
+				continue;
 			}
-			if ($age_months < 0) {
-
-				$age_years--;
-
-				$age_months = 12 + $age_months;
+			$unique_pelamar[$key->id_pelamar] = true;
+			
+			$kota = !empty($key->kota_penempatan) ? $key->kota_penempatan : $key->kota_penempatan;
+			if (!isset($groupep_pelamar[$kota])) {
+				$groupep_pelamar[$kota] = [];
+			}
+			$age_years = null;
+			if (!empty($key->tanggal_lahir) && $key->tanggal_lahir != '0000-00-00') {
+				$dob = new DateTime($key->tanggal_lahir);
+				$now = new DateTime();
+				$age_years = $now->diff($dob)->y;
 			}
 
-			$data_pendidikan = $this->db->from('tb_data_pendidikan')->select('tb_data_pendidikan.id_pelamar, tb_data_pendidikan.jenjang_pendidikan, tb_data_pendidikan.nama_institusi, tb_data_pendidikan.jurusan')
-				->where('tb_data_pendidikan.id_pelamar', $key->id_pelamar)
+			$data_pendidikan = $this->db->from('tb_data_pendidikan')
+				->select('jenjang_pendidikan, nama_institusi, jurusan')
+				->where('id_pelamar', $key->id_pelamar)
 				->get()->result();
 
-			$data_pendidikan_nonformal = $this->db->from('tb_data_pendidikan_nonformal')->select('tb_data_pendidikan_nonformal.id_pelamar, tb_data_pendidikan_nonformal.nama_pendidikan_nonformal')
-				->where('tb_data_pendidikan_nonformal.id_pelamar', $key->id_pelamar)
+			$data_pendidikan_nonformal = $this->db->from('tb_data_pendidikan_nonformal')
+				->select('nama_pendidikan_nonformal')
+				->where('id_pelamar', $key->id_pelamar)
 				->get()->result();
 
-			$data_pegalaman_kerja = $this->db->from('tb_data_pengalaman_kerja')->select('tb_data_pengalaman_kerja.id_pelamar, tb_data_pengalaman_kerja.nama_perusahaan, tb_data_pengalaman_kerja.jabatan_akhir')
-				->where('tb_data_pengalaman_kerja.id_pelamar', $key->id_pelamar)
+			$data_pegalaman_kerja = $this->db->from('tb_data_pengalaman_kerja')
+				->select('nama_perusahaan, jabatan_akhir')
+				->where('id_pelamar', $key->id_pelamar)
 				->get()->result();
 
 			$data_berkas = $this->db->query("SELECT * FROM tb_berkas WHERE id_pelamar=" . $key->id_pelamar)->result_array();
 			$arr_kat = ['ktp', 'foto', 'ijasah terakhir', 'berkas chaakra', 'surat referensi kerja', 'transkip nilai'];
 			$arr_kat_hasil = [];
 			foreach ($data_berkas as $key_berkas) {
-
 				$kat = $key_berkas['kategori'];
-
 				if ($kat == 'ktp') {
 					array_push($arr_kat_hasil, $kat);
 				} elseif ($kat == 'foto') {
@@ -190,7 +361,7 @@ class Data_lowongan extends CI_Controller
 				$ket_berkas = 'Tidak ada ' . implode(', ', $arr_hasil_berkas);
 			}
 
-			$data_pelamar[] = [
+			$groupep_pelamar[$kota][] = [
 				'id_pelamar' => $key->id_pelamar,
 				'nama' => $key->nama_pelamar,
 				'umur' => $age_years,
@@ -201,6 +372,10 @@ class Data_lowongan extends CI_Controller
 				'data_pendidikan_nonformal' => $data_pendidikan_nonformal,
 				'data_pengalaman_kerja' => $data_pegalaman_kerja,
 				'keterangan_berkas' => $ket_berkas,
+				'domisili_provinsi' => $key->domisili_provinsi_nama,
+				'domisili_kota' => $key->domisili_kota_nama,
+				'domisili_kecamatan' => $key->domisili_kecamatan_nama,
+				'domisili_kelurahan' => $key->domisili_kelurahan_nama,
 				'pencarian' => [
 					'jenjang' => $prioritas_jenjang,
 					'gaji' => $range_gaji,
@@ -209,21 +384,27 @@ class Data_lowongan extends CI_Controller
 			];
 		}
 
-		echo json_encode($data_pelamar);
+		echo json_encode($groupep_pelamar);
 	}
-
 
 	public function tambahdata()
 	{
-		$this->form_validation->set_rules('nama_lowongan', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('id_perusahaan', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('jadwal_seleksi', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('kota_penempatan', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('persyaratan', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('gaji', 'Nama', 'trim|required');
+		$this->form_validation->set_rules('nama_lowongan', 'Nama Lowongan', 'trim|required');
+		$this->form_validation->set_rules('id_perusahaan', 'Perusahaan', 'trim|required');
+		$this->form_validation->set_rules('jadwal_seleksi', 'Jadwal Seleksi', 'trim|required');
+		$this->form_validation->set_rules('kota_penempatan', 'Kota Penempatan', 'trim|required');
+		$this->form_validation->set_rules('persyaratan', 'Persyaratan', 'trim|required');
+		$this->form_validation->set_rules('gaji', 'Gaji', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$data['msg_error'] = "Silahkan isi semua kolom";
+			$kota_query = $this->db->order_by('nama', 'ASC')->get('t_kota')->result();
+			$kota_list = [];
+			foreach ($kota_query as $kota) {
+				$kota_list[] = $kota->nama;
+			}
+			$data['semua_kota'] = $kota_list;
+
 			$this->load->view('administrator/vtambah_lowongan', $data);
 		} else {
 			$send['id_lowongan'] = '';
@@ -231,15 +412,24 @@ class Data_lowongan extends CI_Controller
 			$send['id_perusahaan'] = $this->input->post('id_perusahaan');
 			$send['id_jenis_motlet'] = $this->input->post('id_jenis_motlet');
 			$send['jadwal_seleksi'] = $this->input->post('jadwal_seleksi');
-			$send['kota_penempatan'] = $this->input->post('kota_penempatan');
 			$send['persyaratan'] = $this->input->post('persyaratan');
 			$send['gaji'] = $this->input->post('gaji');
 			$send['status'] = 'tersedia';
 
-			$kembalian['jumlah'] = $this->Mdl_data_lowongan->tambahdata_lowongan($send);
+			$kota_json = $this->input->post('kota_penempatan');
+			$kota_array = json_decode($kota_json, true);
+			$nama_kota = [];
+			
+			if (is_array($kota_array)) {
+				foreach ($kota_array as $kota) {
+					$nama_kota[] = $kota['value'];
+				}
+			}
 
-			$this->load->view('administrator/data_lowongan', $kembalian);
-			$this->session->set_flashdata('msg', 'Data Berhasil Ditambahkan!!!');
+			$send['kota_penempatan'] = implode(', ', $nama_kota);
+
+			$this->Mdl_data_lowongan->tambahdata_lowongan($send);
+			$this->session->set_flashdata('msg', 'Data Berhasil Ditambahkan!');
 			redirect('Administrator/Data_lowongan/');
 		}
 	}
@@ -255,15 +445,20 @@ class Data_lowongan extends CI_Controller
 
 	public function edit_lowongan($id_update)
 	{
-		$this->form_validation->set_rules('nama_lowongan', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('id_perusahaan', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('jadwal_seleksi', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('kota_penempatan', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('persyaratan', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('gaji', 'Nama', 'trim|required');
+		$this->form_validation->set_rules('nama_lowongan', 'Nama Lowongan', 'trim|required');
+		$this->form_validation->set_rules('id_perusahaan', 'Perusahaan', 'trim|required');
+		$this->form_validation->set_rules('jadwal_seleksi', 'Jadwal Seleksi', 'trim|required');
+		$this->form_validation->set_rules('persyaratan', 'Persyaratan', 'trim|required');
+		$this->form_validation->set_rules('gaji', 'Gaji', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$indexrow['data'] = $this->Mdl_data_lowongan->ambildata2_lowongan($id_update);
+			$kota_query = $this->db->order_by('nama', 'ASC')->get('t_kota')->result();
+			$kota_list = [];
+			foreach ($kota_query as $kota) {
+				$kota_list[] = $kota->nama;
+			}
+			$indexrow['semua_kota'] = $kota_list;
 			$this->load->view('administrator/vedit_lowongan', $indexrow);
 		} else {
 			$send['id_lowongan'] = $this->input->post('id_lowongan');
@@ -271,11 +466,22 @@ class Data_lowongan extends CI_Controller
 			$send['id_jenis_motlet'] = $this->input->post('id_jenis_motlet');
 			$send['nama_jabatan'] = $this->input->post('nama_lowongan');
 			$send['jadwal_seleksi'] = $this->input->post('jadwal_seleksi');
-			$send['kota_penempatan'] = $this->input->post('kota_penempatan');
 			$send['persyaratan'] = $this->input->post('persyaratan');
 			$send['gaji'] = $this->input->post('gaji');
-			// var_dump($send);
-			$kembalian['jumlah'] = $this->Mdl_data_lowongan->modelupdate($send);
+
+			$kota_json = $this->input->post('kota_penempatan');
+			$kota_array = json_decode($kota_json, true);
+			$nama_kota = [];
+			
+			if (is_array($kota_array)) {
+				foreach ($kota_array as $kota) {
+					$nama_kota[] = $kota['value'];
+				}
+			}
+
+			$send['kota_penempatan'] = implode(', ', $nama_kota);
+
+			$this->Mdl_data_lowongan->modelupdate($send);
 			$this->session->set_flashdata('msg_update', 'Data Berhasil diupdate');
 			redirect('Administrator/Data_lowongan');
 		}
