@@ -15,3 +15,6 @@ upload/berkas_pelamar/
 # File konfigurasi sensitif
 application/config/config.php
 application/config/database.php
+application/controller/snap.php
+application/controller/transaction.php
+application/controller/vtweb.php
