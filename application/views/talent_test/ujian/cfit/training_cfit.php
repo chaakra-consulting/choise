@@ -66,6 +66,17 @@
 		if (!$durasi_latihan) {
 			$durasi_latihan = 2;
 		}
+		$start_time = $this->session->userdata('training_start_time');
+		if (!$start_time) {
+			$start_time = time();
+			$this->session->set_userdata('training_start_time', $start_time);
+		}
+		$elapse = time() - $start_time;
+		$remaining = ($durasi_latihan * 60) - $elapse;
+		if ($remaining <= 0) {
+			echo "<script>window.loaction.href = '" . base_url('talent-test/start-exam/cfit') . "';</script>";
+			exit;
+		}
 		?>
 		
 		<form method="post" action="<?php  echo base_url('talent-test/submit-training/cfit') ?>">
@@ -174,28 +185,25 @@
 </div>
 
 <script type="text/javascript">
-  var duration = <?php echo $durasi_latihan * 60 * 1000 ?>;
-  var countDownDate = new Date().getTime() + duration;
-  var x = setInterval(function() {
+	var startTime = <?php echo $start_time * 1000 ?>;
+	var duration = <?php echo $durasi_latihan * 60 * 1000 ?>;
+	var countDownDate = startTime + duration;
+	var x = setInterval(function() {
+		var now = new Date().getTime();
+		var distance = countDownDate - now;
+		var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  var now = new Date().getTime();
+		document.getElementById("time").innerHTML = minutes + " : " + seconds + " ";
 
-  var distance = countDownDate - now;
-
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  document.getElementById("time").innerHTML = minutes + " : " + seconds + " ";
-
-  if (distance < 0) {
-    clearInterval(x);
-    alert('Waktu latian subtes 1 sudah berakhir, selamat mengerjakan subtes 1');
-    window.location.href = '<?php echo base_url('talent-test/start-exam/cfit'); ?>';
-
-  }
-}, 1000);
+		if (distance < 0) {
+			clearInterval(x);
+			alert('Waktu latian subtes 1 sudah berakhir, selamat mengerjakan subtes 1');
+			window.location.href = '<?php echo base_url('talent-test/start-exam/cfit'); ?>';
+		}
+	}, 1000);
 
 </script>
 

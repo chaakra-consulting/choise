@@ -407,12 +407,22 @@ class TalentTest extends CI_Controller
         echo json_encode(['can_start' => $can_start]);
     }
 
+
     public function start_exam($exam_type)
     {
         $user_id = $this->session->userdata('talent_test_user_id');
         if (empty($user_id) || empty($exam_type)) {
             $this->session->set_flashdata('error', 'Parameter tidak valid.');
             redirect('talent-test/dashboard');
+        }
+
+        $this->db->where('id_pendaftar_pelatihan', $user_id);
+        $this->db->where('jenis_ujian', $exam_type);
+        $finished = $this->db->get('tb_hasil_talent_test')->row();
+        if ($finished) {
+            $this->session->set_flashdata('error', 'Test ' . ucfirst($exam_type) . ' sudah selesai.');
+            redirect('talent-test/exam-list');
+            return;
         }
 
         $pendaftaran = $this->m_pendaftaran->get_pendaftaran_by_user($user_id);
@@ -601,7 +611,7 @@ class TalentTest extends CI_Controller
     {
         $exam_type = $this->input->post('exam_type');
         $question_id = $this->input->post('question_id');
-        $answer = $this->input->post('answer');
+        $answer = $this->input->post('jawaban');
         $user_id = $this->session->userdata('talent_test_user_id');
         $id_ujian = $this->session->userdata('talent_test_id_ujian');
         $redirect = $this->input->post('redirect');
@@ -642,12 +652,15 @@ class TalentTest extends CI_Controller
                 } elseif ($next_question == ($total_subtes1 + $total_subtes2 + 1)) {
                     redirect('talent-test/training/cfit/3');
                     return;
-                } elseif ($next_question > ($total_subtes1 + $total_subtes2 + $total_subtes3 + 1)) {
+                } elseif ($next_question == ($total_subtes1 + $total_subtes2 + $total_subtes3 + 1)) {
                     redirect('talent-test/training/cfit/4');
                     return;
                 }
             }
             redirect('talent-test/exam/' . $exam_type . '/frame/' . $next_question);
+        } elseif ($redirect == 3) {
+            $this->calculate_and_save_result($user_id, $exam_type);
+            redirect('talent-test/exam-list');
         } else {
             redirect('talent-test/exam/' . $exam_type . '/frame/' . $question_number);
         }
@@ -810,7 +823,7 @@ class TalentTest extends CI_Controller
     {
         switch ($exam_type) {
             case 'cfit':
-                return $this->db->join('tb_soal_cfit s', 'j.nomor_soal = s.nomor_soal AND j.subtes = s.subtes');
+                return $this->calculate_cfit_result($user_id);
             case 'ist':
                 return $this->calculate_ist_result($user_id);
             case 'holland':
@@ -834,8 +847,8 @@ class TalentTest extends CI_Controller
     {
         $this->db->select('COUNT(*) as total_soal,
             SUM(CASE WHEN s.jawaban_benar = j.jawaban THEN 1 ELSE 0 END) as jawaban_benar');
-        $this->db->from('tb_data_jawaban_cfit j');
-        $this->db->join('tb_soal_cfit s', 'j.id_soal = s.id_soal');
+        $this->db->from('tb_data_jawaban_talent_test_cfit j');
+        $this->db->join('tb_soal_cfit s', 'j.nomor_soal = s.nomor_soal AND j.subtes = s.subtes');
         $this->db->where('j.id_pendaftar_pelatihan', $user_id);
 
         $result = $this->db->get()->row();
@@ -844,13 +857,24 @@ class TalentTest extends CI_Controller
             $skor = ($result->jawaban_benar / $result->total_soal) * 100;
             $nilai = $this->get_cfit_grade($skor);
 
-            return [
+            $hasil = [
                 'total_soal'    => $result->total_soal,
                 'jawaban_benar' => $result->jawaban_benar,
                 'skor'          => round($skor, 2),
                 'nilai'         => $nilai,
                 'interpretasi'  => $this->get_cfit_interpretation($skor)
             ];
+
+            $this->db->insert('tb_hasil_talent_test', [
+                'id_pendaftar_pelatihan' => $user_id,
+                'jenis_ujian' => 'cfit',
+                'skor' => $hasil['skor'],
+                'nilai' => $hasil['nilai'],
+                'status_penilaian' => 'selesai',
+                'waktu_selesai' => date('Y-m-d H:i:s')
+            ]);
+
+            return $hasil;
         }
         return null;
     }
@@ -1268,24 +1292,6 @@ class TalentTest extends CI_Controller
                 $this->load->view('talent_test/ujian/cfit/jawabancontoh_cfit');
             }
         }
-    }
-
-    public function end_cfit()
-    {
-        $user_id = $this->session->userdata('talent_test_user_id');
-        if (!$user_id) {
-            redirect('talent-test/login');
-        }
-
-        $result = $this->calculate_and_save_result($user_id, 'cfit');
-
-        $data = [
-            'title' => 'Hasil Ujian CFIT',
-            'result' => $result,
-            'exam_type' => 'cfit'
-        ];
-
-        $this->load->view('talent_test/exam_result_cfit', $data);
     }
 
     public function logout(){

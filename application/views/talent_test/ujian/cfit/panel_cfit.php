@@ -14,7 +14,7 @@
         $global_query = $this->db->query("SELECT COUNT(*) as count FROM tb_soal_cfit WHERE type_soal = 'Ujian' AND (subtes < $subtes OR (subtes = $subtes AND nomor_soal <= $nomor))");
         $global = $global_query->row()->count;
         
-        $query_answered = $this->db->query("SELECT * FROM tb_data_jawaban_talent_test_cfit WHERE id_pendaftar_pelatihan = $id_pendaftar AND nomor_soal = $nomor AND subtes = $subtes AND id_ujian = $id_ujian");
+        $query_answered = $this->db->query("SELECT * FROM tb_data_jawaban_talent_test_cfit WHERE id_pendaftar_pelatihan = $id_pendaftar AND nomor_soal = $nomor AND subtes = $subtes AND id_ujian = $id_ujian AND jawaban != ''");
         $warna = $query_answered->num_rows() > 0 ? '#8ad919' : '#f1f1f1';
         $warnaText = $query_answered->num_rows() > 0 ? '#fff' : 'black';
         ?>
