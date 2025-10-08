@@ -69,7 +69,7 @@
 					</button>
 				<?php } ?>
 				<?php if ($question_number >= $total_subtes1 && $soal_subtes1->subtes == 1) { ?>
-					<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('talent-test/training/cfit/2') ?>" class="btn btn-primary"> Subtes 2 <i class="fa fa-arrow-circle-right"></i>
+					<button type="submit" style="margin-top: 5%" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin ingin menyelesaikan subtes 1?')" formaction="<?php echo base_url('talent-test/training/cfit/2') ?>"> Subtes 2 <i class="fa fa-arrow-circle-right"></i>
 					</button>
 				<?php } ?>
 			</div>

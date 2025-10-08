@@ -68,7 +68,7 @@
 					</button>
 				<?php } ?>
 				<?php if ($question_number == ($total_subtes1 + $total_subtes2 + $total_subtes3) && $soal_subtes3->subtes == 3) { ?>
-					<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('talent-test/training/cfit/4') ?>" class="btn btn-primary"> Subtes 4 <i class="fa fa-arrow-circle-right"></i>
+					<button type="submit" style="margin-top: 5%" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin ingin menyelesaikan subtes 3?')" formaction="<?php echo base_url('talent-test/training/cfit/4') ?>"> Subtes 4 <i class="fa fa-arrow-circle-right"></i>
 					</button>
 				<?php } ?>
 			</div>

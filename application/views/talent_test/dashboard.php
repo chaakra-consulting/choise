@@ -413,7 +413,7 @@
                                 <button class="btn btn-secondary btn-lg rounded-pill" disabled>
                                     <i class="fa fa-lock"></i> Ujian Belum Dimulai
                                 </button>
-                                <p class="text-muted mt-2 small">
+                                <p class="mt-2 small">
                                     Tombol akan aktif ketika countdown mencapai 00:00:00
                                 </p>
                             </div>
