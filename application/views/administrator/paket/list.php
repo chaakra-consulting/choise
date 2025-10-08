@@ -42,7 +42,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="tile">
-        <a href="<?php echo site_url('administrator/paket/tambah')?>" class="btn btn-primary">Tambah Paket Baru</a>
+        <a href="<?php echo site_url('Administrator/Paket/tambah')?>" class="btn btn-primary">Tambah Paket Baru</a>
         <hr>
         <?php if ($this->session->flashdata('success')) : ?>
             <div class="alert alert-success"><?php echo $this->session->flashdata('success'); ?></div>
