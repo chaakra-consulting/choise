@@ -87,7 +87,7 @@
 		<?php if ($is_talent_test): ?>
 			<li class="<?php if ($this->uri->segment(2) == "talent-test" && $this->uri->segment(3) == "dashboard") { echo "active"; } ?>">
 				<a href="<?php echo base_url('talent-test/dashboard') ?>">
-					<em class="fa fa-dashboard">&nbsp;</em> Dashboard Talent Test
+					<em class="fa fa-dashboard">&nbsp;</em> Dashboard
 				</a>
 			</li>
 			<li class="<?php if ($this->uri->segment(2) == "talent-test" && $this->uri->segment(3) == "berkas") { echo "active"; } ?>">
@@ -102,7 +102,7 @@
 			</li> -->
 			<li class="<?php if ($this->uri->segment(2) == "talent-test" && $this->uri->segment(3) == "exam-result") { echo "active"; } ?>">
 				<a href="<?php echo base_url('talent-test/exam-result/cfit') ?>">
-					<em class="fa fa-chart-bar">&nbsp;</em> Hasil Ujian
+					<em class="fa fa-folder-open">&nbsp;</em> Hasil Ujian
 				</a>
 			</li>
 			<!-- <li>

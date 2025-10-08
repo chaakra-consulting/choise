@@ -55,7 +55,7 @@
                   <a href="#home-section" class="nav-link">BERANDA</a>
                 </li>
                 <li>
-                  <a href="#pelatihan-section" class="nav-link">PELATIHAN / TALENT TEST</a>
+                  <a href="#pelatihan-section" class="nav-link">TALENT TEST</a>
                 </li>
                 <li>
                   <a href="#features-section" class="nav-link">LOWONGAN</a>
@@ -127,7 +127,7 @@
                   <a href="<?php echo site_url('talent-test/login')?>" class="btn btn-outline-primary btn-lg btn-block">
                     <i class="fa fa-sign-in"></i> Login dengan Token Akses
                   </a>
-                  <p class="mt-2 text-muted">
+                  <p class="mt-2">
                     <small>Sudah memiliki token akses? Masuk untuk mengakses dashboard talent test Anda.</small>
                   </p>
                 </div>
@@ -139,8 +139,8 @@
           <?php if (empty($paket_list)) : ?>
             <div class="col-12 text-center" data-aos="fade-up">
               <div class="empty-state">
-                <i class="fas fa-graduation-cap fa-3x text-muted mb-3"></i>
-                <p>Mohon maaf, saat ini belum ada paket pelatihan atau talent test yang tersedia.</p>
+                <i class="fas fa-graduation-cap fa-3x mb-3"></i>
+                <p>Mohon maaf, saat ini belum ada paket talent test yang tersedia.</p>
               </div>
             </div>
           <?php else : ?>

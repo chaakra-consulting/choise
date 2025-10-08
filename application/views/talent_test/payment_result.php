@@ -40,8 +40,8 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <small class="text-muted">
-                                            Simpan token ini dengan aman. Token ini digunakan untuk mengakses dashboard talent test Anda.
+                                        <small>
+                                            <b>Simpan token ini dengan aman. Token ini digunakan untuk mengakses dashboard talent test Anda.</b>
                                         </small>
                                     </div>
                                     
@@ -51,8 +51,8 @@
                                         <p class="mb-0">
                                             Token akses Anda telah dikirim ke email: <strong><?php echo $pendaftar['email_pendaftar'] ?? ''; ?></strong>
                                         </p>
-                                        <small class="text-muted">
-                                            Periksa inbox atau folder spam jika email tidak ditemukan.
+                                        <small>
+                                            <b>Periksa inbox atau folder spam jika email tidak ditemukan.</b>
                                         </small>
                                     </div>
                                     <?php endif; ?>
@@ -72,8 +72,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="mt-3">
-                                        <small class="text-muted">
+                                    <div class="mt-3" style="text-align: center;">
+                                        <small>
                                             Atau Anda dapat mengakses dashboard melalui menu utama website
                                         </small>
                                     </div>

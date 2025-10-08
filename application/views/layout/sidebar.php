@@ -48,26 +48,32 @@
     </li>
     <li class="treeview <?php if ($this->uri->segment(2) == "Data_Pelatihan") { echo "is-expanded"; } ?>"> 
       <a class="app-menu__item" href="#" data-toggle="treeview">
-        <i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Pelatihan/Telent Test</span>
+        <i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Talent Test</span>
         <i class="treeview-indicator fa fa-angle-right"></i>
       </a>
       <ul class="treeview-menu">
         <li>
-          <a class="treeview-item <?php if ($this->uri->segment(3) == "master") { echo "active"; } ?>" 
-            href="<?php echo base_url('Administrator/Paket') ?>">
-            <i class="icon fa fa-circle-o"></i> Master Pelatihan/Talent Test
+          <a class="treeview-item <?php if ($this->uri->segment(3) == "") { echo "active"; } ?>" 
+            href="<?php echo base_url('Administrator/Paket/') ?>">
+            <i class="icon fa fa-circle-o"></i> Kelola Paket Talent Test
+          </a>
+        </li>
+        <li>
+          <a class="treeview-item <?php if ($this->uri->segment(3) == "admin_berkas") { echo "active"; } ?>" 
+            href="<?php echo base_url('Administrator/TalentTest/admin_berkas') ?>">
+            <i class="icon fa fa-circle-o"></i> Kelola Berkas Talent Test
+          </a>
+        </li>
+        <li>
+          <a class="treeview-item <?php if ($this->uri->segment(3) == "index") { echo "active"; } ?>" 
+            href="<?php echo base_url('Administrator/KuponTalentTest/index') ?>">
+            <i class="icon fa fa-circle-o"></i> Kelola Kupon Talent Test
           </a>
         </li>
         <li>
           <a class="treeview-item <?php if ($this->uri->segment(3) == "pendaftar") { echo "active"; } ?>" 
             href="<?php echo base_url('Administrator/Data_Pelatihan/pendaftar') ?>">
             <i class="icon fa fa-circle-o"></i> Data Pendaftar
-          </a>
-        </li>
-        <li>
-          <a class="treeview-item <?php if ($this->uri->segment(3) == "admin-berkas") { echo "active"; } ?>" 
-            href="<?php echo base_url('Administrator/TalentTest/admin_berkas') ?>">
-            <i class="icon fa fa-circle-o"></i> Kelola Berkas Talent Test
           </a>
         </li>
       </ul>
@@ -320,13 +326,13 @@
         <li>
           <a class="treeview-item <?php if ($this->uri->segment(2) == "Soal_tkb_accounting") { echo "active"; } ?>" 
             href="<?php echo base_url('Soal/Soal_tkb_accounting') ?>"><i class="icon fa fa-circle-o"></i> 
-            TKB - Acoounting Staff
+            TKB - Accounting Staff
           </a>
         </li>
         <li>
           <a class="treeview-item <?php if ($this->uri->segment(2) == "Soal_tkb_bussiness_development") { echo "active"; } ?>" 
             href="<?php echo base_url('Soal/Soal_tkb_bussiness_development') ?>"><i class="icon fa fa-circle-o"></i> 
-            TKB - Bussiness Development Staff
+            TKB - Business Development Staff
           </a>
         </li>
         <li>
@@ -486,10 +492,7 @@
     </li>
     <?php } else if ($this->session->userdata('ses_idLevel') == 'Perusahaan') {
       $ses_id = $this->session->userdata('ses_id');
-      $query = $this->db->query("SELECT * FROM tb_lowongan WHERE id_perusahaan = $ses_id");
-      foreach ($query->result() as $key) {
-        $id = $key->id_perusahaan;
-      }
+      $id = $ses_id; // Langsung gunakan $ses_id, tidak perlu query
     ?>
     <li>
       <a class="app-menu__item <?php if ($this->uri->segment(2) == "Dashboard") { echo "active"; } ?>" 

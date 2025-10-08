@@ -57,8 +57,9 @@
                                 <?php if (!empty($pendaftar['snap_token'])) : ?>
                                 <button id="pay-button" class="btn btn-success btn-lg btn-block">Bayar Sekarang</button>
 
+                                <!-- src="https://app.sandbox.midtrans.com/snap/snap.js"  -->
                                 <script type="text/javascript"
-                                    src="https://app.sandbox.midtrans.com/snap/snap.js" 
+                                    src="<?php echo $midtrans_is_production ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js'; ?>"
                                     data-client-key="<?php echo $midtrans_client_key; ?>"></script>
                                 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 

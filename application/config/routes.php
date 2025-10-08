@@ -77,6 +77,7 @@ $route['talent-test/upload-berkas']                                     = 'Talen
 $route['talent-test/download-berkas/(:num)']                            = 'TalentTest/download_berkas/$1';
 $route['talent-test/preview-berkas/(:num)']                             = 'TalentTest/preview_berkas/$1';
 $route['talent-test/check-admin-files']                                 = 'TalentTest/check_admin_files';
+$route['talent-test/check-exam-time']                                   = 'TalentTest/check_exam_time';
 $route['talent-test/logout']                                            = 'TalentTest/logout';
 $route['Home/logout_talent_test']                                       = 'Home/logout_talent_test';
 $route['administrator/paket']                                           = 'administrator/Paket';
