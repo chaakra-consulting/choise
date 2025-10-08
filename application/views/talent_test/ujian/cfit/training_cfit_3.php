@@ -2,7 +2,6 @@
 <?php $this->load->view('layout3/navbar'); ?>
 
 <div class="col-sm-12 main">
-
 	<div class="row" style="margin-bottom: -50px;">
 		<div class="col-lg-9">
 			<h3 class="page-header">Soal Latihan Subtes 3</h3>

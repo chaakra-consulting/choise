@@ -39,7 +39,7 @@
                                         </label>
                                         <input type="text" name="access_token" id="access_token" class="form-control form-control-lg"
                                             placeholder="Masukkan token akses Anda" required autocomplete="off">
-                                        <small class="form-text text-muted">
+                                        <small class="form-text">
                                             Token akses adalah kode unik yang dikirimkan ke email Anda setelah pembayaran berhasil.
                                         </small>
                                     </div>

@@ -1,11 +1,12 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-Class TalentTest extends CI_Controller
+class TalentTest extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
+        date_default_timezone_set('Asia/Jakarta');
         $this->load->helper('url', 'form', 'download');
         $this->load->model('Mdl_home');
         $this->load->model('Mdl_berkas');
@@ -51,14 +52,20 @@ Class TalentTest extends CI_Controller
 
         $paket = $this->m_paket->get_paket_by_id($pendaftaran['id_paket']);
         $ujian_list = $this->m_paket->get_ujian_by_paket($pendaftaran['id_paket']);
+
+        foreach ($ujian_list as $ujian) {
+            $ujian['durasi'] = $this->m_paket->get_ujian_by_paket($ujian['jenis_ujian']);
+        }
+        unset($ujian);
+
         $progress_data = $this->get_user_exam_progress($pendaftaran['id_pendaftar_pelatihan'], $pendaftaran['id_paket']);
         $jadwal_test = $pendaftaran['jadwal_test'];
         $countdown_status = null;
 
         if (!empty($jadwal_test) && $jadwal_test != '0000-00-00 00:00:00') {
-            $exam_time = strtotime($jadwal_test);
+            $exam_timestamp = strtotime($jadwal_test);
             $current_time = time();
-            $time_diff = $exam_time - $current_time;
+            $time_diff = $exam_timestamp - $current_time;
 
             if ($time_diff <= 0) {
                 $countdown_status = [
@@ -66,15 +73,10 @@ Class TalentTest extends CI_Controller
                     'message' => 'Ujian dapat dimulai sekarang'
                 ];
             } else {
-                $hours = floor($time_diff / 3600);
-                $minutes = floor(($time_diff % 3600) / 60);
-                $seconds = $time_diff % 60;
-
                 $countdown_status = [
                     'can_start' => false,
-                    'hours' => $hours,
-                    'minutes' => $minutes,
-                    'seconds' => $seconds,
+                    'exam_timestamp' => $exam_timestamp,
+                    'server_time' => $current_time,
                     'message' => 'Ujian akan dimulai dalam'
                 ];
             }
@@ -123,8 +125,8 @@ Class TalentTest extends CI_Controller
             $user_file = null;
             $admin_file = null;
             foreach ($user_files as $f) {
-                $filename = pathinfo($f['berkas'], PATHINFO_FILENAME);
-                $type = pathinfo($key, PATHINFO_FILENAME);
+                $filename = str_replace(' ', '_', pathinfo($f['berkas'], PATHINFO_FILENAME));
+                $type = str_replace(' ', '_', pathinfo($key, PATHINFO_FILENAME));
                 if (strpos($filename, $type) !== false) {
                     $user_file = $f;
                     break;
@@ -132,8 +134,8 @@ Class TalentTest extends CI_Controller
             }
 
             foreach ($admin_files_raw as $f) {
-                $filename = pathinfo($f['berkas'], PATHINFO_FILENAME);
-                $type = pathinfo($key, PATHINFO_FILENAME);
+                $filename = str_replace(' ', '_', pathinfo($f['berkas'], PATHINFO_FILENAME));
+                $type = str_replace(' ', '_', pathinfo($key, PATHINFO_FILENAME));
                 if (strpos($filename, $type) !== false) {
                     $admin_file = $f;
                     break;
@@ -170,19 +172,26 @@ Class TalentTest extends CI_Controller
     {
         $token = $this->session->userdata('talent_test_access_token');
         if (!$token) {
+            log_message('error', 'Upload berkas: No token found');
             redirect('talent-test/login');
         }
+
+        log_message('info', 'Upload berkas started for token: ' . $token);
 
         $this->db->where('access_token', $token);
         $pendaftaran = $this->db->get('tb_pendaftar_pelatihan')->row_array();
 
         if (!$pendaftaran) {
+            log_message('error', 'Upload berkas: Pendaftaran not found for token: ' . $token);
             $this->session->set_flashdata('msg_error', 'Data pendaftaran tidak ditemukan.');
             redirect('talent-test/berkas');
             return;
         }
 
+        log_message('info', 'Upload berkas: Pendaftaran found: ID ' . $pendaftaran['id_pendaftar_pelatihan'] . ', Name: ' . $pendaftaran['nama_pendaftar_pelatihan']);
+
         if (!isset($pendaftaran['nama_pendaftar_pelatihan']) || empty($pendaftaran['nama_pendaftar_pelatihan'])) {
+            log_message('error', 'Upload berkas: Nama pendaftar kosong untuk ID ' . $pendaftaran['id_pendaftar_pelatihan']);
             $this->session->set_flashdata('msg_error', 'Nama pendaftar tidak ditemukan.');
             redirect('talent-test/berkas');
             return;
@@ -190,11 +199,16 @@ Class TalentTest extends CI_Controller
 
         $this->db->where('kategori', 'talent_test_template');
         $admin_files = $this->db->get('tb_berkas')->result_array();
+
+        log_message('info', 'Upload berkas: Admin files count: ' . count($admin_files));
+
         $required_files = [];
         foreach ($admin_files as $file) {
             $base = pathinfo($file['berkas'], PATHINFO_FILENAME);
             $required_files[$base] = ucwords(str_replace('_', ' ', $base));
         }
+
+        log_message('info', 'Upload berkas: Required files: ' . json_encode($required_files));
 
         $config['upload_path'] = './upload/berkas/';
         $config['allowed_types'] = 'pdf|doc|docx';
@@ -207,28 +221,38 @@ Class TalentTest extends CI_Controller
         $errors = [];
 
         foreach ($required_files as $key => $name) {
-            $field_name = $key;
-            
+            $field_name = str_replace(' ', '_', $key);
+            log_message('info', 'Upload berkas: Checking upload for key: ' . $key . ' (field: ' . $field_name . ')');
             if (isset($_FILES[$field_name]) && $_FILES[$field_name]['error'] == 0) {
+                log_message('info', 'Upload berkas: File uploaded for ' . $key . ', size: ' . $_FILES[$field_name]['size']);
                 if ($this->upload->do_upload($field_name)) {
                     $upload_data = $this->upload->data();
                     $uploaded_files[$key] = [
                         'file_name' => $upload_data['file_name'],
                         'file_ext' => $upload_data['file_ext']
                     ];
+                    log_message('info', 'Upload berkas: Upload success for ' . $key . ', file: ' . $upload_data['file_name']);
                 } else {
-                    $errors[] = $name . ': ' . $this->upload->display_errors('', '');
+                    $error = $this->upload->display_errors('', '');
+                    $errors[] = $name . ': ' . $error;
+                    log_message('error', 'Upload berkas: Upload failed for ' . $key . ', error: ' . $error);
                 }
+            } else {
+                $error_code = isset($_FILES[$field_name]) ? $_FILES[$field_name]['error'] : 'No file';
+                log_message('info', 'Upload berkas: No valid file for ' . $key . ', error code: ' . $error_code);
             }
         }
 
         foreach ($uploaded_files as $jenis => $file_info) {
             $old_path = './upload/berkas/' . $file_info['file_name'];
             $user_name = preg_replace('/[^A-Za-z0-9\-_]/', '_', $pendaftaran['nama_pendaftar_pelatihan']);
-            $new_filename = $user_name . '_' . $jenis . $file_info['file_ext'];
+            $safe_jenis = str_replace(' ', '_', $jenis);
+            $new_filename = $user_name . '_' . $safe_jenis . $file_info['file_ext'];
             $new_path = './upload/berkas/' . $new_filename;
             
+            log_message('info', 'Upload berkas: Renaming ' . $old_path . ' to ' . $new_path);
             if (file_exists($old_path) && rename($old_path, $new_path)) {
+                log_message('info', 'Upload berkas: Rename success for ' . $jenis);
                 $this->db->where('id_pelamar', $pendaftaran['id_pendaftar_pelatihan']);
                 $this->db->where('berkas', $new_filename);
                 $this->db->where('kategori', 'talent_test_user');
@@ -243,23 +267,28 @@ Class TalentTest extends CI_Controller
                 if ($existing_user_file) {
                     $this->db->where('id_berkas', $existing_user_file->id_berkas);
                     $this->db->update('tb_berkas', $data_berkas);
+                    log_message('info', 'Upload berkas: Updated existing record for ' . $jenis);
                 } else {
                     $this->db->insert('tb_berkas', $data_berkas);
+                    log_message('info', 'Upload berkas: Inserted new record for ' . $jenis);
                 }
             } else {
                 $errors[] = 'Gagal memproses file ' . $jenis;
+                log_message('error', 'Upload berkas: Rename failed for ' . $jenis . ', old_path exists: ' . (file_exists($old_path) ? 'yes' : 'no'));
             }
         }
 
         if (empty($errors)) {
+            log_message('info', 'Upload berkas: Success for user ' . $pendaftaran['id_pendaftar_pelatihan']);
             $this->session->set_flashdata('msg', 'Berkas berhasil diupload.');
         } else {
+            log_message('error', 'Upload berkas: Errors for user ' . $pendaftaran['id_pendaftar_pelatihan'] . ': ' . implode(', ', $errors));
             $this->session->set_flashdata('msg_error', 'Beberapa berkas gagal diupload: ' . implode(', ', $errors));
         }
 
         redirect('talent-test/berkas');
     }
-    
+
     public function download_berkas($id_berkas)
     {
         $token = $this->session->userdata('talent_test_access_token');
@@ -367,6 +396,17 @@ Class TalentTest extends CI_Controller
         echo json_encode($result);
     }
 
+    public function check_exam_time()
+    {
+        $jadwal_test = $this->input->post('jadwal_test');
+        $exam_time = strtotime($jadwal_test);
+        $current_time = time();
+
+        $can_start = ($current_time >= $exam_time);
+
+        echo json_encode(['can_start' => $can_start]);
+    }
+
     public function start_exam($exam_type)
     {
         $user_id = $this->session->userdata('talent_test_user_id');
@@ -471,15 +511,30 @@ Class TalentTest extends CI_Controller
             $total_subtes1 = $this->db->count_all_results('tb_soal_cfit');
             $data['total_subtes1'] = $total_subtes1;
 
-            $subtes_number = $question['subtes'];
-            $data['subtes_number'] = $subtes_number;
+            $this->db->where('subtes', 2);
+            $this->db->where('type_soal', 'Ujian');
+            $total_subtes2 = $this->db->count_all_results('tb_soal_cfit');
+            $data['total_subtes2'] = $total_subtes2;
 
-            $data['total_subtes2'] = 0;
+            $this->db->where('subtes', 3);
+            $this->db->where('type_soal', 'Ujian');
+            $total_subtes3 = $this->db->count_all_results('tb_soal_cfit');
+            $data['total_subtes3'] = $total_subtes3;
+
+            $this->db->where('subtes', 4);
+            $this->db->where('type_soal', 'Ujian');
+            $total_subtes4 = $this->db->count_all_results('tb_soal_cfit');
+            $data['total_subtes4'] = $total_subtes4;
+
+            $subtes_number = $question['subtes'];
+            $data['soal_subtes'. $subtes_number] = (object) array_merge($question, ['subtes' => $subtes_number]);
+            $data['jawaban' . $subtes_number] = (object) ['jawaban' => $user_answer];
+
+            if ($subtes_number == 1) {
+                $data['jawaban'] = $data['jawaban1'];
+            }
             if ($subtes_number == 2) {
-                $this->db->where('subtes', 2);
-                $this->db->where('type_soal', 'Ujian');
-                $total_subtes2 = $this->db->count_all_results('tb_soal_cfit');
-                $data['total_subtes2'] = $total_subtes2;
+                $data['soal_subtes1'] = $data['soal_subtes2'];
             }
 
             $this->session->set_userdata('ses_id', $this->session->userdata('talent_test_user_id'));
@@ -493,7 +548,16 @@ Class TalentTest extends CI_Controller
             $data['form_action_next'] = site_url('talent-test/save_answer/cfit');
             $data['form_action_end'] = site_url('talent-test/save_answer/cfit');
 
-            $frame_view = ($subtes_number == 2 || $subtes_number == 3) ? 'frame_cfit_2' : 'frame_cfit_1';
+            if ($subtes_number == 4) {
+                $frame_view = 'frame_cfit_4';
+            } elseif ($subtes_number == 3) {
+                $frame_view = 'frame_cfit_3';
+            } elseif ($subtes_number == 2) {
+                $frame_view = 'frame_cfit_2';
+            } else {
+                $frame_view = 'frame_cfit_1';
+            }
+
             $this->load->view('talent_test/ujian/cfit/' . $frame_view, $data);
         }
     }
@@ -554,7 +618,7 @@ Class TalentTest extends CI_Controller
         }
         $this->save_answer_by_type($user_id, $exam_type, $question_id, $answer, $additional_data);
 
-        if ($redirect == 1) { // Previous
+        if ($redirect == 1) {
             $prev_question = max(1, $question_number - 1);
             redirect('talent-test/exam/' . $exam_type . '/frame/' . $prev_question);
         } elseif ($redirect == 2) { // Next
@@ -563,19 +627,28 @@ Class TalentTest extends CI_Controller
                 $this->db->where('subtes', 1);
                 $this->db->where('type_soal', 'Ujian');
                 $total_subtes1 = $this->db->count_all_results('tb_soal_cfit');
+
                 $this->db->where('subtes', 2);
                 $this->db->where('type_soal', 'Ujian');
                 $total_subtes2 = $this->db->count_all_results('tb_soal_cfit');
+
+                $this->db->where('subtes', 3);
+                $this->db->where('type_soal', 'Ujian');
+                $total_subtes3 = $this->db->count_all_results('tb_soal_cfit');
+
                 if ($next_question == ($total_subtes1 + 1)) {
                     redirect('talent-test/training/cfit/2');
                     return;
                 } elseif ($next_question == ($total_subtes1 + $total_subtes2 + 1)) {
                     redirect('talent-test/training/cfit/3');
                     return;
+                } elseif ($next_question > ($total_subtes1 + $total_subtes2 + $total_subtes3 + 1)) {
+                    redirect('talent-test/training/cfit/4');
+                    return;
                 }
             }
             redirect('talent-test/exam/' . $exam_type . '/frame/' . $next_question);
-        } else { // Stay on current
+        } else {
             redirect('talent-test/exam/' . $exam_type . '/frame/' . $question_number);
         }
     }
@@ -1135,13 +1208,14 @@ Class TalentTest extends CI_Controller
                 }
             }
 
-            // Set session durasi latihan
             $this->session->set_userdata('durasi_latihan', $durasi_latihan);
             $this->session->set_userdata('ses_ujian', $id_ujian);
             $this->session->set_userdata('ses_id', $this->session->userdata('talent_test_user_id'));
             $this->session->set_userdata('training_start_time', time());
 
-            if ($subtes == 3) {
+            if ($subtes == 4) {
+                $this->load->view('talent_test/ujian/cfit/training_cfit_4');
+            } elseif ($subtes == 3) {
                 $this->load->view('talent_test/ujian/cfit/training_cfit_3');
             } elseif ($subtes == 2) {
                 $this->load->view('talent_test/ujian/cfit/training_cfit_2');
@@ -1165,7 +1239,10 @@ Class TalentTest extends CI_Controller
         $this->session->set_userdata('ses_jawab2', $jawab2);
 
         if ($exam_type == 'cfit') {
-            if ($subtes == 3) {
+            if ($subtes == 4) {
+                $jawab1 = $this->input->post('jawaban_latihan1');
+                $jawab2 = $this->input->post('jawaban_latihan2');
+            } elseif ($subtes == 3) {
                 $jawab_array = $this->input->post('jawaban_latihan');
                 $jawab1 = is_array($jawab_array) ? implode(',' , $jawab_array) : $this->input->post('jawaban_latihan');
                 $jawab2 = $this->input->post('jawaban_latihan2') ?? '';
@@ -1181,7 +1258,9 @@ Class TalentTest extends CI_Controller
             $this->session->set_userdata('ses_jawab1', $jawab1);
             $this->session->set_userdata('ses_jawab2', $jawab2);
             
-            if ($subtes == 3) {
+            if ($subtes == 4) {
+                $this->load->view('talent_test/ujian/cfit/jawabancontoh_cfit_4');
+            } elseif ($subtes == 3) {
                 $this->load->view('talent_test/ujian/cfit/jawabancontoh_cfit_3');
             } elseif ($subtes == 2) {
                 $this->load->view('talent_test/ujian/cfit/jawabancontoh_cfit_2');
@@ -1189,6 +1268,24 @@ Class TalentTest extends CI_Controller
                 $this->load->view('talent_test/ujian/cfit/jawabancontoh_cfit');
             }
         }
+    }
+
+    public function end_cfit()
+    {
+        $user_id = $this->session->userdata('talent_test_user_id');
+        if (!$user_id) {
+            redirect('talent-test/login');
+        }
+
+        $result = $this->calculate_and_save_result($user_id, 'cfit');
+
+        $data = [
+            'title' => 'Hasil Ujian CFIT',
+            'result' => $result,
+            'exam_type' => 'cfit'
+        ];
+
+        $this->load->view('talent_test/exam_result_cfit', $data);
     }
 
     public function logout(){

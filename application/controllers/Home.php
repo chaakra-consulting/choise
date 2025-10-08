@@ -672,13 +672,19 @@ class Home extends CI_Controller
 
 		redirect('talent-test/dashboard');
 	}
-
+	
 	private function send_token_email($pendaftar, $token)
 	{
 		$this->load->library('email');
-		$this->email->from('chaakraconsulting@gmail.com', 'Choise Platform');
+		$this->email->from('adm@chaakraconsulting.com', 'Choise Platform');
 		$this->email->to($pendaftar['email_pendaftar']);
 		$this->email->subject('Token Akses Talent Test - Choise Platform');
+
+		$this->email->attach(FCPATH . 'upload/talent_test_payments/tutor_talent_1.png', 'inline', null, 'tutor_talent_1');
+		$this->email->attach(FCPATH . 'upload/talent_test_payments/tutor_talent_2.png', 'inline', null, 'tutor_talent_2');
+		$this->email->attach(FCPATH . 'upload/talent_test_payments/tutor_talent_3.png', 'inline', null, 'tutor_talent_3');
+		$this->email->attach(FCPATH . 'upload/talent_test_payments/tutor_talent_4.png', 'inline', null, 'tutor_talent_4');
+
 		$pesan = '
 		<html>
 		<head>
@@ -696,7 +702,7 @@ class Home extends CI_Controller
 		<body>
 			<div class="container">
 				<div class="header">
-	                <h2>🎉 Selamat! Pembayaran Berhasil</h2>
+					<h2>🎉 Selamat! Pembayaran Berhasil</h2>
 				</div>
 				<div class="content">
 					<p>Halo <strong>' . $pendaftar['nama_pendaftar_pelatihan'] . '</strong>,</p>
@@ -707,15 +713,27 @@ class Home extends CI_Controller
 					</div>
 					<p><strong>Cara menggunakan token:</strong></p>
 					<ol>
-						<li>Kunjungi halaman login: <a href="' . base_url('talent-test/login') . '">' . base_url('talent-test/login') . '</a></li>
-						<li>Masukkan token akses di atas</li>
-						<li>Klik tombol "Login dengan Token"</li>
-						<li>Anda akan diarahkan ke dashboard Talent Test</li>
+						<li>Kunjungi halaman login: <a href="' . base_url('talent-test/login') . '">' . base_url('talent-test/login') . '</a>
+							<br>
+							<img src="cid:tutor_talent_1" alt="Halaman Login" style="max-width:100%; height:auto; margin-top:10px;">
+						</li>
+						<li>Masukkan token akses di atas
+							<br>
+							<img src="cid:tutor_talent_2" alt="Masukkan Token" style="max-width:100%; height:auto; margin-top:10px;">
+						</li>
+						<li>Klik tombol "Masuk ke Dashboard Talent Test"
+							<br>
+							<img src="cid:tutor_talent_3" alt="Masuk ke Dashboard" style="max-width:100%; height:auto; margin-top:10px;">
+						</li>
+						<li>Anda akan diarahkan ke dashboard Talent Test
+							<br>
+							<img src="cid:tutor_talent_4" alt="Dashboard Talent Test" style="max-width:100%; height:auto; margin-top:10px;">
+						</li>
 					</ol>
 
 					<p><strong>PENTING:</strong> Simpan token ini dengan aman dan jangan berikan kepada orang lain.</p>
 					<p>
-						Email: chaakraconsulting@gmail.com<br>
+						Email: adm@chaakraconsulting.com<br>
 						Telepon/WhatsApp: +62 856-4820-0701
 					</p>
 				</div>
@@ -730,8 +748,7 @@ class Home extends CI_Controller
 
 		$this->email->message($pesan);
 		if (!$this->email->send()) {
-			log_message
-			('error', 'Gagal mengirim email token ke: ' . $pendaftar['email_pendaftar']);
+			log_message('error', 'Gagal mengirim email token ke: ' . $pendaftar['email_pendaftar']);
 		} else {
 			log_message('info', 'Email token berhasil dikirim ke: ' . $pendaftar['email_pendaftar']);
 		}
