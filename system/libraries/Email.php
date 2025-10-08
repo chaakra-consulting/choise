@@ -88,7 +88,7 @@ class CI_Email
 	 * @var	string
 	 */
 	// public $smtp_user	= 'mail@localhost';
-	public $smtp_user	= 'chaakraconsulting@gmail.com';
+	public $smtp_user	= 'adm@chaakraconsulting.com';
 
 	/**
 	 * SMTP Password
