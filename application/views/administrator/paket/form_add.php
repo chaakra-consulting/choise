@@ -17,7 +17,7 @@
       <div class="tile">
         <?php echo validation_errors('<div class="alert alert-danger">','</div>'); ?>
         <div class="tile-body">
-            <form action="<?php echo site_url('administrator/paket/simpan'); ?>" method="post">
+            <form action="<?php echo site_url('Administrator/Paket/simpan'); ?>" method="post">
                 <div class="form-group">
                     <label for="nama_paket">Nama Paket</label>
                     <input type="text" class="form-control" id="nama_paket" name="nama_paket" required>
@@ -39,7 +39,7 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan Paket</button>
-                <a href="<?php echo site_url('administrator/paket'); ?>" class="btn btn-secondary">Batal</a>
+                <a href="<?php echo site_url('Administrator/Paket'); ?>" class="btn btn-secondary">Batal</a>
             </form>
         </div>
       </div>

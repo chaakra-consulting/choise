@@ -27,7 +27,7 @@
                 <div class="tile-title-w-btn">
                     <h3 class="title">Kepentingan yang Terkait</h3>
                     <div class="btn-group">
-                        <a href="<?php echo site_url('administrator/paket'); ?>" class="btn btn-primary">
+                        <a href="<?php echo site_url('Administrator/Paket'); ?>" class="btn btn-primary">
                             <i class="fa fa-arrow-left"></i> Kembali
                         </a>
                         <button class="btn btn-success" data-toggle="modal" data-target="#tambahKepentinganModal">
@@ -57,7 +57,7 @@
                                                 <span class="badge badge-success">Aktif</span>
                                             </td>
                                             <td>
-                                                <a href="<?php echo site_url('administrator/paket/hapus_kepentingan_paket/' . $paket['id_paket'] . '/' . $kepentingan['id']); ?>" 
+                                                <a href="<?php echo site_url('Administrator/Paket/hapus_kepentingan_paket/' . $paket['id_paket'] . '/' . $kepentingan['id']); ?>" 
                                                    class="btn btn-sm btn-danger"
                                                    onclick="return confirm('Yakin hapus kepentingan ini dari paket?')">
                                                     <i class="fa fa-trash"></i> Hapus
@@ -91,7 +91,7 @@
                     <span>&times;</span>
                 </button>
             </div>
-            <form action="<?php echo site_url('administrator/paket/tambah_kepentingan_paket/' . $paket['id_paket']); ?>" method="post">
+            <form action="<?php echo site_url('Administrator/Paket/tambah_kepentingan_paket/' . $paket['id_paket']); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Pilih Kepentingan</label>
