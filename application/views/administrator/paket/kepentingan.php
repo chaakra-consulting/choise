@@ -9,7 +9,7 @@
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
             <li class="breadcrumb-item">Administrator</li>
-            <li class="breadcrumb-item"><a href="<?php echo site_url('administrator/paket'); ?>">Paket</a></li>
+            <li class="breadcrumb-item"><a href="<?php echo site_url('Administrator/Paket'); ?>">Paket</a></li>
             <li class="breadcrumb-item"><a href="#"><?php echo $title; ?></a></li>
         </ul>
     </div>
