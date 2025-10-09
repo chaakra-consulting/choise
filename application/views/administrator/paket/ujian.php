@@ -18,7 +18,7 @@
                 <div class="tile-title-w-btn">
                     <h3 class="title">Ujian - <?php echo $paket['nama_paket'] ?? 'Paket Talent Test'; ?></h3>
                     <div class="btn-group">
-                        <a href="<?php echo site_url('administrator/paket'); ?>" class="btn btn-primary">
+                        <a href="<?php echo site_url('Administrator/Paket'); ?>" class="btn btn-primary">
                             <i class="fa fa-arrow-left"></i> Kembali
                         </a>
                         <button class="btn btn-success" data-toggle="modal" data-target="#tambahUjianModal">
@@ -59,7 +59,7 @@
                                                     <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editUjianModal<?php echo $ujian['id_paket_ujian']; ?>">
                                                         <i class="fa fa-edit"></i> Edit
                                                     </button>
-                                                    <a href="<?php echo site_url('administrator/paket/hapus_ujian/' . $ujian['id_paket_ujian'] . '/' . $paket['id_paket']); ?>" 
+                                                    <a href="<?php echo site_url('Administrator/Paket/hapus_ujian/' . $ujian['id_paket_ujian'] . '/' . $paket['id_paket']); ?>" 
                                                         class="btn btn-sm btn-danger"
                                                         onclick="return confirm('Yakin hapus ujian ini?')">
                                                         <i class="fa fa-trash"></i> Hapus
@@ -76,7 +76,7 @@
                                                             <span>&times;</span>
                                                         </button>
                                                     </div>
-                                                    <form action="<?php echo site_url('administrator/paket/edit_ujian/' . $ujian['id_paket_ujian'] . '/' . $paket['id_paket']); ?>" method="post">
+                                                    <form action="<?php echo site_url('Administrator/Paket/edit_ujian/' . $ujian['id_paket_ujian'] . '/' . $paket['id_paket']); ?>" method="post">
                                                         <div class="modal-body">
                                                             <div class="form-group">
                                                                 <label>Jenis Ujian</label>
@@ -125,7 +125,7 @@
                     <span>&times;</span>
                 </button>
             </div>
-            <form action="<?php echo site_url('administrator/paket/tambah_ujian/' . $paket['id_paket']); ?>" method="post">
+            <form action="<?php echo site_url('Administrator/Paket/tambah_ujian/' . $paket['id_paket']); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Jenis Ujian</label>

@@ -77,13 +77,13 @@
                            ?>
                         </td>
                         <td>
-                            <a href="<?php echo site_url('administrator/paket/edit/' . $paket['id_paket']); ?>" 
+                            <a href="<?php echo site_url('Administrator/Paket/edit/' . $paket['id_paket']); ?>" 
                               class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
-                            <a href="<?php echo site_url('administrator/paket/ujian/' . $paket['id_paket']); ?>"
+                            <a href="<?php echo site_url('Administrator/Paket/ujian/' . $paket['id_paket']); ?>"
                               class="btn btn-sm btn-primary"><i class='fa fa-gear'></i></a>
-                            <a href="<?php echo site_url('administrator/paket/kepentingan/' . $paket['id_paket']); ?>"
+                            <a href="<?php echo site_url('Administrator/Paket/kepentingan/' . $paket['id_paket']); ?>"
                               class="btn btn-sm btn-info"><i class="fa fa-list"></i> Kepentingan</a>
-                            <a href="<?php echo site_url('administrator/paket/hapus/' . $paket['id_paket']); ?>" 
+                            <a href="<?php echo site_url('Administrator/Paket/hapus/' . $paket['id_paket']); ?>" 
                               class="btn btn-sm btn-danger" 
                               onclick="return confirm('Yakin ingin menghapus?');"><i class="fa fa-trash"></i></a>
                         </td>
