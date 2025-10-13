@@ -1,5 +1,6 @@
 <?php $this->load->view('layout3/header2'); ?>
 <?php $this->load->view('layout3/navbar'); ?>
+<?php $this->load->view('talent_test/layout'); ?>
 
 <div class="col-sm-12 main">
 	<div class="row" style="margin-bottom: -50px;">
@@ -7,7 +8,7 @@
 			<h3 class="page-header">Soal Latihan Subtes 4</h3>
 		</div>
 		<div class="col-lg-3">
-			<h4 style="margin-top: 35px" align="right">Waktu latihan <span id="time"></span> detik</h4>
+			<h4 style="margin-top: 35px" align="right">Waktu latihan <span id="time">00:00</span></h4>
 		</div>
 	</div><!--/.row-->
 
@@ -60,10 +61,18 @@
         $this->session->set_userdata('training_subtes', 4);
         $idUjian = $this->session->userdata('talent_test_id_ujian'); 
 		$id_pelamar = $this->session->userdata('talent_test_user_id');
-
 		$durasi_latihan = $this->session->userdata('durasi_latihan');
 		if (!$durasi_latihan) {
 			$durasi_latihan = 2;
+		}
+		$start_time = $this->session->userdata('training_start_time');
+		$start = $this->session->userdata('training_start_time');
+		$elapsed = time() - $start;
+		$remaining = max(0, ($durasi_latihan * 60) - $elapsed);
+		$data['end_lat1'] = (time() + $remaining) * 1000;
+		if ($remaining <= 0) {
+			echo "<script>window.location.href = '" . base_url('talent-test/start-exam/cfit') . "'</script>";
+			exit;
 		}
 		?>
 
@@ -161,29 +170,26 @@
 </form>
 
 <script type="text/javascript">
-  var duration = <?php echo $durasi_latihan * 60 * 1000 ?>;
-  var countDownDate = new Date().getTime() + duration;
-  var x = setInterval(function() {
+    var startTime = <?php echo $start_time * 1000 ?>;
+    var duration = <?php echo $durasi_latihan * 60 * 1000 ?>;
+    var countDownDate = startTime + duration;
 
-  var now = new Date().getTime();
+    var x = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
 
-  var distance = countDownDate - now;
-
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  document.getElementById("time").innerHTML = minutes + " : " + seconds + " ";
-
-  if (distance < 0) {
-    clearInterval(x);
-    alert('Waktu latihan subtes 4 sudah berakhir, selamat mengerjakan subtes 4');
-    window.location.href = '<?php echo base_url('talent-test/start-exam/cfit'); ?>';
-
-  }
-}, 1000);
-
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("time").innerHTML = "00:00";
+            window.location.href = '<?php echo base_url('talent-test/start-exam/cfit'); ?>';
+        } else {
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            var displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+            var displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+            document.getElementById("time").innerHTML = displayMinutes + ":" + displaySeconds;
+        }
+    }, 1000);
 </script>
 
 <?php   $this->load->view('layout3/footer') ?>

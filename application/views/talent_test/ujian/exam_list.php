@@ -1,6 +1,7 @@
 <?php $this->load->view('layout3/header'); ?>
 <?php $this->load->view('layout3/navbar'); ?>
 <?php $this->load->view('layout3/sidebar'); ?>
+<?php $this->load->view('talent_test/layout'); ?>
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
     <div class="row">

@@ -1,34 +1,9 @@
 <?php $this->load->view('layout3/header'); ?>
 <?php $this->load->view('layout3/navbar'); ?>
 <?php $this->load->view('layout3/sidebar'); ?>
+<?php $this->load->view('talent_test/layout'); ?>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
-:root {
-    --primary-color: #FBC02D;
-    --primary-dark: #F9A825;
-    --primary-light: #FFF8E1;
-    --success-color: #28a745;
-    --success-light: #e9f5e9;
-    --danger-color: #dc3545;
-    --text-dark: #212529;
-    --text-secondary: #6c757d;
-    --text-light: #ffffff;
-    --bg-main: #f8f9fa;
-    --bg-card: #ffffff;
-    --border-color: #dee2e6;
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --border-radius: 8px;
-    --transition: all 0.2s ease;
-}
-
-body {
-    background-color: var(--bg-main);
-    font-family: 'Poppins', sans-serif;
-    color: var(--text-secondary);
-}
-
 .panel {
     border: none;
     border-radius: var(--border-radius);
