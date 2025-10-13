@@ -7,13 +7,11 @@
 		<hr color="black">
 	</div>
 	<div class="col-md-7 col-sm-12" style="margin-bottom: 5px;">
-		<div class="col-sm-12">
-			<form method="post">
-				
-			<div style="width: 600px; margin: 10px; border-radius: 5px; border-radius: 5px">
-				<?php echo $soal_subtes3->soal; ?>
-			</div>
-
+		<form method="post">
+			<div class="col-sm-12">
+				<div style="width: 600px; margin: 10px; border-radius: 5px; border-radius: 5px">
+					<?php echo $soal_subtes3->soal; ?>
+				</div>
 				<div class="form-check col-sm-2 text-center" style="margin-top: 5px;">
 					<label class="form-check-label" for="ist120">a</label>
 					<input class="form-check-input" type="radio" <?php if(!empty($jawaban3->jawaban) && $jawaban3->jawaban== "A"){?> checked="checked" <?php } ?> name="jawaban" value="A">
@@ -49,11 +47,8 @@
 					<?php echo $soal_subtes3->opsi_e; ?>
 					</center>
 				</div>
-			
 			</div>
 			<center>
-
-
 				<input type="hidden" name="id_pelamar" value="<?php echo $this->session->userdata('ses_id') ?>">
 				<input type="hidden" name="id_lowongan" value="<?php echo $this->session->userdata('sesIdLowongan') ?>">
 				<input type="hidden" name="id_ujian" value="<?php echo $this->session->userdata('ses_ujian') ?>">
@@ -77,7 +72,6 @@
 					<?php } ?>
 				</div>
 			</center>
-
 		</form>
 	</div>
 	<?php 
