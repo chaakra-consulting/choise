@@ -2,6 +2,7 @@
 $cek_khusus = $this->db->query("SELECT * FROM tb_ujian_ist")->result();
 $khusus = $cek_khusus[0]->khusus;
 ?>
+
 <div class="col-sm-12 box">
 	<div class="col-sm-6">
 		<h4><b>Subtes <?php echo $soal_subtes5->subtes; ?></b></h4>
@@ -10,13 +11,11 @@ $khusus = $cek_khusus[0]->khusus;
 		<hr color="black">
 	</div>
 	<div class="col-md-7 col-sm-12" style="margin-bottom: 5px;">
-		<div class="col-sm-12">
-			<form method="post">
-
+		<form method="post">
+			<div class="col-sm-12">
 				<div style="width: 600px; margin: 10px; border-radius: 5px; border-radius: 5px">
 					<?php echo $soal_subtes5->soal; ?>
 				</div>
-
 				<div class="form-check col-sm-2 text-center" style="margin-top: 5px;">
 					<label class="form-check-label" for="ist120"></label>
 					<!-- <input class="form-check-input" type="checkbox" <?php if (!empty($jawaban5->jawaban) && $jawaban5->jawaban == "1") { ?> checked="checked" <?php } ?> name="jawaban" value="1"> -->
@@ -97,56 +96,49 @@ $khusus = $cek_khusus[0]->khusus;
 						<?php echo $soal_subtes5->opsi_j; ?>
 					</center>
 				</div>
-
-		</div>
-		<center>
-
-
-			<input type="hidden" name="id_pelamar" value="<?php echo $this->session->userdata('ses_id') ?>">
-			<input type="hidden" name="id_lowongan" value="<?php echo $this->session->userdata('sesIdLowongan') ?>">
-			<input type="hidden" name="id_ujian" value="<?php echo $this->session->userdata('ses_ujian') ?>">
-			<input type="hidden" name="nomor_soal" value="<?php echo $soal_subtes5->nomor_soal ?>">
-			<input type="hidden" name="subtes" value="<?php echo $soal_subtes5->subtes ?>">
-			<input type="hidden" name="kunci_jawaban1" value="<?php echo $soal_subtes5->jawaban ?>">
-			<input type="hidden" name="kunci_jawaban2" value="<?php echo $soal_subtes5->jawaban2 ?>">
-			<input type="hidden" name="kunci_jawaban3" value="<?php echo $soal_subtes5->jawaban3 ?>">
-			<div class="baten">
-				<?php if ($khusus == 'aktif') { ?>
-					<?php if ($soal_subtes5->nomor_soal != 77 && $soal_subtes5->subtes == 5) { ?>
-						<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist5_2/1') ?>"> <i class="fa fa-arrow-circle-left"> </i> Sebelumnya
-						</button>
-					<?php } ?>
-					<?php if ($soal_subtes5->nomor_soal != 96 && $soal_subtes5->subtes == 5) { ?>
-						<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist5_2/2') ?>"> Selanjutnya <i class="fa fa-arrow-circle-right"></i>
-						</button>
-					<?php } ?>
-					<?php if ($soal_subtes5->nomor_soal >= 96 && $soal_subtes5->subtes == 5) { ?>
-						<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist_endSub5_2') ?>" class="btn btn-primary"> Subtes 6 <i class="fa fa-arrow-circle-right"></i>
-						</button>
-					<?php } ?>
-				<?php } else { ?>
-					<?php if ($soal_subtes5->nomor_soal != 77 && $soal_subtes5->subtes == 5) { ?>
-						<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist5/1') ?>"> <i class="fa fa-arrow-circle-left"> </i> Sebelumnya
-						</button>
-					<?php } ?>
-					<?php if ($soal_subtes5->nomor_soal != 96 && $soal_subtes5->subtes == 5) { ?>
-						<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist5/2') ?>"> Selanjutnya <i class="fa fa-arrow-circle-right"></i>
-						</button>
-					<?php } ?>
-					<?php if ($soal_subtes5->nomor_soal >= 96 && $soal_subtes5->subtes == 5) { ?>
-						<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist_endSub5') ?>" class="btn btn-primary"> Subtes 6 <i class="fa fa-arrow-circle-right"></i>
-						</button>
-					<?php } ?>
-				<?php } ?>
 			</div>
-		</center>
-
+			<center>
+				<input type="hidden" name="id_pelamar" value="<?php echo $this->session->userdata('ses_id') ?>">
+				<input type="hidden" name="id_lowongan" value="<?php echo $this->session->userdata('sesIdLowongan') ?>">
+				<input type="hidden" name="id_ujian" value="<?php echo $this->session->userdata('ses_ujian') ?>">
+				<input type="hidden" name="nomor_soal" value="<?php echo $soal_subtes5->nomor_soal ?>">
+				<input type="hidden" name="subtes" value="<?php echo $soal_subtes5->subtes ?>">
+				<input type="hidden" name="kunci_jawaban1" value="<?php echo $soal_subtes5->jawaban ?>">
+				<input type="hidden" name="kunci_jawaban2" value="<?php echo $soal_subtes5->jawaban2 ?>">
+				<input type="hidden" name="kunci_jawaban3" value="<?php echo $soal_subtes5->jawaban3 ?>">
+				<div class="baten">
+					<?php if ($khusus == 'aktif') { ?>
+						<?php if ($soal_subtes5->nomor_soal != 77 && $soal_subtes5->subtes == 5) { ?>
+							<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist5_2/1') ?>"> <i class="fa fa-arrow-circle-left"> </i> Sebelumnya
+							</button>
+						<?php } ?>
+						<?php if ($soal_subtes5->nomor_soal != 96 && $soal_subtes5->subtes == 5) { ?>
+							<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist5_2/2') ?>"> Selanjutnya <i class="fa fa-arrow-circle-right"></i>
+							</button>
+						<?php } ?>
+						<?php if ($soal_subtes5->nomor_soal >= 96 && $soal_subtes5->subtes == 5) { ?>
+							<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist_endSub5_2') ?>" class="btn btn-primary"> Subtes 6 <i class="fa fa-arrow-circle-right"></i>
+							</button>
+						<?php } ?>
+					<?php } else { ?>
+						<?php if ($soal_subtes5->nomor_soal != 77 && $soal_subtes5->subtes == 5) { ?>
+							<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist5/1') ?>"> <i class="fa fa-arrow-circle-left"> </i> Sebelumnya
+							</button>
+						<?php } ?>
+						<?php if ($soal_subtes5->nomor_soal != 96 && $soal_subtes5->subtes == 5) { ?>
+							<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist5/2') ?>"> Selanjutnya <i class="fa fa-arrow-circle-right"></i>
+							</button>
+						<?php } ?>
+						<?php if ($soal_subtes5->nomor_soal >= 96 && $soal_subtes5->subtes == 5) { ?>
+							<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_ist_endSub5') ?>" class="btn btn-primary"> Subtes 6 <i class="fa fa-arrow-circle-right"></i>
+							</button>
+						<?php } ?>
+					<?php } ?>
+				</div>
+			</center>
 		</form>
 	</div>
-	<?php
-	$this->load->view('pelamar/ujian/ist/panel_ujian_ist5');
-	?>
-
+	<?php $this->load->view('pelamar/ujian/ist/panel_ujian_ist5'); ?>
 </div>
 
 <script type="text/javascript">
@@ -162,6 +154,4 @@ $khusus = $cek_khusus[0]->khusus;
 	});
 </script>
 
-<?php
-
-$this->load->view('layout3/footer') ?>
+<?php $this->load->view('layout3/footer') ?>
