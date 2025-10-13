@@ -1,6 +1,7 @@
 <?php $this->load->view('layout3/header') ?>
 <?php $this->load->view('layout3/navbar') ?>
 <?php $this->load->view('layout3/sidebar') ?>
+<?php $this->load->view('talent_test/layout') ?>
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
     <div class="row">
@@ -97,7 +98,10 @@
             </div>
         </div>
         <div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin: 10px;">
-            <a href="<?php echo site_url('talent-test/exam/' . $exam_type . '/training'); ?>" class="btn btn-primary mr-2 mb-2">Mulai Ujian</a>
+            <form method="post" action="<?php echo site_url('talent-test/training/cfit/1'); ?>" style="margin: 10px;">
+                <input type="hidden" name="start" value="1">
+                <button type="submit" class="btn btn-primary mr-2 mb-2">Mulai Ujian</button>
+            </form>
         </div>
     </div>
 </div>    

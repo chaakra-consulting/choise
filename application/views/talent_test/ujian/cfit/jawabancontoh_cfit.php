@@ -1,13 +1,14 @@
 <?php $this->load->view('layout3/header2') ?>
 <?php $this->load->view('layout3/navbar') ?>
+<?php $this->load->view('talent_test/layout') ?>
 
 <div class="col-sm-12 main">
     <div class="row" style="margin-bottom: -50px;">
         <div class="col-lg-9">
-            <h3>Soal Latihan</h3>
+            <h3>Jawaban Contoh Subtes 1</h3>
         </div>
         <div class="col-lg-3">
-            <h4 style="margin-top: 35px" align="right">Waktu latihan <span id="time"></span> detik</h4>
+            <h4 style="margin-top: 35px" align="right">Waktu latihan <span id="time"></span></h4>
         </div>
     </div>
 
@@ -43,29 +44,25 @@
         </div>
     </div>
 </div>
-<?php
-if (!isset($end_lat1)) {
-    $end_lat1 = date('Y-m-d H:i:s', time() + 60);
-}
-?>
-<script type="text/javascript">
-var countDownDate = <?php echo $end_lat1 ?>;
-
-var x = setInterval(function() {
-    var now = new Date().getTime();
-    var distance = countDownDate - now;
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    document.getElementById("time").innerHTML = minutes + " : " + seconds + " ";
-
-    if (distance < 0) {
-        clearInterval(x);
-        alert('Waktu latihan subtes 1 sudah berakhir, selamat mengerjakan subtes 1');
-        window.location.href = '<?php echo base_url('talent-test/start-exam/cfit'); ?>';
-    }
-}, 1000);
-</script>
 
 <?php $this->load->view('layout3/footer') ?>
+
+<script type="text/javascript">
+    var countDownDate = new Date('<?php echo $end_lat1 ?>').getTime();
+
+    var x = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        var displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        var displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+        document.getElementById("time").innerHTML = displayMinutes + ":" + displaySeconds;
+
+        if (distance < 0) {
+            clearInterval(x);
+            alert('Waktu habis, selamat mengerjakan subtes 1');
+            window.location.href = '<?php echo base_url('talent-test/start-exam/cfit'); ?>';
+        }
+    }, 1000);
+</script>
