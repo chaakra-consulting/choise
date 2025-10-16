@@ -1,6 +1,24 @@
 <?php $this->load->view('layout3/header2'); ?>
 <?php $this->load->view('layout3/navbar'); ?>
 <?php $this->load->view('talent_test/layout'); ?>
+<?php 
+$this->session->set_userdata('training_subtes', 4);
+$idUjian = $this->session->userdata('talent_test_id_ujian'); 
+$id_pelamar = $this->session->userdata('talent_test_user_id');
+$durasi_latihan = $this->session->userdata('durasi_latihan');
+if (!$durasi_latihan) {
+	$durasi_latihan = 2;
+}
+$start_time = $this->session->userdata('training_start_time');
+$start = $this->session->userdata('training_start_time');
+$elapsed = time() - $start;
+$remaining = max(0, ($durasi_latihan * 60) - $elapsed);
+$data['end_lat1'] = (time() + $remaining) * 1000;
+if ($remaining <= 0) {
+	echo "<script>window.location.href = '" . base_url('talent-test/start-exam/cfit') . "'</script>";
+	exit;
+}
+?>
 
 <div class="col-sm-12 main">
 	<div class="row" style="margin-bottom: -50px;">
@@ -54,30 +72,9 @@
 		<p class="col-sm-12" style="color: #fff; margin: 10px;">Jawaban: (c). Karena pola tersebut dapat diletakkan titik yang sama seperti pada soal.</p>
 	</div>
 
-	<div class="col-sm-12" style="background-color: #fff; padding: 30px; border-radius: 5px;">
-		<p>Soal dibawah ini merupakan soal latihan sebelum mengerjakan subtes 4. Cobalah untuk mengerjakan contoh soal di bawah ini! Apapun jawaban anda pada tahap latihan ini tidak akan dihitung poinnya.</p>
-
-		<?php 
-        $this->session->set_userdata('training_subtes', 4);
-        $idUjian = $this->session->userdata('talent_test_id_ujian'); 
-		$id_pelamar = $this->session->userdata('talent_test_user_id');
-		$durasi_latihan = $this->session->userdata('durasi_latihan');
-		if (!$durasi_latihan) {
-			$durasi_latihan = 2;
-		}
-		$start_time = $this->session->userdata('training_start_time');
-		$start = $this->session->userdata('training_start_time');
-		$elapsed = time() - $start;
-		$remaining = max(0, ($durasi_latihan * 60) - $elapsed);
-		$data['end_lat1'] = (time() + $remaining) * 1000;
-		if ($remaining <= 0) {
-			echo "<script>window.location.href = '" . base_url('talent-test/start-exam/cfit') . "'</script>";
-			exit;
-		}
-		?>
-
-		<form method="post" action="<?php  echo base_url('talent-test/submit-training/cfit') ?>">
-
+	<form method="post" action="<?php  echo base_url('talent-test/submit-training/cfit') ?>">
+		<div class="col-sm-12" style="background-color: #fff; padding: 30px; border-radius: 5px;">
+			<p>Soal dibawah ini merupakan soal latihan sebelum mengerjakan subtes 4. Cobalah untuk mengerjakan contoh soal di bawah ini! Apapun jawaban anda pada tahap latihan ini tidak akan dihitung poinnya.</p>
 			<div class="col-sm-12">
 				<p>1.</p>
 				<img src="<?php  echo base_url('upload/bank_soal/cfit/contoh22.jpg') ?>" class="img-responsive" alt="" style="width: 100px; margin: 10px; border-radius: 5px;">
@@ -117,7 +114,6 @@
 					</center>
 				</div>
 			</div>
-
 			<div class="col-sm-12" style="margin-top: 10px;">
 				<p>2.</p>
 				<img src="<?php  echo base_url('upload/bank_soal/cfit/contoh32.jpg') ?>" class="img-responsive" alt="" style="width: 100px; margin: 10px; border-radius: 5px;">
@@ -158,16 +154,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="col-sm-12">
-	</div>
-</div><!--/.row-->
-</div>	<!--/.main-->
-
-<div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin-top: 20px;">
-	<button style="margin-bottom: 2%" type="submit"class="btn btn-primary mr-2 mb-2">Selanjutnya</button>
-	</div>
-</form>
+		<div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin-top: 20px;">
+			<button style="margin-bottom: 2%" type="submit"class="btn btn-primary mr-2 mb-2">Selanjutnya</button>
+		</div>
+	</form>
+</div>
 
 <script type="text/javascript">
     var startTime = <?php echo $start_time * 1000 ?>;

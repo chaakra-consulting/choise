@@ -151,12 +151,6 @@ class Mdl_paket_talent_test extends CI_Model
         return $this->db->get('tb_soal_ist')->result_array();
     }
 
-    public function get_holland_questions()
-    {
-        $this->db->order_by('nomor_soal', 'ASC');
-        return $this->db->get('tb_soal_holland')->result_array();
-    }
-
     public function get_disc_questions()
     {
         $this->db->order_by('nomor_soal', 'ASC');
@@ -195,7 +189,7 @@ class Mdl_paket_talent_test extends CI_Model
             case 'ist':
                 return $this->get_ist_questions();
             case 'holland':
-                return $this->get_holland_questions();
+                return [];
             case 'disc':
                 return $this->get_disc_questions();
             case 'essay':
@@ -224,8 +218,31 @@ class Mdl_paket_talent_test extends CI_Model
             'leadership' => 'tb_ujian_leadership'
         ];
 
+        $column_map = [
+            'cfit' => 'id_ujian',
+            'ist' => 'id_ujian_ist',
+            'holland' => 'id_ujian_holland',
+            'disc' => 'id_ujian_disc',
+            'essay' => 'id_ujian_essay',
+            'hitung' => 'id_ujian_hitung',
+            'studi_kasus' => 'id_ujian_studi_kasus',
+            'leadership' => 'id_ujian_leadership'
+        ];
+
         $table = $table_map[$exam_type] ?? 'tb_ujian';
-        $ujian = $this->db->get_where($table, ['id_ujian' => 1])->row_array();
+        $column = $column_map[$exam_type] ?? 'id_ujian';
+        $ujian = $this->db->get_where($table, [$column => 1])->row_array();
+        
+        if ($exam_type == 'holland') {
+            if ($ujian && isset($ujian['waktu_mulai']) && isset($ujian['waktu_akhir'])) {
+                $waktu_mulai = strtotime($ujian['waktu_mulai']);
+                $waktu_akhir = strtotime($ujian['waktu_akhir']);
+                $durasi_detik = $waktu_akhir - $waktu_mulai;
+                return (int) ($durasi_detik / 60);
+            }
+            return 30;
+        }
+        
         return $ujian['durasi'] ?? 60;
     }
 }

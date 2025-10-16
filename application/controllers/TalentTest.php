@@ -42,7 +42,7 @@ class TalentTest extends CI_Controller
 
         $this->db->where('access_token', $token);
         $pendaftaran = $this->db->get('tb_pendaftar_pelatihan')->row_array();
-        $this->session->userdata('talent_test_user_id', $pendaftaran['id_pendaftar_pelatihan']);
+        $this->session->set_userdata('talent_test_user_id', $pendaftaran['id_pendaftar_pelatihan']);
 
         if (!$pendaftaran || $pendaftaran['status_pembayaran'] != 'success') {
             $this->session->set_flashdata('error', 'Pembayaran belum berhasil atau tidak ditemukan.');
@@ -407,7 +407,6 @@ class TalentTest extends CI_Controller
         echo json_encode(['can_start' => $can_start]);
     }
 
-
     public function start_exam($exam_type)
     {
         $user_id = $this->session->userdata('talent_test_user_id');
@@ -457,8 +456,20 @@ class TalentTest extends CI_Controller
             'leadership' => 'tb_ujian_leadership'
         ];
 
+        $column_map = [
+            'cfit' => 'id_ujian',
+            'ist' => 'id_ujian_ist',
+            'holland' => 'id_ujian_holland',
+            'disc' => 'id_ujian_disc',
+            'essay' => 'id_ujian_essay',
+            'hitung' => 'id_ujian_hitung',
+            'studi_kasus' => 'id_ujian_studi_kasus',
+            'leadership' => 'id_ujian_leadership'
+        ];
+
         $table = $table_map[$exam_type] ?? 'tb_ujian';
-        $ujian = $this->db->get_where($table, ['id_ujian' => 1])->row_array();
+        $column = $column_map[$exam_type] ?? 'id_ujian';
+        $ujian = $this->db->get_where($table, [$column => $id_ujian])->row_array();
 
         if ($exam_type == 'cfit') {
             $current_time = time();
@@ -484,6 +495,17 @@ class TalentTest extends CI_Controller
 
             $this->session->set_userdata('talent_test_subtest_times', $subtest_times);
             $end_time = $sub4_end;
+        } elseif ($exam_type == 'holland') {
+            $durasi = $this->m_paket->get_durasi_ujian($exam_type); // Ini sudah menghitung dari waktu_mulai dan waktu_akhir
+            $end_time = time() + ($durasi * 60);
+            $this->session->set_userdata([
+                'talent_test_current_exam' => $exam_type,
+                'talent_test_package_id' => $pendaftaran['id_paket'],
+                'talent_test_start_time' => time(),
+                'talent_test_end_time' => $end_time,
+                'talent_test_id_ujian' => $id_ujian,
+            ]);
+            redirect('talent-test/exam/holland/frame/1');
         }
 
         $this->session->set_userdata([
@@ -506,6 +528,17 @@ class TalentTest extends CI_Controller
 
         $user_id = $this->session->userdata('talent_test_user_id');
 
+        if ($exam_type == 'holland') {
+            $data = [
+                'title' => 'Ujian Holland',
+                'exam_type' => $exam_type,
+                'end_time' => $this->session->userdata('talent_test_end_time'),
+                'id_ujian' => $this->session->userdata('talent_test_id_ujian')
+            ];
+            $this->load->view('talent_test/ujian/holland/frame_holland', $data);
+            return;
+        }
+
         if (empty($user_id) || empty($exam_type) || !is_numeric($question_number) || $question_number < 1) {
             $this->session->set_flashdata('error', 'Parameter tidak valid.');
             redirect('talent-test/dashboard');
@@ -515,7 +548,7 @@ class TalentTest extends CI_Controller
 
         if (!$question) {
             $this->calculate_and_save_result($user_id, $exam_type);
-            redirect('talent-test/exam_result/' . $exam_type);
+            redirect('talent-test/exam_result/' . $exam_type . '/result');
         }
 
         $user_answer = $this->get_user_answer_for_question($user_id, $exam_type, $question['nomor_soal'], $question['subtes'] ?? null);
@@ -635,6 +668,11 @@ class TalentTest extends CI_Controller
             redirect('talent-test/dashboard');    
         }
 
+        if ($exam_type != 'holland' && empty($question_id)) {
+            $this->session->set_flashdata('error', 'Data tidak lengkap.');
+            redirect('talent-test/dashboard');
+        }
+
         if ($exam_type == 'cfit' && $subtes == 2) {
             $answer_array = $this->input->post('answer') ?: [];
             if (is_array($answer_array)) {
@@ -647,6 +685,22 @@ class TalentTest extends CI_Controller
             }
         } else {
             $answer = $this->input->post('answer');
+        }
+
+        if ($exam_type == 'holland') {
+            $answer = [
+                'nilai_r' => (int)($this->input->post('nilai_r') ?? 0),
+                'nilai_i' => (int)($this->input->post('nilai_i') ?? 0),
+                'nilai_a' => (int)($this->input->post('nilai_a') ?? 0),
+                'nilai_s' => (int)($this->input->post('nilai_s') ?? 0),
+                'nilai_e' => (int)($this->input->post('nilai_e') ?? 0),
+                'nilai_k' => (int)($this->input->post('nilai_k') ?? 0),
+            ];
+            $this->save_answer_by_type($user_id, $exam_type, $question_id, $answer, ['id_ujian' => $id_ujian]);
+            $this->calculate_and_save_result($user_id, $exam_type);
+            redirect('talent-test/exam/holland/result');
+            return;
+
         }
 
         $additional_data = ['id_ujian' => $id_ujian];
@@ -705,6 +759,12 @@ class TalentTest extends CI_Controller
         } else {
             redirect('talent-test/exam/' . $exam_type . '/frame/' . $question_number);
         }
+
+        if ($exam_type == 'holland') {
+            $this->calculate_and_save_result($user_id, $exam_type);
+            redirect('talent-test/exam/holland/result');
+            return;
+        }
     }
 
     public function exam_result($exam_type)
@@ -736,7 +796,7 @@ class TalentTest extends CI_Controller
         if (!$pendaftaran) {
             redirect('talent-test/login');
         }
-        // $this->session->set_userdata('talent_test_id_ujian', $pendaftaran['id_pendaftar_pelatihan']);
+
         $paket = $this->m_paket->get_paket_by_id($pendaftaran['id_paket']);
         $ujian_list = $this->m_paket->get_ujian_by_paket($pendaftaran['id_paket']);
         $questions = $this->m_paket->get_soal_by_ujian($exam_type);
@@ -755,7 +815,16 @@ class TalentTest extends CI_Controller
             'exam_type' => $exam_type,
             'durasi' => $durasi,
         ];
-        $this->load->view('talent_test/ujian/' . $exam_type . '/exam_confirmation_' . $exam_type, $data);
+
+        if ($exam_type == 'holland') {
+            $durasi = $this->m_paket->get_durasi_ujian($exam_type);
+            $durasi = (int) $durasi;
+            $this->load->view('talent_test/ujian/holland/exam_confirmation_holland', $data);
+        } elseif ($exam_type == 'cfit') {
+            $this->load->view('talent_test/ujian/cfit/exam_confirmation_cfit', $data);
+        } else {
+            $this->load->view('talent_test/ujian/' . $exam_type . '/exam_confirmation_' . $exam_type, $data);
+        }
     }
 
     private function get_user_exam_progress($user_id, $package_id)
@@ -793,6 +862,9 @@ class TalentTest extends CI_Controller
     }
 
     private function get_question_by_type_and_number($exam_type, $question_number){
+        if ($exam_type == 'holland') {
+            return null;
+        }
         $table_name = $this->get_table_name_by_exam_type($exam_type);
 
         if ($exam_type == 'cfit') {
@@ -808,65 +880,65 @@ class TalentTest extends CI_Controller
         $query = $this->db->get($table_name);
         return $query->row_array();
     }
-
+    
     private function save_answer_by_type($user_id, $exam_type, $question_id, $answer, $additional_data = [])
     {
         $table_name = $this->get_answer_table_name_by_exam_type($exam_type);
 
         if ($exam_type == 'cfit') {
             $data = [
-                'id_pendaftar_pelatihan'=> $user_id,
-                'nomor_soal'            => $question_id,   
-                'id_ujian'              => $additional_data['id_ujian'] ?? 1,
-                'subtes'                => $additional_data['subtes'] ?? '1',
-                'jawaban'               => $answer['jawaban'] ?? '',
-                'jawaban2'              => $answer['jawaban2'] ?? '',
-                'jawaban_kunci'         => '',
-                'jawaban_kunci2'        => '',
-                'waktu_jawab'           => date('Y-m-d H:i:s')
+                'id_pendaftar_pelatihan' => $user_id,
+                'nomor_soal' => $question_id,   
+                'id_ujian' => $additional_data['id_ujian'] ?? 1,
+                'subtes' => $additional_data['subtes'] ?? '1',
+                'jawaban' => $answer['jawaban'] ?? '',
+                'jawaban2' => $answer['jawaban2'] ?? '',
+                'jawaban_kunci' => '',
+                'jawaban_kunci2' => '',
+                'waktu_jawab' => date('Y-m-d H:i:s')
             ];
         } elseif ($exam_type == 'disc') {
             $data = [
-                'id_pendaftar_pelatihan'=> $user_id,
-                'id_ujian'              => $additional_data['id_ujian'] ?? 1,
-                'no_soal'               => $question_id,
-                'jawaban'               => $answer['jawaban'] ?? '',
-                'jawaban2'              => $answer['jawaban2'] ?? '',
-                'waktu_jawab'           => date('Y-m-d H:i:s')
+                'id_pendaftar_pelatihan' => $user_id,
+                'id_ujian' => $additional_data['id_ujian'] ?? 1,
+                'no_soal' => $question_id,
+                'jawaban' => $answer['jawaban'] ?? '',
+                'jawaban2' => $answer['jawaban2'] ?? '',
+                'waktu_jawab' => date('Y-m-d H:i:s')
             ];
         } elseif ($exam_type == 'holland') {
             $data = [
-                'id_pendaftar_pelatihan'=> $user_id,
-                'id_ujian'              => $additional_data['id_ujian'] ?? 1,
-                'nilai_r'               => $answer['nilai_r'] ?? 0,
-                'nilai_i'               => $answer['nilai_i'] ?? 0,
-                'nilai_a'               => $answer['nilai_a'] ?? 0,
-                'nilai_s'               => $answer['nilai_s'] ?? 0,
-                'nilai_e'               => $answer['nilai_e'] ?? 0,
-                'nilai_k'               => $answer['nilai_k'] ?? 0,
-                'waktu_jawab'           => date('Y-m-d H:i:s')
+                'id_pendaftar_pelatihan' => $user_id,
+                'id_ujian' => $additional_data['id_ujian'] ?? 1,
+                'nilai_r' => $answer['nilai_r'] ?? 0,
+                'nilai_i' => $answer['nilai_i'] ?? 0,
+                'nilai_a' => $answer['nilai_a'] ?? 0,
+                'nilai_s' => $answer['nilai_s'] ?? 0,
+                'nilai_e' => $answer['nilai_e'] ?? 0,
+                'nilai_k' => $answer['nilai_k'] ?? 0,
+                'waktu_jawab' => date('Y-m-d H:i:s')
             ];
         } elseif ($exam_type == 'ist') {
             $data = [
-                'id_pendaftar_pelatihan'=> $user_id,
-                'nomor_soal'            => $question_id,
-                'id_ujian'              => $additional_data['id_ujian'] ?? 1,
-                'subtes'                => $additional_data['subtes'] ?? '1',
-                'jawaban'               => $answer['jawaban'] ?? '',
-                'jawaban2'              => $answer['jawaban2'] ?? '',
-                'jawaban3'              => $answer['jawaban3'] ?? '',
-                'jawaban_kunci'         => $answer['jawaban_kunci'] ?? '',
-                'jawaban_kunci2'        => $answer['jawaban_kunci2'] ?? '',
-                'jawaban_kunci3'        => $answer['jawaban_kunci3'] ?? '',
-                'nilai'                 => $answer['nilai'] ?? 0,
-                'waktu_jawab'           => date('Y-m-d H:i:s')
+                'id_pendaftar_pelatihan' => $user_id,
+                'nomor_soal' => $question_id,
+                'id_ujian' => $additional_data['id_ujian'] ?? 1,
+                'subtes' => $additional_data['subtes'] ?? '1',
+                'jawaban' => $answer['jawaban'] ?? '',
+                'jawaban2' => $answer['jawaban2'] ?? '',
+                'jawaban3' => $answer['jawaban3'] ?? '',
+                'jawaban_kunci' => $answer['jawaban_kunci'] ?? '',
+                'jawaban_kunci2' => $answer['jawaban_kunci2'] ?? '',
+                'jawaban_kunci3' => $answer['jawaban_kunci3'] ?? '',
+                'nilai' => $answer['nilai'] ?? 0,
+                'waktu_jawab' => date('Y-m-d H:i:s')
             ];
         } else {
             $data = [
-                'id_pendaftar_pelatihan'=> $user_id,
-                'id_soal'               => $question_id,
-                'jawaban'               => $answer,
-                'waktu_jawab'           => date('Y-m-d H:i:s')
+                'id_pendaftar_pelatihan' => $user_id,
+                'id_soal' => $question_id,
+                'jawaban' => $answer,
+                'waktu_jawab' => date('Y-m-d H:i:s')
             ];
         }
 
@@ -879,7 +951,8 @@ class TalentTest extends CI_Controller
             $where_condition['no_soal'] = $question_id;
             $where_condition['id_ujian'] = $additional_data['id_ujian'] ?? 1;
         } elseif ($exam_type == 'holland') {
-            $where_condition['id_ujian'] = $additional_data['id_ujian'] ?? 1;
+            // For Holland, only check by user_id since it's a single submission exam
+            // No additional conditions needed
         } else {
             $where_condition['id_soal'] = $question_id;
         }
@@ -982,30 +1055,50 @@ class TalentTest extends CI_Controller
     }
 
     private function calculate_holland_result($user_id){
-        $this->db->select('j.jawaban, s.kategori');
-        $this->db->from('tb_data_jawaban_holland j');
-        $this->db->join('tb_soal_holland s', 'j.id_soal = s.id_soal');
-        $this->db->where('j.id_pendaftar_pelatihan', $user_id);
+        $table_name = 'tb_data_jawaban_talent_test_holland';
+        $this->db->where('id_pendaftar_pelatihan', $user_id);
+        $jawaban = $this->db->get($table_name)->row_array();
 
-        $answers = $this->db->get()->result();
-
-        $categories = ['R' => 0, 'I' => 0, 'A' => 0, 'S' => 0, 'E' => 0, 'C' => 0];
-
-        foreach ($answers as $answer) {
-            if (isset($categories[$answer->kategori])) {
-                $categories[$answer->kategori]++;
-            }
+        if (!$jawaban) {
+            return null;
         }
 
-        arsort($categories);
-        $top_categories = array_keys($categories);
-
-        return [
-            'kategori_utama'=> $top_categories[0], 
-            'kategori_kedua'=> $top_categories[1],
-            'skor_kategori' => $categories,
-            'interpretasi'  => $this->get_holland_interpretation($top_categories)
+        $nilai = [
+            'R' => (int)$jawaban['nilai_r'],
+            'I' => (int)$jawaban['nilai_i'],
+            'A' => (int)$jawaban['nilai_a'],
+            'S' => (int)$jawaban['nilai_s'],
+            'E' => (int)$jawaban['nilai_e'],
+            'K' => (int)$jawaban['nilai_k'],
         ];
+
+        arsort($nilai);
+        $top1 = key($nilai);
+        $top2 = isset($nilai[1]) ? key(array_slice($nilai, 1, 1, true)) : $top1;
+        $code = $top1 . $top2;
+
+        $skor_total = array_sum($nilai);
+        $skor_rata = round($skor_total / 6, 2);
+
+        $hasil = [
+            'nilai_kategori' => $nilai,
+            'kategori_utama' => $top1,
+            'kategori_pendukung' => $top2,
+            'code' => $code,
+            'skor_rata' => $skor_rata,
+            'interpretasi' => $this->get_holland_interpretation($code)
+        ];
+
+        $this->db->insert('tb_hasil_talent_test', [
+            'id_pendaftar_pelatihan' => $user_id,
+            'jenis_ujian' => 'holland',
+            'skor' => $skor_rata,
+            'nilai' => $top1 . '/' . $top2,
+            'status_penilaian' => 'selesai',
+            'waktu_selesai' => date('Y-m-d H:i:s')
+        ]);
+
+        return $hasil;
     }
 
     private function calculate_disc_result($user_id)
@@ -1115,7 +1208,7 @@ class TalentTest extends CI_Controller
         $tables = [
             'cfit'          => 'tb_soal_cfit',
             'ist'           => 'tb_soal_ist',
-            'holland'       => 'tb_soal_holland',
+            'holland'       => 'tb_ujian_holland',
             'disc'          => 'tb_soal_disc',
             'essay'         => 'tb_soal_essay',
             'hitung'        => 'tb_soal_hitung',
@@ -1124,29 +1217,6 @@ class TalentTest extends CI_Controller
         ];
 
         return isset($tables[$exam_type]) ? $tables[$exam_type] : 'tb_soal_' . $exam_type;
-    }
-
-    private function get_user_answers($user_id, $exam_type)
-    {
-        $table_name = $this->get_answer_table_name_by_exam_type($exam_type);
-
-        $this->db->where('id_pendaftar_pelatihan', $user_id);
-        $results = $this->db->get($table_name)->result_array();
-
-        $user_answers = [];
-        foreach ($result as $row) {
-            if (in_array($exam_type, ['cfit', 'ist'])) {
-                $key = $row['nomor_soal'];
-            } elseif ($exam_type == 'disc') {
-                $key = $row['no_soal'];
-            } elseif ($exam_type == 'holland') {
-                $key = 1;
-            } else {
-                $key = $row['id_soal'];
-            }
-            $user_answers[$key] = $row;
-        }
-        return $user_answers;
     }
 
     private function get_user_answer_for_question($user_id, $exam_type, $question_id, $subtes = null)
@@ -1248,7 +1318,7 @@ class TalentTest extends CI_Controller
             'EC' => 'Enterprising-Conventional: Ambisius dan terorganisir'
         ];
         
-        return isset($interpretations[$code]) ? $interpretations[$code] : 'Kombinasi minat yang unik';
+        return $interpretations[$code] ?? 'Kombinasi minat yang unik, konsultasikan dengan konselor karir.';
     }
 
     private function get_disc_interpretation($dimension) {
