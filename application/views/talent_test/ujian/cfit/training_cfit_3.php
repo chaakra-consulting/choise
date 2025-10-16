@@ -1,6 +1,24 @@
 <?php $this->load->view('layout3/header2'); ?>
 <?php $this->load->view('layout3/navbar'); ?>
 <?php $this->load->view('talent_test/layout'); ?>
+<?php 
+$this->session->set_userdata('training_subtes', 3);
+$idUjian = $this->session->userdata('talent_test_id_ujian'); 
+$id_pelamar = $this->session->userdata('talent_test_user_id');
+$durasi_latihan = $this->session->userdata('durasi_latihan');
+if (!$durasi_latihan) {
+	$durasi_latihan = 2;
+}
+$start_time = $this->session->userdata('training_start_time');
+$start = $this->session->userdata('training_start_time');
+$elapsed = time() - $start;
+$remaining = max(0, ($durasi_latihan * 60) - $elapsed);
+$data['end_lat1'] = (time() + $remaining) * 1000;
+if ($remaining <= 0) {
+	echo "<script>window.location.href = '" . base_url('talent-test/start-exam/cfit') . "'</script>";
+	exit;
+}
+?>
 
 <div class="col-sm-12 main">
 	<div class="row" style="margin-bottom: -50px;">
@@ -51,35 +69,10 @@
 		</div>
 		<p class="col-sm-12" style="color: #fff; margin: 10px;">Jawaban: (b) dan (d). Karena memiliki bukan berbentuk segitiga seperti yang lainnya.</p>
 	</div>
-
-	<div class="col-sm-12" style="background-color: #fff; padding: 30px; border-radius: 5px;">
-		<p>Soal dibawah ini merupakan soal latihan sebelum mengerjakan subtes 3. Cobalah untuk mengerjakan contoh soal di bawah ini! Apapun jawaban anda pada tahap latihan ini tidak akan dihitung poinnya.</p> <b>HANYA DAPAT MEMILIH 2 JAWABAN, JIKA TERDPAT KESALAHAN, SILAHKAN UNCHECK YANG SALAH DAN CHECKLIST PADA YANG BENAR</b><br>
-		<div class="col-sm-12">
-
-			<?php 
-            $CI =& get_instance();
-            $CI->session->set_userdata('training_subtes', 3);
-            $idUjian = $CI->session->userdata('talent_test_id_ujian'); 
-			$id_pelamar = $CI->session->userdata('talent_test_user_id');
-
-			$durasi_latihan = $CI->session->userdata('durasi_latihan');
-			if (!$durasi_latihan) {
-				$durasi_latihan = 2;
-			}
-			$start_time = $CI->session->userdata('training_start_time');
-			$start = $CI->session->userdata('training_start_time');
-			$elapsed = time() - $start;
-			$remaining = max(0, ($durasi_latihan * 60) - $elapsed);
-			$data['end_lat1'] = (time() + $remaining) * 1000;
-
-			if ($remaining <= 0) {
-				echo "<script>window.location.href = '" . base_url('talent-test/start-exam/cfit') . "'</script>";
-				exit;
-			}
-			?>
-
-			<form method="post" action="<?php  echo base_url('talent-test/submit-training/cfit') ?>">
-
+	<form method="post" action="<?php  echo base_url('talent-test/submit-training/cfit') ?>">
+		<div class="col-sm-12" style="background-color: #fff; padding: 30px; border-radius: 5px;">
+			<p>Soal dibawah ini merupakan soal latihan sebelum mengerjakan subtes 3. Cobalah untuk mengerjakan contoh soal di bawah ini! Apapun jawaban anda pada tahap latihan ini tidak akan dihitung poinnya.</p> <b>HANYA DAPAT MEMILIH 2 JAWABAN, JIKA TERDPAT KESALAHAN, SILAHKAN UNCHECK YANG SALAH DAN CHECKLIST PADA YANG BENAR</b><br>
+			<div class="col-sm-12">
 				<div class="form-check col-sm-1 text-center" style="margin-top: 5px;">
 					<label class="form-check-label" for="latcfit31">a</label>
 					<input class="form-check-input" type="checkbox" name="jawaban_latihan[]" value="a">
@@ -117,16 +110,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="col-sm-12">
-	</div>
-</div><!--/.row-->
-</div>	<!--/.main-->
-
-<div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin-top: 20px;">
-	<button style="margin-bottom: 2%" type="submit"class="btn btn-primary mr-2 mb-2">Selanjutnya</button>
-	</div>
-</form>
+		<div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin-top: 20px;">
+			<button style="margin-bottom: 2%" type="submit"class="btn btn-primary mr-2 mb-2">Selanjutnya</button>
+		</div>
+	</form>
+</div>
 
 <script type="text/javascript">
     var startTime = <?php echo $start_time * 1000 ?>;
@@ -151,4 +139,4 @@
     }, 1000);
 </script>
 
-<?php   $this->load->view('layout3/footer') ?>
+<?php $this->load->view('layout3/footer') ?>
