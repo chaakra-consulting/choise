@@ -1,26 +1,53 @@
 <style>
   .modal-content {
-    border-radius: 12px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #e1e5e9;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .modal-header {
+    background-color: #FBC02D;
+    border-bottom: 1px solid #bdc3c7;
+    border-radius: 6px 6px 0 0;
   }
   .modal-header h5 {
-    font-weight: 600;
-    color: #333;
+    font-weight: 500;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
   }
   .form-control {
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: 6px;
+    border: 1px solid #bdc3c7;
+    padding: 10px 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: border-color 0.3s ease;
   }
   .form-control:focus {
-    border-color: #000;
-    box-shadow: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+    outline: none;
   }
-  .btn-dark {
-    border-radius: 8px;
-    background-color: #333;
+  .btn-primary {
+    border-radius: 6px;
+    background-color: #3498db;
     border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
   }
-  .btn-dark:hover {
-    background-color: #000;
+  .btn-primary:hover {
+    background-color: #2980b9;
+  }
+  .form-label {
+    color: #34495e;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  .mb-3 {
+    margin-bottom: 1rem !important;
   }
 </style>
 
@@ -29,7 +56,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="formModalLabel">Masukkan Detail Anda</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="<?php echo base_url('public/submit_form') ?>" method="post">

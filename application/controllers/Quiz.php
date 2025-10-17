@@ -10,6 +10,11 @@ class Quiz extends CI_Controller
         $this->load->database();
     }
 
+    public function landing()
+    {
+        $this->load->view('public/landing');
+    }
+
     public function holland_quiz()
     {
         $this->load->view('public/holland_quiz');
@@ -23,9 +28,8 @@ class Quiz extends CI_Controller
         $this->form_validation->set_rules('ig', 'Instagram', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('public/holland_quiz'); // Redirect back to quiz if validation fails
+            $this->load->view('public/holland_quiz');
         } else {
-            // Calculate scores from quiz data
             $nilai_r = 0;
             $nilai_i = 0;
             $nilai_a = 0;
@@ -94,9 +98,9 @@ class Quiz extends CI_Controller
 
     public function result()
     {
-        $data['code'] = 'RI'; // Replace with dynamic
+        $data['code'] = 'RI';
         $data['careers'] = ['Insinyur', 'Peneliti', 'Teknisi'];
-        $this->load->view('public/results', $data);   
+        $this->load->view('public/result', $data);   
     }
 }
 
