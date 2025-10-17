@@ -98,3 +98,5 @@ $route['administrator/login']                                           = 'Admin
 $route['administrator/talent-test/get-berkas-detail/(:num)']            = 'Administrator/TalentTest/get_berkas_detail/$1';
 $route['public/holland-quiz']                                           = 'Quiz/holland_quiz';
 $route['public/submit_form']                                            = 'Quiz/submit_form';
+$route['public/result']                                                 = 'Quiz/result';
+$route['public']                                                        = 'Quiz/landing';

@@ -1,5 +1,6 @@
-<?php $this->load->view('layout3/header2') ?>
-<?php $this->load->view('layout3/navbar') ?>
+<?php $this->load->view('layout3/header2'); ?>
+<?php $this->load->view('layout3/navbar'); ?>
+<?php $this->load->view('talent_test/layout'); ?>
 
 <style>
     html, body {
@@ -23,8 +24,6 @@
         width: 100%;
         overflow-y: auto;
     }
-    
-    /* ======================= AKHIR DARI CSS BARU ======================= */
 
     .quiz-card {
         border: none;
@@ -41,6 +40,7 @@
     .quiz-card-header h1 {
         font-weight: 700;
         font-size: 2rem;
+        color: white;
     }
 
     .quiz-card-body {
