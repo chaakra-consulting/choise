@@ -71,6 +71,7 @@ $route['talent-test/exam/(:any)/training']                              = 'Talen
 $route['talent-test/training/(:any)/(:num)']                            = 'TalentTest/training/$1/$2';
 $route['talent-test/submit-training/(:any)']                            = 'TalentTest/submit_training/$1';
 $route['talent-test/exam/(:any)/result']                                = 'TalentTest/exam_result/$1';
+$route['talent-test/exam-results']                                      = 'TalentTest/exam_results';
 $route['talent-test/save-answer']                                       = 'TalentTest/save_answer';
 $route['talent-test/berkas']                                            = 'TalentTest/berkas';
 $route['talent-test/upload-berkas']                                     = 'TalentTest/upload_berkas';

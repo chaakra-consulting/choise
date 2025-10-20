@@ -153,7 +153,7 @@ class Mdl_paket_talent_test extends CI_Model
 
     public function get_disc_questions()
     {
-        $this->db->order_by('nomor_soal', 'ASC');
+        $this->db->order_by('no_soal', 'ASC');
         return $this->db->get('tb_soal_disc')->result_array();
     }
 

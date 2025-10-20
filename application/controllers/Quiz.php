@@ -69,7 +69,7 @@ class Quiz extends CI_Controller
 
             arsort($scores);
             $keys = array_keys($scores);
-            $code = $keys[0] . $keys[1];
+            $code = $keys[0];
 
             $nama = $this->input->post('nama');
             $email = $this->input->post('email');
@@ -98,9 +98,55 @@ class Quiz extends CI_Controller
 
     public function result()
     {
-        $data['code'] = 'RI';
-        $data['careers'] = ['Insinyur', 'Peneliti', 'Teknisi'];
-        $this->load->view('public/result', $data);   
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('tb_public_holland');
+        $data_user = $query->row();
+
+        if (!$data_user) {
+            redirect('public/holland-quiz');
+        }
+
+        $code = $data_user->code;
+
+        $riasec_data = [
+            'R' => [
+                'name' => 'Realistic',
+                'description' => 'Minat untuk bekerja dengan obyek, benda maupun peralatan. Tipe ini memiliki kemampuan mengoperasikan alat, peralatan dan mesin, merancang, membangun, maupun bekerja secara detail. Namun belum memiliki kemampuan dalam menjalin relasi antar personal.',
+                'jobs' => ['Insinyur', 'Olahragawan', 'Militer', 'Arsitektur dan civil engineering']
+            ],
+            'I' => [
+                'name' => 'Investigative',
+                'description' => 'Minat untuk bekerja dengan sistematika dan intelektual. Tipe ini memiliki kemampuan menganalisa, berpikir rasional, merancang, merumuskan, dan bereksperimen. Namun belum memiliki kemampuan dalam memimpin.',
+                'jobs' => ['Programmer', 'Ilmuwan Biologi, Kimia atau Fisika', 'Data Scientist', 'Analis Keuangan']
+            ],
+            'A' => [
+                'name' => 'Artistic',
+                'description' => 'Minat untuk bekerja dengan kreativitas berbentuk seni dan intuitif. Tipe ini memiliki kemampuan dalam mengekspresikan diri melalui seni, merencanakan, menyajikan, dan merancang desain. Namun belum memiliki kemampuan dalam bidang keteraturan dan sistematis.',
+                'jobs' => ['Seniman (pelukis atau pembuat patung)', 'Fotografer', 'Desain interior', 'Musisi atau composer']
+            ],
+            'S' => [
+                'name' => 'Social',
+                'description' => 'Minat untuk bekerja dengan aktivitas sosial (menggerakkan dan memberikan dampak positif). Tipe ini memiliki kemampuan dalam mengembangkan situasi sosial seperti memberi informasi, berkomunikasi secara lisan atau tertulis serta pribadi yang peduli. Namun belum memiliki kemampuan dibidang mekanik dan sains.',
+                'jobs' => ['Psikolog', 'Perawat/Bidan/Dokter', 'Sejarawan', 'Guru']
+            ],
+            'E' => [
+                'name' => 'Enterprising',
+                'description' => 'Minat untuk bekerja dengan kegiatan promosi dan penjualan. Tipe ini memiliki kemampuan persuasif, mengembangkan ide-ide, percaya diri dan memimpin. Namun belum memiliki kemampuan dibidang sains.',
+                'jobs' => ['Pengacara', 'Publik Relations Officer', 'Konsultan Bisnis', 'Digital Marketing']
+            ],
+            'K' => [ // Gunakan 'K' untuk match code
+                'name' => 'Conventional (konvensional)',
+                'description' => 'Minat untuk bekerja secara sistematis dan menggunakan ketelitian. Tipe ini memiliki kemampuan memperhatikan detail, bekerja dengan data (angka) dan merekam serta menyimpan catatan.',
+                'jobs' => ['Sekretaris', 'Perbankan (Banker)', 'Analis data atau akuntan', 'Administrator']
+            ]
+        ];
+
+        $data['code'] = $code;
+        $data['type_data'] = $riasec_data[$code];
+        $data['message'] = 'Yuk, temukan passion dan karier impianmu dengan mengikuti Preferensi Bidang Minat Kerja! Kenali dirimu lewat enam tipe: RIASEC dan tentukan pilihan karier yang cocok untukmu!';
+
+        $this->load->view('public/result', $data);
     }
 }
 
