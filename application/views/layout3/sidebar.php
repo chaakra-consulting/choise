@@ -100,8 +100,8 @@
 					<em class="fa fa-brain">&nbsp;</em> Mulai Ujian
 				</a>
 			</li> -->
-			<li class="<?php if ($this->uri->segment(2) == "talent-test" && $this->uri->segment(3) == "exam-result") { echo "active"; } ?>">
-				<a href="<?php echo base_url('talent-test/exam-result/cfit') ?>">
+			<li class="<?php if ($this->uri->segment(2) == "talent-test" && $this->uri->segment(3) == "exam-results") { echo "active"; } ?>">
+				<a href="<?php echo base_url('talent-test/exam-results') ?>">
 					<em class="fa fa-folder-open">&nbsp;</em> Hasil Ujian
 				</a>
 			</li>
