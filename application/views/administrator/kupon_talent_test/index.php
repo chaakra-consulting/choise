@@ -5,10 +5,10 @@
         <div>
             <h1><i class="fa fa-ticket"></i> Manajemen Kupon Talent Test</h1>
         </div>
-        <ul class="app-breadcrumb">
+        <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-            <li class="breadcrumb-item">Administrator</li>
-            <li class="breadcrumb-item active">Kupon Talent Test</li>
+            <li class="breadcrumb-item">Talent Test</li>
+            <li class="breadcrumb-item"><a href="#">Kupon Talent Test</a></li>
         </ul>
     </div>
     <div class="row">

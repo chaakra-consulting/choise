@@ -116,6 +116,46 @@
         margin-right: 0.5rem;
     }
 
+    .jobs-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .job-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease;
+        width: 250px;
+    }
+
+    .job-item:hover {
+        transform: translateY(-2px);
+    }
+
+    .job-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 0.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .job-item p {
+        font-size: 1.3rem;
+        color: #343a40;
+        text-align: center;
+        margin: 0;
+        font-weight: 500;
+    }
+
     .message-section {
         background: linear-gradient(45deg, #e3f2fd, #bbdefb);
         border-radius: 0.75rem;
@@ -153,6 +193,14 @@
         .type-icon {
             font-size: 3rem;
         }
+        .jobs-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        .job-item {
+            width: 100%;
+            max-width: 200px;
+        }
     }
 </style>
 
@@ -162,13 +210,12 @@
             <div class="col-12">
                 <div class="card result-card">
                     <div class="card-header result-card-header">
-                        <h1>PREFERENSI BIDANG MINAT KERJA</h1>
-                        <h2>(HOLLAND TEST)</h2>
+                        <h1>TEST PREFERENSI BIDANG MINAT KERJA</h1>
                     </div>
                     <div class="card-body result-card-body">
                         <div class="text-center mb-4">
                             <i class="bi bi-star-fill type-icon"></i>
-                            <h3 class="h4">Your Holland Code: <?php echo $code; ?> - <?php echo $type_data['name']; ?></h3>
+                            <h3 class="h4"><?php echo $code; ?> - <?php echo $type_data['name']; ?></h3>
                         </div>
 
                         <div class="description-section">
@@ -178,11 +225,14 @@
 
                         <div class="jobs-section">
                             <h3>Pekerjaan yang Cocok</h3>
-                            <ul class="jobs-list">
-                                <?php foreach ($type_data['jobs'] as $job): ?>
-                                    <li><?php echo $job; ?></li>
+                            <div class="jobs-container">
+                                <?php foreach ($job_images as $item): ?>
+                                    <div class="job-item">
+                                        <img src="<?php echo base_url($item['image']); ?>" alt="<?php echo $item['name']; ?>">
+                                        <p><?php echo $item['name']; ?></p>
+                                    </div>
                                 <?php endforeach; ?>
-                            </ul>
+                            </div>
                         </div>
 
                         <div class="message-section">

@@ -39,7 +39,7 @@
 
     .hero-title {
         font-size: 3.8rem;
-        font-weight: 700;
+        font-weight: 500;
         margin-bottom: 1.2rem;
         line-height: 1.2;
         color: var(--text-dark); 
@@ -48,7 +48,7 @@
 
     .hero-subtitle {
         font-size: 1.4rem;
-        margin-bottom: 2.8rem;
+        margin-bottom: 2rem;
         opacity: 0.85;
         line-height: 1.7;
         font-weight: 400;
@@ -69,6 +69,11 @@
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
     }
 
+    .hero-image:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
     .btn-start:hover {
         background-color: #5a6268;
         transform: translateY(-5px) scale(1.06);
@@ -85,7 +90,7 @@
         text-align: center;
         margin-bottom: 60px;
         font-size: 2.8rem;
-        font-weight: 700;
+        font-weight: 500;
         color: var(--text-dark);
     }
 
@@ -125,24 +130,22 @@
         font-size: 1.05rem;
     }
 
-    @media (max-width: 992px) {
-        .hero-title { font-size: 3rem; }
-        .hero-subtitle { font-size: 1.2rem; }
-        .section-title { font-size: 2.4rem; }
-        .feature-card h4 { font-size: 1.4rem; }
-        .feature-card p { font-size: 1rem; }
-        .btn-start { font-size: 1.1rem; padding: 14px 35px; }
-    }
 
-    @media (max-width: 768px) {
-        .hero-section { min-height: 70vh; padding: 40px 0; }
-        .hero-title { font-size: 2.2rem; margin-bottom: 1rem; }
-        .hero-subtitle { font-size: 0.95rem; margin-bottom: 2rem; }
-        .btn-start { font-size: 1rem; padding: 12px 30px; }
-        .section-title { font-size: 2rem; margin-bottom: 40px; }
-        .feature-icon { font-size: 3.2rem; }
-        .feature-card h4 { font-size: 1.3rem; }
-        .feature-card p { font-size: 0.95rem; }
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        .hero-section { min-height: 75vh; padding: 45px 0; }
+        .hero-title { font-size: 2.8rem; margin-bottom: 1.1rem; }
+        .hero-subtitle { font-size: 1.1rem; margin-bottom: 1.9rem; }
+        .btn-start { font-size: 1.1rem; padding: 14px 35px; }
+        .hero-content { padding: 0 14px; }
+        .hero-image { max-height: 350px; }
+        .section-title { font-size: 2.5rem; margin-bottom: 45px; }
+        .feature-card { padding: 40px 30px; margin-bottom: 30px; }
+        .feature-icon { font-size: 3.8rem; margin-bottom: 1.6rem; }
+        .feature-card h4 { font-size: 1.5rem; margin-bottom: 1.1rem; }
+        .feature-card p { font-size: 1rem; }
+        .hero-content .col-md-6 {
+            min-height: auto !important;
+        }
     }
 
     .navbar-custom { background-color: #212529; }
@@ -158,12 +161,20 @@
 
 <div class="hero-section">
     <div class="container">
-        <div class="hero-content">
-            <h1 class="hero-title">Temukan Minat Karier Anda</h1>
-            <p class="hero-subtitle">
-                Holland Self-Assessment Test membantu Anda mengidentifikasi tipe kepribadian kerja dan menemukan karier yang paling sesuai dengan minat serta bakat Anda.
-            </p>
-            <a href="<?php echo base_url('public/holland-quiz') ?>" class="btn-start">
+        <div class="hero-content row d-flex align-items-start justify-content-center">
+            <div class="col-lg-7 col-md-6 col-12 d-flex flex-column justify-content-center">
+                <h1 class="hero-title animate__animated animate__fadeInLeft">Temukan Minat Karier Anda bersama <br><b>Chaakra Consulting</b></h1>
+                <p class="hero-subtitle animate__animated animate__fadeInLeft animate__delay-1s">
+                    Test Preferensi Bidang Minat Kerja akan membantu Anda mengidentifikasi tipe <b>KEPRIBADIAN KERJA</b> dan <b>MENEMUKAN KARIER</b> yang paling <b>SESUAI</b> dengan <b>MINAT</b> Anda.
+                    Psikolog Industri Berpengalaman lebih dari 10 tahun di bidang SDM dan Pengembangan Karir dan Direktur Chaakra Consulting
+                </p>
+            </div>
+            <div class="col-lg-5 col-md-6 col-12 d-flex align-items-center justify-content-center">
+                <img src="<?php echo base_url('upload/quiz_holland/landing_chaakra.png')?>" alt="" class="img-fluid hero-image animate__animated animate__fadeInRight animate__delay-1s" style="max-width: 100%; max-height: 500px; object-fit: contain; margin-top: -50px; margin-right: -50px;">
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="<?php echo base_url('public/holland-quiz') ?>" class="btn-start animate__animated animate__fadeInUp animate__delay-2s">
                 Mulai Tes Sekarang <i class="fas fa-arrow-right ml-2"></i>
             </a>
         </div>
@@ -172,7 +183,7 @@
 
 <div class="features-section">
     <div class="container">
-        <h2 class="section-title">Mengapa Mengambil Tes Ini?</h2>
+        <h2 class="section-title">Mengapa Anda <b>WAJIB MENGIKUTI</b> test ini?</h2>
         <div class="row">
             <div class="col-lg-4 col-md-6">
                 <div class="feature-card">
