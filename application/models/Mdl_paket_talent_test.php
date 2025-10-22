@@ -233,7 +233,7 @@ class Mdl_paket_talent_test extends CI_Model
         $column = $column_map[$exam_type] ?? 'id_ujian';
         $ujian = $this->db->get_where($table, [$column => 1])->row_array();
         
-        if ($exam_type == 'holland') {
+        if ($exam_type == 'holland' || $exam_type == 'disc') {
             if ($ujian && isset($ujian['waktu_mulai']) && isset($ujian['waktu_akhir'])) {
                 $waktu_mulai = strtotime($ujian['waktu_mulai']);
                 $waktu_akhir = strtotime($ujian['waktu_akhir']);

@@ -144,7 +144,7 @@
         <div class="row justify-content-center">
             <div class="col-12"> <div class="card quiz-card">
                     <div class="card-header quiz-card-header text-white text-center">
-                        <h1 class="h4 mb-0">Holland Self-Assessment</h1>
+                        <h1 class="h4 mb-0">Test Preferensi Bidang Minat Kerja</h1>
                     </div>
                     <div class="card-body quiz-card-body">
 
@@ -157,38 +157,30 @@
                             </div>
                         </div>
 
-                        <form id="hollandForm" action="<?php echo base_url('public/submit_holland') ?>" method="post">
+                        <form id="hollandForm" action="<?php echo base_url('public/submit_form') ?>" method="post">
                             <?php
-                            $questions = [
-                                ['q' => 'q1', 'text' => 'Memperbaiki alat elektronik', 'icon' => 'bi-plug'],
-                                ['q' => 'q2', 'text' => 'Memperbaiki kendaraan bermotor', 'icon' => 'bi-wrench-adjustable-circle'],
-                                ['q' => 'q3', 'text' => 'Memecahkan masalah', 'icon' => 'bi-lightbulb'],
-                                ['q' => 'q4', 'text' => 'Melakukan hitungan kompleks', 'icon' => 'bi-calculator'],
-                                ['q' => 'q5', 'text' => 'Membuat sketsa, menggambar dan melukis', 'icon' => 'bi-palette'],
-                                ['q' => 'q6', 'text' => 'Menulis cerita, puisi, maupun lirik lagu', 'icon' => 'bi-pencil-square'],
-                                ['q' => 'q7', 'text' => 'Mengajar/membimbing orang lain', 'icon' => 'bi-people'],
-                                ['q' => 'q8', 'text' => 'Membantu permasalahan orang lain', 'icon' => 'bi-heart-half'],
-                                ['q' => 'q9', 'text' => 'Menjual barang & mempromosikan ide', 'icon' => 'bi-megaphone'],
-                                ['q' => 'q10', 'text' => 'Memimpin suatu kelompok', 'icon' => 'bi-flag'],
-                                ['q' => 'q11', 'text' => 'Bekerja dengan angka', 'icon' => 'bi-bar-chart-line'],
-                                ['q' => 'q12', 'text' => 'Mengetik dengan cepat', 'icon' => 'bi-keyboard']
-                            ];
-
-                            foreach ($questions as $index => $item): ?>
-                            <div class="question-step text-center <?= $index === 0 ? 'active' : '' ?>">
-                                <div class="question-icon"><i class="bi <?= $item['icon'] ?>"></i></div>
-                                <h3 class="h5 question-title"><?= $item['text'] ?></h3>
+                            $question_index = 0;
+                            foreach ($grouped_questions as $type => $questions): 
+                                foreach ($questions as $q): 
+                                    $question_index++;
+                            ?>
+                            <div class="question-step text-center <?= $question_index === 1 ? 'active' : '' ?>">
+                                <div class="question-icon"><i class="bi bi-question-circle"></i></div>
+                                <h3 class="h5 question-title"><?= $q->question_text ?></h3>
                                 <div class="rating-group">
                                     <?php for ($i = 1; $i <= 5; $i++): ?>
-                                    <input type="radio" class="btn-check" name="<?= $item['q'] ?>" id="<?= $item['q'] ?>-<?= $i ?>" value="<?= $i ?>" autocomplete="off" required>
-                                    <label class="btn btn-outline-primary btn-rating" for="<?= $item['q'] ?>-<?= $i ?>">
+                                    <input type="radio" class="btn-check" name="q<?= $question_index ?>" id="q<?= $question_index ?>-<?= $i ?>" value="<?= $i ?>" autocomplete="off" required>
+                                    <label class="btn btn-outline-primary btn-rating" for="q<?= $question_index ?>-<?= $i ?>">
                                         <?= $i ?>
                                         <small><?= ($i == 1 ? 'Tidak Suka' : ($i == 3 ? 'Netral' : ($i == 5 ? 'Sangat Suka' : '&nbsp;'))) ?></small>
                                     </label>
                                     <?php endfor; ?>
                                 </div>
                             </div>
-                            <?php endforeach; ?>
+                            <?php 
+                                endforeach;
+                            endforeach; 
+                            ?>
                         </form>
 
                         <div class="d-flex justify-content-center mt-5">
