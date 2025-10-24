@@ -213,9 +213,10 @@ class Mdl_paket_talent_test extends CI_Model
             'holland' => 'tb_ujian_holland',
             'disc' => 'tb_ujian_disc',
             'essay' => 'tb_ujian_essay',
-            'hitung' => 'tb_ujian_hitung', 
+            'hitung' => 'tb_ujian_hitung',
             'studi_kasus' => 'tb_ujian_kasus',
-            'leadership' => 'tb_ujian_leadership'
+            'leadership' => 'tb_ujian_leadership',
+            'cepat' => 'tb_ujian_cepat'
         ];
 
         $column_map = [
@@ -226,14 +227,20 @@ class Mdl_paket_talent_test extends CI_Model
             'essay' => 'id_ujian_essay',
             'hitung' => 'id_ujian_hitung',
             'studi_kasus' => 'id_ujian_studi_kasus',
-            'leadership' => 'id_ujian_leadership'
+            'leadership' => 'id_ujian_leadership',
+            'cepat' => 'id_ujian_cepat'
         ];
 
         $table = $table_map[$exam_type] ?? 'tb_ujian';
         $column = $column_map[$exam_type] ?? 'id_ujian';
-        $ujian = $this->db->get_where($table, [$column => 1])->row_array();
-        
-        if ($exam_type == 'holland' || $exam_type == 'disc') {
+
+        if (in_array($exam_type, ['cepat', 'disc', 'holland'])) {
+            $ujian = $this->db->get_where($table, ['status' => 'aktif'])->row_array();
+        } else {
+            $ujian = $this->db->get_where($table, [$column => 1])->row_array();
+        }
+
+    if ($exam_type == 'holland' || $exam_type == 'disc') {
             if ($ujian && isset($ujian['waktu_mulai']) && isset($ujian['waktu_akhir'])) {
                 $waktu_mulai = strtotime($ujian['waktu_mulai']);
                 $waktu_akhir = strtotime($ujian['waktu_akhir']);
@@ -241,8 +248,17 @@ class Mdl_paket_talent_test extends CI_Model
                 return (int) ($durasi_detik / 60);
             }
             return 30;
+        } elseif ($exam_type == 'cepat') {
+            if ($ujian && isset($ujian['start_uji']) && isset($ujian['end_uji'])) {
+                $start_uji = strtotime($ujian['start_uji']);
+                $end_uji = strtotime($ujian['end_uji']);
+                $durasi_detik = $end_uji - $start_uji;
+                return (int) ($durasi_detik / 60);
+            }
+            return 30;
         }
-        
+
+
         return $ujian['durasi'] ?? 60;
     }
 }

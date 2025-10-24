@@ -62,7 +62,6 @@
         <div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin: 10px;">
             <form action="<?php echo site_url('talent-test/start-exam/holland')?>">
                 <button type="submit" class="btn btn-primary mr-2 mb-2">Mulai Ujian</button>
-                <a href="<?php echo site_url('talent-test/exam-list'); ?>" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>

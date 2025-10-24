@@ -5,7 +5,7 @@
 <div class="col-sm-12 main">
     <div class="row" style="margin-bottom: -50px;">
         <div class="col-lg-9">
-            <h3>Penjelasan Jawaban Latihan Subtes 3</h3>
+            <h3>Contoh Jawaban Latihan Subtes 3</h3>
         </div>
         <div class="col-lg-3">
             <h4 style="margin-top: 35px" align="right">Sisa Waktu <span id="time">00:00</span></h4>

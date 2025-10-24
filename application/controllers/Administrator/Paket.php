@@ -159,7 +159,8 @@ class Paket extends CI_Controller
             'essay'     => 'Essay',
             'hitung'    => 'Hitung',
             'studi'     => 'Studi Kasus',
-            'leadership'=> 'Leadership'
+            'leadership'=> 'Leadership',
+            'cepat'     => 'Cepat Teliti'
         ];
 
         $this->load->view('administrator/paket/ujian', $data);

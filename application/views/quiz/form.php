@@ -58,7 +58,7 @@
                 <h5 class="modal-title" id="formModalLabel">Masukkan Detail Anda</h5>
             </div>
             <div class="modal-body">
-                <form action="<?php echo base_url('public/submit_form') ?>" method="post">
+                <form action="<?php echo base_url('quiz/submit_form') ?>" method="post">
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama</label>
                         <input type="text" name="nama" id="nama" class="form-control" required>
