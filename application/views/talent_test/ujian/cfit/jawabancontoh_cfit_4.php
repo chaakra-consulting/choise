@@ -5,7 +5,7 @@
 <div class="col-sm-12 main">
     <div class="row">
         <div class="col-lg-12">
-            <h3>Jawaban Contoh Subtes 4</h3>
+            <h3>Contoh Jawaban Subtes 4</h3>
         </div>
     </div>
     <div class="col-sm-12" style="background-color: #fff; padding-top: 10px; padding-bottom: 20px; padding-right: 10px; padding-left: 10px; margin-bottom: 20px; border-radius: 5px;">

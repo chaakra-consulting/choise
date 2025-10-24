@@ -157,15 +157,28 @@
                             </div>
                         </div>
 
-                        <form id="hollandForm" action="<?php echo base_url('public/submit_form') ?>" method="post">
+                        <form id="hollandForm" action="<?php echo base_url('quiz/submit_form') ?>" method="post">
                             <?php
                             $question_index = 0;
+                            $question_icons = [
+                                'bi bi-star-fill',
+                                'bi bi-heart-fill',
+                                'bi bi-lightning-fill',
+                                'bi bi-gear-fill',
+                                'bi bi-palette-fill',
+                                'bi bi-rocket-fill',
+                                'bi bi-trophy-fill',
+                                'bi bi-diamond-fill',
+                                'bi bi-fire',
+                                'bi bi-sun-fill',
+                                'bi bi-moon-stars-fill'
+                            ];
                             foreach ($grouped_questions as $type => $questions): 
                                 foreach ($questions as $q): 
                                     $question_index++;
                             ?>
                             <div class="question-step text-center <?= $question_index === 1 ? 'active' : '' ?>">
-                                <div class="question-icon"><i class="bi bi-question-circle"></i></div>
+                                <div class="question-icon"><i class="<?= $question_icons[($question_index - 1) % count($question_icons)] ?>"></i></div>
                                 <h3 class="h5 question-title"><?= $q->question_text ?></h3>
                                 <div class="rating-group">
                                     <?php for ($i = 1; $i <= 5; $i++): ?>

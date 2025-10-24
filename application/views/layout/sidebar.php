@@ -46,9 +46,15 @@
         <i class="app-menu__icon fa fa-wpforms"></i><span class="app-menu__label">Nilai Pelamar </span>
       </a>
     </li>
+    <li>
+      <a class="app-menu__item  <?php if ($this->uri->segment(2) == "Data_nilai") {
+        echo "active"; } ?>" href="<?php echo base_url('Administrator/Quiz/') ?>">
+        <i class="app-menu__icon fa fa-quora"></i><span class="app-menu__label">Quiz </span>
+      </a>
+    </li>
     <li class="treeview <?php if ($this->uri->segment(2) == "Data_Pelatihan") { echo "is-expanded"; } ?>"> 
       <a class="app-menu__item" href="#" data-toggle="treeview">
-        <i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Talent Test</span>
+        <i class="app-menu__icon fa fa-pencil"></i><span class="app-menu__label">Talent Test</span>
         <i class="treeview-indicator fa fa-angle-right"></i>
       </a>
       <ul class="treeview-menu">
@@ -82,7 +88,7 @@
       echo "active";
     } ?>" href="<?php echo base_url('Administrator/Data_ujian/') ?>"><i class="app-menu__icon fa fa-clipboard"></i><span class="app-menu__label">Ujian </span></a></li> -->
     <li class="treeview <?php if ($this->uri->segment(2) == "Data_ujian") { echo "is-expanded"; } ?>">
-      <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i>
+      <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-clock-o"></i>
         <span class="app-menu__label">Waktu Ujian</span><i class="treeview-indicator fa fa-angle-right"></i>
       </a>
       <ul class="treeview-menu" style="overflow-y: auto;">

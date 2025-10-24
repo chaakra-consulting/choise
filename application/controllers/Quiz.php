@@ -12,7 +12,7 @@ class Quiz extends CI_Controller
 
     public function landing()
     {
-        $this->load->view('public/landing');
+        $this->load->view('quiz/landing');
     }
 
     public function holland_quiz()
@@ -26,7 +26,7 @@ class Quiz extends CI_Controller
         }
 
         $data['grouped_questions'] = $grouped_questions;
-        $this->load->view('public/holland_quiz', $data);
+        $this->load->view('quiz/holland_quiz', $data);
     }
 
     public function submit_form()
@@ -102,7 +102,7 @@ class Quiz extends CI_Controller
 
             $this->db->insert('tb_public_holland', $data);
 
-            redirect('public/result');
+            redirect('quiz/result');
         }
     }
 
@@ -114,7 +114,7 @@ class Quiz extends CI_Controller
         $data_user = $query->row();
 
         if (!$data_user) {
-            redirect('public/holland-quiz');
+            redirect('quiz/holland-quiz');
         }
 
         $code = $data_user->code;
@@ -160,7 +160,7 @@ class Quiz extends CI_Controller
             <hr style="border-color: #6c757d;">
             Hubungi kami melalui WhatsApp : 0857-4550-9992';
 
-        $this->load->view('public/result', $data);
+        $this->load->view('quiz/result', $data);
     }
 }
 
