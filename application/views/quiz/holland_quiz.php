@@ -1,3 +1,4 @@
+<?php $is_quiz = true; ?>
 <?php $this->load->view('layout3/header2'); ?>
 <?php $this->load->view('layout3/navbar'); ?>
 <?php $this->load->view('talent_test/layout'); ?>
@@ -207,7 +208,7 @@
         </div>
     </div>
 </div>
-<?php $this->load->view('public/form'); ?>
+<?php $this->load->view('quiz/form'); ?>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
