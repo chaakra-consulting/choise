@@ -447,8 +447,7 @@
                 <img src="<?php echo base_url('upload/quiz_holland/landing_chaakra2.png') ?>" alt="Psikolog Chaakra Consulting" class="hero-image">
                 <div class="psychologist-info">
                     <h3 class="psychologist-name">Herlina Eka Subandriyo Putri, M.Psi., Psikolog</h3>
-                    <p class="psychologist-role">Direktur Chaakra Consulting</p>
-                    <p>Psikolog Industri dengan pengalaman lebih dari 10 tahun di bidang pengembangan Karier SDM dan Direktur Chaakra Consulting</p>
+                    <p class="psychologist-role">Psikolog Industri dengan pengalaman lebih dari 10 tahun di bidang pengembangan Karier SDM dan Direktur Chaakra Consulting</p>
                 </div>
             </div>
         </div>
