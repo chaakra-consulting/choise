@@ -1,7 +1,12 @@
 <?php
-// Set default values to prevent undefined variable warnings
 $is_talent_test = isset($is_talent_test) ? $is_talent_test : false;
 $is_pelamar = isset($is_pelamar) ? $is_pelamar : false;
+$is_quiz = isset($is_quiz) ? $is_quiz : false;
+
+if (!$is_quiz) {
+    $current_uri = $this->uri->uri_string();
+    $is_quiz = (strpos($current_uri, 'quiz') !== false);
+}
 ?>
 <body>
 	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
@@ -12,6 +17,7 @@ $is_pelamar = isset($is_pelamar) ? $is_pelamar : false;
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span></button>
 				<a class="navbar-brand" href="#"><span>Chaakra</span>Choise</a>
+				<?php if (!$is_quiz): ?>
 				<ul class="nav navbar-top-links navbar-right">
 					<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 						<em class="fa fa-user"></em><span class="label label-danger"></span>
@@ -45,6 +51,7 @@ $is_pelamar = isset($is_pelamar) ? $is_pelamar : false;
 						</ul>
 					</li>
 				</ul>
+				<?php endif; ?>
 			</div>
 		</div><!-- /.container-fluid -->
 	</nav>

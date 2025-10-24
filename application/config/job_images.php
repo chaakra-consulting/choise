@@ -29,7 +29,7 @@ $config['job_images'] = [
     'E' => [
         ['name' => 'Pengacara', 'image' => 'upload/quiz_holland/pengacara.jpg'],
         ['name' => 'Public Relations Officer', 'image' => 'upload/quiz_holland/public_relations_officer.svg'],
-        ['name' => 'Konsultan Bisnis', 'image' => 'upload/quiz_holland/konsultan_bisnis.svg'],
+        ['name' => 'Konsultan Bisnis', 'image' => 'upload/quiz_holland/konsultan_bisnis.jpg'],
         ['name' => 'Digital Marketing', 'image' => 'upload/quiz_holland/digital_marketing.svg']
     ],
     'K' => [

@@ -1,3 +1,4 @@
+<?php $is_quiz = true; ?>
 <?php $this->load->view('layout3/header2'); ?>
 <?php $this->load->view('layout3/navbar'); ?>
 <?php $this->load->view('talent_test/layout'); ?>
