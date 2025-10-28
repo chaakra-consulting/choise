@@ -41,10 +41,7 @@
                         $exam_type = $ujian['jenis_ujian'];
                         $exam_name = ucfirst(str_replace('_', ' ', $exam_type));
                         $progress = isset($progress_data[$exam_type]) ? $progress_data[$exam_type] : null;
-                        $is_completed = false;
-                        if ($progress && isset($progress['total_questions']) && isset($progress['answered_questions'])) {
-                            $is_completed = $progress['total_questions'] == $progress['answered_questions'];
-                        }
+                        $is_completed = isset($ujian['is_completed']) ? $ujian['is_completed'] : false;
                         $can_start = !$is_completed && $previous_completed;
                     ?>
                     <tr>
