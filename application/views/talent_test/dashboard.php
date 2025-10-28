@@ -283,19 +283,19 @@
         <p style="color: white"><b>Selamat datang, <?php echo $this->session->userdata('talent_test_user_name'); ?>. Siap untuk memulai?</b></p>
     </div>
 
-    <!-- Stats Overview -->
     <div class="stats-overview">
         <?php
         $total_exams = count($ujian_list);
         $completed_exams = 0;
-        $total_duration = 0;
-        foreach ($ujian_list as $ujian) {
+        foreach ($ujian_list as &$ujian) {
             $exam_type = $ujian['jenis_ujian'];
-            $progress = $progress_data[$exam_type] ?? null;
-            if ($progress && $progress['answered_questions'] >= $progress['total_questions']) {
+            $this->db->where('id_pendaftar_pelatihan', $pendaftaran['id_pendaftar_pelatihan']);
+            $this->db->where('jenis_ujian', $exam_type);
+            $result = $this->db->get('tb_hasil_talent_test')->row();
+            $ujian['is_completed'] = $result ? true : false;
+            if ($ujian['is_completed']) {
                 $completed_exams++;
             }
-            $total_duration += $ujian['durasi'] ?? 0;
         }
         ?>
         <div class="stat-card">
@@ -303,14 +303,14 @@
             <div class="stat-label">Total Ujian</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number"><?php echo $total_duration; ?> menit</div>
-            <div class="stat-label">Total Durasi</div>
+            <div class="stat-number"><?php echo $completed_exams; ?></div>
+            <div class="stat-label">Ujian Selesai</div>
         </div>
         <div class="stat-card">
             <div class="stat-number"><?php echo $total_exams - $completed_exams; ?></div>
-            <div class="stat-label">Belum Selesai</div>
+            <div class="stat-label">Ujian Belum Selesai</div>
         </div>
-    </div>    
+    </div>
 
     <div id="notifikasi">
         <?php if ($this->session->flashdata('msg')) : ?>
@@ -451,7 +451,7 @@
 
                                 <div class="text-right">
                                     <?php if ($status == 'Selesai'): ?>
-                                        <a href="<?php echo site_url('talent-test/exam-result/' . $exam_type); ?>" class="btn btn-custom btn-result">
+                                        <a href="<?php echo site_url('talent-test/exam-results'); ?>" class="btn btn-custom btn-result">
                                             <i class="fa fa-chart-bar"></i> Lihat Hasil
                                         </a>
                                     <?php elseif ($status == 'Dalam Proses'): ?>
