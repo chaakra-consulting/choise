@@ -73,12 +73,6 @@
 			</center>
 		</form>
 	</div>
-	<?php
-	$this->load->view('pelamar/ujian/panel_ujian_4');
-	?>
-
+	<?php $this->load->view('pelamar/ujian/panel_ujian_4'); ?>
 </div>
-
-<?php
-
-$this->load->view('layout3/footer') ?>
+<?php $this->load->view('layout3/footer') ?>

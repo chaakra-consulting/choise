@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class TalentTest extends CI_Controller
@@ -450,8 +450,8 @@ class TalentTest extends CI_Controller
             'hitung' => 'tb_ujian_hitung',
             'studi_kasus' => 'tb_ujian_kasus',
             'leadership' => 'tb_ujian_leadership',
-            'cepat' => 'tb_ujian_cepat',
-            'talent_test' => 'tb_ujian_talent_test'
+            'cepat_teliti' => 'tb_ujian_cepat',
+            'talent_who_am_i' => 'tb_ujian_talent'
         ];
 
         $column_map = [
@@ -463,8 +463,8 @@ class TalentTest extends CI_Controller
             'hitung' => 'id_ujian_hitung',
             'studi_kasus' => 'id_ujian_studi_kasus',
             'leadership' => 'id_ujian_leadership',
-            'cepat' => 'id_ujian_cepat',
-            'talent_test' => 'id_ujian_talent_test'
+            'cepat_teliti' => 'id_ujian_cepat',
+            'talent_who_am_i' => 'id_ujian_talent'
         ];
 
         $table = $table_map[$exam_type] ?? 'tb_ujian';
@@ -537,7 +537,7 @@ class TalentTest extends CI_Controller
                 'talent_test_id_ujian' => $ujian_disc['id_ujian_disc'],
             ]);
             redirect('talent-test/exam/disc/frame/1');
-        } elseif ($exam_type == 'cepat') {
+        } elseif ($exam_type == 'cepat_teliti') {
             $ujian_cepat = $this->db->get('tb_ujian_cepat')->row_array();
             if (!$ujian_cepat) {
                 $this->session->set_flashdata('error', 'Ujian Cepat Teliti belum diaktifkan.');
@@ -546,13 +546,30 @@ class TalentTest extends CI_Controller
             $durasi = $this->m_paket->get_durasi_ujian($exam_type);
             $end_time = time() + ($durasi * 60);
             $this->session->set_userdata([
-                'talent_test_current_exam' => 'cepat',
+                'talent_test_current_exam' => 'cepat_teliti',
                 'talent_test_package_id' => $pendaftaran['id_paket'],
                 'talent_test_start_time' => time(),
                 'talent_test_end_time' => $end_time,
                 'talent_test_id_ujian' => $ujian_cepat['id_ujian_cepat'],
             ]);
             redirect('talent-test/exam/cepat/frame/1');
+        } elseif ($exam_type == 'talent_who_am_i') {
+            $ujian_talent_who_am_i = $this->db->get('tb_ujian_talent')->row_array(); 
+            if (!$ujian_talent_who_am_i) {
+                $this->session->set_flashdata('error', 'Ujian Who Am I belum diaktifkan.');
+                redirect('talent-test/dashboard');
+            }
+
+            $durasi = $this->m_paket->get_durasi_ujian($exam_type);
+            $end_time = time() + ($durasi * 60);
+
+            $this->session->set_userdata([
+                'talent_test_current_exam' => 'talent_who_am_i',
+                'talent_test_start_time' => time(),
+                'talent_test_end_time' => $end_time,
+                'talent_test_id_ujian' => $ujian_talent_who_am_i['id_ujian_talent'],
+            ]);
+            redirect('talent-test/exam/talent_who_am_i/frame/1');
         }
 
         $this->session->set_userdata([
@@ -565,7 +582,7 @@ class TalentTest extends CI_Controller
 
         redirect('talent-test/exam/' . $exam_type . '/frame/1');
     }
-
+    
     public function exam_frame($exam_type, $frame, $question_number = 1)
     {
         if (!$this->session->userdata('talent_test_current_exam') ||
@@ -705,7 +722,7 @@ class TalentTest extends CI_Controller
             return;
         }
 
-        if ($exam_type == 'cepat') {
+        if ($exam_type == 'cepat_teliti') {
             $user_id = $this->session->userdata('talent_test_user_id');
             $id_ujian = $this->session->userdata('talent_test_id_ujian');
             $soal_numbers = array_map('intval', array_column($this->db->select('nomor_soal')->order_by('CAST(nomor_soal AS UNSIGNED) ASC')->get('tb_soal_cepat')->result_array(), 'nomor_soal'));
@@ -728,7 +745,7 @@ class TalentTest extends CI_Controller
             }
 
             $data = [
-                'exam_type' => 'cepat',
+                'exam_type' => 'cepat_teliti',
                 'user_answer' => $user_answer,
                 'frame' => $frame,
                 'nomor_soal' => $frame,
@@ -743,6 +760,32 @@ class TalentTest extends CI_Controller
             ];
 
             $this->load->view('talent_test/ujian/cepat/frame_cepat', $data);
+            return;
+        }
+
+        if ($exam_type == 'talent_who_am_i') {
+            $id_ujian = $this->session->userdata('talent_test_id_ujian');
+
+            $user_answer_raw = $this->db->where('id_pendaftar_pelatihan', $user_id)
+                ->where('id_ujian', $id_ujian)
+                ->get('tb_data_jawaban_talent_test_who_am_i')
+                ->row_array();
+
+            $user_answer = [
+                'jawaban1' => $user_answer_raw['jawaban1'] ?? '',
+                'jawaban2' => $user_answer_raw['jawaban2'] ?? '',
+                'jawaban3' => $user_answer_raw['jawaban3'] ?? '',
+            ];
+
+            $data = [
+                'exam_type' => 'talent_who_am_i',
+                'user_answer' => $user_answer,
+                'frame' => 1,
+                'end_time' => $this->session->userdata('talent_test_end_time'),
+                'id_ujian' => $id_ujian,
+                'form_action' => site_url('talent-test/save-answer'),
+            ];
+            $this->load->view('talent_test/ujian/talent_who_am_i/frame_talent_who_am_i', $data);
             return;
         }
     }
@@ -806,7 +849,7 @@ class TalentTest extends CI_Controller
             redirect('talent-test/dashboard');    
         }
 
-                if ($exam_type != 'holland' && $exam_type != 'disc' && $exam_type != 'cepat' && empty($question_id)) {
+                if ($exam_type != 'holland' && $exam_type != 'disc' && $exam_type != 'cepat_teliti' && empty($question_id)) {
             $this->session->set_flashdata('error', 'Data tidak lengkap.');
             redirect('talent-test/dashboard');
         }
@@ -898,7 +941,7 @@ class TalentTest extends CI_Controller
             return;
         }
 
-        if ($exam_type == 'cepat') {
+        if ($exam_type == 'cepat_teliti') {
             $jawaban = $this->input->post('jawaban');
             $no_soal = (int) $this->input->post('no_soal');
             $redirect_action = $this->input->post('redirect');
@@ -936,7 +979,7 @@ class TalentTest extends CI_Controller
             $current_index = array_search($no_soal, $soal_numbers);
 
             if ($redirect_action == '3' || ($redirect_action == '2' && $current_index >= $total_soal - 1)) {
-                $this->calculate_and_save_result($user_id, 'cepat');
+                $this->calculate_and_save_result($user_id, 'cepat_teliti');
                 redirect('talent-test/exam-list');
                 return;
             }
@@ -948,6 +991,42 @@ class TalentTest extends CI_Controller
             } else {
                 redirect('talent-test/exam/cepat/frame/' . $no_soal);
             }
+        }
+        if ($exam_type == 'talent_who_am_i') {
+            $jawaban1 = $this->input->post('jawaban1');
+            $jawaban2 = $this->input->post('jawaban2');
+            $jawaban3 = $this->input->post('jawaban3');
+            $redirect = $this->input->post('redirect');
+
+            if (!empty($jawaban1) || !empty($jawaban2) || !empty($jawaban3)) {
+                $data = [
+                    'id_pendaftar_pelatihan' => $user_id,
+                    'id_ujian' => $id_ujian,
+                    'jawaban1' => $jawaban1,
+                    'jawaban2' => $jawaban2,
+                    'jawaban3' => $jawaban3,
+                    'waktu_jawab' => date('Y-m-d H:i:s'),
+                ];
+
+                $this->db->where('id_pendaftar_pelatihan', $user_id)
+                        ->where('id_ujian', $id_ujian);
+                $existing = $this->db->get('tb_data_jawaban_talent_test_who_am_i')->row();
+
+                if ($existing) {
+                    $this->db->where('id_jawaban', $existing->id_jawaban);
+                    $this->db->update('tb_data_jawaban_talent_test_who_am_i', $data);
+                } else {
+                    $this->db->insert('tb_data_jawaban_talent_test_who_am_i', $data);
+                }
+            }
+
+            if ($redirect == '3') {
+                $this->calculate_and_save_result($user_id, 'talent_who_am_i');
+                redirect('talent-test/exam-list');
+                return;
+            }
+
+            redirect('talent-test/dashboard'); // Fallback redirect
         }
 
         $additional_data = ['id_ujian' => $id_ujian];
@@ -1123,13 +1202,16 @@ class TalentTest extends CI_Controller
             $durasi = $this->m_paket->get_durasi_ujian($exam_type);
             $data['durasi'] = $durasi;
             $this->load->view('talent_test/ujian/disc/exam_confirmation_disc', $data);
-        } elseif ($exam_type == 'cepat') {
+        } elseif ($exam_type == 'cepat_teliti') {
             $this->db->from('tb_soal_cepat');
             $total_questions = $this->db->count_all_results();
             $data['questions'] = array_fill(0, $total_questions, null);
             $durasi = $this->m_paket->get_durasi_ujian($exam_type);
             $data['durasi'] = $durasi;
             $this->load->view('talent_test/ujian/cepat/exam_confirmation_cepat', $data);
+        } elseif ($exam_type == 'talent_who_am_i') {
+            $data['durasi'] = $this->m_paket->get_durasi_ujian($exam_type);
+            $this->load->view('talent_test/ujian/talent_who_am_i/exam_confirmation_talent_who_am_i', $data);
         } else {
             $this->load->view('talent_test/ujian/' . $exam_type . '/exam_confirmation_' . $exam_type, $data);
         }
@@ -1177,8 +1259,8 @@ class TalentTest extends CI_Controller
             $this->db->order_by('subtes', 'ASC');
             $this->db->order_by('nomor_soal', 'ASC');
             $this->db->limit(1, $question_number - 1);
-        } elseif ($exam_type == 'holland') {
-            return null;
+        } elseif ($exam_type == 'holland' || $exam_type == 'talent_who_am_i') {
+            return ['is_valid' => true];
         } elseif ($exam_type == 'disc') {
             $this->db->where('no_soal', $question_number);
             $this->db->order_by('no_soal', 'ASC');
@@ -1295,8 +1377,10 @@ class TalentTest extends CI_Controller
                 return $this->calculate_studi_kasus_result($user_id);
             case 'leadership':
                 return $this->calculate_leadership_result($user_id);
-            case 'cepat':
+            case 'cepat_teliti':
                 return $this->calculate_cepat_result($user_id);
+            case 'talent_who_am_i':
+                return $this->calculate_talent_who_am_i_result($user_id);
             default:
                 return null;
         }
@@ -1424,7 +1508,7 @@ class TalentTest extends CI_Controller
 
         foreach ($answers as $answer) {
             if (!empty($answer->jawaban)) {
-                $most_index = (int)$answer->jawaban - 1; // 1-based to 0-based
+                $most_index = (int)$answer->jawaban - 1;
                 $most_aspects = [$answer->aspek_m1, $answer->aspek_m2, $answer->aspek_m3, $answer->aspek_m4];
                 if (isset($most_aspects[$most_index])) {
                     $dimension = $most_aspects[$most_index];
@@ -1434,9 +1518,8 @@ class TalentTest extends CI_Controller
                 }
             }
 
-            // Jawaban kedua (least) - kurangi skor dimensi
             if (!empty($answer->jawaban2)) {
-                $least_index = (int)$answer->jawaban2 - 1; // 1-based to 0-based
+                $least_index = (int)$answer->jawaban2 - 1;
                 $least_aspects = [$answer->aspek_l1, $answer->aspek_l2, $answer->aspek_l3, $answer->aspek_l4];
                 if (isset($least_aspects[$least_index])) {
                     $dimension = $least_aspects[$least_index];
@@ -1596,12 +1679,12 @@ class TalentTest extends CI_Controller
         ];
 
         $this->db->where('id_pendaftar_pelatihan', $user_id);
-        $this->db->where('jenis_ujian', 'cepat');
+        $this->db->where('jenis_ujian', 'cepat_teliti');
         $existing_result = $this->db->get('tb_hasil_talent_test')->row();
 
         $result_data = [
             'id_pendaftar_pelatihan' => $user_id,
-            'jenis_ujian' => 'cepat',
+            'jenis_ujian' => 'cepat_teliti',
             'skor' => $hasil['skor'],
             'status_penilaian' => 'selesai',
             'waktu_selesai' => date('Y-m-d H:i:s')
@@ -1617,18 +1700,37 @@ class TalentTest extends CI_Controller
         return $hasil;
     }
 
+    // Tambahan: Logika kalkulasi hasil untuk "Who Am I?"
+    private function calculate_talent_who_am_i_result($user_id)
+    {
+        $this->db->insert('tb_hasil_talent_test', [
+            'id_pendaftar_pelatihan' => $user_id,
+            'jenis_ujian' => 'talent_who_am_i',
+            'skor' => 0,
+            'nilai' => 'Selesai',
+            'status_penilaian' => 'selesai',
+            'waktu_selesai' => date('Y-m-d H:i:s')
+        ]);
+
+        return [
+            'status' => 'Selesai', 
+            'message' => 'Ujian Who Am I telah diselesaikan. Jawaban akan dinilai secara subjektif.'
+        ];
+    }
+    
     private function get_table_name_by_exam_type($exam_type)
     {
         $tables = [
-            'cfit'          => 'tb_soal_cfit',
-            'ist'           => 'tb_soal_ist',
-            'holland'       => 'tb_ujian_holland',
-            'disc'          => 'tb_soal_disc',
-            'essay'         => 'tb_soal_essay',
-            'hitung'        => 'tb_soal_hitung',
-            'studi_kasus'   => 'tb_soal_studi_kasus',
-            'leadership'    => 'tb_soal_leadership',
-            'cepat'         => 'tb_soal_cepat'
+            'cfit'              => 'tb_soal_cfit',
+            'ist'               => 'tb_soal_ist',
+            'holland'           => 'tb_ujian_holland',
+            'disc'              => 'tb_soal_disc',
+            'essay'             => 'tb_soal_essay',
+            'hitung'            => 'tb_soal_hitung',
+            'studi_kasus'       => 'tb_soal_studi_kasus',
+            'leadership'        => 'tb_soal_leadership',
+            'cepat_teliti'      => 'tb_soal_cepat',
+            'talent_who_am_i'   => 'tb_ujian_talent'
         ];
 
         return isset($tables[$exam_type]) ? $tables[$exam_type] : 'tb_soal_' . $exam_type;
@@ -1636,6 +1738,10 @@ class TalentTest extends CI_Controller
 
     private function get_user_answer_for_question($user_id, $exam_type, $question_id, $subtes = null)
     {
+        if ($exam_type == 'talent_who_am_i' || $exam_type == 'holland') {
+            return null;
+        }
+
         $table_name = $this->get_answer_table_name_by_exam_type($exam_type);
 
         $this->db->where('id_pendaftar_pelatihan', $user_id);
@@ -1644,7 +1750,7 @@ class TalentTest extends CI_Controller
             if ($exam_type == 'cfit' && $subtes) {
                 $this->db->where('subtes', $subtes);
             }
-        } elseif (in_array($exam_type, ['disc', 'cepat'])) {
+        } elseif (in_array($exam_type, ['disc', 'cepat_teliti'])) {
             $this->db->where('no_soal', $question_id);
         } else {
             $this->db->where('id_soal', $question_id);
@@ -1774,11 +1880,12 @@ class TalentTest extends CI_Controller
     private function get_answer_table_name_by_exam_type($exam_type)
     {
         $tables = [
-            'cfit'      => 'tb_data_jawaban_talent_test_cfit',
-            'ist'       => 'tb_data_jawaban_talent_test_ist',
-            'holland'   => 'tb_data_jawaban_talent_test_holland',
-            'disc'      => 'tb_data_jawaban_talent_test_disc',
-            'cepat'     => 'tb_data_jawaban_talent_test_cepat',
+            'cfit'              => 'tb_data_jawaban_talent_test_cfit',
+            'ist'               => 'tb_data_jawaban_talent_test_ist',
+            'holland'           => 'tb_data_jawaban_talent_test_holland',
+            'disc'              => 'tb_data_jawaban_talent_test_disc',
+            'cepat_teliti'      => 'tb_data_jawaban_talent_test_cepat',
+            'talent_who_am_i'   => 'tb_data_jawaban_talent_test_who_am_i',
         ];
 
         return $tables[$exam_type] ?? null;
@@ -1786,7 +1893,7 @@ class TalentTest extends CI_Controller
     
     public function training($exam_type, $subtes = 1)
     {
-        $allowed_training = ['cfit', 'cepat'];
+        $allowed_training = ['cfit', 'cepat_teliti'];
         if (!in_array($exam_type, $allowed_training)) {
             redirect('talent-test/dashboard');
         }
@@ -1840,7 +1947,7 @@ class TalentTest extends CI_Controller
             } else {
                 redirect('talent-test/start-exam/cfit');
             }
-        } elseif ($exam_type == 'cepat') {
+        } elseif ($exam_type == 'cepat_teliti') {
             $durasi_latihan = $this->session->userdata('durasi_latihan_cepat');
             if (!$durasi_latihan) {
                 $durasi_latihan = 2;
@@ -1938,7 +2045,7 @@ class TalentTest extends CI_Controller
                     redirect('talent-test/start-exam/cfit');
                 }
             }
-        } elseif ($exam_type == 'cepat') {
+        } elseif ($exam_type == 'cepat_teliti') {
             $start_key = 'training_start_time_cepat';
             $start_time = $this->session->userdata($start_key);
             $durasi_latihan = $this->session->userdata('durasi_latihan_cepat') ?? 2;

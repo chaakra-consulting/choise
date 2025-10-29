@@ -14,23 +14,30 @@
 
     <div class="col-sm-12" style="background-color: #fff; padding-top: 10px; padding-bottom: 20px; padding-right: 10px; padding-left: 10px; margin-bottom: 20px; border-radius: 5px;">
         <div class="col-sm-12" style="background-color: #fff; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; border-radius: 5px;">
-            <p>Jawaban yang benar: c dan e</p>
+            <p>Jawaban yang benar: c dan f</p>
             <div class="col-sm-12">
                 <div class="form-check col-sm-1 text-center" style="margin-top: 5px;">
                     <label for="latcfit31" class="form-check-label">c</label>
-                    <center>
-                        <img src="<?php echo base_url('upload/bank_soal/cfit/contoh_33c.jpg') ?>" class="img-responsive" alt="" style="width: 50px; border-radius: 5px;">
-                    </center>
+					<center>
+						<img src="<?php  echo base_url('upload/bank_soal/cfit/2c3.jpg') ?>" class="img-responsive" alt="" style="width: 50px; border-radius: 5px;">
+					</center>
                 </div>
                 <div class="form-check col-sm-1 text-center" style="margin-top: 5px;">
-                    <label for="latcfit31" class="form-check-label">e</label>
-                    <center>
-                        <img src="<?php echo base_url('upload/bank_soal/cfit/contoh_33e.jpg') ?>" class="img-responsive" alt="" style="width: 50px; border-radius: 5px;">
-                    </center>
+                    <label for="latcfit31" class="form-check-label">f</label>
+					<center>
+						<img src="<?php  echo base_url('upload/bank_soal/cfit/3f3.jpg') ?>" class="img-responsive" alt="" style="width: 50px; border-radius: 5px;">
+					</center>
                 </div>
             </div>
-            <p style="margin-top: 11%">Jawaban Anda: <?php echo str_replace(',', ' dan ', $this->session->userdata('ses_jawab1')) ?></p>
-            <p>Penjelasan: Kotak c dan e memiliki pola gambar yang berbeda dari yang lain (sesuai aturan subtes 3).</p>
+            <p style="margin-top: 11%">Jawaban Anda: <?php
+                $jawaban = $this->session->userdata('ses_jawab1');
+                if (!empty($jawaban)) {
+                    echo str_replace(',', ' dan ', $jawaban);
+                } else {
+                    echo 'Tidak ada jawaban yang dipilih';
+                }
+            ?></p>
+            <p>Penjelasan: Kotak c dan f memiliki pola gambar yang berbeda dari yang lain (sesuai aturan subtes 3).</p>
         </div>
         <?php 
         $id_pelamar = $this->session->userdata('talent_test_user_id'); 

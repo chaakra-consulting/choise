@@ -17,8 +17,6 @@
 	<div class="col-md-7 col-sm-12" style="margin-bottom: 5px;">
 		<div class="col-sm-12">
 			<form method="post" action="<?php echo site_url('talent-test/save-answer') ?>" id="answer_form">
-				<img src="<?php echo ($question['soal'] != '' ? base_url('./upload/bank_soal/cfit/' . $question['soal']) : 
-                    base_url('./upload/bank_soal/img_default.jpg')); ?>" class="img-responsive" alt="" style="width: 500px; margin: 10px; border-radius: 5px;">
 				<div class="form-check col-sm-2 text-center" style="margin-top: 5px;">
 					<label class="form-check-label" for="cfit2">a</label>
 					<input class="form-check-input checkbox-limit" type="checkbox" <?php if (is_array($user_answer) && in_array('A', $user_answer)) echo 'checked'; ?> name="answer[]" value="A">

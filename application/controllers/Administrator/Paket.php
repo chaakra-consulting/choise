@@ -160,7 +160,8 @@ class Paket extends CI_Controller
             'hitung'    => 'Hitung',
             'studi'     => 'Studi Kasus',
             'leadership'=> 'Leadership',
-            'cepat'     => 'Cepat Teliti'
+            'cepat'     => 'Cepat Teliti',
+            'talent_who_am_i' => 'Talent Test (Who Am I?)'
         ];
 
         $this->load->view('administrator/paket/ujian', $data);

@@ -216,7 +216,8 @@ class Mdl_paket_talent_test extends CI_Model
             'hitung' => 'tb_ujian_hitung',
             'studi_kasus' => 'tb_ujian_kasus',
             'leadership' => 'tb_ujian_leadership',
-            'cepat' => 'tb_ujian_cepat'
+            'cepat_teliti' => 'tb_ujian_cepat',
+            'talent_who_am_i' => 'tb_ujian_talent',
         ];
 
         $column_map = [
@@ -228,19 +229,20 @@ class Mdl_paket_talent_test extends CI_Model
             'hitung' => 'id_ujian_hitung',
             'studi_kasus' => 'id_ujian_studi_kasus',
             'leadership' => 'id_ujian_leadership',
-            'cepat' => 'id_ujian_cepat'
+            'cepat_teliti' => 'id_ujian_cepat',
+            'talent_who_am_i' => 'id_ujian_talent',
         ];
 
         $table = $table_map[$exam_type] ?? 'tb_ujian';
         $column = $column_map[$exam_type] ?? 'id_ujian';
 
-        if (in_array($exam_type, ['cepat', 'disc', 'holland'])) {
+        if (in_array($exam_type, ['cepat_teliti', 'disc', 'holland'])) {
             $ujian = $this->db->get_where($table, ['status' => 'aktif'])->row_array();
         } else {
             $ujian = $this->db->get_where($table, [$column => 1])->row_array();
         }
 
-    if ($exam_type == 'holland' || $exam_type == 'disc') {
+    if ($exam_type == 'holland' || $exam_type == 'disc' || $exam_type == 'talent_who_am_i') {
             if ($ujian && isset($ujian['waktu_mulai']) && isset($ujian['waktu_akhir'])) {
                 $waktu_mulai = strtotime($ujian['waktu_mulai']);
                 $waktu_akhir = strtotime($ujian['waktu_akhir']);
@@ -248,7 +250,7 @@ class Mdl_paket_talent_test extends CI_Model
                 return (int) ($durasi_detik / 60);
             }
             return 30;
-        } elseif ($exam_type == 'cepat') {
+        } elseif ($exam_type == 'cepat_teliti') {
             if ($ujian && isset($ujian['start_uji']) && isset($ujian['end_uji'])) {
                 $start_uji = strtotime($ujian['start_uji']);
                 $end_uji = strtotime($ujian['end_uji']);
@@ -256,7 +258,7 @@ class Mdl_paket_talent_test extends CI_Model
                 return (int) ($durasi_detik / 60);
             }
             return 30;
-        }
+        } 
 
 
         return $ujian['durasi'] ?? 60;

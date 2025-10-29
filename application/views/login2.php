@@ -61,12 +61,12 @@
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-16" data-validate="Please enter username">
-						<input class="input100" type="text" placeholder="Username" name="username" autocomplete="off">
+						<input class="input100" type="text" placeholder="Username" name="username" autocomplete="username">
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Please enter password">
-						<input class="input100" type="password" placeholder="Kata Sandi" name="password">
+						<input class="input100" type="password" placeholder="Kata Sandi" name="password" autocomplete="current-password">
 						<span class="focus-input100"></span>
 					</div>
 					<br>
