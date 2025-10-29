@@ -79,12 +79,6 @@
 			</center>
 		</form>
 	</div>
-	<?php
-	$this->load->view('pelamar/ujian/panel_ujian_1');
-	?>
-
+	<?php $this->load->view('pelamar/ujian/panel_ujian_1'); ?>
 </div>
-
-<?php
-
-$this->load->view('layout3/footer') ?>
+<?php $this->load->view('layout3/footer') ?>

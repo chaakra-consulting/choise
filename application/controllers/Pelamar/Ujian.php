@@ -1,37 +1,20 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
-
-
 
 class Ujian extends CI_Controller
 {
-
-
-
 	public function __construct() //MEMPERSIAPKAN
-
 	{
-
 		parent::__construct();
-
 		$this->load->helper('url', 'form');
-
 		$this->load->model('Mdl_ujian');
-
 		$this->load->model('Mdl_data_ujian');
-
 		$this->load->library('form_validation');
-
 		$this->load->database();
-
 		if ($this->session->userdata('masuk') == FALSE) {
-
 			redirect('Login_pelamar', 'refresh');
 		}
 	}
-
-
 
 	/**
 
@@ -62,146 +45,83 @@ class Ujian extends CI_Controller
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 
 	 */
-
-
-
 	public function index()
-
 	{
 		$this->load->view('ujian');
 	}
 
-
-
 	public function testulispsikotes()
-
 	{
-
 		$paket['array'] = $this->Mdl_data_ujian->ambildata_ujian();
-
 		$paket['holland'] = $this->Mdl_data_ujian->ambildata_ujian_holland();
-
 		$paket['skd'] = $this->Mdl_data_ujian->ambildata_ujian_skd();
-
 		$paket['cepat'] = $this->Mdl_data_ujian->ambildata_ujian_cepat();
-
 		$paket['tray'] = $this->Mdl_data_ujian->ambildata_ujian_tray();
-
 		$paket['kontrak_psikologis'] = $this->Mdl_data_ujian->ambildata_ujian_kontrak_psikologis();
-
 		$paket['essay'] = $this->Mdl_data_ujian->ambildata_ujian_essay();
-
 		$paket['leader'] = $this->Mdl_data_ujian->ambildata_ujian_leader();
-
 		$paket['studi'] = $this->Mdl_data_ujian->ambildata_ujian_studi();
-
 		$paket['studi'] = $this->Mdl_data_ujian->ambildata_ujian_studi2();
-
 		$paket['ldg'] = $this->Mdl_data_ujian->ambildata_ujian_studi_ldg();
-
 		$paket['studi_manajerial'] = $this->Mdl_data_ujian->ambildata_ujian_studi_manajerial();
-
 		$paket['hitung'] = $this->Mdl_data_ujian->ambildata_ujian_hitung();
-
 		$paket['papi'] = $this->Mdl_data_ujian->ambildata_ujian_papi();
-
 		$paket['belbin'] = $this->Mdl_data_ujian->ambildata_ujian_belbin();
-
 		$paket['ist'] = $this->Mdl_data_ujian->ambildata_ujian_ist();
-
 		$paket['msdt'] = $this->Mdl_data_ujian->ambildata_ujian_msdt();
-
 		$paket['disc'] = $this->Mdl_data_ujian->ambildata_ujian_disc();
-
 		$paket['talent'] = $this->Mdl_data_ujian->ambildata_ujian_talent();
-
 		$paket['studibank'] = $this->Mdl_data_ujian->ambildata_ujian_studibank();
-
 		$paket['rmib_pria'] = $this->Mdl_data_ujian->ambildata_ujian_rmib_pria();
-
 		$paket['rmib_wanita'] = $this->Mdl_data_ujian->ambildata_ujian_rmib_wanita();
-
-
 		$this->load->view('testulispsikotes', $paket);
 	}
 
 	//CFIT
-
 	public function ujian($id_lowongan)
-
 	{
 		$this->load->view('ujian');
 	}
 
 	public function frame_latihan_cfit()
 	{
-
 		$this->load->view('frame_latihan_cfit');
 	}
 
-
-
 	public function latihancfit2()
 	{
-
 		$this->load->view('pelamar/ujian/latihancfit2');
 	}
 
-
-
 	public function latihancfit3()
 	{
-
 		$this->load->view('pelamar/ujian/latihancfit3');
 	}
 
-
-
 	public function latihancfit4()
 	{
-
 		$this->load->view('pelamar/ujian/latihancfit4');
 	}
 
-
-
 	public function jawabancontoh2()
 	{
-
 		$jawaban = $this->input->post('latcfit21');
-
-
-
 		$this->session->set_userdata('ses_jawab1', $jawaban[0]);
-
 		$this->session->set_userdata('ses_jawab2', $jawaban[1]);
-
 		$this->load->view('pelamar/ujian/jawabancontoh2');
 	}
 
-
-
 	public function jawabancontoh3()
 	{
-
 		$jawaban = $this->input->post('latcfit31');
-
 		$jawaban2 = $this->input->post('latcfit32');
-
-
-
 		$this->session->set_userdata('ses_jawab1', $jawaban);
-
 		$this->session->set_userdata('ses_jawab2', $jawaban2);
-
 		$this->load->view('pelamar/ujian/jawabancontoh3');
 	}
 
-
-
 	public function jawabancontoh4()
 	{
-
 		$jawaban = $this->input->post('latcfit41');
 
 		$jawaban2 = $this->input->post('latcfit42');

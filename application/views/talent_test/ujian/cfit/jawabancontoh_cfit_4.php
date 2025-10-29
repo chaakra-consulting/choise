@@ -13,10 +13,11 @@
             <div class="col-sm-12">
                 <p>1. Jawaban: (jawaban anda <?php echo $this->session->userdata('ses_jawab1') ?>)</p>
                 <div class="form-check col-sm-1 text-center" style="margin-top: 5px;">
-                    <label class="form-check-label" for="latcfit41">c</label>
-                    <center>
-                        <img src="<?php echo base_url('upload/bank_soal/cfit/2c4.jpg') ?>" class="img-responsive" alt="" style="width: 50px; border-radius: 5px;">
-                    </center>
+                    <label class="form-check-label" for="latcfit41">d</label>
+					<center>
+						<img src="<?php  echo base_url('upload/bank_soal/cfit/2d4.jpg') ?>" class="img-responsive" alt="" style="width: 50px; border-radius: 5px;">
+
+					</center>
                 </div>
                 <div style="padding-top: 3.9%">
                     <p>Jawaban yang benar</p>
@@ -25,10 +26,10 @@
             <div class="col-sm-12" style="margin-top: 10px;">
                 <p>2. Jawaban: (jawaban anda <?php echo $this->session->userdata('ses_jawab2') ?>)</p>
                 <div class="form-check col-sm-1 text-center" style="margin-top: 5px;">
-                    <label class="form-check-label" for="latcfit42">c</label>
-                    <center>
-                        <img src="<?php echo base_url('upload/bank_soal/cfit/3c4.jpg') ?>" class="img-responsive" alt="" style="width: 50px; border-radius: 5px;">
-                    </center>
+                    <label class="form-check-label" for="latcfit42">b</label>
+					<center>
+						<img src="<?php  echo base_url('upload/bank_soal/cfit/3b4.jpg') ?>" class="img-responsive" alt="" style="width: 50px; border-radius: 5px;">
+					</center>
                 </div>
                 <div style="padding-top: 3.9%">
                     <p>Jawaban yang benar</p>

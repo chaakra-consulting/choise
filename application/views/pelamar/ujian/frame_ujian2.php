@@ -70,18 +70,9 @@
 			</center>
 		</form>
 	</div>
-	<?php
-	$this->load->view('pelamar/ujian/panel_ujian_2');
-	?>
-
+	<?php $this->load->view('pelamar/ujian/panel_ujian_2'); ?>
 </div>
-
-
-
-
-<?php
-
-$this->load->view('layout3/footer') ?>
+<?php $this->load->view('layout3/footer') ?>
 
 <script>
 	function myFunction() {
