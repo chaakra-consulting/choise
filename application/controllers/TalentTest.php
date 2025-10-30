@@ -467,8 +467,6 @@ class TalentTest extends CI_Controller
             'leadership' => 'id_ujian_leadership',
             'cepat_teliti' => 'id_ujian_cepat',
             'talent_who_am_i' => 'id_ujian_talent',
-            'rmib_pria' => 'id_ujian_rmib_pria',
-            'rmib_wanita' => 'id_ujian_rmib_wanita',
         ];
 
         $table = $table_map[$exam_type] ?? 'tb_ujian';
@@ -1409,6 +1407,63 @@ class TalentTest extends CI_Controller
         return null;
     }
 
+    private function get_holland_interpretation($code)
+    {
+        $interpretations = [
+            'RI' => 'Realistis - Investigatif: Praktis dan analitis, suka bekerja dengan objek dan data.',
+            'RA' => 'Realistis - Artistik: Praktis dan kreatif, suka menciptakan atau memperbaiki hal-hal dengan tangan.',
+            'RS' => 'Realistis - Sosial: Praktis dan suka menolong, menikmati pekerjaan yang melibatkan bantuan praktis kepada orang lain.',
+            'RE' => 'Realistis - Wirausaha: Praktis dan persuasif, suka memimpin proyek atau bisnis yang berhubungan dengan hal-hal konkret.',
+            'RC' => 'Realistis - Konvensional: Praktis dan terorganisir, menikmati pekerjaan yang membutuhkan ketelitian dan keteraturan.',
+            'IR' => 'Investigatif - Realistis: Analitis dan praktis, suka memecahkan masalah teknis atau ilmiah.',
+            'IA' => 'Investigatif - Artistik: Analitis dan kreatif, menikmati penelitian atau penulisan di bidang seni dan humaniora.',
+            'IS' => 'Investigatif - Sosial: Analitis dan suka menolong, tertarik pada penelitian di bidang ilmu sosial atau medis.',
+            'IE' => 'Investigatif - Wirausaha: Analitis dan persuasif, suka mengembangkan ide-ide baru dan mempresentasikannya.',
+            'IC' => 'Investigatif - Konvensional: Analitis dan terorganisir, menikmati pekerjaan yang berhubungan dengan data dan analisis detail.',
+            'AR' => 'Artistik - Realistis: Kreatif dan praktis, suka menggunakan keterampilan artistik dalam konteks yang nyata.',
+            'AI' => 'Artistik - Investigatif: Kreatif dan analitis, menikmati ekspresi diri melalui tulisan, musik, atau seni visual.',
+            'AS' => 'Artistik - Sosial: Kreatif dan suka menolong, menikmati penggunaan seni untuk mengajar atau membantu orang lain.',
+            'AE' => 'Artistik - Wirausaha: Kreatif dan persuasif, suka mempromosikan karya seni atau ide-ide inovatif.',
+            'AC' => 'Artistik - Konvensional: Kreatif dan terorganisir, menikmati pekerjaan desain atau tata letak yang membutuhkan ketelitian.',
+            'SR' => 'Sosial - Realistis: Suka menolong dan praktis, menikmati pekerjaan di bidang kesehatan atau layanan komunitas.',
+            'SI' => 'Sosial - Investigatif: Suka menolong dan analitis, tertarik pada psikologi, sosiologi, atau konseling.',
+            'SA' => 'Sosial - Artistik: Suka menolong dan kreatif, menikmati penggunaan seni dalam terapi atau pendidikan.',
+            'SE' => 'Sosial - Wirausaha: Suka menolong dan persuasif, menikmati peran dalam mengorganisir acara sosial atau penggalangan dana.',
+            'SC' => 'Sosial - Konvensional: Suka menolong dan terorganisir, menikmati pekerjaan administrasi di sekolah atau organisasi nirlaba.',
+            'ER' => 'Wirausaha - Realistis: Persuasif dan praktis, suka mengelola bisnis di bidang konstruksi atau manufaktur.',
+            'EI' => 'Wirausaha - Investigatif: Persuasif dan analitis, menikmati pengembangan strategi bisnis berdasarkan riset pasar.',
+            'EA' => 'Wirausaha - Artistik: Persuasif dan kreatif, suka bekerja di bidang pemasaran, periklanan, atau media.',
+            'ES' => 'Wirausaha - Sosial: Persuasif dan suka menolong, menikmati peran kepemimpinan dalam organisasi sosial atau politik.',
+            'EC' => 'Wirausaha - Konvensional: Persuasif dan terorganisir, menikmati peran manajerial di bidang keuangan atau korporat.',
+            'CR' => 'Konvensional - Realistis: Terorganisir dan praktis, menikmati pekerjaan yang berhubungan dengan data dan mesin.',
+            'CI' => 'Konvensional - Investigatif: Terorganisir dan analitis, menikmati pekerjaan sebagai analis data atau auditor.',
+            'CA' => 'Konvensional - Artistik: Terorganisir dan kreatif, menikmati pekerjaan di bidang pengarsipan atau manajemen koleksi seni.',
+            'CS' => 'Konvensional - Sosial: Terorganisir dan suka menolong, menikmati pekerjaan administrasi di bidang layanan publik.',
+            'CE' => 'Konvensional - Wirausaha: Terorganisir dan persuasif, menikmati pekerjaan di bidang administrasi bisnis atau hukum.',
+        ];
+
+        $single_interpretations = [
+            'R' => 'Realistis: Praktis, suka bekerja dengan alat dan mesin.',
+            'I' => 'Investigatif: Analitis, suka memecahkan masalah dan meneliti.',
+            'A' => 'Artistik: Kreatif, suka mengekspresikan diri melalui seni.',
+            'S' => 'Sosial: Suka menolong, menikmati bekerja dengan orang lain.',
+            'E' => 'Wirausaha: Persuasif, suka memimpin dan mengambil risiko.',
+            'C' => 'Konvensional: Terorganisir, suka bekerja dengan data dan aturan.',
+            'K' => 'Konvensional: Terorganisir, suka bekerja dengan data dan aturan.', // Alias untuk Konvensional
+        ];
+
+        if (isset($interpretations[$code])) {
+            return $interpretations[$code];
+        }
+        
+        $first_char = substr($code, 0, 1);
+        if (isset($single_interpretations[$first_char])) {
+            return $single_interpretations[$first_char] . ' (Tipe dominan)';
+        }
+
+        return 'Interpretasi untuk kode ini tidak ditemukan.';
+    }
+
     private function calculate_holland_result($user_id){
         $table_name = 'tb_data_jawaban_talent_test_holland';
         $this->db->where('id_pendaftar_pelatihan', $user_id);
@@ -1617,8 +1672,6 @@ class TalentTest extends CI_Controller
             'leadership'        => 'tb_soal_leadership',
             'cepat_teliti'      => 'tb_soal_cepat',
             'talent_who_am_i'   => 'tb_ujian_talent',
-            'rmib_pria'         => 'tb_ujian_rmib_pria',
-            'rmib_wanita'       => 'tb_ujian_rmib_wanita',
         ];
 
         return isset($tables[$exam_type]) ? $tables[$exam_type] : 'tb_soal_' . $exam_type;
@@ -1706,8 +1759,6 @@ class TalentTest extends CI_Controller
             'disc'              => 'tb_data_jawaban_talent_test_disc',
             'cepat_teliti'      => 'tb_data_jawaban_talent_test_cepat',
             'talent_who_am_i'   => 'tb_data_jawaban_talent_test_who_am_i',
-            'rmib_pria'         => 'tb_data_jawaban_talent_test_rmib_pria',
-            'rmib_wanita'       => 'tb_data_jawaban_talent_test_rmib_wanita',
         ];
 
         return $tables[$exam_type] ?? null;
