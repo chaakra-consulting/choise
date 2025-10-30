@@ -8,7 +8,7 @@ $config['job_images'] = [
         ['name' => 'Chef/Baker', 'image' => 'upload/quiz_holland/chef.jpg'],
     ],
     'I' => [
-        ['name' => 'Ilmuwan Biologi, Kimia atau Fisika', 'image' => 'upload/quiz_holland/ilmuwan.jpg'],
+        ['name' => 'Ilmuwan', 'image' => 'upload/quiz_holland/ilmuwan.jpg'],
         ['name' => 'Ahli Medis', 'image' => 'upload/quiz_holland/ahli_medis.jpg'],
         ['name' => 'Analisa Keuangan', 'image' => 'upload/quiz_holland/analis_keuangan.svg']
     ],
