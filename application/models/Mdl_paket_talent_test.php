@@ -145,40 +145,10 @@ class Mdl_paket_talent_test extends CI_Model
         return $this->db->get('tb_soal_cfit')->result_array();
     }
 
-    public function get_ist_questions()
-    {
-        $this->db->order_by('nomor_soal', 'ASC');
-        return $this->db->get('tb_soal_ist')->result_array();
-    }
-
     public function get_disc_questions()
     {
         $this->db->order_by('no_soal', 'ASC');
         return $this->db->get('tb_soal_disc')->result_array();
-    }
-
-    public function get_essay_questions()
-    {
-        $this->db->order_by('nomor_soal', 'ASC');
-        return $this->db->get('tb_soal_essay')->result_array();
-    }
-
-    public function get_hitung_questions()
-    {
-        $this->db->order_by('nomor_soal', 'ASC');
-        return $this->db->get('tb_soal_hitung')->result_array();
-    }
-
-    public function get_studi_kasus_questions()
-    {
-        $this->db->order_by('nomor_soal', 'ASC');
-        return $this->db->get('tb_soal_studi_kasus')->result_array();
-    }
-
-    public function get_leadership_questions()
-    {
-        $this->db->order_by('nomor_soal', 'ASC');
-        return $this->db->get('tb_soal_leadership')->result_array();
     }
 
     public function get_soal_by_ujian($exam_type)
@@ -186,20 +156,14 @@ class Mdl_paket_talent_test extends CI_Model
         switch ($exam_type) {
             case 'cfit':
                 return $this->get_cfit_questions();
-            case 'ist':
-                return $this->get_ist_questions();
             case 'holland':
                 return [];
             case 'disc':
                 return $this->get_disc_questions();
-            case 'essay':
-                return $this->get_essay_questions();
-            case 'hitung':
-                return $this->get_hitung_questions();
-            case 'studi_kasus':
-                return $this->get_studi_kasus_questions();
-            case 'leadership':
-                return $this->get_leadership_questions();
+            case 'cepat_teliti':
+                return [];
+            case 'talent_who_am_i':
+                return [];
             default:
                 return [];
         }
@@ -209,26 +173,16 @@ class Mdl_paket_talent_test extends CI_Model
     {
         $table_map = [
             'cfit' => 'tb_ujian',
-            'ist' => 'tb_ujian_ist',
             'holland' => 'tb_ujian_holland',
             'disc' => 'tb_ujian_disc',
-            'essay' => 'tb_ujian_essay',
-            'hitung' => 'tb_ujian_hitung',
-            'studi_kasus' => 'tb_ujian_kasus',
-            'leadership' => 'tb_ujian_leadership',
             'cepat_teliti' => 'tb_ujian_cepat',
             'talent_who_am_i' => 'tb_ujian_talent',
         ];
 
         $column_map = [
             'cfit' => 'id_ujian',
-            'ist' => 'id_ujian_ist',
             'holland' => 'id_ujian_holland',
             'disc' => 'id_ujian_disc',
-            'essay' => 'id_ujian_essay',
-            'hitung' => 'id_ujian_hitung',
-            'studi_kasus' => 'id_ujian_studi_kasus',
-            'leadership' => 'id_ujian_leadership',
             'cepat_teliti' => 'id_ujian_cepat',
             'talent_who_am_i' => 'id_ujian_talent',
         ];
