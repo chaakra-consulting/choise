@@ -171,7 +171,11 @@ class Quiz extends CI_Controller
         $data['type_data'] = $riasec_data[$code];
         $data['job_images'] = $job_images;
         $data['message'] = 
-            'Test ini merupakan <b>LANGKAH AWAL</b> untuk mengenal diri Anda lebih baik lagi. Apakah Anda sudah punya <b>GAMBARAN</b> tentang <b>KECENDERUNGAN  MINAT</b> dan dan <b>KARIER</b> yang <b>PALING COCOK</b> untuk Anda? atau Anda <b>MASIH BINGUNG</b> membaca hasil test nya dan butuh penjelasan dari tenaga profesional? Chaakra Consulting <b>SIAP</b> bantu Anda menginterpretasikan <b>HASIL TEST</b> jadi <b>ARAH KARIER YANG TEPAT..</b>
+            'Hasil ini tidak bisa berdiri sendiri, namun alangkah lebih baik dikomperasikan dengan tes psikologi lainnya untuk 
+                mendapatkan hasil yang optimal! <br>Dari hasil tes diatas, Apakah Anda sudah punya <b>GAMBARAN</b> tentang 
+                <b>KECENDERUNGAN MINAT</b> dan <b>KARIER</b> yang <b>PALING COCOK</b> untuk Anda? atau Anda <b>MASIH BINGUNG</b> 
+                membaca hasil test nya dan butuh penjelasan dari tenaga profesional?  <br>Chaakra Consulting <b>SIAP</b> bantu Anda 
+                menginterpretasikan <b>HASIL TEST</b> jadi <b>ARAH KARIER YANG TEPAT.</b>
             <br>
             <hr style="border-color: #6c757d;">
             Hubungi kami melalui WhatsApp : 0857-4550-9992';
