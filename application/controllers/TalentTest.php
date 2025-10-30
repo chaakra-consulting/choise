@@ -451,7 +451,9 @@ class TalentTest extends CI_Controller
             'studi_kasus' => 'tb_ujian_kasus',
             'leadership' => 'tb_ujian_leadership',
             'cepat_teliti' => 'tb_ujian_cepat',
-            'talent_who_am_i' => 'tb_ujian_talent'
+            'talent_who_am_i' => 'tb_ujian_talent',
+            'rmib_pria' => 'tb_ujian_rmib_pria',
+            'rmib_wanita' => 'tb_ujian_rmib_wanita',
         ];
 
         $column_map = [
@@ -464,7 +466,9 @@ class TalentTest extends CI_Controller
             'studi_kasus' => 'id_ujian_studi_kasus',
             'leadership' => 'id_ujian_leadership',
             'cepat_teliti' => 'id_ujian_cepat',
-            'talent_who_am_i' => 'id_ujian_talent'
+            'talent_who_am_i' => 'id_ujian_talent',
+            'rmib_pria' => 'id_ujian_rmib_pria',
+            'rmib_wanita' => 'id_ujian_rmib_wanita',
         ];
 
         $table = $table_map[$exam_type] ?? 'tb_ujian';
@@ -848,8 +852,8 @@ class TalentTest extends CI_Controller
             $this->session->set_flashdata('error', 'Data tidak lengkap.');
             redirect('talent-test/dashboard');    
         }
-
-                if ($exam_type != 'holland' && $exam_type != 'disc' && $exam_type != 'cepat_teliti' && empty($question_id)) {
+        
+        if ($exam_type != 'holland' && $exam_type != 'disc' && $exam_type != 'cepat_teliti' && empty($question_id)) {
             $this->session->set_flashdata('error', 'Data tidak lengkap.');
             redirect('talent-test/dashboard');
         }
@@ -1026,7 +1030,7 @@ class TalentTest extends CI_Controller
                 return;
             }
 
-            redirect('talent-test/dashboard'); // Fallback redirect
+            redirect('talent-test/dashboard');
         }
 
         $additional_data = ['id_ujian' => $id_ujian];
@@ -1046,17 +1050,9 @@ class TalentTest extends CI_Controller
         } elseif ($redirect == 2) {
             $next_question = $question_number + 1;
             if ($exam_type == 'cfit') {
-                $this->db->where('subtes', 1);
-                $this->db->where('type_soal', 'Ujian');
-                $total_subtes1 = $this->db->count_all_results('tb_soal_cfit');
-
-                $this->db->where('subtes', 2);
-                $this->db->where('type_soal', 'Ujian');
-                $total_subtes2 = $this->db->count_all_results('tb_soal_cfit');
-
-                $this->db->where('subtes', 3);
-                $this->db->where('type_soal', 'Ujian');
-                $total_subtes3 = $this->db->count_all_results('tb_soal_cfit');
+                $total_subtes1 = $this->db->from('tb_soal_cfit')->where('subtes', 1)->where('type_soal', 'Ujian')->count_all_results();
+                $total_subtes2 = $this->db->from('tb_soal_cfit')->where('subtes', 2)->where('type_soal', 'Ujian')->count_all_results();
+                $total_subtes3 = $this->db->from('tb_soal_cfit')->where('subtes', 3)->where('type_soal', 'Ujian')->count_all_results();
 
                 if ($next_question == ($total_subtes1 + 1)) {
                     redirect('talent-test/training/cfit/2');
@@ -1080,6 +1076,7 @@ class TalentTest extends CI_Controller
             redirect('talent-test/training/cfit/4');
             return;
         } elseif ($redirect == 6) {
+            $this->calculate_and_save_result($user_id, 'cfit');
             redirect('talent-test/exam-list');
             return;
         } else {
@@ -1363,20 +1360,10 @@ class TalentTest extends CI_Controller
         switch ($exam_type) {
             case 'cfit':
                 return $this->calculate_cfit_result($user_id);
-            case 'ist':
-                return $this->calculate_ist_result($user_id);
             case 'holland':
                 return $this->calculate_holland_result($user_id);
             case 'disc':
                 return $this->calculate_disc_result($user_id);
-            case 'essay':
-                return $this->calculate_essay_result($user_id);
-            case 'hitung':
-                return $this->calculate_hitung_result($user_id);
-            case 'studi_kasus':
-                return $this->calculate_studi_kasus_result($user_id);
-            case 'leadership':
-                return $this->calculate_leadership_result($user_id);
             case 'cepat_teliti':
                 return $this->calculate_cepat_result($user_id);
             case 'talent_who_am_i':
@@ -1420,32 +1407,6 @@ class TalentTest extends CI_Controller
             return $hasil;
         }
         return null;
-    }
-
-    private function calculate_ist_result($user_id)
-    {
-        $this->db->select('j.jawaban, s.bobot_nilai');
-        $this->db->from('tb_data_jawaban_ist j');
-        $this->db->join('tb_soal_ist s', 'j.id_soal = s.id_soal');
-        $this->db->where('j.id_pendaftar_pelatihan', $user_id);
-
-        $answers = $this->db->get()->result();
-
-        $total_score = 0;
-        foreach ($answers as $answer) {
-            $total_score += $answer->bobot_nilai;
-        }
-
-        $skor = ($total_score / count($answers)) * 100;
-        $nilai = $this->get_ist_grade($skor);
-
-        return [
-            'total_soal'    => count($answers),
-            'total_skor'    => $total_score,
-            'skor'          => round($skor, 2),
-            'nilai'         => $nilai,
-            'interpretasi'  => $this->get_ist_interpretation($skor)  
-        ];
     }
 
     private function calculate_holland_result($user_id){
@@ -1577,81 +1538,6 @@ class TalentTest extends CI_Controller
         $this->db->insert('tb_hasil_talent_test', $data);
     }
 
-    private function calculate_essay_result($user_id){
-        $this->db->where('id_pendaftar_pelatihan', $user_id);
-        $this->db->where('jenis_ujian', 'essay');
-        $result = $this->db->get('tb_hasil_talent_test')->row();
-
-        if ($result) {
-            return [
-                'status'    => $result->status_penilaian,
-                'skor'      => $result->skor,
-                'nilai'     => $result->nilai,
-                'komentar'  => $result->komentar
-            ];
-        }
-        return ['status' => 'menunggu_penilaian'];
-    }
-
-    private function calculate_hitung_result($user_id) 
-    {
-        $this->db->select('COUNT(*) as total_soal,
-            SUM(CASE WHEN s.jawaban_benar = j.jawaban THEN 1 ELSE 0 END) as jawaban_benar');
-        $this->db->from('tb_data_jawaban_hitung j');
-        $this->db->join('tb_soal_hitung s', 'j.id_soal = s.id_soal');
-        $this->db->where('j.id_pendaftar_pelatihan', $user_id);
-
-        $result = $this->db->get()->row();
-
-        if ($result) {
-            $skor = ($result->jawaban_benar / $result->total_soal) * 100;
-            return [
-                'total_soal'    => $result->total_soal,
-                'jawaban_benar' => $result->jawaban_benar,
-                'skor'          => round($skor, 2),
-                'nilai'         => $this->get_numeric_grade($skor)
-            ];
-        }
-        return null;
-    }
-
-    private function calculate_studi_kasus_result($user_id)
-    {
-        $this->db->where('id_pendaftar_pelatihan', $user_id);
-        $this->db->where('jenis_ujian', 'studi_kasus');
-        $result = $this->db->get('tb_hasil_talent_test')->row();
-
-        if ($result) {
-            return [
-                'skor'      => $result->skor,
-                'nilai'     => $result->nilai,
-                'komentar'  => $result->komentar
-            ];
-        }
-
-        return ['status' => 'menunggu_penilaian'];
-    }
-
-    private function calculate_leadership_result($user_id)
-    {
-        $this->db->select('AVG(s.bobot_nilai) as skor_rata');
-        $this->db->from('tb_data_jawaban_leadership j');
-        $this->db->join('tb_soal_leadership s', 'j.id_soal = s.id_soal');
-        $this->db->where('j.id_pendaftar_pelatihan', $user_id);
-
-        $result = $this->db->get()->row();
-
-        if ($result) {
-            $skor = $result->skor_rata * 100;
-            return [
-                'skor'=> round($skor, 2),
-                'nilai'=> $this->get_leadership_grade($skor),
-                'interpretasi'=> $this->get_leadership_interpretation($skor)
-            ];
-        }
-        return null;
-    }
-
     private function calculate_cepat_result($user_id)
     {
         $this->db->select('COUNT(j.id_jawaban_cepat) as total_jawaban, SUM(CASE WHEN s.jawaban = j.jawaban THEN 1 ELSE 0 END) as jawaban_benar');
@@ -1730,7 +1616,9 @@ class TalentTest extends CI_Controller
             'studi_kasus'       => 'tb_soal_studi_kasus',
             'leadership'        => 'tb_soal_leadership',
             'cepat_teliti'      => 'tb_soal_cepat',
-            'talent_who_am_i'   => 'tb_ujian_talent'
+            'talent_who_am_i'   => 'tb_ujian_talent',
+            'rmib_pria'         => 'tb_ujian_rmib_pria',
+            'rmib_wanita'       => 'tb_ujian_rmib_wanita',
         ];
 
         return isset($tables[$exam_type]) ? $tables[$exam_type] : 'tb_soal_' . $exam_type;
@@ -1799,49 +1687,6 @@ class TalentTest extends CI_Controller
         return 'Kemampuan Kognitif sangat rendah';
     }
 
-    private function get_ist_grade($score) 
-    {
-        if ($score >= 130) return 'Superior';
-        if ($score >= 120) return 'Di Atas Rata-rata';
-        if ($score >= 110) return 'Rata-rata Atas';
-        if ($score >= 90) return 'Rata-rata';
-        if ($score >= 80) return 'Rata-rata Bawah';
-        if ($score >= 70) return 'Di Bawah Rata-rata';
-        return 'Borderline'; 
-    }
-
-    private function get_ist_interpretation($score)
-    {
-        if ($score >= 130) return 'Intelligence di atas superior';
-        if ($score >= 120) return 'Intelligence tinggi';
-        if ($score >= 110) return 'Intelligence di atas rata-rata';
-        if ($score >= 90) return 'Intelligence rata-rata';
-        if ($score >= 80) return 'Intelligence di bawah rata-rata';
-        return 'Intelligence rendah';
-    }
-
-    private function get_holland_interpretation($code) {
-        $interpretations = [
-            'RI' => 'Realistic-Investigative: Praktis dan analitis',
-            'RA' => 'Realistic-Artistic: Praktis dan kreatif',
-            'RS' => 'Realistic-Social: Praktis dan membantu',
-            'RE' => 'Realistic-Enterprising: Praktis dan ambisius',
-            'RC' => 'Realistic-Conventional: Praktis dan terorganisir',
-            'IA' => 'Investigative-Artistic: Analitis dan kreatif',
-            'IS' => 'Investigative-Social: Analitis dan membantu',
-            'IE' => 'Investigative-Enterprising: Analitis dan ambisius',
-            'IC' => 'Investigative-Conventional: Analitis dan terorganisir',
-            'AS' => 'Artistic-Social: Kreatif dan membantu',
-            'AE' => 'Artistic-Enterprising: Kreatif dan ambisius',
-            'AC' => 'Artistic-Conventional: Kreatif dan terorganisir',
-            'SE' => 'Social-Enterprising: Membantu dan ambisius',
-            'SC' => 'Social-Conventional: Membantu dan terorganisir',
-            'EC' => 'Enterprising-Conventional: Ambisius dan terorganisir'
-        ];
-        
-        return $interpretations[$code] ?? 'Kombinasi minat yang unik, konsultasikan dengan konselor karir.';
-    }
-
     private function get_disc_interpretation($dimension) {
         $interpretations = [
             'D' => 'Dominant: Pemimpin yang tegas dan kompetitif',
@@ -1853,39 +1698,16 @@ class TalentTest extends CI_Controller
         return isset($interpretations[$dimension]) ? $interpretations[$dimension] : 'Kepribadian campuran';
     }
 
-    private function get_leadership_grade($score) {
-        if ($score >= 85) return 'Excellent';
-        if ($score >= 75) return 'Good';
-        if ($score >= 65) return 'Fair';
-        if ($score >= 55) return 'Poor';
-        return 'Needs Improvement';
-    }
-
-    private function get_leadership_interpretation($score) {
-        if ($score >= 85) return 'Kepemimpinan sangat baik, mampu memimpin tim dengan efektif';
-        if ($score >= 75) return 'Kepemimpinan baik, memiliki potensi untuk berkembang';
-        if ($score >= 65) return 'Kepemimpinan cukup, perlu pengembangan lebih lanjut';
-        if ($score >= 55) return 'Kepemimpinan kurang, butuh pelatihan intensif';
-        return 'Kepemimpinan perlu ditingkatkan secara signifikan';
-    }
-
-    private function get_numeric_grade($score) {
-        if ($score >= 90) return 'A';
-        if ($score >= 80) return 'B';
-        if ($score >= 70) return 'C';
-        if ($score >= 60) return 'D';
-        return 'E';
-    }
-
     private function get_answer_table_name_by_exam_type($exam_type)
     {
         $tables = [
             'cfit'              => 'tb_data_jawaban_talent_test_cfit',
-            'ist'               => 'tb_data_jawaban_talent_test_ist',
             'holland'           => 'tb_data_jawaban_talent_test_holland',
             'disc'              => 'tb_data_jawaban_talent_test_disc',
             'cepat_teliti'      => 'tb_data_jawaban_talent_test_cepat',
             'talent_who_am_i'   => 'tb_data_jawaban_talent_test_who_am_i',
+            'rmib_pria'         => 'tb_data_jawaban_talent_test_rmib_pria',
+            'rmib_wanita'       => 'tb_data_jawaban_talent_test_rmib_wanita',
         ];
 
         return $tables[$exam_type] ?? null;
@@ -1992,15 +1814,14 @@ class TalentTest extends CI_Controller
             $durasi_latihan = $this->session->userdata('durasi_latihan') ?? 2;
             $elapsed = time() - $start_time;
             $remaining = max(0, ($durasi_latihan * 60) - $elapsed);
-            $this->db->where('subtes', 1);
-            $this->db->where('type_soal', 'Ujian');
-            $total_subtes1 = $this->db->count_all_results('tb_soal_cfit');
-            $this->db->where('subtes', 2);
-            $this->db->where('type_soal', 'Ujian');
-            $total_subtes2 = $this->db->count_all_results('tb_soal_cfit');
-            $this->db->where('subtes', 3);
-            $this->db->where('type_soal', 'Ujian');
-            $total_subtes3 = $this->db->count_all_results('tb_soal_cfit');
+            
+            $total_subtes1 = $this->db->from('tb_soal_cfit')->where('subtes', 1)->where('type_soal', 'Ujian')->count_all_results();
+            $total_subtes2 = $this->db->from('tb_soal_cfit')->where('subtes', 2)->where('type_soal', 'Ujian')->count_all_results();
+            $total_subtes3 = $this->db->from('tb_soal_cfit')->where('subtes', 3)->where('type_soal', 'Ujian')->count_all_results();
+
+            $data['total_subtes1'] = $total_subtes1;
+            $data['total_subtes2'] = $total_subtes2;
+            $data['total_subtes3'] = $total_subtes3;
             if ($subtes == 4) {
                 $jawab1 = $this->input->post('jawaban_latihan1');
                 $jawab2 = $this->input->post('jawaban_latihan2');

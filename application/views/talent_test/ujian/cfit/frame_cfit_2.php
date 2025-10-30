@@ -65,15 +65,15 @@
 			<input type="hidden" name="subtes" value="<?php echo $question['subtes'] ?>">
 			<input type="hidden" name="target_question" id="target_question" value="">
 			<div class="baten">
-				<?php if ($question_number != 1) { ?>
+				<?php if ($question_number > $total_subtes1) { ?>
 					<button type="submit" style="margin-top: 5%" class="btn btn-primary" name="redirect" value="1"> <i class="fa fa-arrow-circle-left"></i> Sebelumnya
 					</button>
 				<?php } ?>
-				<?php if (!($question_number == ($total_subtes1 + $total_subtes2) && $soal_subtes1->subtes == 2)) { ?>
+				<?php if ($question_number < ($total_subtes1 + $total_subtes2)) { ?>
 					<button type="submit" style="margin-top: 5%" class="btn btn-primary" name="redirect" value="2"> Selanjutnya <i class="fa fa-arrow-circle-right"></i>
 					</button>
 				<?php } ?>
-				<?php if ($question_number == ($total_subtes1 + $total_subtes2) && $soal_subtes1->subtes == 2) { ?>
+				<?php if ($question_number >= ($total_subtes1 + $total_subtes2)) { ?>
 					<button type="submit" style="margin-top: 5%" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin ingin menyelesaikan subtes 2?')" name="redirect" value="4">
 						 Subtes 3 <i class="fa fa-arrow-circle-right"></i>
 					</button>

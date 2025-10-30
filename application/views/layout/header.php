@@ -16,6 +16,7 @@
   <meta property="og:image" content="../blog/vali-admin/hero-social.png">
   <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
   <?php
+  $title = "Dashboard";
   if ($this->session->userdata('ses_idLevel') == 'Administrator') {
     $title = "Administrator Panel";
   } else if ($this->session->userdata('ses_idLevel') == 'Admin Sdm') {
@@ -26,7 +27,7 @@
     $title = "Perusahaan Panel";
   }
   ?>
-  <title><?php echo $title ?> || Sistem E-recruitment</title>
+  <title><?php echo isset($title) ? $title : 'Dashboard' ?> || Sistem E-recruitment</title>
   <link href=" <?php echo base_url('assets/images/shortcuticon.png') ?>" rel="shortcut icon">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">

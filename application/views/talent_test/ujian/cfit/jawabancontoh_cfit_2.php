@@ -35,9 +35,6 @@
         <?php 
         $id_pelamar = $this->session->userdata('talent_test_user_id'); 
         $id_ujian = $this->session->userdata('talent_test_id_ujian');
-        $this->db->where('subtes', 1);
-        $this->db->where('type_soal', 'Ujian');
-        $total_subtes1 = $this->db->count_all_results('tb_soal_cfit');
         $first_subtes2 = $total_subtes1 + 1;
         ?>
         <div class="col-sm-12 button-lm-little justify-content-center text-center" style="margin-top: 20px; margin-bottom: 20px;">
