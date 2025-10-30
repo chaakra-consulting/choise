@@ -1,6 +1,9 @@
 <!-- Sidebar menu-->
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
+  <div style="color: white; background: black; padding: 10px; font-size: 16px;">
+    DEBUG: Level Pengguna Saat Ini Adalah: "<?php var_dump($this->session->userdata('ses_idLevel')); ?>"
+  </div>
   <?php 
   $perusahaan = $this->session->userdata('ses_id');
   $logoPerusahaan = 'default.png';
