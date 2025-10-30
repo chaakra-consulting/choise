@@ -124,28 +124,46 @@ class Quiz extends CI_Controller
 
         $riasec_data = [
             'R' => [
-                'name' => 'Realistic',
-                'description' => 'Minat untuk bekerja dengan obyek, benda maupun peralatan. Tipe ini memiliki kemampuan mengoperasikan alat, peralatan dan mesin, merancang, membangun, maupun bekerja secara detail. Namun belum memiliki kemampuan dalam menjalin relasi antar personal.'
+                'name' => 'Realistic (Realistis)',
+                'description' => 'Bidang realistik ini memiliki minat untuk bekerja dengan obyek, benda maupun peralatan. 
+                    Individu dibidang ini yang memiliki kemampuan mengoperasikan alat, peralatan dan mesin, merancang, membangun, 
+                    maupun bekerja secara detail.',
+                'tantangan' => 'Individu masih perlu meningkatkan kemampuan dalam menjalin relasi antar personal.'
             ],
             'I' => [
-                'name' => 'Investigative',
-                'description' => 'Minat untuk bekerja dengan sistematika dan intelektual. Tipe ini memiliki kemampuan menganalisa, berpikir rasional, merancang, merumuskan, dan bereksperimen. Namun belum memiliki kemampuan dalam memimpin.'
+                'name' => 'Investigative (Investigatif)',
+                'description' => 'Bidang investigatif ini memiliki minat untuk bekerja dengan sistematika dan intelektual. 
+                    Individu dibidang ini memiliki kemampuan menganalisa, berpikir rasional, mampu merancang & merumuskan berbagai 
+                    data.',
+                'tantangan' => 'Individu masih perlu meningkatkan kemampuan dalam kerjasama tim.'
             ],
             'A' => [
-                'name' => 'Artistic',
-                'description' => 'Minat untuk bekerja dengan kreativitas berbentuk seni dan intuitif. Tipe ini memiliki kemampuan dalam mengekspresikan diri melalui seni, merencanakan, menyajikan, dan merancang desain. Namun belum memiliki kemampuan dalam bidang keteraturan dan sistematis.'
+                'name' => 'Artistic (Artistik)',
+                'description' => 'Bidang artistik ini memiliki minat untuk bekerja dengan kreativitas berbentuk seni dan intuitif. 
+                    Individu dibidang ini memiliki kemampuan dalam mengekspresikan diri melalui seni, merencanakan, menyajikan, dan 
+                    merancang desain.',
+                'tantangan' => 'Individu masih perlu meningkatkan kemampuan dalam bidang keteraturan dan sistematis.'
             ],
             'S' => [
-                'name' => 'Social',
-                'description' => 'Minat untuk bekerja dengan aktivitas sosial (menggerakkan dan memberikan dampak positif). Tipe ini memiliki kemampuan dalam mengembangkan situasi sosial seperti memberi informasi, berkomunikasi secara lisan atau tertulis serta pribadi yang peduli. Namun belum memiliki kemampuan dibidang mekanik dan sains.'
+                'name' => 'Social (Sosial)',
+                'description' => 'Bidang sosial ini memiliki minat untuk bekerja dengan aktivitas sosial 
+                    (menggerakkan dan memberikan dampak positif). Individu dibidang ini memiliki kemampuan dalam mengembangkan 
+                    situasi sosial seperti memberi informasi, berkomunikasi secara lisan atau tertulis serta pribadi yang peduli.',
+                'tantangan' => 'Individu masih perlu meningkatkan kemampuan dibidang mekanik dan sains.'
             ],
             'E' => [
                 'name' => 'Enterprising',
-                'description' => 'Minat untuk bekerja dengan kegiatan promosi dan penjualan. Tipe ini memiliki kemampuan persuasif, mengembangkan ide-ide, percaya diri dan memimpin. Namun belum memiliki kemampuan dibidang sains.'
+                'description' => 'Bidang enterprising ini memiliki minat untuk bekerja dengan kegiatan promosi dan penjualan. 
+                    Individu dibidang ini memiliki kemampuan persuasif, mengembangkan ide-ide, percaya diri dan memimpin. ',
+                'tantangan' => 'Individu masih perlu meningkatkan kemampuan dibidang sains.'
             ],
             'K' => [
                 'name' => 'Conventional (konvensional)',
-                'description' => 'Minat untuk bekerja secara sistematis dan menggunakan ketelitian. Tipe ini memiliki kemampuan memperhatikan detail, bekerja dengan data (angka) dan merekam serta menyimpan catatan.'
+                'description' => 'Bidang konvensional ini memiliki minat untuk bekerja secara sistematis dan menggunakan ketelitian. 
+                    Individu dibidang ini memiliki kemampuan memperhatikan detail, bekerja dengan data (angka) dan 
+                    merekam serta menyimpan catatan.',
+                'tantangan' => 'Individu masih perlu meningkatkan kemampuan dalam pekerjaan yang membutuhkan interaksi sosial tinggi, 
+                    kreativitas, dan fleksibilitas.'
             ]
         ];
 

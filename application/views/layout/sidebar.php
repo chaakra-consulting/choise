@@ -50,7 +50,7 @@
       </a>
     </li>
     <li>
-      <a class="app-menu__item  <?php if ($this->uri->segment(2) == "Data_nilai") {
+      <a class="app-menu__item  <?php if ($this->uri->segment(2) == "Quiz") {
         echo "active"; } ?>" href="<?php echo base_url('Administrator/Quiz/') ?>">
         <i class="app-menu__icon fa fa-quora"></i><span class="app-menu__label">Quiz </span>
       </a>

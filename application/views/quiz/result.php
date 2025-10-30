@@ -220,7 +220,7 @@
                         </div>
 
                         <div class="description-section">
-                            <h3>Deskripsi Tipe Anda</h3>
+                            <h3>Karateristik</h3>
                             <p><?php echo $type_data['description']; ?></p>
                         </div>
 
@@ -234,6 +234,11 @@
                                     </div>
                                 <?php endforeach; ?>
                             </div>
+                        </div>
+
+                        <div class="description-section">
+                            <h3>Tantangan</h3>
+                            <p><?php echo $type_data['tantangan']; ?></p>
                         </div>
 
                         <div class="message-section">
