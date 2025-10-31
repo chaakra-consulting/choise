@@ -24,9 +24,9 @@
 
 
     foreach ($array as $key) {
-        $id_lowongan = $key['id_lowongan'];
-        $id_perusahaan = $key['id_perusahaan'];
-        $nama_perusahaan = $key['id_perusahaan'];
+        // $id_lowongan = $key['id_lowongan'];
+        // $id_perusahaan = $key['id_perusahaan'];
+        // $nama_perusahaan = $key['id_perusahaan'];
 
         // $perusahaan = $this->db->query("SELECT * FROM tb_perusahaan");
 
@@ -40,10 +40,11 @@
         <div class="col-md-6 col-lg-3 mb-3 mb-lg-3" data-aos="fade-up">
             <div class="unit-4 d-block">
                 <div class="card-img-block">
-                    <img style="width: 130px" class="card-img-top" src="<?php echo ($logo_perusahaan != '' ? base_url('./upload/logo_perusahaan/' . $logo_perusahaan) : base_url('./upload/logo_perusahaan/img_default.jpg')); ?>">
+                    <img style="width: 130px" class="card-img-top" src="<?php echo (!empty($key['logo_perusahaan']) ? 
+                        base_url('./upload/logo_perusahaan/' . $key['logo_perusahaan']) : base_url('./upload/logo_perusahaan/img_default.jpg')); ?>">
                 </div><br>
-                <h3><?php echo $key['nama_jabatan'] ?></h3>
-                <p><?php echo $nama_perusahaan ?></p>
+                <h3><?php echo $key['nama_jabatan']; ?></h3>
+                <p><?php echo $key['nama_perusahaan']; ?></p>
                 <div>
                     <a href="<?php echo base_url('Pelamar/Lamaran/lamarlowongan/' . $id_lowongan) ?>" class="btn btn-primary mr-2 mb-2">Lihat Lowongan</a>
                 </div>
