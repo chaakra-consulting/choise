@@ -28,7 +28,7 @@
         // $id_perusahaan = $key['id_perusahaan'];
         // $nama_perusahaan = $key['id_perusahaan'];
 
-        // $perusahaan = $this->db->query("SELECT * FROM tb_perusahaan");
+        // $perusahaan = $this->db->query("SELECT * FROM tb_perusahaan"); 
 
         // foreach ($perusahaan->result() as $key_perusahaan) {
         //     if ($key_perusahaan->id_perusahaan == $key['id_perusahaan']) {
