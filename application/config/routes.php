@@ -101,6 +101,7 @@ $route['administrator/talent-test/get-berkas-detail/(:num)']            = 'Admin
 $route['administrator/quiz']                                            = 'Administrator/Quiz/index';
 $route['administrator/quiz/add']                                        = 'Administrator/Quiz/add';
 $route['administrator/quiz/edit/(:num)']                                = 'Administrator/Quiz/edit/$1';
+$route['administrator/quiz/pendaftar_quiz']                            = 'Administrator/Quiz/pendaftar_quiz';
 $route['administrator/quiz/delete/(:num)']                              = 'Administrator/Quiz/delete/$1';
 $route['quiz/holland-quiz']                                             = 'Quiz/holland_quiz';
 $route['quiz/submit_form']                                              = 'Quiz/submit_form';

@@ -45,7 +45,7 @@
     </div>
 
     <div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin-top: 20px; margin-bottom: 20px">
-        <a href="<?php echo site_url('talent-test/start-exam/cepat'); ?>" class="btn btn-primary mr-2 mb-2">Mulai Sekarang</a>
+        <a href="<?php echo site_url('talent-test/start-exam/cepat_teliti'); ?>" class="btn btn-primary mr-2 mb-2">Mulai Sekarang</a>
     </div>
 </div>
 
@@ -65,7 +65,7 @@
         if (distance < 0) {
             clearInterval(x);
             alert('Waktu latihan sudah berakhir, selamat mengerjakan');
-            window.location.href = '<?php echo base_url('talent-test/start-exam/cepat'); ?>';
+            window.location.href = '<?php echo base_url('talent-test/start-exam/cepat_teliti'); ?>';
         }
     }, 1000);
 </script>
