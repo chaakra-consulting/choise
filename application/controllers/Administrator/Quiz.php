@@ -14,7 +14,7 @@ class Quiz extends CI_Controller
     public function index()
     {
         $data['questions'] = $this->Mdl_holland_questions->get_all_questions();
-        $this->load->view('administrator/holland_questions', $data);
+        $this->load->view('administrator/quiz/holland_questions', $data);
     }
 
     public function add()
@@ -23,7 +23,7 @@ class Quiz extends CI_Controller
         $this->form_validation->set_rules('type', 'Tipe', 'required|in_list[r,i,a,s,e,k]');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('administrator/add_holland_question');
+            $this->load->view('administrator/quiz/add_holland_question');
         } else {
             $data = [
                 'question_text' => $this->input->post('question_text'),
@@ -43,7 +43,7 @@ class Quiz extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['question'] = $this->Mdl_holland_questions->get_question($id);
-            $this->load->view('administrator/edit_holland_question', $data);
+            $this->load->view('administrator/quiz/edit_holland_question', $data);
         } else {
             $data = [
                 'question_text' => $this->input->post('question_text'),
@@ -53,6 +53,13 @@ class Quiz extends CI_Controller
             $this->Mdl_holland_questions->update_question($id, $data);
             redirect('admin-quiz');
         }
+    }
+
+    public function pendaftar_quiz()
+    {
+        $this->load->model('Mdl_ujian');
+        $data['quiz_results'] = $this->Mdl_ujian->get_holland_results();
+        $this->load->view('administrator/quiz/pendaftar_quiz', $data);
     }
 
     public function delete($id)

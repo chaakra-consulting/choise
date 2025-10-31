@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="col-sm-12 button-lm-little justify-content-center text-center" style="margin: 10px;">
-            <form action="<?php echo site_url('talent-test/training/cepat/1')?>">
+            <form action="<?php echo site_url('talent-test/training/cepat_teliti/1')?>">
                 <button type="submit" class="btn btn-primary mr-2 mb-2">Mulai Ujian</button>
             </form>
         </div>

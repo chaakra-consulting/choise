@@ -508,6 +508,7 @@ class TalentTest extends CI_Controller
                 'talent_test_id_ujian' => $id_ujian,
             ]);
             redirect('talent-test/exam/holland/frame/1');
+            return;
         } elseif ($exam_type == 'disc') {
             $ujian_list = $this->m_paket->get_ujian_by_paket($pendaftaran['id_paket']);
             $disc_available = false;
@@ -520,6 +521,7 @@ class TalentTest extends CI_Controller
             if (!$disc_available) {
                 $this->session->set_flashdata('error', 'Ujian DISC tidak tersedia di paket Anda.');
                 redirect('talent-test/dashboard');
+                return;
             }
 
             $this->db->where('status', 'aktif');
@@ -527,6 +529,7 @@ class TalentTest extends CI_Controller
             if (!$ujian_disc) {
                 $this->session->set_flashdata('error', 'Ujian DISC belum diaktifkan.');
                 redirect('talent-test/dashboard');
+                return;
             }
 
             $durasi = $this->m_paket->get_durasi_ujian($exam_type);
@@ -539,11 +542,13 @@ class TalentTest extends CI_Controller
                 'talent_test_id_ujian' => $ujian_disc['id_ujian_disc'],
             ]);
             redirect('talent-test/exam/disc/frame/1');
+            return;
         } elseif ($exam_type == 'cepat_teliti') {
             $ujian_cepat = $this->db->get('tb_ujian_cepat')->row_array();
             if (!$ujian_cepat) {
                 $this->session->set_flashdata('error', 'Ujian Cepat Teliti belum diaktifkan.');
                 redirect('talent-test/dashboard');
+                return;
             }
             $durasi = $this->m_paket->get_durasi_ujian($exam_type);
             $end_time = time() + ($durasi * 60);
@@ -554,12 +559,14 @@ class TalentTest extends CI_Controller
                 'talent_test_end_time' => $end_time,
                 'talent_test_id_ujian' => $ujian_cepat['id_ujian_cepat'],
             ]);
-            redirect('talent-test/exam/cepat/frame/1');
+            redirect('talent-test/exam/cepat_teliti/frame/1');
+            return;
         } elseif ($exam_type == 'talent_who_am_i') {
             $ujian_talent_who_am_i = $this->db->get('tb_ujian_talent')->row_array(); 
             if (!$ujian_talent_who_am_i) {
                 $this->session->set_flashdata('error', 'Ujian Who Am I belum diaktifkan.');
                 redirect('talent-test/dashboard');
+                return;
             }
 
             $durasi = $this->m_paket->get_durasi_ujian($exam_type);
@@ -572,6 +579,7 @@ class TalentTest extends CI_Controller
                 'talent_test_id_ujian' => $ujian_talent_who_am_i['id_ujian_talent'],
             ]);
             redirect('talent-test/exam/talent_who_am_i/frame/1');
+            return;
         }
 
         $this->session->set_userdata([
@@ -972,7 +980,7 @@ class TalentTest extends CI_Controller
             }
 
             if ($target_question) {
-                redirect('talent-test/exam/cepat/frame/' . $target_question);
+                redirect('talent-test/exam/cepat_teliti/frame/' . $target_question);
                 return;
             }
 
@@ -987,11 +995,11 @@ class TalentTest extends CI_Controller
             }
 
             if ($redirect_action == '1' && $current_index > 0) {
-                redirect('talent-test/exam/cepat/frame/' . $soal_numbers[$current_index - 1]);
+                redirect('talent-test/exam/cepat_teliti/frame/' . $soal_numbers[$current_index - 1]);
             } elseif ($redirect_action == '2' && $current_index < $total_soal - 1) {
-                redirect('talent-test/exam/cepat/frame/' . $soal_numbers[$current_index + 1]);
+                redirect('talent-test/exam/cepat_teliti/frame/' . $soal_numbers[$current_index + 1]);
             } else {
-                redirect('talent-test/exam/cepat/frame/' . $no_soal);
+                redirect('talent-test/exam/cepat_teliti/frame/' . $no_soal);
             }
         }
         if ($exam_type == 'talent_who_am_i') {
@@ -1127,11 +1135,7 @@ class TalentTest extends CI_Controller
         foreach ($ujian_list as $ujian) {
             $exam_type = $ujian['jenis_ujian'];
             $result = $this->get_exam_result($user_id, $exam_type);
-
-            if (!$result) {
-                $result = $this->calculate_and_save_result($user_id, $exam_type);
-            }
-
+            
             if ($result) {
                 $exam_results[] = [
                     'exam_type' => $exam_type,
@@ -1924,7 +1928,7 @@ class TalentTest extends CI_Controller
             $elapsed = time() - $start_time;
             $remaining = max(0, ($durasi_latihan * 60) - $elapsed);
             if ($remaining <= 0) {
-                redirect('talent-test/start-exam/cepat');
+                redirect('talent-test/start-exam/cepat_teliti');
             } else {
                 $end_lat_key = 'end_lat1';
                 $data[$end_lat_key] = date('Y-m-d H:i:s', time() + $remaining);

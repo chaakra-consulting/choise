@@ -65,7 +65,7 @@
         <br>
         <h4><li style="color: #fff;"><b>Contoh soal:</b></h4>
         <br>
-        <form action="<?php echo site_url('talent-test/submit-training/cepat'); ?>" method="post">
+        <form action="<?php echo site_url('talent-test/submit-training/cepat_teliti'); ?>" method="post">
             <div class="question-text" style="margin: 5px;">
                 <p style="color: #fff;">1. <u>nv</u> nx xn vx xv</p>
                 <div class="form-check col-sm-2 text-center" style="margin-top: 5px;">
@@ -159,7 +159,7 @@
         if (distance < 0) {
             clearInterval(x);
             alert('Waktu latihan sudah berakhir, selamat mengerjakan');
-            window.location.href = '<?php echo base_url('talent-test/start-exam/cepat'); ?>';
+            window.location.href = '<?php echo base_url('talent-test/start-exam/cepat_teliti'); ?>';
         }
     }, 1000);
 </script>

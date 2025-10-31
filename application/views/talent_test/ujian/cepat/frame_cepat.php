@@ -49,7 +49,7 @@
     <hr color="black">
     <div class="col-md-7 col-sm-12" style="margin-bottom: 10px;">
         <form action="<?php echo $form_action; ?>" method="post">
-            <input type="hidden" name="exam_type" value="cepat">
+            <input type="hidden" name="exam_type" value="<?php echo $exam_type; ?>">
             <input type="hidden" name="no_soal" value="<?php echo $nomor_soal; ?>">
             <input type="hidden" name="redirect" id="redirect_input" value="">
             <input type="hidden" name="target_question" value="">

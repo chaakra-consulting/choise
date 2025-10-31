@@ -49,11 +49,25 @@
         <i class="app-menu__icon fa fa-wpforms"></i><span class="app-menu__label">Nilai Pelamar </span>
       </a>
     </li>
-    <li>
-      <a class="app-menu__item  <?php if ($this->uri->segment(2) == "Quiz") {
-        echo "active"; } ?>" href="<?php echo base_url('Administrator/Quiz/') ?>">
-        <i class="app-menu__icon fa fa-quora"></i><span class="app-menu__label">Quiz </span>
+    <li class="treeview <?php if ($this->uri->segment(2) == "Quiz") { echo "is-expanded"; } ?>"> 
+      <a class="app-menu__item" href="#" data-toggle="treeview">
+        <i class="app-menu__icon fa fa-quora"></i><span class="app-menu__label">Quiz</span>
+        <i class="treeview-indicator fa fa-angle-right"></i>
       </a>
+      <ul class="treeview-menu">
+        <li>
+          <a class="treeview-item <?php if ($this->uri->segment(3) == "") { echo "active"; } ?>" 
+            href="<?php echo base_url('Administrator/Quiz/') ?>">
+            <i class="icon fa fa-circle-o"></i> Pertanyaan Quiz
+          </a>
+        </li>
+        <li>
+          <a class="treeview-item <?php if ($this->uri->segment(3) == "pendaftar_quiz") { echo "active"; } ?>" 
+            href="<?php echo base_url('Administrator/Quiz/pendaftar_quiz') ?>">
+            <i class="icon fa fa-circle-o"></i> Pendaftar Quiz
+          </a>
+        </li>
+      </ul>
     </li>
     <li class="treeview <?php if ($this->uri->segment(2) == "Data_Pelatihan") { echo "is-expanded"; } ?>"> 
       <a class="app-menu__item" href="#" data-toggle="treeview">
