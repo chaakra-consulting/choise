@@ -17,11 +17,12 @@ class Mdl_home extends CI_Model
             l.id_lowongan, 
             l.nama_jabatan, 
             p.nama_perusahaan, 
-            p.logo_perusahaan
+            p.logo_perusahaan,
+			p.id_perusahaan
         ');
         $this->db->from('tb_lowongan as l');
         $this->db->join('tb_perusahaan as p', 'l.id_perusahaan = p.id_perusahaan', 'left');
-        $this->db->where('l.jadwal_seleksi >=', 'CURRENT_DATE()', FALSE); // FALSE to prevent CI from escaping CURRENT_DATE()
+        $this->db->where('l.jadwal_seleksi >=', 'CURRENT_DATE()', FALSE);
         return $this->db->get()->result_array();
 	}
 
