@@ -24,18 +24,18 @@
 
 
     foreach ($array as $key) {
-        // $id_lowongan = $key['id_lowongan'];
-        // $id_perusahaan = $key['id_perusahaan'];
-        // $nama_perusahaan = $key['id_perusahaan'];
+        $id_lowongan = $key['id_lowongan'];
+        $id_perusahaan = $key['id_perusahaan'];
+        $nama_perusahaan = $key['id_perusahaan'];
 
-        // $perusahaan = $this->db->query("SELECT * FROM tb_perusahaan"); 
+        $perusahaan = $this->db->query("SELECT * FROM tb_perusahaan"); 
 
-        // foreach ($perusahaan->result() as $key_perusahaan) {
-        //     if ($key_perusahaan->id_perusahaan == $key['id_perusahaan']) {
-        //         $nama_perusahaan = $key_perusahaan->nama_perusahaan;
-        //         $logo_perusahaan = $key_perusahaan->logo_perusahaan;
-        //     }
-        // }
+        foreach ($perusahaan->result() as $key_perusahaan) {
+            if ($key_perusahaan->id_perusahaan == $key['id_perusahaan']) {
+                $nama_perusahaan = $key_perusahaan->nama_perusahaan;
+                $logo_perusahaan = $key_perusahaan->logo_perusahaan;
+            }
+        }
     ?>
         <div class="col-md-6 col-lg-3 mb-3 mb-lg-3" data-aos="fade-up">
             <div class="unit-4 d-block">
