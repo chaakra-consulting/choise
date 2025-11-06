@@ -51,16 +51,16 @@
 	</div>
 	<div class="col-sm-12" style="background-color: #fff; padding: 30px; border-radius: 5px;">
 		<p>Soal dibawah ini merupakan soal latihan sebelum mengerjakan subtes 2. Cobalah untuk mengerjakan contoh soal di bawah ini! Apapun jawaban anda pada tahap latihan ini tidak akan dihitung poinnya.</p> <b>HANYA DAPAT MEMILIH 2 JAWABAN, JIKA TERDPAT KESALAHAN, SILAHKAN UNCHECK YANG SALAH DAN CHECKLIST PADA YANG BENAR</b><br>
+		<?php 
+		$idUjian = $this->session->userdata('ses_ujian'); 
+		$id_pelamar = $this->session->userdata('ses_id');
+		$ujian = $this->db->query("SELECT * FROM tb_ujian WHERE id_ujian = $idUjian");
+		foreach ($ujian->result() as $key ) {
+			$end_lat2 = $key->end_lat_sub2;
+		}
+		?>
 		<form method="post" action="<?php  echo base_url('Pelamar/Ujian/jawabancontoh2/'.$idUjian . '/' . $id_pelamar) ?>">
 			<div class="col-sm-12">
-				<?php 
-				$idUjian = $this->session->userdata('ses_ujian'); 
-				$id_pelamar = $this->session->userdata('ses_id');
-				$ujian = $this->db->query("SELECT * FROM tb_ujian WHERE id_ujian = $idUjian");
-				foreach ($ujian->result() as $key ) {
-					$end_lat2 = $key->end_lat_sub2;
-				}
-				?>
 				<div class="form-check col-sm-1 text-center" style="margin-top: 5px;">
 					<label class="form-check-label" for="latcfit21">a</label>
 					<input class="form-check-input" type="checkbox" name="latcfit21[]" value="a">

@@ -65,7 +65,7 @@
 			$end_lat1 = $key->end_lat_sub1;
 		}
 		?>
-		<form method="post" action="<?php  echo base_url('Pelamar/Pelamar/jawabancontoh/'.$idUjian . '/' . $id_pelamar) ?>">
+		<form method="post" action="<?php echo base_url('Pelamar/Pelamar/jawabancontoh/'.$idUjian . '/' . $id_pelamar) ?>">
 			<div class="col-sm-12">
 				<p>1.</p>
 				<img src="<?php  echo base_url('assets3/images/soalcfit/subtes1/contoh/contoh2.jpg') ?>" class="img-responsive" alt="" style="width: 300px; margin: 10px; border-radius: 5px;">

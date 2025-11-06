@@ -1,5 +1,5 @@
-<?php   $this->load->view('layout3/header2') ?>
-<?php   $this->load->view('layout3/navbar') ?>
+<?php $this->load->view('layout3/header2') ?>
+<?php $this->load->view('layout3/navbar') ?>
 
 <div class="col-sm-12 main">
 	<div class="row" style="margin-bottom: -50px;">
@@ -19,7 +19,7 @@
 	}
 	?>
 
-	<iframe  id="frame" src="<?php echo base_url('Pelamar/Ujian/frame_ujian/'.$id_ujian.'/'.$nomor ) ?>" width="100%" onload="this.style.height=this.contentDocument.body.scrollHeight +'px';"  frameborder="0">Browser Anda Tidak Mendukung  Iframe, Silahkan Perbaharui Browser Anda.</iframe>
+	<iframe id="frame" src="<?php echo base_url('Pelamar/Ujian/frame_ujian/'.$id_ujian.'/'.$nomor ) ?>" width="100%" onload="this.style.height=this.contentDocument.body.scrollHeight +'px';"  frameborder="0">Browser Anda Tidak Mendukung  Iframe, Silahkan Perbaharui Browser Anda.</iframe>
 </div>
 
 <script type="text/javascript">
@@ -43,4 +43,4 @@ var x = setInterval(function() {
 }, 1000);
 </script>
 
-<?php   $this->load->view('layout3/footer') ?>
+<?php $this->load->view('layout3/footer') ?>

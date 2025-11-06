@@ -59,13 +59,14 @@
 	</div>
 	<div class="col-sm-12" style="background-color: #fff; padding: 30px; border-radius: 5px;">
 		<p>Soal dibawah ini merupakan soal latihan sebelum mengerjakan subtes 3. Cobalah untuk mengerjakan contoh soal di bawah ini! Apapun jawaban anda pada tahap latihan ini tidak akan dihitung poinnya.</p>
+		<?php 
+		$idUjian = $this->session->userdata('ses_ujian');
+		$ujian = $this->db->query("SELECT * FROM tb_ujian WHERE id_ujian = $idUjian");
+		foreach ($ujian->result() as $key ) {
+			$end_lat3 = $key->end_lat_sub3;
+		}
+		$id_pelamar = $this->session->userdata('ses_id');?>
 		<form method="post" action="<?php  echo base_url('Pelamar/Ujian/jawabancontoh3/'.$idUjian . '/' . $id_pelamar) ?>">
-		<?php $idUjian = $this->session->userdata('ses_ujian');
-			$ujian = $this->db->query("SELECT * FROM tb_ujian WHERE id_ujian = $idUjian");
-				foreach ($ujian->result() as $key ) {
-					$end_lat3 = $key->end_lat_sub3;
-				}
-			$id_pelamar = $this->session->userdata('ses_id');?>
 			<div class="col-sm-12">
 				<p>1.</p>
 				<img src="<?php  echo base_url('upload/bank_soal/cfit/contoh21.jpg') ?>" class="img-responsive" alt="" style="width: 150px; margin: 10px; border-radius: 5px;">
