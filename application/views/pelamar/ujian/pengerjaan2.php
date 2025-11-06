@@ -1,8 +1,7 @@
-<?php   $this->load->view('layout3/header2') ?>
-<?php   $this->load->view('layout3/navbar') ?>
+<?php $this->load->view('layout3/header2') ?>
+<?php $this->load->view('layout3/navbar') ?>
 
 <div class="col-sm-12 main">
-
 	<div class="row" style="margin-bottom: -50px;">
 		<div class="col-lg-9">
 			<h3>Soal Latihan</h3>
