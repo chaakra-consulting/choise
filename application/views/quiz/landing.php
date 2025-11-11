@@ -87,7 +87,7 @@
     }
 
     .hero-subtitle {
-        font-size: 2rem;
+        font-size: 1.5rem;
         margin-bottom: 3rem;
         line-height: 1.7;
         font-weight: 400;
@@ -357,7 +357,7 @@
             font-size: 3rem;
         }
         .hero-subtitle {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
     }
 
@@ -366,7 +366,7 @@
             font-size: 4.5rem;
         }
         .hero-subtitle {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
         }
         .btn-start {
             padding: 22px 55px;
