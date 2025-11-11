@@ -566,7 +566,8 @@
                 <div class="psychologist-info">
                     <h3 class="psychologist-name">Lina Subandriyo, M.Psi., Psikolog</h3>
                     <hr style="margin: 0; background-color: black; margin-bottom: 5px;">
-                    <p class="psychologist-role">Psikolog Industri yang sudah berpengalaman >10 tahun dalam pengembangan Karir SDM dan Direktur Chaakra Consulting</p>
+                    <p class="psychologist-role">Psikolog Industri yang sudah berpengalaman >10 tahun</p>
+                    <p class="psychologist-role">dalam pengembangan Karir SDM dan Direktur Chaakra Consulting</p>
                 </div>
             </div>
         </div>
