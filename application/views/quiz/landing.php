@@ -87,7 +87,7 @@
     }
 
     .hero-subtitle {
-        font-size: 1.25rem;
+        font-size: 2rem;
         margin-bottom: 3rem;
         line-height: 1.7;
         font-weight: 400;
@@ -162,34 +162,34 @@
         position: absolute;
         bottom: 20px;
         left: 20px;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
         border-radius: var(--border-radius);
-        box-shadow: var(--shadow-medium);
-        max-width: 350px;
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: var(--shadow-heavy);
+        max-width: 400px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         animation: fadeInUp 1s ease-out 0.6s both;
     }
 
     .psychologist-name {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         font-weight: 700;
         margin: 0 0 0.5rem 0;
         color: var(--text-dark);
     }
 
     .psychologist-role {
-        font-size: 0.9rem;
+        font-size: 1rem;
         font-weight: 600;
         margin: 0 0 1rem 0;
         color: var(--accent-color);
-        text-transform: uppercase;
+        /* text-transform: uppercase; */
         letter-spacing: 0.5px;
     }
 
     .psychologist-info p {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         color: #4a5568;
         margin: 0;
         line-height: 1.5;
@@ -351,17 +351,62 @@
         color: rgba(0, 0, 0, 0.7);
         font-size: 2rem;
     }
+    
+    @media (max-width: 1200px) {
+        .hero-title {
+            font-size: 3rem;
+        }
+        .hero-subtitle {
+            font-size: 1.8rem;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+        .hero-title {
+            font-size: 4.5rem;
+        }
+        .hero-subtitle {
+            font-size: 1.75rem;
+        }
+        .btn-start {
+            padding: 22px 55px;
+            font-size: 1.6rem;
+        }
+        .psychologist-name {
+            font-size: 1.6rem;
+        }
+        .psychologist-role {
+            font-size: 1.4rem;
+        }
+        .psychologist-info p {
+            font-size: 1.1rem;
+        }
+        .section-title {
+            font-size: 4rem;
+        }
+        .feature-card h4 {
+            font-size: 2rem;
+        }
+        .feature-card p {
+            font-size: 1.4rem;
+        }
+        .stat-number {
+            font-size: 4rem;
+        }
+        .stat-label {
+            font-size: 1.5rem;
+        }
+    }
 
     @media (max-width: 991.98px) {
         .hero-section {
             text-align: center;
             min-height: auto;
-            padding: 80px 0;
+            padding: 100px 0 60px;
         }
 
         .hero-content {
-            text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
         .hero-title {
@@ -371,6 +416,8 @@
         .hero-subtitle {
             font-size: 1.1rem;
             max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-image-container {
@@ -385,8 +432,9 @@
             position: relative;
             bottom: auto;
             left: auto;
-            margin: -40px auto 0 auto;
-            max-width: 100%;
+            margin: -50px auto 0 auto;
+            max-width: 90%;
+            padding: 1.25rem;
         }
 
         .section-title {
@@ -396,16 +444,59 @@
         .feature-card {
             margin-bottom: 40px;
         }
+
+        .features-section {
+            padding: 100px 0 60px;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .btn-start {
+            padding: 16px 40px;
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 70px;
+        }
+
+        .feature-card {
+            padding: 40px 30px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+        }
     }
 
     @media (max-width: 576px) {
+        .hero-section {
+            padding: 80px 0 40px;
+        }
         .hero-title {
             font-size: 2.2rem;
         }
 
+        .hero-subtitle {
+            font-size: 0.95rem;
+        }
+
         .btn-start {
             padding: 15px 35px;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .section-title {
@@ -414,7 +505,7 @@
         }
 
         .feature-card {
-            padding: 40px 30px;
+            padding: 35px 25px;
         }
 
         .feature-icon {
@@ -423,8 +514,35 @@
             font-size: 2rem;
         }
 
-        .stat-number {
-            font-size: 2.5rem;
+        .feature-card h4 {
+            font-size: 1.3rem;
+        }
+
+        .psychologist-info {
+            margin-top: -40px;
+        }
+
+        .scroll-indicator {
+            display: none;
+        }
+    }
+
+    @media (max-width: 375px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+        .hero-subtitle {
+            font-size: 0.9rem;
+        }
+        .btn-start {
+            padding: 12px 30px;
+            font-size: 0.9rem;
+        }
+        .section-title {
+            font-size: 1.8rem;
+        }
+        .feature-card h4 {
+            font-size: 1.2rem;
         }
     }
 </style>
@@ -446,8 +564,9 @@
             <div class="col-lg-6 hero-image-container">
                 <img src="<?php echo base_url('upload/quiz_holland/landing_chaakra2.png') ?>" alt="Psikolog Chaakra Consulting" class="hero-image">
                 <div class="psychologist-info">
-                    <h3 class="psychologist-name">Herlina Eka Subandriyo Putri, M.Psi., Psikolog</h3>
-                    <p class="psychologist-role">Psikolog Industri dengan pengalaman lebih dari 10 tahun di bidang pengembangan Karier SDM dan Direktur Chaakra Consulting</p>
+                    <h3 class="psychologist-name">Lina Subandriyo, M.Psi., Psikolog</h3>
+                    <hr style="margin: 0; background-color: black; margin-bottom: 5px;">
+                    <p class="psychologist-role">Psikolog Industri yang sudah berpengalaman >10 tahun dalam pengembangan Karir SDM dan Direktur Chaakra Consulting</p>
                 </div>
             </div>
         </div>
