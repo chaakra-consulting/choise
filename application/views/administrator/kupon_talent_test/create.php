@@ -77,7 +77,7 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="<?php echo base_url('administrator/KuponTalentTest'); ?>" class="btn btn-secondary">Batal</a>
+                        <a href="<?php echo base_url('administrator/kupon-talent-test'); ?>" class="btn btn-secondary">Batal</a>
                     </form>
                 </div>
             </div>
