@@ -290,13 +290,18 @@
         foreach ($ujian_list as &$ujian) {
             $exam_type = $ujian['jenis_ujian'];
             $this->db->where('id_pendaftar_pelatihan', $pendaftaran['id_pendaftar_pelatihan']);
-            $this->db->where('jenis_ujian', $exam_type);
+            if ($exam_type == 'rmib') {
+                $this->db->where_in('jenis_ujian', ['rmib_pria', 'rmib_wanita']);
+            } else {
+                $this->db->where('jenis_ujian', $exam_type);
+            }
             $result = $this->db->get('tb_hasil_talent_test')->row();
             $ujian['is_completed'] = $result ? true : false;
             if ($ujian['is_completed']) {
                 $completed_exams++;
             }
         }
+        unset($ujian);
         ?>
         <div class="stat-card">
             <div class="stat-number"><?php echo $total_exams; ?></div>
@@ -409,26 +414,49 @@
                     <div class="row">
                         <?php foreach ($ujian_list as $ujian) :
                             $exam_type = $ujian['jenis_ujian'];
-                            $progress = isset($progress_data[$exam_type]) ? $progress_data[$exam_type] : null;
+                            $progress = null;
+
+                            if ($exam_type == 'rmib') {
+                                $progress_pria = isset($progress_data['rmib_pria']) ? $progress_data['rmib_pria'] : null;
+                                $progress_wanita = isset($progress_data['rmib_wanita']) ? $progress_data['rmib_wanita'] : null;
+
+                                if ($progress_pria) {
+                                    $progress = $progress_pria;
+                                } elseif ($progress_wanita) {
+                                    $progress = $progress_wanita;
+                                }
+                            } else {
+                                $progress = isset($progress_data[$exam_type]) ? $progress_data[$exam_type] : null;
+                            }
+
                             $status = 'Belum Dimulai';
                             $status_class = 'not-started';
                             $card_class = 'not-started';
+                            $exam_progress_percentage = 0;
 
-                            if ($progress && isset($progress['total_questions']) && isset($progress['answered_questions'])) {
-                                if ($progress['total_questions'] == $progress['answered_questions']) {
-                                    $status = 'Selesai';
-                                    $status_class = 'completed';
-                                    $card_class = 'completed';
+                            if ($progress && isset($progress['total_questions'], $progress['answered_questions'])) {
+                                if ($progress['total_questions'] > 0) {
+                                    if ($progress['answered_questions'] >= $progress['total_questions']) {
+                                        $status = 'Selesai';
+                                        $status_class = 'completed';
+                                        $card_class = 'completed';
+                                        $exam_progress_percentage = 100;
+                                    } elseif ($progress['answered_questions']>0) {
+                                        $status = 'Dalam Proses';
+                                        $status_class = 'in-progress';
+                                        $card_class = 'in-progress';
+                                        $exam_progress_percentage = ($progress['answered_questions'] / $progress['total_questions']) * 100;
+                                    }
                                 } elseif ($progress['answered_questions'] > 0) {
                                     $status = 'Dalam Proses';
                                     $status_class = 'in-progress';
                                     $card_class = 'in-progress';
+                                    $exam_progress_percentage = ($progress['answered_questions'] / $progress['total_questions']) * 100;
                                 }
-                            }
-
-                            $exam_progress_percentage = 0;
-                            if ($progress && isset($progress['total_questions']) && isset($progress['answered_questions'])) {
-                                $exam_progress_percentage = ($progress['answered_questions'] / $progress['total_questions']) * 100;
+                            } elseif ($progress['answered_questions'] > 0) {
+                                $status = 'Dalam Proses';
+                                $status_class = 'in-progress';
+                                $card_class = 'in-progress';
                             }
                         ?>
                         <div class="col-lg-6 mb-3">

@@ -19,12 +19,14 @@ class TalentTest extends CI_Controller
         $token = $this->session->userdata('talent_test_access_token');
         if (!$token) {
             redirect('talent-test/login');
+            return;
         }
 
         $this->db->where('access_token', $token);
         $pendaftaran = $this->db->get('tb_pendaftar_pelatihan')->row_array();
         if (!$pendaftaran) {
             redirect('talent-test/login');
+            return;
         }
 
         $this->session->unset_userdata('ses_id');
@@ -38,6 +40,7 @@ class TalentTest extends CI_Controller
         $token = $this->session->userdata('talent_test_access_token');
         if (!$token) {
             redirect('talent-test/login');
+            return;
         }
 
         $this->db->where('access_token', $token);
@@ -168,17 +171,14 @@ class TalentTest extends CI_Controller
     {
         $token = $this->session->userdata('talent_test_access_token');
         if (!$token) {
-            log_message('error', 'Upload berkas: No token found');
             redirect('talent-test/login');
+            return;
         }
-
-        log_message('info', 'Upload berkas started for token: ' . $token);
 
         $this->db->where('access_token', $token);
         $pendaftaran = $this->db->get('tb_pendaftar_pelatihan')->row_array();
 
         if (!$pendaftaran) {
-            log_message('error', 'Upload berkas: Pendaftaran not found for token: ' . $token);
             $this->session->set_flashdata('msg_error', 'Data pendaftaran tidak ditemukan.');
             redirect('talent-test/berkas');
             return;
@@ -290,6 +290,7 @@ class TalentTest extends CI_Controller
         $token = $this->session->userdata('talent_test_access_token');
         if (!$token) {
             redirect('talent-test/login');
+            return;
         }
 
         $this->db->where('access_token', $token);
@@ -337,6 +338,7 @@ class TalentTest extends CI_Controller
         $token = $this->session->userdata('talent_test_access_token');
         if (!$token) {
             redirect('talent-test/login');
+            return;
         }
 
         $this->db->where('access_token', $token);
@@ -443,30 +445,24 @@ class TalentTest extends CI_Controller
 
         $table_map = [
             'cfit' => 'tb_ujian',
-            'ist' => 'tb_ujian_ist',
             'holland' => 'tb_ujian_holland',
             'disc' => 'tb_ujian_disc',
-            'essay' => 'tb_ujian_essay',
-            'hitung' => 'tb_ujian_hitung',
-            'studi_kasus' => 'tb_ujian_kasus',
-            'leadership' => 'tb_ujian_leadership',
             'cepat_teliti' => 'tb_ujian_cepat',
             'talent_who_am_i' => 'tb_ujian_talent',
             'rmib_pria' => 'tb_ujian_rmib_pria',
             'rmib_wanita' => 'tb_ujian_rmib_wanita',
+            'ist' => 'tb_ujian_ist',
         ];
 
         $column_map = [
             'cfit' => 'id_ujian',
-            'ist' => 'id_ujian_ist',
             'holland' => 'id_ujian_holland',
             'disc' => 'id_ujian_disc',
-            'essay' => 'id_ujian_essay',
-            'hitung' => 'id_ujian_hitung',
-            'studi_kasus' => 'id_ujian_studi_kasus',
-            'leadership' => 'id_ujian_leadership',
             'cepat_teliti' => 'id_ujian_cepat',
             'talent_who_am_i' => 'id_ujian_talent',
+            'rmib_pria' => 'id_ujian_rmib_pria',
+            'rmib_wanita' => 'id_ujian_rmib_wanita',
+            'ist' => 'id_ujian_ist',
         ];
 
         $table = $table_map[$exam_type] ?? 'tb_ujian';
@@ -496,6 +492,9 @@ class TalentTest extends CI_Controller
             ];
 
             $this->session->set_userdata('talent_test_subtest_times', $subtest_times);
+            $this->session->set_userdata('cfit_exam_state', [
+                'current_question_index' => 1
+            ]);
             $end_time = $sub4_end;
         } elseif ($exam_type == 'holland') {
             $durasi = $this->m_paket->get_durasi_ujian($exam_type);
@@ -579,6 +578,28 @@ class TalentTest extends CI_Controller
                 'talent_test_id_ujian' => $ujian_talent_who_am_i['id_ujian_talent'],
             ]);
             redirect('talent-test/exam/talent_who_am_i/frame/1');
+            return;
+        } elseif ($exam_type == 'rmib_pria' || $exam_type == 'rmib_wanita') {
+            $table_ujian = ($exam_type == 'rmib_pria') ? 'tb_ujian_rmib_pria' : 'tb_ujian_rmib_wanita';
+            $ujian_rmib = $this->db->get($table_ujian)->row_array();
+            if (!$ujian_rmib) {
+                $this->session->set_flashdata('error', 'Ujian RMIB belum diaktifkan.');
+                redirect('talent-test/dashboard');
+                return;
+            }
+
+            $id_ujian_rmib = ($exam_type == 'rmib_pria') ? $ujian_rmib['id_ujian_rmib_pria'] : $ujian_rmib['id_ujian_rmib_wanita'];
+            $durasi = $this->m_paket->get_durasi_ujian($exam_type);
+            $end_time = time() + ($durasi * 60);
+
+            $this->session->set_userdata([
+                'talent_test_current_exam' => $exam_type,
+                'talent_test_package_id' => $pendaftaran['id_paket'],
+                'talent_test_start_time' => time(),
+                'talent_test_end_time' => $end_time,
+                'talent_test_id_ujian' => $id_ujian_rmib,
+            ]);
+            redirect('talent-test/exam/' . $exam_type . '/frame/1');
             return;
         }
 
@@ -798,6 +819,28 @@ class TalentTest extends CI_Controller
             $this->load->view('talent_test/ujian/talent_who_am_i/frame_talent_who_am_i', $data);
             return;
         }
+
+        if ($exam_type == 'rmib' || $exam_type == 'rmib_pria' || $exam_type == 'rmib_wanita') {
+            $actual_exam_type = $exam_type;
+            if ($actual_exam_type == 'rmib') {
+                $pendaftar = $this->db->get_where('tb_pendaftar_pelatihan', ['id_pendaftar_pelatihan' => $user_id])->row_array();
+                $actual_exam_type = (isset($pendaftar['jenis_kelamin']) && $pendaftar['jenis_kelamin'] == 'L') ? 'rmib_pria' : 'rmib_wanita';
+                $this->session->set_userdata('talent_test_current_exam', $actual_exam_type);
+            }
+
+            $id_ujian = $this->session->userdata('talent_test_id_ujian');
+            $data = [
+                'exam_type' => $actual_exam_type,
+                'end_time' => $this->session->userdata('talent_test_end_time'),
+                'id_ujian' => $id_ujian,
+                'id_pendaftar_pelatihan' => $this->session->userdata('talent_test_user_id'),
+                'form_action' => site_url('talent-test/save-answer')
+            ];
+
+            $view_name = ($actual_exam_type == 'rmib_pria') ? 'rmib_pria' : 'rmib_wanita';
+            $this->load->view('talent_test/ujian/rmib/' . $view_name, $data);
+            return;
+        }
     }
 
     public function exam_list()
@@ -805,6 +848,7 @@ class TalentTest extends CI_Controller
         $token = $this->session->userdata('talent_test_access_token');
         if (!$token) {
             redirect('talent-test/login');
+            return;
         }
 
         $this->db->where('access_token', $token);
@@ -823,8 +867,13 @@ class TalentTest extends CI_Controller
 
         foreach ($ujian_list as &$ujian) {
             $exam_type = $ujian['jenis_ujian'];
-            $this->db->where('id_pendaftar_pelatihan', $pendaftaran['id_pendaftar_pelatihan']);
-            $this->db->where('jenis_ujian', $exam_type);
+            if ($exam_type == 'rmib') {
+                $this->db->where('id_pendaftar_pelatihan', $pendaftaran['id_pendaftar_pelatihan']);
+                $this->db->where_in('jenis_ujian', ['rmib_pria', 'rmib_wanita']);
+            } else {
+                $this->db->where('id_pendaftar_pelatihan', $pendaftaran['id_pendaftar_pelatihan']);
+                $this->db->where('jenis_ujian', $exam_type);
+            }
             $result = $this->db->get('tb_hasil_talent_test')->row();
             $ujian['is_completed'] = $result ? true : false;
         }
@@ -858,8 +907,35 @@ class TalentTest extends CI_Controller
             $this->session->set_flashdata('error', 'Data tidak lengkap.');
             redirect('talent-test/dashboard');    
         }
+
+        if ($exam_type == 'cfit') {
+            $subtest_times = $this->session->userdata('talent_test_subtest_times');
+            $current_subtest = $this->input->post('subtes');
+
+            if ($subtest_times && isset($subtest_times[$current_subtest])) {
+                $end_time = $subtest_times[$current_subtest]['end'];
+                if (time() > $end_time) {
+                    $this->session->set_flashdata('error', 'Waktu untuk subtes ' . $current_subtest . ' telah habis.');
+                    if ($current_subtest == 1) {
+                        redirect('talent-test/training/cfit/2');
+                        return;
+                    } elseif ($current_subtest == 2) {
+                        redirect('talent-test/training/cfit/3');
+                        return;
+                    } elseif ($current_subtest == 3) {
+                        redirect('talent-test/training/cfit/4');
+                        return;
+                    } elseif ($current_subtest == 4) {
+                        $this->calculate_and_save_result($user_id, 'cfit');
+                        redirect('talent-test/exam-list');
+                        return;
+                    }
+                }
+            }
+        }
         
-        if ($exam_type != 'holland' && $exam_type != 'disc' && $exam_type != 'cepat_teliti' && empty($question_id)) {
+        if ($exam_type != 'holland' && $exam_type != 'disc' && $exam_type != 'cepat_teliti' && $exam_type != 'talent_who_am_i' && $exam_type != 'rmib_pria' 
+            && $exam_type != 'rmib_wanita' && empty($question_id)) {
             $this->session->set_flashdata('error', 'Data tidak lengkap.');
             redirect('talent-test/dashboard');
         }
@@ -1002,6 +1078,7 @@ class TalentTest extends CI_Controller
                 redirect('talent-test/exam/cepat_teliti/frame/' . $no_soal);
             }
         }
+
         if ($exam_type == 'talent_who_am_i') {
             $jawaban1 = $this->input->post('jawaban1');
             $jawaban2 = $this->input->post('jawaban2');
@@ -1037,6 +1114,47 @@ class TalentTest extends CI_Controller
             }
 
             redirect('talent-test/dashboard');
+        }
+
+        if ($exam_type == 'rmib_pria' || $exam_type == 'rmib_wanita') {
+            $table_jawaban = ($exam_type == 'rmib_pria') ? 'tb_data_jawaban_talent_test_rmib_pria' : 'tb_data_jawaban_talent_test_rmib_wanita';
+
+            $id_ujian = $this->session->userdata('talent_test_id_ujian');
+            $id_paket = $this->session->userdata('talent_test_package_id');
+
+            $jawaban_data = [
+                'id_pendaftar_pelatihan' => $user_id,
+                'id_paket' => $id_paket,
+            ];
+
+            $categories = range('a', 'i');
+            foreach ($categories as $cat) {
+                for ($i=1; $i <= 12; $i++) { 
+                    $field_name = $cat . $i;
+                    if (isset($_POST[$field_name])) {
+                        $jawaban_data[$field_name] = $this->input->post($field_name);
+                    }
+                }
+            }
+
+            $jawaban_data['jawaban1'] = $this->input->post('jawaban1');
+            $jawaban_data['jawaban2'] = $this->input->post('jawaban2');
+            $jawaban_data['jawaban3'] = $this->input->post('jawaban3');
+
+            $this->db->where('id_pendaftar_pelatihan', $user_id);
+            $existing = $this->db->get($table_jawaban)->row();
+
+            if ($existing) {
+                $this->db->where('id_pendaftar_pelatihan', $user_id);
+                $this->db->update($table_jawaban, $jawaban_data);
+            } else {
+                $this->db->insert($table_jawaban, $jawaban_data);
+            }
+
+            $this->calculate_and_save_result($user_id, $exam_type);
+            $this->session->set_flashdata('success', 'Ujian RMIB telah berhasil diselesaikan.');
+            redirect('talent-test/exam-list');
+            return;
         }
 
         $additional_data = ['id_ujian' => $id_ujian];
@@ -1116,6 +1234,7 @@ class TalentTest extends CI_Controller
         $token = $this->session->userdata('talent_test_access_token');
         if (!$token) {
             redirect('talent-test/login');
+            return;
         }
 
         $this->db->where('access_token', $token);
@@ -1134,14 +1253,34 @@ class TalentTest extends CI_Controller
         $exam_results = [];
         foreach ($ujian_list as $ujian) {
             $exam_type = $ujian['jenis_ujian'];
-            $result = $this->get_exam_result($user_id, $exam_type);
             
-            if ($result) {
-                $exam_results[] = [
-                    'exam_type' => $exam_type,
-                    'exam_name' => ucfirst(str_replace('_', ' ', $exam_type)),
-                    'result' => $result
-                ];
+            $completion_status = $this->get_exam_result($user_id, $exam_type);
+
+            if ($completion_status) {
+                $result_data = [];
+                if ($exam_type == 'disc') {
+                    if (!empty($completion_status['nilai']) && ($json_data = json_decode($completion_status['nilai'], true)) != null) {
+                        $result_data = $json_data;
+                    } else {
+                        $this->db->where('status', 'aktif');
+                        $ujian_disc = $this->db->get('tb_ujian_disc')->row();
+                        $id_ujian_disc = $ujian_disc ? $ujian_disc->id_ujian_disc : 1;
+                        $result_data = $this->_calculate_disc_result_for_display($user_id, $id_ujian_disc);
+                    }
+                } else {
+                    if (!empty($completion_status['nilai']) && ($json_data = json_decode($completion_status['nilai'], true)) !== null) {
+                        $result_data = $json_data;
+                    } else {
+                        $result_data = $completion_status;
+                    }
+                }
+                if ($result_data) {
+                    $exam_results[] = [
+                        'exam_type' => $exam_type,
+                        'exam_name' => ucfirst(str_replace('_', ' ', $exam_type)),
+                        'result' => $result_data
+                    ];
+                }
             }
         }
 
@@ -1162,11 +1301,13 @@ class TalentTest extends CI_Controller
         $token = $this->session->userdata('talent_test_access_token');
         if (!$token) {
             redirect('talent-test/login');
+            return;
         }
         $this->db->where('access_token', $token);
         $pendaftaran = $this->db->get('tb_pendaftar_pelatihan')->row_array();
         if (!$pendaftaran) {
             redirect('talent-test/login');
+            return;
         }
 
         $paket = $this->m_paket->get_paket_by_id($pendaftaran['id_paket']);
@@ -1211,6 +1352,9 @@ class TalentTest extends CI_Controller
         } elseif ($exam_type == 'talent_who_am_i') {
             $data['durasi'] = $this->m_paket->get_durasi_ujian($exam_type);
             $this->load->view('talent_test/ujian/talent_who_am_i/exam_confirmation_talent_who_am_i', $data);
+        } elseif ($exam_type == 'rmib_pria' || $exam_type == 'rmib_wanita') {
+            $data['durasi'] = $this->m_paket->get_durasi_ujian($exam_type);
+            $this->load->view('talent_test/ujian/rmib/exam_confirmation_rmib', $data);
         } else {
             $this->load->view('talent_test/ujian/' . $exam_type . '/exam_confirmation_' . $exam_type, $data);
         }
@@ -1258,7 +1402,7 @@ class TalentTest extends CI_Controller
             $this->db->order_by('subtes', 'ASC');
             $this->db->order_by('nomor_soal', 'ASC');
             $this->db->limit(1, $question_number - 1);
-        } elseif ($exam_type == 'holland' || $exam_type == 'talent_who_am_i') {
+        } elseif ($exam_type == 'holland' || $exam_type == 'talent_who_am_i' || $exam_type == 'rmib' || $exam_type == 'rmib_pria' || $exam_type == 'rmib_wanita') {
             return ['is_valid' => true];
         } elseif ($exam_type == 'disc') {
             $this->db->where('no_soal', $question_number);
@@ -1365,11 +1509,14 @@ class TalentTest extends CI_Controller
             case 'holland':
                 return $this->calculate_holland_result($user_id);
             case 'disc':
-                return $this->calculate_disc_result($user_id);
+                return $this->calculate_and_save_disc_result($user_id);
             case 'cepat_teliti':
                 return $this->calculate_cepat_result($user_id);
             case 'talent_who_am_i':
                 return $this->calculate_talent_who_am_i_result($user_id);
+            case 'rmib_pria':
+            case 'rmib_wanita':
+                return $this->calculate_rmib_result($user_id, $exam_type);
             default:
                 return null;
         }
@@ -1377,38 +1524,104 @@ class TalentTest extends CI_Controller
 
     private function calculate_cfit_result($user_id) 
     {
-        $this->db->select('COUNT(*) as total_soal,
-            SUM(CASE WHEN s.jawaban = j.jawaban THEN 1 ELSE 0 END) as jawaban_benar');
-        $this->db->from('tb_data_jawaban_talent_test_cfit j');
-        $this->db->join('tb_soal_cfit s', 'j.nomor_soal = s.nomor_soal AND j.subtes = s.subtes');
-        $this->db->where('j.id_pendaftar_pelatihan', $user_id);
+        $jawaban_sub1 = $this->db->query("SELECT j.jawaban, s.jawaban as jawaban_kunci FROM tb_data_jawaban_talent_test_cfit j
+            JOIN tb_soal_cfit s ON j.nomor_soal = s.nomor_soal AND j.subtes = s.subtes WHERE j.subtes = 1 AND j.id_pendaftar_pelatihan = ? AND s.type_soal = 'Ujian'", [$user_id]);
+        $jawaban_sub2 = $this->db->query("SELECT j.jawaban, j.jawaban2, s.jawaban as jawaban_kunci, s.jawaban2 as jawaban_kunci2
+            FROM tb_data_jawaban_talent_test_cfit j JOIN tb_soal_cfit s ON j.nomor_soal = s.nomor_soal AND j.subtes = s.subtes
+            WHERE j.subtes = 2 AND j.id_pendaftar_pelatihan = ? AND s.type_soal = 'Ujian'", [$user_id]);
+        $jawaban_sub3 = $this->db->query("SELECT j.jawaban, s.jawaban as jawaban_kunci FROM tb_data_jawaban_talent_test_cfit j 
+            JOIN tb_soal_cfit s ON j.nomor_soal = s.nomor_soal AND j.subtes = s.subtes WHERE j.subtes = 3 AND j.id_pendaftar_pelatihan = ? AND s.type_soal = 'Ujian'", [$user_id]);
+        $jawaban_sub4 = $this->db->query("SELECT j.jawaban, s.jawaban as jawaban_kunci FROM tb_data_jawaban_talent_test_cfit j 
+            JOIN tb_soal_cfit s ON j.nomor_soal = s.nomor_soal AND j.subtes = s.subtes WHERE j.subtes = 4 AND j.id_pendaftar_pelatihan = ?
+            AND s.type_soal = 'Ujian'", [$user_id]);
 
-        $result = $this->db->get()->row();
+        $nilai_sub1 = 0;
+        $nilai_sub2 = 0;
+        $nilai_sub3 = 0;
+        $nilai_sub4 = 0;
 
-        if ($result && $result->total_soal > 0) {
-            $skor = ($result->jawaban_benar / $result->total_soal) * 100;
-            $nilai = $this->get_cfit_grade($skor);
-
-            $hasil = [
-                'total_soal'    => $result->total_soal,
-                'jawaban_benar' => $result->jawaban_benar,
-                'skor'          => round($skor, 2),
-                'nilai'         => $nilai,
-                'interpretasi'  => $this->get_cfit_interpretation($skor)
-            ];
-
-            $this->db->insert('tb_hasil_talent_test', [
-                'id_pendaftar_pelatihan' => $user_id,
-                'jenis_ujian' => 'cfit',
-                'skor' => $hasil['skor'],
-                'nilai' => $hasil['nilai'],
-                'status_penilaian' => 'selesai',
-                'waktu_selesai' => date('Y-m-d H:i:s')
-            ]);
-
-            return $hasil;
+        foreach ($jawaban_sub1->result() as $sub1) {
+            if ($sub1->jawaban == $sub1->jawaban_kunci) {
+                $nilai_sub1++;
+            }
         }
-        return null;
+
+        foreach ($jawaban_sub2->result() as $sub2) {
+            if ($sub2->jawaban == $sub2->jawaban_kunci &&  $sub2->jawaban2 == $sub2->jawaban_kunci2) {
+                $nilai_sub2++;
+            }
+        }
+
+        foreach ($jawaban_sub3->result() as $sub3) {
+            if ($sub3->jawaban == $sub3->jawaban_kunci) {
+                $nilai_sub3++;
+            }
+        }
+
+        foreach ($jawaban_sub4->result() as $sub4) {
+            if ($sub4->jawaban == $sub4->jawaban_kunci) {
+                $nilai_sub4++;
+            }
+        }
+
+        $total_nilai_sub = $nilai_sub1 + $nilai_sub2 + $nilai_sub3 + $nilai_sub4;
+
+        $iq_conversion_table = [
+            0 => 38, 1 => 40, 2 => 43, 3 => 45, 4 => 47, 5 => 48, 6 => 52, 7 => 55, 8 => 57, 9 => 60, 10 => 63, 11 => 67, 12 => 70,
+            13 => 72, 14 => 75, 15 => 78, 16 => 81, 17 => 85, 18 => 88, 19 => 91, 20 => 94, 21 => 96, 22 => 100, 23 => 103, 24 => 106, 
+            25 => 109, 26 => 113, 27 => 116, 28 => 119, 29 => 121, 30 => 124, 31 => 128, 32 => 131, 33 => 133, 34 => 137, 35 => 140,
+            36 => 142, 37 => 145, 38 => 149, 39 => 152, 40 => 155, 41 => 157, 42 => 161, 43 => 165, 44 => 167, 45 => 169, 46 => 173,
+            47 =>  176, 48 => 179, 49 => 183,
+        ];
+
+        $iqcfit = $iq_conversion_table[$total_nilai_sub] ?? 0;
+
+        $katecfit = '';
+        if ($iqcfit >= 130) {
+            $katecfit = 'Sangat superior';
+        } elseif ($iqcfit >= 120 && $iqcfit <= 129) {
+            $katecfit = 'Superior';
+        } elseif ($iqcfit >= 110 && $iqcfit <= 119) {
+            $katecfit = 'Diatas rata-rata';
+        } elseif ($iqcfit >= 90 && $iqcfit <= 109) {
+            $katecfit = 'Rata - rata';
+        } elseif ($iqcfit >= 80 && $iqcfit <= 89) {
+            $katecfit = 'Dibawah rata - rata';
+        } elseif ($iqcfit >= 70 && $iqcfit <= 79) {
+            $katecfit = 'Borderline';
+        } elseif ($iqcfit > 0 && $iqcfit <= 69) {
+            $katecfit = 'Intellectual deficient';
+        }
+
+        $hasil = [
+            'total_soal'    => 50,
+            'jawaban_benar' => $total_nilai_sub,
+            'skor'          => $iqcfit,
+            'nilai'         => $katecfit,
+            'interpretasi'  => $katecfit,
+        ];
+
+        $this->db->where('id_pendaftar_pelatihan', $user_id);
+        $this->db->where('jenis_ujian', 'cfit');
+        $existing_result = $this->db->get('tb_hasil_talent_test')->row();
+
+        $result_data = [
+            'id_pendaftar_pelatihan' => $user_id,
+            'jenis_ujian'            => 'cfit',
+            'skor'                   => $hasil['skor'],
+            'nilai'                  => $hasil['nilai'],
+            'status_penilaian'       => 'selesai',
+            'waktu_selesai'          => date('Y-m-d H:i:s')
+        ];
+
+        if ($existing_result) {
+            $this->db->where('id_hasil', $existing_result->id_hasil);
+            $this->db->update('tb_hasil_talent_test', $result_data);
+        } else {
+            $this->db->insert('tb_hasil_talent_test', $result_data);
+        }
+
+        return $hasil;
     }
 
     private function get_holland_interpretation($code)
@@ -1453,7 +1666,6 @@ class TalentTest extends CI_Controller
             'S' => 'Sosial: Suka menolong, menikmati bekerja dengan orang lain.',
             'E' => 'Wirausaha: Persuasif, suka memimpin dan mengambil risiko.',
             'C' => 'Konvensional: Terorganisir, suka bekerja dengan data dan aturan.',
-            'K' => 'Konvensional: Terorganisir, suka bekerja dengan data dan aturan.', // Alias untuk Konvensional
         ];
 
         if (isset($interpretations[$code])) {
@@ -1463,7 +1675,7 @@ class TalentTest extends CI_Controller
         $first_char = substr($code, 0, 1);
         if (isset($single_interpretations[$first_char])) {
             return $single_interpretations[$first_char] . ' (Tipe dominan)';
-        }
+        }        
 
         return 'Interpretasi untuk kode ini tidak ditemukan.';
     }
@@ -1483,7 +1695,7 @@ class TalentTest extends CI_Controller
             'A' => (int)$jawaban['nilai_a'],
             'S' => (int)$jawaban['nilai_s'],
             'E' => (int)$jawaban['nilai_e'],
-            'K' => (int)$jawaban['nilai_k'],
+            'C' => (int)$jawaban['nilai_k'],
         ];
 
         arsort($nilai);
@@ -1515,90 +1727,208 @@ class TalentTest extends CI_Controller
         return $hasil;
     }
 
-    private function calculate_disc_result($user_id)
+    private function _get_converted_graph1($dimension, $score)
     {
-        $this->db->select('j.jawaban, j.jawaban2, s.aspek_m1, s.aspek_m2, s.aspek_m3, s.aspek_m4, s.aspek_l1, s.aspek_l2, s.aspek_l3, s.aspek_l4');
-        $this->db->from('tb_data_jawaban_talent_test_disc j');
-        $this->db->join('tb_soal_disc s', 'j.no_soal = s.no_soal');
-        $this->db->where('j.id_pendaftar_pelatihan', $user_id);
-
-        $answers = $this->db->get()->result();
-
-        $dimensions = ['D' => 0, 'I' => 0, 'S' => 0, 'C' => 0];
-
-        foreach ($answers as $answer) {
-            if (!empty($answer->jawaban)) {
-                $most_index = (int)$answer->jawaban - 1;
-                $most_aspects = [$answer->aspek_m1, $answer->aspek_m2, $answer->aspek_m3, $answer->aspek_m4];
-                if (isset($most_aspects[$most_index])) {
-                    $dimension = $most_aspects[$most_index];
-                    if (isset($dimensions[$dimension])) {
-                        $dimensions[$dimension]++;
-                    }
-                }
-            }
-
-            if (!empty($answer->jawaban2)) {
-                $least_index = (int)$answer->jawaban2 - 1;
-                $least_aspects = [$answer->aspek_l1, $answer->aspek_l2, $answer->aspek_l3, $answer->aspek_l4];
-                if (isset($least_aspects[$least_index])) {
-                    $dimension = $least_aspects[$least_index];
-                    if (isset($dimensions[$dimension])) {
-                        $dimensions[$dimension]--;
-                    }
-                }
-            }
+        switch ($dimension) {
+            case 'D':
+                if ($score >= 18) return 8; elseif ($score >= 15) return 7; elseif ($score >= 11) return 6; 
+                elseif ($score >= 8) return 5; elseif ($score >= 6) return 4; elseif ($score >= 4) return 3; 
+                elseif ($score >= 2) return 2; else return 1;
+            case 'I':
+                if ($score >= 15) return 8; elseif ($score >= 13) return 7; elseif ($score >= 11) return 6; 
+                elseif ($score >= 9) return 5; elseif ($score >= 7) return 4; elseif ($score >= 5) return 3; 
+                elseif ($score >= 3) return 2; else return 1;
+            case 'S':
+                if ($score >= 15) return 8; elseif ($score >= 13) return 7; elseif ($score >= 11) return 6; 
+                elseif ($score >= 9) return 5; elseif ($score >= 7) return 4; elseif ($score >= 5) return 3; 
+                elseif ($score >= 3) return 2; else return 1;
+            case 'C':
+                if ($score >= 13) return 8; elseif ($score >= 11) return 7; elseif ($score >= 9) return 6; 
+                elseif ($score >= 7) return 5; elseif ($score >= 5) return 4; elseif ($score >= 3) return 3; 
+                elseif ($score >= 2) return 2; else return 1;
         }
-
-        arsort($dimensions);
-        $dominant_dimension = array_keys($dimensions)[0];
-
-        return [
-            'dimensi_dominan'   => $dominant_dimension,
-            'skor_dimensi'      => $dimensions,
-            'interpretasi'      => $this->get_disc_interpretation($dominant_dimension) 
-        ];
+        return 0;
     }
 
-    private function calculate_and_save_disc_result($user_id, $id_ujian) 
+    private function _get_converted_graph2($dimension, $score)
+    {
+        switch ($dimension) {
+            case 'D':
+                if ($score <= 1) return 8; elseif ($score <= 2) return 7; elseif ($score <= 3) return 6; 
+                elseif ($score <= 5) return 5; elseif ($score <= 7) return 4; elseif ($score <= 9) return 3; 
+                elseif ($score <= 12) return 2; else return 1;
+            case 'I':
+                if ($score <= 2) return 8; elseif ($score <= 4) return 7; elseif ($score <= 5) return 6; 
+                elseif ($score <= 7) return 5; elseif ($score <= 9) return 4; elseif ($score <= 11) return 3; 
+                elseif ($score <= 13) return 2; else return 1;
+            case 'S':
+                if ($score <= 3) return 8; elseif ($score <= 5) return 7; elseif ($score <= 6) return 6; 
+                elseif ($score <= 8) return 5; elseif ($score <= 10) return 4; elseif ($score <= 12) return 3; 
+                elseif ($score <= 14) return 2; else return 1;
+            case 'C':
+                if ($score <= 1) return 8; elseif ($score <= 3) return 7; elseif ($score <= 4) return 6; 
+                elseif ($score <= 6) return 5; elseif ($score <= 8) return 4; elseif ($score <= 10) return 3; 
+                elseif ($score <= 12) return 2; else return 1;
+        }
+        return 0;
+    }
+
+    private function _get_converted_graph3($dimension, $score)
+    {
+        switch ($dimension) {
+            case 'D':
+                if ($score >= 10) return 9; elseif ($score >= 8) return 8; elseif ($score >= 6) return 7; 
+                elseif ($score >= 4) return 6; elseif ($score >= 2) return 5; elseif ($score >= -1) return 4; 
+                elseif ($score >= -3) return 3; elseif ($score >= -6) return 2; else return 1;
+            case 'I':
+                if ($score >= 11) return 9; elseif ($score >= 9) return 8; elseif ($score >= 7) return 7; 
+                elseif ($score >= 5) return 6; elseif ($score >= 3) return 5; elseif ($score >= 0) return 4; 
+                elseif ($score >= -2) return 3; elseif ($score >= -5) return 2; else return 1;
+            case 'S':
+                if ($score >= 12) return 9; elseif ($score >= 10) return 8; elseif ($score >= 7) return 7; 
+                elseif ($score >= 5) return 6; elseif ($score >= 2) return 5; elseif ($score >= -1) return 4; 
+                elseif ($score >= -4) return 3; elseif ($score >= -7) return 2; else return 1;
+            case 'C':
+                if ($score >= 9) return 9; elseif ($score >= 7) return 8; elseif ($score >= 5) return 7; 
+                elseif ($score >= 3) return 6; elseif ($score >= 1) return 5; elseif ($score >= -2) return 4; 
+                elseif ($score >= -5) return 3; elseif ($score >= -8) return 2; else return 1;
+        }
+        return 0;
+    }
+
+    private function calculate_and_save_disc_result($user_id, $id_ujian)
+    {
+        $result_data = $this->_calculate_disc_result_for_display($user_id, $id_ujian);
+        
+        if ($result_data) {
+            $nilai_json = json_encode($result_data);
+
+            $data = [
+                'id_pendaftar_pelatihan' => $user_id,
+                'jenis_ujian' => 'disc',
+                'skor' => 0,
+                'nilai' => $nilai_json,
+                'status_penilaian' => 'selesai',
+                'waktu_selesai' => date('Y-m-d H:i:s'),
+            ];
+        } else {
+            $data = [
+                'id_pendaftar_pelatihan' => $user_id,
+                'jenis_ujian' => 'disc',
+                'skor' => 0,
+                'nilai' => 'Tidak ada data jawaban',
+                'status_penilaian' => 'selesai',
+                'waktu_selesai' => date('Y-m-d H:i:s'),
+            ];
+        }
+
+        $this->db->where('id_pendaftar_pelatihan', $user_id);
+        $this->db->where('jenis_ujian', 'disc');
+        $existing_result = $this->db->get('tb_hasil_talent_test')->row();
+
+        if ($existing_result) {
+            $this->db->where('id_hasil', $existing_result->id_hasil);
+            $this->db->update('tb_hasil_talent_test', $data);
+        } else {
+            $this->db->insert('tb_hasil_talent_test', $data);
+        }
+    }
+
+    private function _calculate_disc_result_for_display($user_id, $id_ujian) 
     {
         $jawaban = $this->db->where('id_pendaftar_pelatihan', $user_id)->where('id_ujian', $id_ujian)->get('tb_data_jawaban_talent_test_disc')->result_array();
 
-        $skor = ['D' => 0, 'I' => 0, 'S' => 0, 'C' => 0];
+        if (empty($jawaban)) {
+            return null;
+        }
+
+        $most_counts = ['D' => 0, 'I' => 0, 'S' => 0, 'C' => 0, '*' => 0];
+        $least_counts = ['D' => 0, 'I' => 0, 'S' => 0, 'C' => 0, '*' => 0];
+
         foreach ($jawaban as $j) {
             $this->db->where('no_soal', $j['no_soal']);
             $soal = $this->db->get('tb_soal_disc')->row();
             if ($soal) {
-                $m_index = (int)$j['jawaban'] - 1;
-                $aspek_m = 'aspek_m' . ($m_index + 1);
-                if (isset($soal->$aspek_m)) {
-                    $skor[$soal->$aspek_m] += 1;
-                }
-                $l_index = (int)$j['jawaban2'] - 1;
-                $aspek_l = 'aspek_l' . ($l_index + 1);
-                if (isset($soal->$aspek_l)) {
-                    $skor[$soal->$aspek_l] -= 1;
+                
+                $jawaban_m = trim($j['jawaban']);
+                $jawaban_l = trim($j['jawaban2']);
+
+                if (strlen($jawaban_m) >= 2 && strlen($jawaban_l) >= 2) {
+                    $aspek_m = strtoupper(substr($jawaban_m, 0, 1));
+                    $type_m = substr($jawaban_m, 1, 1);
+                    $aspek_l = strtoupper(substr($jawaban_l, 0, 1));
+                    $type_l = substr($jawaban_l, 1, 1);
+
+                    if (in_array($aspek_m, ['D', 'I', 'S', 'C']) && $type_m == 'M' && in_array($aspek_l, ['D', 'I', 'S', 'C']) && $type_l == 'L') {
+                        if (isset($most_counts[$aspek_m])) {
+                            $most_counts[$aspek_m]++;
+                        }
+                        if (isset($least_counts[$aspek_l])) {
+                            $least_counts[$aspek_l]++;
+                        }
+                    }
                 }
             }
         }
-
-        arsort($skor);
-        $most = key($skor);
-        $lest = array_key_last($skor);
-
-        $data = [
-            'id_pendaftar_pelatihan' => $user_id,
-            'jenis_ujian' => 'disc',
-            'skor' => current($skor),
-            'nilai' => $most . '/' . $lest,
-            'status_penilaian' => 'selesai',
-            'waktu_selesai' => date('Y-m-d H:i:s'),
+        
+        $graph1_scores = [
+            'D' => $most_counts['D'],
+            'I' => $most_counts['I'],
+            'S' => $most_counts['S'],
+            'C' => $most_counts['C'],
         ];
-        $this->db->insert('tb_hasil_talent_test', $data);
+
+        $graph2_scores = [
+            'D' => $least_counts['D'],
+            'I' => $least_counts['I'],
+            'S' => $least_counts['S'],
+            'C' => $least_counts['C'],
+        ];
+
+        $graph3_scores = [
+            'D' => $graph1_scores['D'] - $graph2_scores['D'],
+            'I' => $graph1_scores['I'] - $graph2_scores['I'],
+            'S' => $graph1_scores['S'] - $graph2_scores['S'],
+            'C' => $graph1_scores['C'] - $graph2_scores['C'],
+        ];
+
+        $converted_scores = [
+            'graph1' => [
+                'D' => $this->_get_converted_graph1('D', $graph1_scores['D']),
+                'I' => $this->_get_converted_graph1('I', $graph1_scores['I']),
+                'S' => $this->_get_converted_graph1('S', $graph1_scores['S']),
+                'C' => $this->_get_converted_graph1('C', $graph1_scores['C']),
+            ],
+            'graph2' => [
+                'D' => $this->_get_converted_graph2('D', $graph2_scores['D']),
+                'I' => $this->_get_converted_graph2('I', $graph2_scores['I']),
+                'S' => $this->_get_converted_graph2('S', $graph2_scores['S']),
+                'C' => $this->_get_converted_graph2('C', $graph2_scores['C']),
+            ],
+            'graph3' => [
+                'D' => $this->_get_converted_graph3('D', $graph3_scores['D']),
+                'I' => $this->_get_converted_graph3('I', $graph3_scores['I']),
+                'S' => $this->_get_converted_graph3('S', $graph3_scores['S']),
+                'C' => $this->_get_converted_graph3('C', $graph3_scores['C']),
+            ],
+        ];
+
+        return [
+            'raw_scores' => [
+                'graph1' => $graph1_scores,
+                'graph2' => $graph2_scores,
+                'graph3' => $graph3_scores,
+            ],
+            'converted_scores' => $converted_scores
+        ];
     }
 
     private function calculate_cepat_result($user_id)
     {
+        $pendaftar = $this->db->get_where('tb_pendaftar_pelatihan', ['id_pendaftar_pelatihan' => $user_id])->row_array();
+
+        $jenis_kelamin = isset($pendaftar['jenis_kelamin']) ? $pendaftar['jenis_kelamin'] : 'P';
+
         $this->db->select('COUNT(j.id_jawaban_cepat) as total_jawaban, SUM(CASE WHEN s.jawaban = j.jawaban THEN 1 ELSE 0 END) as jawaban_benar');
         $this->db->from('tb_data_jawaban_talent_test_cepat j');
         $this->db->join('tb_soal_cepat s', 'j.no_soal = s.nomor_soal');
@@ -1609,6 +1939,7 @@ class TalentTest extends CI_Controller
 
         $skor = 0;
         $jawaban_benar = 0;
+        $kategori = 'Kurang';
 
         if ($result) {
             $jawaban_benar = (int) $result->jawaban_benar;
@@ -1617,10 +1948,45 @@ class TalentTest extends CI_Controller
             }
         }
 
+        if ($jenis_kelamin == 'L') {
+            if ($jawaban_benar >= 63) {
+                $kategori = "BS";
+            } elseif ($jawaban_benar >= 56) {
+                $kategori = "B";
+            } elseif ($jawaban_benar >= 53) {
+                $kategori = "C+";
+            } elseif ($jawaban_benar >= 50) {
+                $kategori = "C";
+            } elseif ($jawaban_benar >= 47) {
+                $kategori = "C-";
+            } elseif ($jawaban_benar >= 40) {
+                $kategori = "K";
+            } else {
+                $kategori = "KS";
+            }
+        } else {
+            if ($jawaban_benar >= 73) {
+                $kategori = "BS";
+            } elseif ($jawaban_benar >= 64) {
+                $kategori = "B";
+            } elseif ($jawaban_benar >= 61) {
+                $kategori = "C+";
+            } elseif ($jawaban_benar >= 57) {
+                $kategori = "C";
+            } elseif ($jawaban_benar >= 54) {
+                $kategori = "C-";
+            } elseif ($jawaban_benar >= 47) {
+                $kategori = "K";
+            } else {
+                $kategori = "KS";
+            }
+        }
+
         $hasil = [
             'total_soal'    => $total_soal_ujian,
             'jawaban_benar' => $jawaban_benar,
             'skor'          => round($skor, 2),
+            'kategori'      => $kategori,
         ];
 
         $this->db->where('id_pendaftar_pelatihan', $user_id);
@@ -1631,6 +1997,7 @@ class TalentTest extends CI_Controller
             'id_pendaftar_pelatihan' => $user_id,
             'jenis_ujian' => 'cepat_teliti',
             'skor' => $hasil['skor'],
+            'nilai' => $hasil['kategori'],
             'status_penilaian' => 'selesai',
             'waktu_selesai' => date('Y-m-d H:i:s')
         ];
@@ -1645,7 +2012,6 @@ class TalentTest extends CI_Controller
         return $hasil;
     }
 
-    // Tambahan: Logika kalkulasi hasil untuk "Who Am I?"
     private function calculate_talent_who_am_i_result($user_id)
     {
         $this->db->insert('tb_hasil_talent_test', [
@@ -1662,97 +2028,135 @@ class TalentTest extends CI_Controller
             'message' => 'Ujian Who Am I telah diselesaikan. Jawaban akan dinilai secara subjektif.'
         ];
     }
+
+    private function calculate_rmib_result($user_id, $exam_type)
+    {
+        $table_jawaban = ($exam_type == 'rmib_pria') ? 'tb_data_jawaban_talent_test_rmib_pria' : 'tb_data_jawaban_talent_test_rmib_wanita';
+
+        $this->db->where('id_pendaftar_pelatihan', $user_id);
+        $jawaban_row = $this->db->get($table_jawaban)->row_array();
+
+        if (!$jawaban_row) {
+            return null;
+        }
+
+        $category_scores = [
+            'A' => 0, 'B' => 0, 'C' => 0, 'D' => 0, 'E' => 0, 'F' => 0, 'G' => 0, 'H' => 0, 'I' => 0,
+        ];
+
+        $categories = range('a', 'i');
+        foreach ($categories as $cat) {
+            $cat_upper = strtoupper($cat);
+            $score = 0;
+            for ($i=1; $i <= 12; $i++) { 
+                $field_name = $cat . $i;
+                if (isset($jawaban_row[$field_name])) {
+                    $score += (int)$jawaban_row[$field_name];
+                }
+            }
+            $category_scores[$cat_upper] = $score;
+        }
+        
+        arsort($category_scores);
+
+        $top_categories = array_slice($category_scores, 0, 3, true);
+
+        $category_names = [
+            'A' => 'Outdoor',
+            'B' => 'Mechanical',
+            'C' => 'Computational',
+            'D' => 'Scientific',
+            'E' => 'Personal Contact',
+            'F' => 'Aesthetic',
+            'G' => 'Literary',
+            'H' => 'Musical',
+            'I' => 'Social Service',
+        ];
+
+        $interpretation_text = "Hasil RMIB Anda menunjukan minat tertinggi pada bidang: ";
+        $top_names = [];
+        foreach ($top_categories as $category_code => $score) {
+            $top_names[] = $category_names[$category_code];
+        }
+        $interpretation_text .= implode(", ", $top_names) . ".";
+
+        $result_data = [
+            'id_pendaftar_pelatihan' => $user_id,
+            'jenis_ujian'            => $exam_type,
+            'skor'                   => json_encode($category_scores),
+            'nilai'                  => implode(', ', array_keys($top_categories)),
+            'status_penilaian'       => 'selesai',
+            'waktu_selesai'          => date('Y-m-d H:i:s'),
+        ];
+
+        $this->db->where('id_pendaftar_pelatihan', $user_id);
+        $this->db->where('jenis_ujian', $exam_type);
+        $existing_result = $this->db->get('tb_hasil_talent_test')->row();
+
+        if ($existing_result) {
+            $this->db->where('id_hasil', $existing_result->id_hasil);
+            $this->db->update('tb_hasil_talent_test', $result_data);
+        } else {
+            $this->db->insert('tb_hasil_talent_test', $result_data);
+        }
+
+        return [
+            'category_scores' => $category_scores,
+            'top_categories'  => $top_categories,
+            'interpretation'  => $interpretation_text,
+        ];
+    }
     
     private function get_table_name_by_exam_type($exam_type)
     {
         $tables = [
             'cfit'              => 'tb_soal_cfit',
-            'ist'               => 'tb_soal_ist',
             'holland'           => 'tb_ujian_holland',
             'disc'              => 'tb_soal_disc',
-            'essay'             => 'tb_soal_essay',
-            'hitung'            => 'tb_soal_hitung',
-            'studi_kasus'       => 'tb_soal_studi_kasus',
-            'leadership'        => 'tb_soal_leadership',
             'cepat_teliti'      => 'tb_soal_cepat',
             'talent_who_am_i'   => 'tb_ujian_talent',
+            'rmib_pria'         => 'tb_ujian_rmib_pria',
+            'rmib_wanita'       => 'tb_ujian_rmib_wanita',
         ];
 
         return isset($tables[$exam_type]) ? $tables[$exam_type] : 'tb_soal_' . $exam_type;
     }
 
-    private function get_user_answer_for_question($user_id, $exam_type, $question_id, $subtes = null)
-    {
-        if ($exam_type == 'talent_who_am_i' || $exam_type == 'holland') {
-            return null;
-        }
+private function get_user_answer_for_question($user_id, $exam_type, $question_id, $subtes = null)
+{
+    $table_name = $this->get_answer_table_name_by_exam_type($exam_type);
 
-        $table_name = $this->get_answer_table_name_by_exam_type($exam_type);
-
-        $this->db->where('id_pendaftar_pelatihan', $user_id);
-        if (in_array($exam_type, ['cfit', 'ist'])) {
-            $this->db->where('nomor_soal', $question_id);
-            if ($exam_type == 'cfit' && $subtes) {
-                $this->db->where('subtes', $subtes);
-            }
-        } elseif (in_array($exam_type, ['disc', 'cepat_teliti'])) {
-            $this->db->where('no_soal', $question_id);
-        } else {
-            $this->db->where('id_soal', $question_id);
-        }
-
-        $result = $this->db->get($table_name)->row();
-        if ($result) {
-            if ($exam_type == 'cfit' && $subtes == 2) {
-                $answer = [];
-                if (!empty($result->jawaban)) {
-                    $answer[] = $result->jawaban;
-                }
-                if (!empty($result->jawaban2)) {
-                    $answer[] = $result->jawaban2;
-                }
-                return $answer;
-            } else {
-                return $result->jawaban;
-            }
-        }
+    if (!$table_name) {
         return null;
     }
+
+    $this->db->where('id_pendaftar_pelatihan', $user_id);
+
+    if ($exam_type == 'cfit' || $exam_type == 'ist') {
+        $this->db->where('nomor_soal', $question_id);
+        if ($subtes) {
+            $this->db->where('subtes', $subtes);
+        }
+    } elseif ($exam_type == 'disc') {
+        $this->db->where('no_soal', $question_id);
+    } elseif ($exam_type == 'holland' || $exam_type == 'rmib' || $exam_type == 'rmib_pria' || $exam_type == 'rmib_wanita') {
+        // For these types, answers are handled in bulk, not per question.
+        return null;
+    } else {
+        $this->db->where('id_soal', $question_id);
+    }
+
+    $query = $this->db->get($table_name);
+    $result = $query->row_array();
+
+    return $result ? $result['jawaban'] : null;
+}
 
     private function get_exam_result($user_id, $exam_type)
     {
         $this->db->where('id_pendaftar_pelatihan', $user_id);
         $this->db->where('jenis_ujian', $exam_type);
         return $this->db->get('tb_hasil_talent_test')->row_array();
-    }
-
-    private function get_cfit_grade($score)
-    {
-        if ($score >= 90) return 'A';
-        if ($score >= 80) return 'B';
-        if ($score >= 70) return 'C';
-        if ($score >= 60) return 'D';
-        return 'E';
-    }
-
-    private function get_cfit_interpretation($score)
-    {
-        if ($score >= 90) return 'Kemampuan Kognitif sangat tinggi';
-        if ($score >= 80) return 'Kemampuan Kognitif tinggi';
-        if ($score >= 70) return 'Kemampuan Kognitif sedang';
-        if ($score >= 60) return 'Kemampuan Kognitif rendah';
-        return 'Kemampuan Kognitif sangat rendah';
-    }
-
-    private function get_disc_interpretation($dimension) {
-        $interpretations = [
-            'D' => 'Dominant: Pemimpin yang tegas dan kompetitif',
-            'I' => 'Influential: Komunikatif dan antusias',
-            'S' => 'Steady: Stabil dan kooperatif',
-            'C' => 'Conscientious: Analitis dan teliti'
-        ];
-        
-        return isset($interpretations[$dimension]) ? $interpretations[$dimension] : 'Kepribadian campuran';
     }
 
     private function get_answer_table_name_by_exam_type($exam_type)
@@ -1763,6 +2167,8 @@ class TalentTest extends CI_Controller
             'disc'              => 'tb_data_jawaban_talent_test_disc',
             'cepat_teliti'      => 'tb_data_jawaban_talent_test_cepat',
             'talent_who_am_i'   => 'tb_data_jawaban_talent_test_who_am_i',
+            'rmib_pria'         => 'tb_data_jawaban_talent_test_rmib_pria',
+            'rmib_wanita'       => 'tb_data_jawaban_talent_test_rmib_wanita',
         ];
 
         return $tables[$exam_type] ?? null;

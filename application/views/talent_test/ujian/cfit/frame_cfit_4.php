@@ -80,28 +80,53 @@
 </div>
 
 <script type="text/javascript">
-	var subtestTimes = <?php echo json_encode($this->session->userdata('talent_test_subtest_times')); ?>;
-	if (subtestTimes && subtestTimes[4]) {
-		var endTime = subtestTimes[4]['end'] * 1000;
-		var x = setInterval(function() {
-			var now = new Date().getTime();
-			var distance = endTime - now;
+	document.addEventListener('DOMContentLoaded', function(){
+		var timerElement = document.getElementById("timer");
+		if (!timerElement) {
+			console.error("Timer element not found");
+			return;
+		}
+		var subtestTimes = <?php echo json_encode($this->session->userdata('talent_test_subtest_times')); ?>;
+		if (!subtestTimes) {
+			console.error("Subtest times not found in session");
+			timerElement.innerHTML = "Waktu tidak tersedia";
+			return;
+		}
+		var currentSubtes = <?php echo $soal_subtes4->subtes; ?>;
+		var endTimeUnix = subtestTimes[currentSubtes] ? subtestTimes[currentSubtes]['end'] : null;
+		if (!endTimeUnix) {
+			console.error("End time for subtes " + currentSubtes + " not found");
+			timerElement.innerHTML = "waktu tidak tersedia";
+			return;
+		}
+		var serverNow = <?php echo time(); ?>;
+		var remaining = endTimeUnix - serverNow;
+		var countDownDate = new Date().getTime() + remaining * 1000;
 
-			if (distance < 0) {
-				clearInterval(x);
-				document.getElementById("timer").innerHTML = "00:00";
-				window.location.href = '<?php echo base_url('talent-test/exam/cfit/frame/' . ($question_number + 1)); ?>';
+		function updateTimer() {
+			var now = new Date().getTime();
+			var distance = countDownDate - now;
+			if (distance <= 0) {
+				clearInterval(timerInterval);
+				timerElement.innerHTML = "00:00";
+				var form = document.getElementById('answer_form');
+				var redirectInput = document.createElement('input');
+				redirectInput.type = 'hidden';
+				redirectInput.name = 'redirect';
+				redirectInput.value = '6';
+				form.appendChild(redirectInput);
+				form.submit();
 			} else {
 				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 				var displayMinutes = minutes < 10 ? "0" + minutes : minutes;
-				var displaySeconds = seconds < 10 ? "0" + seconds : seconds;
-				document.getElementById("timer").innerHTML = displayMinutes + ":" + displaySeconds;
+				var displaySeconds = minutes < 10 ? "0" + seconds : seconds;
+				timerElement.innerHTML = displayMinutes + ":" + displaySeconds;
 			}
-		}, 1000);
-	} else {
-		document.getElementById("timer").innerHTML = "No Timer";
-	}
+		}
+		var timerInterval = setInterval(updateTimer, 1000);
+		updateTimer();
+	});
 </script>
 
 <?php $this->load->view('layout3/footer') ?>

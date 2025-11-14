@@ -20,7 +20,7 @@ $end_time = date('Y-m-d H:i:s', $end_time);
                 <h3 class="page-header" style="margin-top: 15px;">HOLLAND SELF-ASSESSMENT INTERESTED INVENTORY</h3>
             </div>
             <div class="col-lg-3">
-                <h4 style="margin-top: 35px;" align="right">Waktu Ujian <span id="time"></span> detik</h4>
+                <h4 style="margin-top: 35px;" align="right">Waktu Ujian <span id="time">00:00</span></h4>
             </div>
         </div>
         <div class="col-sm-12" style="background-color: #f9243f; padding: 30px; border-radius: 5px; margin-bottom: 20px;">

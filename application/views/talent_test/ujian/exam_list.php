@@ -40,6 +40,13 @@
                     foreach ($ujian_list as $ujian) {
                         $exam_type = $ujian['jenis_ujian'];
                         $exam_name = ucfirst(str_replace('_', ' ', $exam_type));
+                        if ($exam_type == 'rmib') {
+                            if (isset($pendaftaran['jenis_kelamin']) && $pendaftaran['jenis_kelamin'] == 'L') {
+                                $exam_type = 'rmib_pria';
+                            } else {
+                                $exam_type = 'rmib_wanita';
+                            }
+                        }
                         $progress = isset($progress_data[$exam_type]) ? $progress_data[$exam_type] : null;
                         $is_completed = isset($ujian['is_completed']) ? $ujian['is_completed'] : false;
                         $can_start = !$is_completed && $previous_completed;
