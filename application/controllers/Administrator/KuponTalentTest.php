@@ -49,7 +49,7 @@ class KuponTalentTest extends CI_Controller
             ];
 
             $this->m_kupon->insert_kupon($data);
-            redirect('administrator/KuponTalentTest');
+            redirect('Administrator/KuponTalentTest');
         }
     }
 
@@ -82,13 +82,13 @@ class KuponTalentTest extends CI_Controller
                 'status' => $this->input->post('status')
             ];
             $this->m_kupon->update_kupon($id_kupon, $update_data);
-            redirect('administrator/KuponTalentTest');
+            redirect('Administrator/KuponTalentTest');
         }
     }
 
     public function delete($id_kupon)
     {
         $this->m_kupon->delete_kupon($id_kupon);
-        redirect('administrator/KuponTalentTest');
+        redirect('Administrator/KuponTalentTest');
     }
 }
