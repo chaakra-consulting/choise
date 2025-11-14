@@ -17,7 +17,7 @@
             <div class="tile">
                 <h3 class="tile title">Form Tambah Kupon</h3>
                 <div class="tile-body">
-                    <form action="<?php echo site_url('administrator/KuponTalentTest/create'); ?>" method="post">
+                    <form action="<?php echo site_url('administrator/kupon_talent_test/create'); ?>" method="post">
                         <div class="form-group">
                             <label for="kode_kupon">Kode Kupon *</label>
                             <input type="text" name="kode_kupon" id="kode_kupon" class="form-control" value="<?php echo set_value('kode_kupon'); ?>" required>
