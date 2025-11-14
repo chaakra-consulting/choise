@@ -53,40 +53,40 @@
   });
 </script>
 <script>
-$(document).ready(function() {
-  setTimeout(function() {
-    $("#myModal").modal('show');
-  }, 1000);
-  $("#btnModalDaftar").click(function () {
-    // Tutup modal 
-    $("#myModal").modal('hide');
-    // Trigger klik pada elemen navbar
-    $('a.nav-link[href="#features-section"]').click();
-  });
-});
-(function($) {
-  'use strict';
-  jQuery(document).on('ready', function(){
-    $('a.page-scroll').on('click', function(e){
-      var anchor = $(this);
-      $('html, body').stop().animate({
-        scrollTop: $(anchor.attr('href')).offset().top - 50
-      }, 1500);
-      e.preventDefault();
+  $(document).ready(function() {
+    setTimeout(function() {
+      $("#myModal").modal('show');
+    }, 1000);
+    $("#btnModalDaftar").click(function () {
+      // Tutup modal 
+      $("#myModal").modal('hide');
+      // Trigger klik pada elemen navbar
+      $('a.nav-link[href="#features-section"]').click();
     });
-  });        
-})(jQuery);
+  });
+  (function($) {
+    'use strict';
+    jQuery(document).on('ready', function(){
+      $('a.page-scroll').on('click', function(e){
+        var anchor = $(this);
+        $('html, body').stop().animate({
+          scrollTop: $(anchor.attr('href')).offset().top - 50
+        }, 1500);
+        e.preventDefault();
+      });
+    });        
+  })(jQuery);
 </script>
 <script type="text/javascript">
-function submitForm() {
-  // Cek apakah checkbox disetujui sebelum mengirim data
-  var approveCheckbox = document.getElementById('approveCheckbox');
-  if (!approveCheckbox.checked) {
-    alert("Untuk membuat akun, Anda harus menyetujui ketentuan di atas.");
-    return false;
+  function submitForm() {
+    // Cek apakah checkbox disetujui sebelum mengirim data
+    var approveCheckbox = document.getElementById('approveCheckbox');
+    if (!approveCheckbox.checked) {
+      alert("Untuk membuat akun, Anda harus menyetujui ketentuan di atas.");
+      return false;
+    }
+    return true;
   }
-  return true;
-}
 </script>
 </body>
 </html>

@@ -152,16 +152,12 @@ class Paket extends CI_Controller
         $data['ujian_list'] = $this->m_paket->get_ujian_by_paket($id_paket);
 
         $data['jenis_ujian_options'] = [
-            'cfit'      => 'CFIT',
-            'ist'       => 'IST',
-            'holland'   => 'Holland',
-            'disc'      => 'DISC',
-            'essay'     => 'Essay',
-            'hitung'    => 'Hitung',
-            'studi'     => 'Studi Kasus',
-            'leadership'=> 'Leadership',
-            'cepat'     => 'Cepat Teliti',
-            'talent_who_am_i' => 'Talent Test (Who Am I?)'
+            'cfit'             => 'CFIT',
+            'holland'          => 'Holland',
+            'disc'             => 'DISC',
+            'cepat_teliti'     => 'Cepat Teliti',
+            'talent_who_am_i'  => 'Talent Test (Who Am I?)',
+            'rmib'             => 'RMIB'
         ];
 
         $this->load->view('administrator/paket/ujian', $data);

@@ -97,7 +97,7 @@
             timerElement.innerHTML = "Waktu tidak tersedia";
             return;
         }
-        var currentSubtes = <?php echo $soal_subtes1->subtes; ?>;
+        var currentSubtes = <?php echo $question['subtes']; ?>;
         var endTimeUnix = subtestTimes[currentSubtes] ? subtestTimes[currentSubtes]['end'] : null;
         if (!endTimeUnix) {
             console.error("End time for subtes " + currentSubtes + " not found");

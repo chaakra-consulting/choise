@@ -164,6 +164,10 @@ class Mdl_paket_talent_test extends CI_Model
                 return [];
             case 'talent_who_am_i':
                 return [];
+            case 'rmib_pria':
+                return [];
+            case 'rmib_wanita':
+                return [];
             default:
                 return [];
         }
@@ -177,6 +181,8 @@ class Mdl_paket_talent_test extends CI_Model
             'disc' => 'tb_ujian_disc',
             'cepat_teliti' => 'tb_ujian_cepat',
             'talent_who_am_i' => 'tb_ujian_talent',
+            'rmib_pria' => 'tb_ujian_rmib_pria',
+            'rmib_wanita' => 'tb_ujian_rmib_wanita',
         ];
 
         $column_map = [
@@ -185,36 +191,40 @@ class Mdl_paket_talent_test extends CI_Model
             'disc' => 'id_ujian_disc',
             'cepat_teliti' => 'id_ujian_cepat',
             'talent_who_am_i' => 'id_ujian_talent',
+            'rmib_pria' => 'id_ujian_rmib_pria',
+            'rmib_wanita' => 'id_ujian_rmib_wanita'
         ];
 
         $table = $table_map[$exam_type] ?? 'tb_ujian';
         $column = $column_map[$exam_type] ?? 'id_ujian';
 
-        if (in_array($exam_type, ['cepat_teliti', 'disc', 'holland'])) {
+        if (in_array($exam_type, ['cepat_teliti', 'disc', 'holland', 'rmib_pria', 'rmib_wanita'])) {
             $ujian = $this->db->get_where($table, ['status' => 'aktif'])->row_array();
         } else {
             $ujian = $this->db->get_where($table, [$column => 1])->row_array();
         }
 
-    if ($exam_type == 'holland' || $exam_type == 'disc' || $exam_type == 'talent_who_am_i') {
-            if ($ujian && isset($ujian['waktu_mulai']) && isset($ujian['waktu_akhir'])) {
+        if ($exam_type == 'holland' || $exam_type == 'disc' || $exam_type == 'talent_who_am_i' || $exam_type == 'rmib_pria' || $exam_type == 'rmib_wanita') {
+            if ($ujian && !empty($ujian['waktu_mulai']) && !empty($ujian['waktu_akhir'])) {
                 $waktu_mulai = strtotime($ujian['waktu_mulai']);
                 $waktu_akhir = strtotime($ujian['waktu_akhir']);
-                $durasi_detik = $waktu_akhir - $waktu_mulai;
-                return (int) ($durasi_detik / 60);
+                if ($waktu_mulai !== false && $waktu_akhir !== false) {
+                    $durasi_detik = $waktu_akhir - $waktu_mulai;
+                    return (int) ($durasi_detik / 60);
+                }
             }
             return 30;
         } elseif ($exam_type == 'cepat_teliti') {
-            if ($ujian && isset($ujian['start_uji']) && isset($ujian['end_uji'])) {
+            if ($ujian && !empty($ujian['start_uji']) && !empty($ujian['end_uji'])) {
                 $start_uji = strtotime($ujian['start_uji']);
                 $end_uji = strtotime($ujian['end_uji']);
-                $durasi_detik = $end_uji - $start_uji;
-                return (int) ($durasi_detik / 60);
+                if ($start_uji !== false && $end_uji !== false) {
+                    $durasi_detik = $end_uji - $start_uji;
+                    return (int) ($durasi_detik / 60);
+                }
             }
             return 30;
-        } 
-
-
+        }
         return $ujian['durasi'] ?? 60;
     }
 }

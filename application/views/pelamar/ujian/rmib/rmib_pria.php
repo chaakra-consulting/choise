@@ -1,5 +1,5 @@
-<?php   $this->load->view('layout3/header2') ?>
-<?php   $this->load->view('layout3/navbar') ?>
+<?php $this->load->view('layout3/header2') ?>
+<?php $this->load->view('layout3/navbar') ?>
 
 <?php 
 $id_pelamar = $this->session->userdata('ses_id');
@@ -26,25 +26,22 @@ foreach ($rmib->result() as $key_uRmib) {
 	<div class="col-sm-12" style="background-color: #f9243f; padding: 30px; border-radius: 5px; margin-bottom: 20px;">
 		<h4 style="color: #fff;"><b>Petunjuk Pengisian</b></h4>
 		<li style="color: #fff; margin-left: 40px">Berikut ini adalah daftar beberapa jenis pekerjaan yang tersusun dalam beberapa kelompok. 
-   Setiap kelompok terdiri atas 12 jenis pekerjaan yang memiliki keahlian tersendiri.
+			Setiap kelompok terdiri atas 12 jenis pekerjaan yang memiliki keahlian tersendiri.
 		</li></br>
 		<li style="color: #fff; margin-left: 40px">Tugas anda adalah memilih pekerjaan mana yang paling anda sukai atau ingin anda lakukan, terlepas dari upah
-   yang akan diterima atau apakah anda akan berhasil mengerjakannya atau tidak
+			yang akan diterima atau apakah anda akan berhasil mengerjakannya atau tidak
 		</li></br>
 		<li style="color: #fff; margin-left: 40px">Caranya adalah dengan mencantumkan angka secara berturut-turut dari angka 1(satu) sampai dengan 12
-   (duabelas) dibelakang setiap pekerjaan dalam masing-masing kelompok
+			(duabelas) dibelakang setiap pekerjaan dalam masing-masing kelompok
 		</li></br>
 		<li style="color: #fff; margin-left: 40px">Angka 1 menunjukan pekerjaan yang paling di sukai dan seterusnya sampai angka 12 yang menunjukan 
-   pekerjaan yang paling tidak di sukai
+			pekerjaan yang paling tidak di sukai
    		</li></br>
    		<li style="color: #fff; margin-left: 40px">Pemilihan angka tidak boleh sama
 		</li></br>
 		<p style="color: #fff">Bekerjalah dengan cepat dan tuliskan angka-angka sesuai dengan kesan anda yang pertama muncul.</p>
 	</div>
-
 	<div class="container">
-		
-	
 	<div class="col-sm-12" style="background-color: #fff; padding: 30px; border-radius: 5px;">
 		<div class="form-row">
 			<form action="<?php echo base_url("Pelamar/Ujian/jawaban_rmib_pria/") ?>" method="post">
@@ -561,12 +558,9 @@ foreach ($rmib->result() as $key_uRmib) {
 				</br>
 					<textarea class="form-control" name="jawaban3" required=required></textarea>
 				<br>
-					
 				
 			</div>
-
 		</div>
-
 		<div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin-top: 20px;">
 			<input style="margin-bottom: 2%" type="submit"class="btn btn-primary mr-2 mb-2" value="Kirim Jawaban"></a>
 			<!-- <button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/jawaban_endTalent') ?>" class="btn btn-primary"> Kirim Jawaban Bro <i class="fa fa-arrow-circle-right"></i>
@@ -576,35 +570,23 @@ foreach ($rmib->result() as $key_uRmib) {
 
 
 <script type="text/javascript">
-  var countDownDate = new Date("<?php echo $timeRmib ?>").getTime();
-
-// Update the count down every 1 second
-var x = setInterval(function() {
-
-  // Get today's date and time
-  var now = new Date().getTime();
-
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // Display the result in the element with id="demo"
-  document.getElementById("time").innerHTML = minutes + " : " + seconds + " ";
-
-  // If the count down is finished, write some text
-  if (distance < 0) {
-    clearInterval(x);
-    // document.getElementById("time").innerHTML = "EXPIRED";
-    alert('Waktu mengerjakan ujian talent sudah habis');
-    window.location.href = '<?php echo base_url('Pelamar/Pelamar/testulispsikotes'); ?>';
-  }
-}, 1000);
-
+	var countDownDate = new Date("<?php echo $timeRmib ?>").getTime();
+	var x = setInterval(function() {
+  		var now = new Date().getTime();
+	  	var distance = countDownDate - now;
+		var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		
+		document.getElementById("time").innerHTML = minutes + " : " + seconds + " ";
+		if (distance < 0) {
+			clearInterval(x);
+    		// document.getElementById("time").innerHTML = "EXPIRED";
+			alert('Waktu mengerjakan ujian talent sudah habis');
+			window.location.href = '<?php echo base_url('Pelamar/Pelamar/testulispsikotes'); ?>';
+		}
+	}, 1000);
 </script>
 
-<?php   $this->load->view('layout3/footer') ?>
+<?php $this->load->view('layout3/footer') ?>

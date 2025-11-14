@@ -24,7 +24,7 @@ class Snap extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-		$params = array('server_key' => '', 'production' => false);
+		$params = array('server_key' => '', 'production' => true);
 		$this->load->library('midtrans');
 		$this->midtrans->config($params);
 		$this->load->helper('url');	
@@ -37,14 +37,11 @@ class Snap extends CI_Controller {
 
     public function token()
     {
-		
-		// Required
 		$transaction_details = array(
 		  'order_id' => rand(),
-		  'gross_amount' => 94000, // no decimal allowed for creditcard
+		  'gross_amount' => 94000,
 		);
 
-		// Optional
 		$item1_details = array(
 		  'id' => 'a1',
 		  'price' => 18000,
@@ -52,7 +49,6 @@ class Snap extends CI_Controller {
 		  'name' => "Apple"
 		);
 
-		// Optional
 		$item2_details = array(
 		  'id' => 'a2',
 		  'price' => 20000,
@@ -60,10 +56,8 @@ class Snap extends CI_Controller {
 		  'name' => "Orange"
 		);
 
-		// Optional
 		$item_details = array ($item1_details, $item2_details);
 
-		// Optional
 		$billing_address = array(
 		  'first_name'    => "Andri",
 		  'last_name'     => "Litani",
@@ -74,7 +68,6 @@ class Snap extends CI_Controller {
 		  'country_code'  => 'IDN'
 		);
 
-		// Optional
 		$shipping_address = array(
 		  'first_name'    => "Obet",
 		  'last_name'     => "Supriadi",
@@ -85,7 +78,6 @@ class Snap extends CI_Controller {
 		  'country_code'  => 'IDN'
 		);
 
-		// Optional
 		$customer_details = array(
 		  'first_name'    => "Andri",
 		  'last_name'     => "Litani",
@@ -95,10 +87,7 @@ class Snap extends CI_Controller {
 		  'shipping_address' => $shipping_address
 		);
 
-		// Data yang akan dikirim untuk request redirect_url.
         $credit_card['secure'] = true;
-        //ser save_card true to enable oneclick or 2click
-        //$credit_card['save_card'] = true;
 
         $time = time();
         $custom_expiry = array(

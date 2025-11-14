@@ -172,6 +172,7 @@ class Home extends CI_Controller
 				'no_telp'                     => $this->input->post('no_hp'),
 				'tempat_lahir'                => $this->input->post('tempat_lahir'),
 				'tanggal_lahir'               => $this->input->post('tanggal_lahir'),
+				'jenis_kelamin'				  => $this->input->post('jenis_kelamin'),
 				'kepentingan'                 => $this->input->post('kepentingan'),
 				'jadwal_test'                 => $jadwal_test,
 				'status_pembayaran'           => 'pending',

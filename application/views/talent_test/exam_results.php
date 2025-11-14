@@ -117,61 +117,122 @@
                             <i class="fa fa-brain"></i> <?php echo $exam['exam_name']; ?>
                         </div>
                         <div class="exam-result-body">
-                            <?php if (isset($exam['result']['total_soal'])): ?>
-                                <div class="result-metric">
-                                    <span class="metric-label">Total Soal</span>
-                                    <span class="metric-value"><?php echo $exam['result']['total_soal']; ?></span>
-                                </div>
-                            <?php endif; ?>
+                            <?php if ($exam['exam_type'] == 'disc' && isset($exam['result']['raw_scores'])): ?>
+                                <h5 style="font-weight: bold; margin-bottom: 15px;">Grafik Topeng (Most) - Graph 1</h5>
+                                <table class="table table-bordered table-striped" style="margin-bottom: 25px;">
+                                    <thead>
+                                        <tr style="background-color: #f2f2f2;">
+                                            <th>Dimensi</th>
+                                            <th>Skor Mentah</th>
+                                            <th>Skor Konversi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($exam['result']['raw_scores']['graph1'] as $dim => $score): ?>
+                                        <tr>
+                                            <td><strong><?php echo $dim; ?></strong></td>
+                                            <td><?php echo $score; ?></td>
+                                            <td><?php echo $exam['result']['converted_scores']['graph1'][$dim]; ?></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
 
-                            <?php if (isset($exam['result']['jawaban_benar'])): ?>
-                                <div class="result-metric">
-                                    <span class="metric-label">Jawaban Benar</span>
-                                    <span class="metric-value"><?php echo $exam['result']['jawaban_benar']; ?></span>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (isset($exam['result']['skor'])): ?>
-                                <div class="result-metric">
-                                    <span class="metric-label">Skor</span>
-                                    <span class="metric-value"><?php echo round($exam['result']['skor'], 2); ?></span>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (isset($exam['result']['nilai'])): ?>
-                                <div class="result-metric">
-                                    <span class="metric-label">Nilai</span>
-                                    <span class="metric-value"><?php echo $exam['result']['nilai']; ?></span>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (isset($exam['result']['interpretasi'])): ?>
-                                <div class="interpretation-box">
-                                    <div class="interpretation-title">
-                                        <i class="fa fa-info-circle"></i> Interpretasi
+                                <h5 style="font-weight: bold; margin-bottom: 15px;">Grafik Asli (Least) - Graph 2</h5>
+                                <table class="table table-bordered table-striped" style="margin-bottom: 25px;">
+                                    <thead>
+                                        <tr style="background-color: #f2f2f2;">
+                                            <th>Dimensi</th>
+                                            <th>Skor Mentah</th>
+                                            <th>Skor Konversi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($exam['result']['raw_scores']['graph2'] as $dim => $score): ?>
+                                        <tr>
+                                            <td><strong><?php echo $dim; ?></strong></td>
+                                            <td><?php echo $score; ?></td>
+                                            <td><?php echo $exam['result']['converted_scores']['graph2'][$dim]; ?></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <h5 style="font-weight: bold; margin-bottom: 15px;">Grafik Perubahan (Change) - Graph 3</h5>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr style="background-color: #f2f2f2;">
+                                            <th>Dimensi</th>
+                                            <th>Skor Mentah</th>
+                                            <th>Skor Konversi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($exam['result']['raw_scores']['graph3'] as $dim => $score): ?>
+                                        <tr>
+                                            <td><strong><?php echo $dim; ?></strong></td>
+                                            <td><?php echo $score; ?></td>
+                                            <td><?php echo $exam['result']['converted_scores']['graph3'][$dim]; ?></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            <?php else: ?>
+                                <?php if (isset($exam['result']['total_soal'])): ?>
+                                    <div class="result-metric">
+                                        <span class="metric-label">Total Soal</span>
+                                        <span class="metric-value"><?php echo $exam['result']['total_soal']; ?></span>
                                     </div>
-                                    <div class="interpretation-text">
-                                        <?php echo $exam['result']['interpretasi']; ?>
+                                <?php endif; ?>
+
+                                <?php if (isset($exam['result']['jawaban_benar'])): ?>
+                                    <div class="result-metric">
+                                        <span class="metric-label">Jawaban Benar</span>
+                                        <span class="metric-value"><?php echo $exam['result']['jawaban_benar']; ?></span>
                                     </div>
-                                </div>
-                            <?php endif; ?>
+                                <?php endif; ?>
 
-                            <?php if (isset($exam['result']['kategori_utama'])): ?>
-                                <div class="result-metric">
-                                    <span class="metric-label">Kategori Utama</span>
-                                    <span class="metric-value"><?php echo $exam['result']['kategori_utama']; ?></span>
-                                </div>
-                                <div class="result-metric">
-                                    <span class="metric-label">Kategori Pendukung</span>
-                                    <span class="metric-value"><?php echo $exam['result']['kategori_pendukung']; ?></span>
-                                </div>
-                            <?php endif; ?>
+                                <?php if (isset($exam['result']['skor'])): ?>
+                                    <div class="result-metric">
+                                        <span class="metric-label">Skor</span>
+                                        <span class="metric-value"><?php echo round($exam['result']['skor'], 2); ?></span>
+                                    </div>
+                                <?php endif; ?>
 
-                            <?php if (isset($exam['result']['dimensi_dominan'])): ?>
-                                <div class="result-metric">
-                                    <span class="metric-label">Dimensi Dominan</span>
-                                    <span class="metric-value"><?php echo $exam['result']['dimensi_dominan']; ?></span>
-                                </div>
+                                <?php if (isset($exam['result']['nilai']) && is_string($exam['result']['nilai'])): ?>
+                                    <div class="result-metric">
+                                        <span class="metric-label">Nilai</span>
+                                        <span class="metric-value"><?php echo $exam['result']['nilai']; ?></span>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if (isset($exam['result']['interpretasi'])): ?>
+                                    <div class="interpretation-box">
+                                        <div class="interpretation-title">
+                                            <i class="fa fa-info-circle"></i> Interpretasi
+                                        </div>
+                                        <div class="interpretation-text">
+                                            <?php echo $exam['result']['interpretasi']; ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if (isset($exam['result']['kategori_utama'])): ?>
+                                    <div class="result-metric">
+                                        <span class="metric-label">Kategori Utama</span>
+                                        <span class="metric-value"><?php echo $exam['result']['kategori_utama']; ?></span>
+                                    </div>
+                                    <div class="result-metric">
+                                        <span class="metric-label">Kategori Pendukung</span>
+                                        <span class="metric-value"><?php echo $exam['result']['kategori_pendukung']; ?></span>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if (isset($exam['result']['dimensi_dominan'])): ?>
+                                    <div class="result-metric">
+                                        <span class="metric-label">Dimensi Dominan</span>
+                                        <span class="metric-value"><?php echo $exam['result']['dimensi_dominan']; ?></span>
+                                    </div>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>

@@ -64,10 +64,11 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="tempat_lahir">Tempat Lahir</label>
-                      <select name="tempat_lahir" id="tempat_lahir" class="form-control select2 <?php echo form_error('tempat_lahir') ? 'is-invalid' : ''; ?>" required>
-                        <option value="">Pilih Kota</option>
+                      <select name="tempat_lahir" id="tempat_lahir" class="form-control select2 <?php echo form_error('tempat_lahir') 
+                        ? 'is-invalid' : ''; ?>" data-placeholder="Pilih Kota" required>
+                        <option value=""></option>
                         <?php foreach ($kota as $k) : ?>
-                          <option value="<?php echo $k['nama']; ?>" <?php echo set_select('tempat_lahir', $k['nama']); ?>><?php echo $k['nama']; ?></option>
+                          <option value="<?php echo $k['nama']; ?>" <?php echo set_value('tempat_lahir', $k['nama']) ?>><?php echo $k['nama']; ?></option>
                         <?php endforeach; ?>
                       </select>
                       <div class="invalid-feedback"><?php echo form_error('tempat_lahir'); ?></div>
@@ -83,17 +84,37 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="kepentingan">Kepentingan Mengikuti Test</label>
-                  <select name="kepentingan" id="kepentingan" class="form-control select2 <?php echo form_error('kepentingan') ? 'is-invalid' : ''; ?>" required>
-                    <option value="">Pilih Kepentingan</option>
-                    <?php foreach ($kepentingan_options as $option) : ?>
-                      <option value="<?php echo $option['option_text']; ?>" <?php echo set_select('kepentingan', $option['option_text']); ?>>
-                        <?php echo $option['option_text']; ?>
-                      </option>
-                    <?php endforeach; ?>
-                  </select>
-                  <div class="invalid-feedback"><?php echo form_error('kepentingan'); ?></div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Jenis Kelamin</label>
+                      <div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" name="jenis_kelamin" id="jenis_kelamin_l" value="L" class="custom-control-input" <?php echo set_radio('jenis_kelamin','L', TRUE) ?> required>
+                          <label for="jenis_kelamin_l" class="custom-control-label">Laki - laki</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" name="jenis_kelamin" id="jenis_kelamin_p" value="P" class="custom-control-input" <?php echo set_radio('jenis_kelamin', 'P') ?>>
+                          <label for="jenis_kelamin_p" class="custom-control-label">Perempuan</label>
+                        </div>
+                      </div>
+                      <div class="invalid-feedback d-block"><?php echo form_error('jenis_kelamin') ?></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="kepentingan">Kepentingan Mengikuti Test</label>
+                      <select name="kepentingan" id="kepentingan" class="form-control select2 <?php echo form_error('kepentingan') ? 'is-invalid' : ''; ?>" required>
+                        <option value="">Pilih Kepentingan</option>
+                        <?php foreach ($kepentingan_options as $option) : ?>
+                          <option value="<?php echo $option['option_text']; ?>" <?php echo set_select('kepentingan', $option['option_text']); ?>>
+                            <?php echo $option['option_text']; ?>
+                          </option>
+                        <?php endforeach; ?>
+                      </select>
+                      <div class="invalid-feedback"><?php echo form_error('kepentingan'); ?></div>
+                    </div>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
