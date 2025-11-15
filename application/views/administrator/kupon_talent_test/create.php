@@ -8,7 +8,7 @@
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
             <li class="breadcrumb-item">Administrator</li>
-            <li class="breadcrumb-item"><a href="<?php echo base_url('administrator/KuponTalentTest'); ?>">Kupon Talent Test</a></li>
+            <li class="breadcrumb-item"><a href="<?php echo base_url('Administrator/KuponTalentTest'); ?>">Kupon Talent Test</a></li>
             <li class="breadcrumb-item active">Tambah</li>
         </ul>
     </div>
@@ -17,7 +17,7 @@
             <div class="tile">
                 <h3 class="tile title">Form Tambah Kupon</h3>
                 <div class="tile-body">
-                    <form action="<?php echo base_url('administrator/KuponTalentTest/create'); ?>" method="post">
+                    <form action="<?php echo base_url('Administrator/KuponTalentTest/create'); ?>" method="post">
                         <div class="form-group">
                             <label for="kode_kupon">Kode Kupon *</label>
                             <input type="text" name="kode_kupon" id="kode_kupon" class="form-control" value="<?php echo set_value('kode_kupon'); ?>" required>
@@ -77,7 +77,7 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="<?php echo base_url('administrator/KuponTalentTest'); ?>" class="btn btn-secondary">Batal</a>
+                        <a href="<?php echo base_url('Administrator/KuponTalentTest'); ?>" class="btn btn-secondary">Batal</a>
                     </form>
                 </div>
             </div>

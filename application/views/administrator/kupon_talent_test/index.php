@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="tile">
-                <a href="<?php echo base_url('administrator/KuponTalentTest/create'); ?>" class="btn btn-primary mb-3">Tambah Kupon</a>
+                <a href="<?php echo base_url('administrator/kupon-talent-test/create'); ?>" class="btn btn-primary mb-3">Tambah Kupon</a>
                 <div id="notifikasi">
                     <?php if ($this->session->flashdata('msg')): ?>
                         <div class="alert alert-success"><?php echo $this->session->flashdata('msg') ?></div>
@@ -72,8 +72,8 @@
                                 <td><?php echo date('d-m-Y', strtotime($kupon['tanggal_berakhir'])); ?></td>
                                 <td><?php echo ucfirst($kupon['status']); ?></td>
                                 <td>
-                                    <a href="<?php echo base_url('administrator/KuponTalentTest/edit/' . $kupon['id_kupon']); ?>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="<?php echo base_url('administrator/KuponTalentTest/delete/' . $kupon['id_kupon']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus kupon ini?');">Hapus</a>
+                                    <a href="<?php echo base_url('administrator/kupon-talent-test/edit/' . $kupon['id_kupon']); ?>" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="<?php echo base_url('administrator/kupon-talent-test/delete/' . $kupon['id_kupon']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus kupon ini?');">Hapus</a>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

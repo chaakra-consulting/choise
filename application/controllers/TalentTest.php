@@ -58,6 +58,11 @@ class TalentTest extends CI_Controller
         unset($ujian);
 
         $progress_data = $this->get_user_exam_progress($pendaftaran['id_pendaftar_pelatihan'], $pendaftaran['id_paket']);
+        // echo "Daftar exam_type yang diproses di dashboard: <br>";
+        // echo "<pre>";
+        // print_r(array_keys($progress_data));
+        // echo "</pre>";
+        // die();
         $jadwal_test = $pendaftaran['jadwal_test'];
         $countdown_status = null;
 
@@ -875,7 +880,7 @@ class TalentTest extends CI_Controller
                 $this->db->where('jenis_ujian', $exam_type);
             }
             $result = $this->db->get('tb_hasil_talent_test')->row();
-            $ujian['is_completed'] = $result ? true : false;
+            $ujian['is_completed'] = ($result && $result->status_penilaian == 'selesai');
         }
 
         $data = [
@@ -1368,28 +1373,52 @@ class TalentTest extends CI_Controller
         $progress = [];
         foreach ($paket_ujian as $ujian) {
             $exam_type = $ujian['jenis_ujian'];
-            $table_name = $this->get_answer_table_name_by_exam_type($exam_type);
 
-            if ($table_name) {
-                $this->db->where('id_pendaftar_pelatihan', $user_id);
-                $answered_questions = $this->db->count_all_results($table_name);
+            if ($exam_type == 'rmib' || $exam_type == 'rmib_pria' || $exam_type == 'rmib_wanita') {
+                $completed_exam = $this->db->from('tb_hasil_talent_test')
+                                            ->where('id_pendaftar_pelatihan', $user_id)
+                                            ->where_in('jenis_ujian', ['rmib_pria', 'rmib_wanita'])
+                                            ->get()->row();
+                                            
+                $is_completed = ($completed_exam && trim($completed_exam->status_penilaian) == 'selesai');
 
-                $soal_table = $this->get_table_name_by_exam_type($exam_type);
-                if ($exam_type == 'cfit'){
+                $progress['rmib'] = [
+                    'total_questions' => 1,
+                    'answered_questions' => $is_completed ? 1 : 0,
+                    'is_completed' => $is_completed,
+                ];
+                continue;
+            }
+
+            $soal_table = $this->get_table_name_by_exam_type($exam_type);
+            $total_questions = 0;
+            if ($soal_table) {
+                if ($exam_type == 'cfit') {
                     $this->db->where('type_soal', 'Ujian');
                 }
-                $total_questions = $this->db->count_all_results($soal_table);
-
-                $progress[$exam_type] = [
-                    'total_questions' => $total_questions,
-                    'answered_questions' => $answered_questions,
-                ];
+                $total_questions = $this->db->from($soal_table)->count_all_results();
             } else {
-                $progress[$exam_type] = [
-                    'total_questions' => 1,
-                    'answered_questions' => 0,
-                ];
+                $total_questions = 1;
             }
+
+            $table_name = $this->get_answer_table_name_by_exam_type($exam_type);
+            $answered_questions = 0;
+            if ($table_name) {
+                $answered_questions = $this->db->from($table_name)->where('id_pendaftar_pelatihan', $user_id)->count_all_results();
+            }
+
+            $completed_exam = $this->db->from('tb_hasil_talent_test')
+                                        ->where('id_pendaftar_pelatihan', $user_id)
+                                        ->where('jenis_ujian', $exam_type)
+                                        ->get()->row();
+                                        
+            $is_completed = ($completed_exam && trim($completed_exam->status_penilaian) == 'selesai');
+
+            $progress[$exam_type] = [
+                'total_questions' => $total_questions,
+                'answered_questions' => $answered_questions,
+                'is_completed' => $is_completed,
+            ];
         }
         return $progress;
     }
