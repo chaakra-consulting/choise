@@ -134,7 +134,7 @@
         padding: 0.75rem;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         transition: transform 0.2s ease;
-        width: 250px;
+        width: 200px;
     }
 
     .job-item:hover {
@@ -143,7 +143,7 @@
 
     .job-item img {
         width: 100%;
-        height: 200px;
+        height: 150px;
         object-fit: cover;
         border-radius: 0.25rem;
         margin-bottom: 0.5rem;
@@ -243,6 +243,8 @@
 
                         <div class="message-section">
                             <p><?php echo $message; ?></p>
+                            <hr style="color: #343a40;">
+                            <a href="https://wa.me/6285648200701" target="_blank" class="btn btn-success" style="color: white; text-decoration: none;">Hubungi via WhatsApp</a>
                         </div>
                     </div>
                 </div>
