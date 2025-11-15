@@ -112,6 +112,8 @@ class Mdl_kupon_talent_test extends CI_Model
 
     public function delete_kupon($id_kupon)
     {
+        $this->db->delete($this->table_penggunaan, ['id_kupon' => $id_kupon]);
+        
         return $this->db->delete($this->table_kupon, ['id_kupon' => $id_kupon]);
     }
 }
