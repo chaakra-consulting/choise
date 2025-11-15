@@ -417,16 +417,9 @@
                             $progress = null;
 
                             if ($exam_type == 'rmib') {
-                                $progress_pria = isset($progress_data['rmib_pria']) ? $progress_data['rmib_pria'] : null;
-                                $progress_wanita = isset($progress_data['rmib_wanita']) ? $progress_data['rmib_wanita'] : null;
-
-                                if ($progress_pria) {
-                                    $progress = $progress_pria;
-                                } elseif ($progress_wanita) {
-                                    $progress = $progress_wanita;
-                                }
+                                $progress = $progress_data['rmib'] ?? $progress_data['rmib_pria'] ?? $progress_data['rmib_wanita'] ?? null;
                             } else {
-                                $progress = isset($progress_data[$exam_type]) ? $progress_data[$exam_type] : null;
+                                $progress = $progress_data[$exam_type] ?? null;
                             }
 
                             $status = 'Belum Dimulai';
@@ -434,29 +427,24 @@
                             $card_class = 'not-started';
                             $exam_progress_percentage = 0;
 
-                            if ($progress && isset($progress['total_questions'], $progress['answered_questions'])) {
-                                if ($progress['total_questions'] > 0) {
-                                    if ($progress['answered_questions'] >= $progress['total_questions']) {
-                                        $status = 'Selesai';
-                                        $status_class = 'completed';
-                                        $card_class = 'completed';
-                                        $exam_progress_percentage = 100;
-                                    } elseif ($progress['answered_questions']>0) {
-                                        $status = 'Dalam Proses';
-                                        $status_class = 'in-progress';
-                                        $card_class = 'in-progress';
+                            if ($progress) {
+                                if (isset($progress['is_completed']) && $progress['is_completed']) {
+                                    $status = 'Selesai';
+                                    $status_class = 'completed';
+                                    $card_class = 'completed';
+                                    if ($progress['total_questions'] > 0) {
                                         $exam_progress_percentage = ($progress['answered_questions'] / $progress['total_questions']) * 100;
+                                    } else {
+                                        $exam_progress_percentage = 100;
                                     }
-                                } elseif ($progress['answered_questions'] > 0) {
+                                } elseif (isset($progress['answered_questions']) && $progress['answered_questions'] > 0) {
                                     $status = 'Dalam Proses';
                                     $status_class = 'in-progress';
                                     $card_class = 'in-progress';
-                                    $exam_progress_percentage = ($progress['answered_questions'] / $progress['total_questions']) * 100;
+                                    if (isset($progress['total_questions']) && $progress['total_questions'] > 0) {
+                                        $exam_progress_percentage = ($progress['answered_questions'] / $progress['total_questions']) * 100;
+                                    }
                                 }
-                            } elseif ($progress['answered_questions'] > 0) {
-                                $status = 'Dalam Proses';
-                                $status_class = 'in-progress';
-                                $card_class = 'in-progress';
                             }
                         ?>
                         <div class="col-lg-6 mb-3">

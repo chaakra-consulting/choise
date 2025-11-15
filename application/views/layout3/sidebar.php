@@ -100,11 +100,11 @@
 					<em class="fa fa-brain">&nbsp;</em> Mulai Ujian
 				</a>
 			</li> -->
-			<li class="<?php if ($this->uri->segment(2) == "talent-test" && $this->uri->segment(3) == "exam-results") { echo "active"; } ?>">
+			<!-- <li class="<?php if ($this->uri->segment(2) == "talent-test" && $this->uri->segment(3) == "exam-results") { echo "active"; } ?>">
 				<a href="<?php echo base_url('talent-test/exam-results') ?>">
 					<em class="fa fa-folder-open">&nbsp;</em> Hasil Ujian
 				</a>
-			</li>
+			</li> -->
 			<!-- <li>
 				<a href="<?php echo base_url('Home/talent_test') ?>">
 					<em class="fa fa-arrow-left">&nbsp;</em> Kembali ke Beranda
