@@ -100,7 +100,12 @@
                     <td><?php echo $key['nomor_va'] ?></td>
                     <td>
                       <div class="btn-group" role="group" aria-label="Basic example">
-                      &nbsp;<button data-placement="bottom" data-original-title="Hapus" data-toggle="modal" data-target="#ModalHapus<?php echo $modal ?>" type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        <?php if (!empty($key['nama_paket'])) : ?>
+                          <a href="<?php echo base_url('Administrator/Data_Pelatihan/download_nilai_talent_test/' . $key['id_pendaftar_pelatihan']); ?>" data-placement="bottom" data-original-title="Download Nilai" class="btn btn-success"><i class="fa fa-download"></i></a>
+                        <?php else : ?>
+                          <button data-placement="bottom" data-original-title="Download Nilai" type="button" class="btn btn-success" disabled><i class="fa fa-download"></i></button>
+                        <?php endif; ?>
+                        &nbsp;<button data-placement="bottom" data-original-title="Hapus" data-toggle="modal" data-target="#ModalHapus<?php echo $modal ?>" type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                       </div>
                     </td>
                   </tr>
