@@ -283,6 +283,22 @@
         <p style="color: white"><b>Selamat datang, <?php echo $this->session->userdata('talent_test_user_name'); ?>. Siap untuk memulai?</b></p>
     </div>
 
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <i class="fa fa-info-circle"></i>
+        <strong>Pengingat:</strong> Jangan lupa untuk mengunduh dan mengunggah berkas Anda terlebih dahulu.
+    </div>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <i class="fa fa-info-circle"></i>
+        <strong>Pengingat:</strong> Laporkan ke admin ketika selesai mengerjakan semua ujian.
+    </div>
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <i class="fa fa-info-circle"></i>
+        <strong>Pengingat:</strong> Laporan hasil ujian akan dikirimkan melalui email atau wa satu hari setelah ujian telah selesai dikerjakan. (pada jam kerja)
+    </div>
+
     <div class="stats-overview">
         <?php
         $total_exams = count($ujian_list);
@@ -489,6 +505,24 @@
                             </div>
                         </div>
                         <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="info-card">
+                <div class="panel panel-red panel-widget">
+                    <div class="row no-padding">
+                        <h4>Jika ada pertanyaan bisa hubungi kontak dibawah:</h4>
+                        <div class="medium"><em class="fa fa-md fa-phone color-black"></em> WhatsApp: +6285648200701</div>
+                        <div class="medium">
+                            <em class="fa fa-md fa-at color-black"></em>
+                            Email: <br> 
+                            adm@chaakraconsulting.com <br>
+                            chaakraconsulting@gmail.com <br>
+                        </div>
                     </div>
                 </div>
             </div>

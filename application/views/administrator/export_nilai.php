@@ -7,88 +7,46 @@ date_default_timezone_set('Asia/Jakarta');
 $nilai = $this->db->query("SELECT nama_jabatan,nama_perusahaan FROM tb_lowongan a LEFT JOIN tb_perusahaan b ON a.`id_perusahaan`=b.`id_perusahaan` WHERE id_lowongan=$lowongan")->result_array();
 $waktu = date('d-m-Y  H:i:s');
 header("Content-type: application/octet-stream");
-
-
 header("Content-Disposition: attachment; filename=nilai ($waktu) - " . $nilai[0]['nama_jabatan'] . " di perusahaan " . $nilai[0]['nama_perusahaan'] . ".xls");
-
 header("Pragma: no-cache");
-
-
-
 header("Expires: 0");
-
-
 
 ?>
 
 <h3 colspan="10">Data Nilai Pelamar pada Lowongan <?php echo $nilai[0]['nama_jabatan']; ?> diperusahaan <?php echo $nilai[0]['nama_perusahaan']; ?></h3> <br>
 <table border="1">
-
-
 	<thead>
-
 		<tr>
-
 			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">No</th>
-
 			<th class="tg-0pky" rowspan="4" style="background-color: Yellow;">Nama</th>
-
 			<th class="tg-c3ow" colspan="3" rowspan="2" style="background-color: Yellow;">CFIT</th>
-
 			<th class="tg-c3ow" colspan="6" rowspan="2" style="background-color: Yellow;">Holland</th>
-
 			<th class="tg-0pky" colspan="10" rowspan="2" style="background-color: Yellow;">Essay</th>
-
 			<th class="tg-c3ow" colspan="20" style="background-color: Yellow;">Papi</th>
-
 			<th class="tg-c3ow" colspan="3" rowspan="2" style="background-color: Yellow;">Who Am I</th>
-
 			<th class="tg-0pky" colspan="2" rowspan="2" style="background-color: Yellow;">Studi Kasus Staff</th>
-
 			<th class="tg-c3ow" colspan="2" rowspan="2" style="background-color: Yellow;">Studi Kasus Bank</th>
-
 			<th class="tg-c3ow" colspan="2" rowspan="2" style="background-color: Yellow;">Studi Kasus Admin BSI</th>
-
 			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">Studi Kasus Manajerial</th>
-
 			<th class="tg-c3ow" colspan="2" rowspan="2" style="background-color: Yellow;">Studi Kasus LGD</th>
-
 			<th class="tg-c3ow" colspan="9" style="background-color: Yellow;">Hitung</th>
-
 			<th class="tg-c3ow" rowspan="2" colspan="22" style="background-color: Yellow;">Leadership</th>
-
 			<th class="tg-c3ow" colspan="9" style="background-color: Yellow;">RMIB</th>
-
 			<th class="tg-c3ow" rowspan="2" colspan="4" style="background-color: Yellow;">MSDT</th>
-
 			<th class="tg-c3ow" colspan="20" style="background-color: Yellow;">EPPS</th>
-
 			<th class="tg-c3ow" colspan="12" style="background-color: Yellow;">DISC</th>
-
 			<th class="tg-c3ow" rowspan="2" colspan="2" style="background-color: Yellow;">Cepat Teliti</th>
-
 			<th class="tg-c3ow" rowspan="2" colspan="2" style="background-color: Yellow;">Tes Karakteristik Pribadi</th>
-
 			<th class="tg-c3ow" rowspan="2" colspan="2" style="background-color: Yellow;">Army Alpha</th>
-
 			<th class="tg-c3ow" rowspan="2" colspan="4" style="background-color: Yellow;">Bahasa Inggris</th>
-
 			<th class="tg-c3ow" colspan="10" style="background-color: Yellow;">Tes Kompetensi Bidang (TKB)</th>
-
 			<th class="tg-c3ow" colspan="39" style="background-color: Yellow;">TPA Panjang</th>
-
 			<th class="tg-c3ow" colspan="24" style="background-color: Yellow;">TPA Pendek</th>
-
 			<th class="tg-c3ow" colspan="24" style="background-color: Yellow;">TPA 2</th>
-
 			<th class="tg-c3ow" colspan="19" style="background-color: Yellow;">Tes Wawasan Kebangsaan</th>
-
 			<th class="tg-c3ow" colspan="3" style="background-color: Yellow;">Kontak Psikologis</th>
-
 			<th class="tg-c3ow" rowspan="2" colspan="12" style="background-color: Yellow;">IST</th>
-
 			<th class="tg-c3ow" colspan="9" style="background-color: Yellow;">Belbin</th>
-
 		</tr>
 		<tr>
 			<!-- PAPI -->
@@ -113,7 +71,6 @@ header("Expires: 0");
 			<td colspan="2"><b>
 					<center>Followership</center>
 				</b></td>
-
 
 			<!-- hitung -->
 			<td colspan="4"><b>
@@ -144,8 +101,6 @@ header("Expires: 0");
 			<td class="tg-0pky" rowspan="3"><b>
 					<center>&nbsp;</center>
 				</b></td>
-
-
 			<td class="tg-0pky" colspan="6"><b>
 					<center>Sikap Kerja</center>
 				</b></td>
@@ -302,33 +257,25 @@ header("Expires: 0");
 					<center>Specialist</center>
 				</b></td>
 		</tr>
-
 		<tr>
-
 			<!-- CFIT -->
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>IQ</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
 				</b></td>
 
-
 			<!-- HOLLAND -->
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>R</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>I</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>A</center>
 				</b></td>
@@ -358,211 +305,163 @@ header("Expires: 0");
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>3</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>4</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>5a</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>5b</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>5c</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>6</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>7</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>8</center>
 				</b></td>
 
-			
 			<!-- PAPIKOSTIK -->
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>G</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>N</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>A</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>L</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>P</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>I</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>T</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>V</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>O</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>B</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>S</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>X</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>C</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>D</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>R</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Z</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>E</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>K</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>F</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>W</center>
 				</b></td>
-			<!-- TALENT -->
 
+			<!-- TALENT -->
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kelebihan</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kekurangan</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Gambaran 5 Tahun Kedepan</center>
 				</b></td>
 
 			<!-- STUDI KASUS STAFF -->
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>1</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>2</center>
 				</b></td>
 
 			<!-- STUDI KASUS BANK -->
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>1</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>2</center>
 				</b></td>
 
 			<!-- STUDI KASUS ADMIN BSI-->
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>1</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>2</center>
 				</b></td>
 
 			<!-- LDG -->
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>no 1</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>no 2</center>
 				</b></td>
 
 			<!-- HITUNG -->
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>a</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>b</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>c</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>d</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>a</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>b</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>c</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>a</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>b</center>
 				</b></td>
 
 			<!-- Leadership -->
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>1</center>
 				</b></td>
@@ -674,7 +573,6 @@ header("Expires: 0");
 				</b></td>
 
 			<!-- EPPS -->
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>End</center>
 				</b></td>
@@ -693,7 +591,6 @@ header("Expires: 0");
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Total</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Int</center>
 				</b></td>
@@ -712,7 +609,6 @@ header("Expires: 0");
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Total</center>
 				</b></td>
-
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Exh</center>
 				</b></td>
@@ -830,7 +726,6 @@ header("Expires: 0");
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
 				</b></td>
-
 
 			<!-- TPA Panjang -->
 			<td class="tg-0pky" colspan="3"><b>
