@@ -43,4 +43,4 @@ var x = setInterval(function() {
 }, 1000);
 </script>
 
-<?php r$this->load->view('layout3/footer') ?>
+<?php $this->load->view('layout3/footer') ?>
