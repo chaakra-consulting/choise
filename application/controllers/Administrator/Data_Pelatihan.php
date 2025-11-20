@@ -3,10 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Data_Pelatihan extends CI_Controller
 {
-	public function __construct() //MEMPERSIAPKAN
+	public function __construct()
 	{
 		parent::__construct();
 		$this->load->helper('url', 'form');
+		$this->load->model('Mdl_pendaftaran_talent_test');
+		$this->load->model('Mdl_paket_talent_test');
 		$this->load->model('Mdl_data_motlet');
 		$this->load->library('form_validation');
 		$this->load->library('session');
@@ -119,65 +121,15 @@ class Data_Pelatihan extends CI_Controller
 
 	public function download_nilai_talent_test($id_pendaftar_pelatihan)
 	{
-		$this->load->model('Mdl_paket_talent_test');
-		$this->load->model('Mdl_data_nilai');
+		$pendaftar_check = $this->db->get_where('tb_pendaftar_pelatihan', ['id_pendaftar_pelatihan' => $id_pendaftar_pelatihan])->num_rows();
 
-		$pendaftar = $this->db->get_where('tb_pendaftar_pelatihan', ['id_pendaftar_pelatihan' => $id_pendaftar_pelatihan])->row_array();
+		if ($pendaftar_check > 0 ) {
+			$data['id_pendaftar_pelatihan'] = $id_pendaftar_pelatihan;
+			$this->load->view('administrator/export_nilai_talent_test', $data);
+		} else {
+			$this->session->set_flashdata('msg_error', 'Data pendaftar pelatihan tidak ditemukan.');
+			redirect('Administrator/Data_Pelatihan/pendaftar');
 
-		if (!$pendaftar) {
-			show_404();
-		}
-
-		$id_paket = $pendaftar['id_paket'];
-		$id_pelamar= $pendaftar['id_pelamar'];
-
-		$exams = $this->mdl_paket_talent_test->get_ujian_by_paket($id_paket);
-
-		$filename = 'nilai_talent_test_' . $pendaftar['nama_pendaftar_pelatihan'] . '_' . date('YmdHis') . '.csv';
-
-		header('Content-Type: text/csv');
-		header('Content-Disposition: attacment; filename="' . $filename . '"');
-		header('Cache-Control: max-age=0');
-
-		$output = fopen('php://output', 'w');
-
-		fputcsv($output, ['Informasi Pendaftar']);
-		fputcsv($output, ['Nama', $pendaftar['nama_pendaftar_pelatihan']]);
-		fputcsv($output, ['Email', $pendaftar['no_telp']]);
-		fputcsv($output, ['Tempat Lahir', $pendaftar['tempat_lahir']]);
-		fputcsv($output, ['Tanggal Lahir', $pendaftar['tanggal_lahir']]);
-		fputcsv($output, ['Status Pembayaran', $pendaftar['status_pembayaran']]);
-		fputcsv($output, ['Waktu Mendaftar', $pendaftar['waktu']]);
-		fputcsv($output, ['Jadwal Test', $pendaftar['jadwal_test']]);
-		fputcsv($output, ['']);
-
-		$exam_headers = ['Jenis Ujian'];
-		$exam_data_row = [];
-
-		foreach ($exams as $exam) {
-			$jenis_ujian = $exam['jenis_ujian'];
-			$table_name = 'tb_data_jawaban_talent_test_' . $jenis_ujian;
-
-			$this->db->where('id_pelamar', $id_pelamar);
-			$this->db->where('id_paket', $id_paket);
-			$exam_results = $this->db->get($table_name)->result_array();
-
-			if (!empty($exam_results)) {
-				foreach ($exam_results as $result) {
-					$all_exam_results[$jenis_ujian][] = $result;
-				}
-			}
-		}
-
-		$dinamic_headers = [];
-		foreach ($all_exam_results as $jenis_ujian => $results_array) {
-			foreach ($results_array as $result) {
-				foreach ($result as $key => $value) {
-					if (!in_array($jenis_ujian . '_' . $key, $dynamic_headers)) {
-						$dynamic_headers[] = $jenis_ujian . '_' . $key;
-					}
-				}
-			}
 		}
 	}
 }
