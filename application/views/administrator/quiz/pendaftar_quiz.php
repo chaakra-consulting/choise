@@ -26,6 +26,7 @@
                                     <th>Email</th>
                                     <th>Telepon</th>
                                     <th>Instagram</th>
+                                    <th>Kota/ Kabupaten</th>
                                     <th>Tanggal</th>
                                 </tr>
                             </thead>
@@ -33,11 +34,12 @@
                                 <?php $no = 1; foreach ($quiz_results as $result): ?>
                                     <tr>
                                         <td><?php echo $no++; ?></td>
-                                        <td><?php echo $result->nama; ?></td>
-                                        <td><?php echo $result->email; ?></td>
-                                        <td><?php echo $result->no_hp; ?></td>
-                                        <td><?php echo $result->ig; ?></td>
-                                        <td><?php echo $result->created_at; ?></td>
+                                        <td><?php echo $result->nama ?? '-'; ?></td>
+                                        <td><?php echo $result->email ?? '-'; ?></td>
+                                        <td><?php echo $result->no_hp ?? '-'; ?></td>
+                                        <td><?php echo $result->ig ?? '-'; ?></td>
+                                        <td><?php echo $result->kota ?? '-'; ?></td>
+                                        <td><?php echo $result->created_at ?? '-'; ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
