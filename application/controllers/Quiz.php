@@ -8,6 +8,7 @@ class Quiz extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->database();
+        $this->load->model('Mdl_home');
     }
 
     public function landing()
@@ -26,6 +27,7 @@ class Quiz extends CI_Controller
         }
 
         $data['grouped_questions'] = $grouped_questions;
+        $data['kota'] = $this->Mdl_home->get_kota();
         $this->load->view('quiz/holland_quiz', $data);
     }
 
@@ -35,6 +37,7 @@ class Quiz extends CI_Controller
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('no_hp', 'No. HP', 'required|regex_match[/^08[0-9]+$/]');
         $this->form_validation->set_rules('ig', 'Instagram', 'required');
+        $this->form_validation->set_rules('kota', 'Asal Kota', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->holland_quiz();
@@ -81,16 +84,12 @@ class Quiz extends CI_Controller
             $keys = array_keys($scores);
             $code = $keys[0];
 
-            $nama = $this->input->post('nama');
-            $email = $this->input->post('email');
-            $no_hp = $this->input->post('no_hp');
-            $ig = $this->input->post('ig');
-
             $data = [
-                'nama' => $nama,
-                'email' => $email,
-                'no_hp' => $no_hp,
-                'ig' => $ig,
+                'nama' => $this->input->post('nama'),
+                'email' => $this->input->post('email'),
+                'no_hp' => $this->input->post('no_hp'),
+                'ig' => $this->input->post('ig'),
+                'kota' => $this->input->post('kota'),
                 'nilai_r' => $scores['R'],
                 'nilai_i' => $scores['I'],    
                 'nilai_a' => $scores['A'],

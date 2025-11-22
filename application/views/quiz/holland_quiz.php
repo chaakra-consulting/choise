@@ -223,11 +223,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const steps = Array.from(document.querySelectorAll('.question-step'));
     const totalSteps = steps.length;
     let currentStep = 1;
-    let autoAdvanceTimeout;
-    const goToNextStep = () => {
+
+    const goToNextStep = (event) => {
         const currentStepElement = steps[currentStep - 1];
         const radioChecked = currentStepElement.querySelector('input[type="radio"]:checked');
-        if (!radioChecked) { return; }
+
+        if (event && event.target.id === 'nextBtn' && !radioChecked) {
+            return;
+        }
+
         if (currentStep < totalSteps) {
             currentStep++;
             updateUI();
@@ -251,6 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#formModal').modal('show');
         }
     };
+
     const updateUI = () => {
         steps.forEach((step, index) => {
             step.classList.toggle('active', index + 1 === currentStep);
@@ -259,6 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
         progressBar.style.width = progress + '%';
         questionCounter.textContent = currentStep;
         prevBtn.style.display = currentStep > 1 ? 'inline-block' : 'none';
+
         if (currentStep === totalSteps) {
             nextBtn.textContent = 'Lihat Hasil';
             nextBtn.classList.replace('btn-primary', 'btn-success');
@@ -267,23 +273,29 @@ document.addEventListener('DOMContentLoaded', function() {
             nextBtn.classList.replace('btn-success', 'btn-primary');
         }
     };
+
     nextBtn.addEventListener('click', goToNextStep);
+
     prevBtn.addEventListener('click', () => {
         if (currentStep > 1) {
-            clearTimeout(autoAdvanceTimeout);
             currentStep--;
             updateUI();
         }
     });
+
     allRadios.forEach(radio => {
         radio.addEventListener('click', () => {
-            clearTimeout(autoAdvanceTimeout);
-            autoAdvanceTimeout = setTimeout(() => {
-                goToNextStep();
-            }, 350);
+            setTimeout(goToNextStep, 350); 
         });
     });
+
     updateUI();
+
+    $('#formModal').on('shown.bs.modal', function() {
+        $('#kota').select2({
+            dropdownParent: $('#formModal'),
+        });
+    });
 });
 </script>
 

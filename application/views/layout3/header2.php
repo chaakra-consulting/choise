@@ -11,12 +11,13 @@
 	<link href="<?php  echo base_url('assets3/css/custom.css') ?>" rel="stylesheet">
 	<link href="<?php  echo base_url('assets3/css/bie.css') ?>" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">	
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
 	<script type = "text/javascript" >
 		history.pushState(null, null, location.href);
-    window.onpopstate = function () {
-        history.go(1);
-    };
+		window.onpopstate = function () {
+			history.go(1);
+		};
 	</script>
 	<!--Custom Font-->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">

@@ -1,13 +1,22 @@
 	<script src="<?php echo base_url('assets3/js/jquery-1.11.1.min.js') ?>"></script>
-
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="<?php echo base_url('assets3/js/bootstrap.min.js') ?>"></script>
 	<script src="<?php echo base_url('assets3/js/chart.min.js') ?>"></script>
 	<script src="<?php echo base_url('assets3/js/chart-data.js') ?>"></script>
 	<script src="<?php echo base_url('assets3/js/easypiechart.js') ?>"></script>
 	<script src="<?php echo base_url('assets3/js/easypiechart-data.js') ?>"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="<?php echo base_url('assets3/js/custom.js') ?>"></script>
 	<!-- <script src="<?php echo base_url('assets3/js/bootstrap-datepicker.js') ?>"></script> -->
 
+	<script>
+	$(document).ready(function () {
+		$('#kota').select2({
+		placeholder: "Pilih Kota",
+		allowClear: true,
+		});
+	});
+	</script>
 	<script type="text/javascript">
 	  var maxBirthdayDate = new Date();
 	  maxBirthdayDate.setFullYear(maxBirthdayDate.getFullYear() - 18);
@@ -19,9 +28,6 @@
 	    maxDate: maxBirthdayDate
 	  });
 	</script>
-
-	<script src="<?php echo base_url('assets3/js/custom.js') ?>"></script>
-
 	<script>
 	  $(document).on('keydown', 'input[pattern]', function(e) {
 	    var input = $(this);
@@ -36,8 +42,6 @@
 	    }, 0);
 	  });
 	</script>
-
-
 
 	<!-- <script>
     window.onload = function () {
