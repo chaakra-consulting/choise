@@ -75,6 +75,19 @@
                         <label for="ig" class="form-label">Instagram</label>
                         <input type="text" name="ig" id="ig" class="form-control" required>
                     </div>
+                    <div class="mb-3">
+                      <div class="form-group">
+                        <label for="kota">Tempat Lahir</label>
+                        <select name="kota" id="kota" class="form-control select2 <?php echo form_error('kota') 
+                          ? 'is-invalid' : ''; ?>" data-placeholder="Pilih Kota" required>
+                          <option value=""></option>
+                          <?php foreach ($kota as $k) : ?>
+                            <option value="<?php echo $k['nama']; ?>" <?php echo set_value('kota', $k['nama']) ?>><?php echo $k['nama']; ?></option>
+                          <?php endforeach; ?>
+                        </select>
+                        <div class="invalid-feedback"><?php echo form_error('kota'); ?></div>
+                      </div>
+                    </div>
                     <button type="submit" class="btn btn-primary">Lihat Hasil</button>
                 </form>
             </div>
