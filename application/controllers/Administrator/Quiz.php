@@ -1,5 +1,9 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Quiz extends CI_Controller
 {
@@ -66,5 +70,51 @@ class Quiz extends CI_Controller
     {
         $this->Mdl_holland_questions->delete_question($id);
         redirect('admin-quiz');
+    }
+
+
+    /**
+     * Export Quiz questions to a xlsx file
+     *
+     * @return void
+     */
+    function export_registered_user()
+    {
+        $this->load->model('Mdl_ujian');
+        $quiz_results = $this->Mdl_ujian->get_holland_results();
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $no = 1;
+        $numrows = 2;
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama');
+        $sheet->setCellValue('C1', 'Email');
+        $sheet->setCellValue('D1', 'No. HP');
+        $sheet->setCellValue('E1', 'Instagram');
+        $sheet->setCellValue('F1', 'Kota/ Kabupaten');
+        $sheet->setCellValue('G1', 'Tanggal');
+        foreach ($quiz_results as $value) {
+            $sheet->setCellValue('A' . $numrows, $no++);
+            $sheet->setCellValue('B' . $numrows, $value->nama ?? '');
+            $sheet->setCellValue('C' . $numrows, $value->email ?? '');
+            $sheet->setCellValue('D' . $numrows, $value->no_hp ?? '');
+            $sheet->setCellValue('E' . $numrows, $value->ig ?? '-');
+            $sheet->setCellValue('F' . $numrows, $value->kota ?? '-');
+            $sheet->setCellValue('G' . $numrows, $value->created_at ?? '-');
+            $numrows++;
+        }
+
+        $sheet->getDefaultRowDimension()->setRowHeight(-1);
+        $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+        $sheet->setTitle("Pendaftar Quiz");
+
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Pendaftar Quiz.xlsx');
+        header('Cache-Control: max-age=0');
+        $writer = new Xlsx($spreadsheet);
+        ob_end_clean();
+        $writer->save('php://output');
+        exit();
     }
 }

@@ -17,6 +17,7 @@
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
+                    <a href="<?php echo base_url('Administrator/Quiz/export_registered_user'); ?>" class=" btn btn-success" style="margin-bottom: 10px;">Ekspor Data</a>
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
@@ -31,7 +32,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $no = 1; foreach ($quiz_results as $result): ?>
+                                <?php $no = 1;
+                                foreach ($quiz_results as $result): ?>
                                     <tr>
                                         <td><?php echo $no++; ?></td>
                                         <td><?php echo $result->nama ?? '-'; ?></td>
