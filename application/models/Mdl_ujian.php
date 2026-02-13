@@ -119,32 +119,32 @@ class Mdl_ujian extends CI_Model
 		$this->db->insert('tb_data_jawaban_holland', $paket);
 		return $this->db->affected_rows();
 	}
-	
+
 	// DATA SKD
 	public function get_questions_skd_subtes_1($rdr)
 	{
 		$query = $this->db->query("SELECT * FROM tb_soal_skd WHERE subtes = 1 AND nomor_soal='$rdr' ");
 		return $query->row();
 	}
-	
+
 	public function get_skd_subtes_2($rdr)
 	{
 		$query = $this->db->query("SELECT * FROM tb_soal_skd WHERE subtes = 2 AND nomor_soal='$rdr' ");
 		return $query->row();
 	}
-	
+
 	public function get_skd_subtes_3($rdr)
 	{
 		$query = $this->db->query("SELECT * FROM tb_soal_skd WHERE subtes = 3 AND nomor_soal='$rdr' ");
 		return $query->row();
 	}
-	
+
 	public function get_skd_subtes_4($rdr)
 	{
 		$query = $this->db->query("SELECT * FROM tb_soal_skd WHERE subtes = 4 AND nomor_soal='$rdr' ");
 		return $query->row();
 	}
-	
+
 	public function get_skd_subtes_5($rdr)
 	{
 		$query = $this->db->query("SELECT * FROM tb_soal_skd WHERE subtes = 5 AND nomor_soal='$rdr' ");
@@ -312,7 +312,7 @@ class Mdl_ujian extends CI_Model
 		$this->db->insert('tb_data_jawaban_army', $paket);
 		return $this->db->affected_rows();
 	}
-	
+
 	//Data Studi Kasus Manajerial
 	public function insert_jawaban_studi_manajerial($paket)
 	{
@@ -325,8 +325,8 @@ class Mdl_ujian extends CI_Model
 		$this->db->insert('tb_jawaban_studi_manajerial', $paket);
 		return $this->db->affected_rows();
 	}
-    
-    //Data Studi Kasus LDG
+
+	//Data Studi Kasus LDG
 	public function insert_jawaban_studi_ldg($paket)
 	{
 		$this->db->insert('tb_jawaban_studi_ldg', $paket);
@@ -468,5 +468,31 @@ class Mdl_ujian extends CI_Model
 		$this->db->from('tb_public_holland');
 		$query = $this->db->get();
 		return $query->result();
+	}
+
+	//Data Studi Kasus Mekanik Mesin
+	public function get_questions_sk_mekanik_mesin($rdr)
+	{
+		$query = $this->db->query("SELECT * FROM tb_soal_studi_kasus_mekanik WHERE no_soal=$rdr and kategori='mesin' ORDER BY `tb_soal_studi_kasus_mekanik`.`no_soal` ASC");
+		return $query->row();
+	}
+
+	public function insert_jawaban_sk_mekanik_mesin($paket)
+	{
+		$this->db->insert('tb_data_jawaban_sk_mekanik', $paket);
+		return $this->db->affected_rows();
+	}
+
+	//Data Studi Kasus Mekanik Pendingin
+	public function get_questions_sk_mekanik_pendingin($rdr)
+	{
+		$query = $this->db->query("SELECT * FROM tb_soal_studi_kasus_mekanik WHERE no_soal=$rdr and kategori='pendingin' ORDER BY `tb_soal_studi_kasus_mekanik`.`no_soal` ASC");
+		return $query->row();
+	}
+
+	public function insert_jawaban_sk_mekanik_pendingin($paket)
+	{
+		$this->db->insert('tb_data_jawaban_sk_mekanik', $paket);
+		return $this->db->affected_rows();
 	}
 }

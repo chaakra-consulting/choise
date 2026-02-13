@@ -1,18 +1,21 @@
 <?php $this->load->view('layout2/header') ?>
 <style>
-    .select2-container .select2-selection--single {
-        height: calc(1.5em + .75rem + 2px) !important;
-        border-radius: .25rem !important;
-    }
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 38px !important;
-    }
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 38px !important;
-    }
-    #select2-tempat_lahir-container {
-      border-radius: 10px !important;
-    }
+  .select2-container .select2-selection--single {
+    height: calc(1.5em + .75rem + 2px) !important;
+    border-radius: .25rem !important;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 38px !important;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px !important;
+  }
+
+  #select2-tempat_lahir-container {
+    border-radius: 10px !important;
+  }
 </style>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -23,7 +26,7 @@
           <div class="col-md-8">
             <div class="card shadow-sm">
               <div class="card-header bg-warning text-white">
-                <h4 class="mb-0">Formulir Pendaftaran Talent Test</h4>
+                <h4 class="mb-0">Formulir Pendaftaran </h4>
               </div>
               <div class="card-body p-4">
                 <p class="mb-4">
@@ -64,8 +67,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="tempat_lahir">Tempat Lahir</label>
-                      <select name="tempat_lahir" id="tempat_lahir" class="form-control select2 <?php echo form_error('tempat_lahir') 
-                        ? 'is-invalid' : ''; ?>" data-placeholder="Pilih Kota" required>
+                      <select name="tempat_lahir" id="tempat_lahir" class="form-control select2 <?php echo form_error('tempat_lahir')
+                                                                                                  ? 'is-invalid' : ''; ?>" data-placeholder="Pilih Kota" required>
                         <option value=""></option>
                         <?php foreach ($kota as $k) : ?>
                           <option value="<?php echo $k['nama']; ?>" <?php echo set_value('tempat_lahir', $k['nama']) ?>><?php echo $k['nama']; ?></option>
@@ -77,8 +80,9 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="tanggal_lahir">Tanggal Lahir</label>
-                      <?php $max_year = date('Y') - 14; $max_date = $max_year . '-12-31'; ?>
-                      <input type="date" name="tanggal_lahir" class="form-control <?php echo form_error('tanggal_lahir') ? 'is-invalid' : ''; ?>" id="tanggal_lahir" value="<?php echo set_value('tanggal_lahir'); ?>" max="<?php echo $max_date;?>" required aria-describedby="tanggalLahirHelp">
+                      <?php $max_year = date('Y') - 14;
+                      $max_date = $max_year . '-12-31'; ?>
+                      <input type="date" name="tanggal_lahir" class="form-control <?php echo form_error('tanggal_lahir') ? 'is-invalid' : ''; ?>" id="tanggal_lahir" value="<?php echo set_value('tanggal_lahir'); ?>" max="<?php echo $max_date; ?>" required aria-describedby="tanggalLahirHelp">
                       <div class="invalid-feedback"><?php echo form_error('tanggal_lahir'); ?></div>
                       <small id="tanggalLahirHelp" class="form-text text-muted">Usia minimum pendaftar adalah 14 tahun.</small>
                     </div>
@@ -90,7 +94,7 @@
                       <label>Jenis Kelamin</label>
                       <div>
                         <div class="custom-control custom-radio custom-control-inline">
-                          <input type="radio" name="jenis_kelamin" id="jenis_kelamin_l" value="L" class="custom-control-input" <?php echo set_radio('jenis_kelamin','L', TRUE) ?> required>
+                          <input type="radio" name="jenis_kelamin" id="jenis_kelamin_l" value="L" class="custom-control-input" <?php echo set_radio('jenis_kelamin', 'L', TRUE) ?> required>
                           <label for="jenis_kelamin_l" class="custom-control-label">Laki - laki</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -144,4 +148,4 @@
     </div>
   </div>
 
-<?php $this->load->view('layout2/footer'); ?>
+  <?php $this->load->view('layout2/footer'); ?>

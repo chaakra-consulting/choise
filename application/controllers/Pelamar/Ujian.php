@@ -3981,7 +3981,7 @@ class Ujian extends CI_Controller
 			echo '<script>window.top.location.href = "testulispsikotes";</script>';
 		}
 	}
-	
+
 	// CEPAT
 	public function panduan_cepat($id_pelamar, $idUjian_cepat)
 	{
@@ -4007,7 +4007,7 @@ class Ujian extends CI_Controller
 		$data['cepat'] = $this->Mdl_ujian->get_questions_cepat($rdr);
 		$this->load->view('pelamar/ujian/cepat/v_cepat', $data);
 	}
-	
+
 	public function frame_ujian_cepat($id_ujian, $rdr)
 	{
 		$id_pelamar = $this->session->userdata('ses_id');
@@ -4187,10 +4187,10 @@ class Ujian extends CI_Controller
 		$send['jawaban5'] = $this->input->post("jawaban5");
 		$send['jawaban6'] = $this->input->post("jawaban6");
 		$send['jawaban7'] = $this->input->post("jawaban7");
-	
+
 		// Simpan data menggunakan model
 		$kembalian['jumlah'] = $this->Mdl_ujian->jawaban_tray($send);
-	
+
 		// Periksa apakah penyimpanan berhasil
 		if ($kembalian['jumlah'] > 0) {
 			// Jika berhasil, arahkan ke halaman tujuan dengan pesan sukses
@@ -4508,13 +4508,13 @@ class Ujian extends CI_Controller
 		$this->session->set_userdata('ses_jawab2', $jawaban[1]);
 		$this->load->view('pelamar/ujian/army/jawabanlatihan');
 	}
-	
+
 	public function start_ujian_army($rdr)
 	{
 		$data['army'] = $this->Mdl_ujian->get_questions_army($rdr);
 		$this->load->view('pelamar/ujian/army/v_army', $data);
 	}
-	
+
 	public function frame_ujian_army($id_ujian, $rdr)
 	{
 		$id_pelamar = $this->session->userdata('ses_id');
@@ -4528,7 +4528,7 @@ class Ujian extends CI_Controller
 		$data['jawaban'] = $query->row();
 		$this->load->view('pelamar/ujian/army/frame_ujian_army', $data);
 	}
-	
+
 	public function masukkan_jawaban_army($redirect = null)
 	{
 		// if ($redirect =='') redirect('Pelamar/Ujian/') ;
@@ -4537,7 +4537,7 @@ class Ujian extends CI_Controller
 		$id_ujian = $this->input->post('id_ujian');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-	
+
 		if ($redirect == 1) {
 			$rdr = $nomor_soal - 1;
 		} elseif ($redirect == 2) {
@@ -4545,7 +4545,7 @@ class Ujian extends CI_Controller
 		} elseif ($redirect == 0) {
 			$rdr = $nomor_soal;
 		}
-	
+
 		$data = array(
 			'id_jawaban_army' => '',
 			'id_pelamar' => $id_pelamar,
@@ -4554,9 +4554,9 @@ class Ujian extends CI_Controller
 			'no_soal' => $nomor_soal,
 			'jawaban' => $jawaban
 		);
-	
+
 		$query = $this->db->query("SELECT * FROM tb_data_jawaban_army WHERE no_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar AND id_lowongan=$id_lowongan");
-	
+
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
 				$this->Mdl_ujian->insert_jawaban_army($data);
@@ -5781,7 +5781,7 @@ class Ujian extends CI_Controller
 		} else {
 			$soal_kosong = $this->db->query("SELECT * FROM tb_soal_tpa WHERE nomor_soal NOT IN (SELECT nomor_soal AS nomor_soal_test FROM tb_data_jawaban_tpa WHERE id_ujian = $id_ujian AND id_pelamar = $id_pelamar AND id_lowongan=$id_lowongan AND seksi=$seksi) AND seksi=$seksi")->result();
 		}
-		
+
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
 				$this->db->insert('tb_data_jawaban_tpa', $data);
@@ -5870,7 +5870,7 @@ class Ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Test Berhasil Diselesaikan!');
 		redirect('Pelamar/Pelamar/testulispsikotes');
 	}
-	
+
 	// TPA 2
 	public function panduan_tpa2_1($id_pelamar, $idUjian_tpa)
 	{
@@ -6439,7 +6439,7 @@ class Ujian extends CI_Controller
 
 		$this->load->view('pelamar/ujian/belbin/frame_ujian_belbin2', $data);
 	}
-	
+
 	public function frame_ujian_belbin_sub3($id_ujian, $rdr)
 	{
 		$id_pelamar = $this->session->userdata('ses_id');
@@ -7101,7 +7101,7 @@ class Ujian extends CI_Controller
 				// $insert = $this->Mdl_ujian->insert_jawaban($data);
 				$this->Mdl_ujian->insert_jawaban_belbin($data);
 			}
-		echo '<script>window.top.location.href = "belbin3";</script>';
+			echo '<script>window.top.location.href = "belbin3";</script>';
 		} else {
 			$where = array(
 				'id_ujian' => $id_ujian,
@@ -7146,7 +7146,7 @@ class Ujian extends CI_Controller
 				// $insert = $this->Mdl_ujian->insert_jawaban($data);
 				$this->Mdl_ujian->insert_jawaban_belbin($data);
 			}
-		echo '<script>window.top.location.href = "belbin4";</script>';
+			echo '<script>window.top.location.href = "belbin4";</script>';
 		} else {
 			$where = array(
 				'id_ujian' => $id_ujian,
@@ -7163,7 +7163,7 @@ class Ujian extends CI_Controller
 				// $update = $this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_cfit');
 				$this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_belbin');
 			}
-		
+
 			echo '<script>window.top.location.href = "belbin4";</script>';
 		}
 	}
@@ -7194,7 +7194,7 @@ class Ujian extends CI_Controller
 				// $insert = $this->Mdl_ujian->insert_jawaban($data);
 				$this->Mdl_ujian->insert_jawaban_belbin($data);
 			}
-		echo '<script>window.top.location.href = "belbin5";</script>';
+			echo '<script>window.top.location.href = "belbin5";</script>';
 		} else {
 			$where = array(
 				'id_ujian' => $id_ujian,
@@ -7211,7 +7211,7 @@ class Ujian extends CI_Controller
 				// $update = $this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_cfit');
 				$this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_belbin');
 			}
-		
+
 			echo '<script>window.top.location.href = "belbin5";</script>';
 		}
 	}
@@ -7242,7 +7242,7 @@ class Ujian extends CI_Controller
 				// $insert = $this->Mdl_ujian->insert_jawaban($data);
 				$this->Mdl_ujian->insert_jawaban_belbin($data);
 			}
-		echo '<script>window.top.location.href = "belbin6";</script>';
+			echo '<script>window.top.location.href = "belbin6";</script>';
 		} else {
 			$where = array(
 				'id_ujian' => $id_ujian,
@@ -7287,7 +7287,7 @@ class Ujian extends CI_Controller
 				// $insert = $this->Mdl_ujian->insert_jawaban($data);
 				$this->Mdl_ujian->insert_jawaban_belbin($data);
 			}
-		echo '<script>window.top.location.href = "belbin7";</script>';
+			echo '<script>window.top.location.href = "belbin7";</script>';
 		} else {
 			$where = array(
 				'id_ujian' => $id_ujian,
@@ -7304,7 +7304,7 @@ class Ujian extends CI_Controller
 				// $update = $this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_cfit');
 				$this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_belbin');
 			}
-		
+
 			echo '<script>window.top.location.href = "belbin7";</script>';
 		}
 	}
@@ -7692,7 +7692,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-	
+
 		if ($redirect == 1) {
 			$rdr = $nomor_soal - 1;
 		} elseif ($redirect == 2) {
@@ -7700,7 +7700,7 @@ class Ujian extends CI_Controller
 		} elseif ($redirect == 0) {
 			$rdr = $nomor_soal;
 		}
-	
+
 		$data = array(
 			'id_jawaban_skd' => '',
 			'id_pelamar' => $id_pelamar,
@@ -7711,9 +7711,9 @@ class Ujian extends CI_Controller
 			'jawaban' => $jawaban,
 			'jenis_soal' => $this->input->post('jenis_soal')
 		);
-	
+
 		$query = $this->db->query("SELECT * FROM tb_data_jawaban_skd WHERE id_lowongan=$id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
-	
+
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
 
@@ -7748,7 +7748,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-	
+
 		if ($redirect == 1) {
 			$rdr = $nomor_soal - 1;
 		} elseif ($redirect == 2) {
@@ -7756,7 +7756,7 @@ class Ujian extends CI_Controller
 		} elseif ($redirect == 0) {
 			$rdr = $nomor_soal;
 		}
-	
+
 		$data = array(
 			'id_jawaban_skd' => '',
 			'id_pelamar' => $id_pelamar,
@@ -7767,9 +7767,9 @@ class Ujian extends CI_Controller
 			'jawaban' => $jawaban,
 			'jenis_soal' => $this->input->post('jenis_soal')
 		);
-	
+
 		$query = $this->db->query("SELECT * FROM tb_data_jawaban_skd WHERE id_lowongan=$id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
-	
+
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
 
@@ -7804,7 +7804,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-	
+
 		if ($redirect == 1) {
 			$rdr = $nomor_soal - 1;
 		} elseif ($redirect == 2) {
@@ -7812,7 +7812,7 @@ class Ujian extends CI_Controller
 		} elseif ($redirect == 0) {
 			$rdr = $nomor_soal;
 		}
-	
+
 		$data = array(
 			'id_jawaban_skd' => '',
 			'id_pelamar' => $id_pelamar,
@@ -7823,9 +7823,9 @@ class Ujian extends CI_Controller
 			'jawaban' => $jawaban,
 			'jenis_soal' => $this->input->post('jenis_soal')
 		);
-	
+
 		$query = $this->db->query("SELECT * FROM tb_data_jawaban_skd WHERE id_lowongan=$id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
-	
+
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
 
@@ -7860,7 +7860,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-	
+
 		if ($redirect == 1) {
 			$rdr = $nomor_soal - 1;
 		} elseif ($redirect == 2) {
@@ -7868,7 +7868,7 @@ class Ujian extends CI_Controller
 		} elseif ($redirect == 0) {
 			$rdr = $nomor_soal;
 		}
-	
+
 		$data = array(
 			'id_jawaban_skd' => '',
 			'id_pelamar' => $id_pelamar,
@@ -7879,9 +7879,9 @@ class Ujian extends CI_Controller
 			'jawaban' => $jawaban,
 			'jenis_soal' => $this->input->post('jenis_soal')
 		);
-	
+
 		$query = $this->db->query("SELECT * FROM tb_data_jawaban_skd WHERE id_lowongan=$id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
-	
+
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
 				// $insert = $this->Mdl_ujian->insert_jawaban($data);
@@ -7906,7 +7906,7 @@ class Ujian extends CI_Controller
 			redirect('Pelamar/Ujian/frame_ujian_skd_5/' . $id_ujian . '/' . $rdr);
 		}
 	}
-	
+
 	public function masukkan_jawaban_skd6($redirect = null)
 	{
 		if ($redirect == '') redirect('Pelamar/Ujian/');
@@ -7916,7 +7916,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-	
+
 		if ($redirect == 1) {
 			$rdr = $nomor_soal - 1;
 		} elseif ($redirect == 2) {
@@ -7924,7 +7924,7 @@ class Ujian extends CI_Controller
 		} elseif ($redirect == 0) {
 			$rdr = $nomor_soal;
 		}
-	
+
 		$data = array(
 			'id_jawaban_skd' => '',
 			'id_pelamar' => $id_pelamar,
@@ -7935,9 +7935,9 @@ class Ujian extends CI_Controller
 			'jawaban' => $jawaban,
 			'jenis_soal' => $this->input->post('jenis_soal')
 		);
-	
+
 		$query = $this->db->query("SELECT * FROM tb_data_jawaban_skd WHERE id_lowongan=$id_lowongan AND subtes = $subtes AND nomor_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar");
-	
+
 		if ($query->num_rows() == 0) {
 			if (!empty($jawaban)) {
 				// $insert = $this->Mdl_ujian->insert_jawaban($data);
@@ -8084,7 +8084,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-		
+
 		// Membuat array data untuk disimpan atau diperbarui dalam database
 		$data = array(
 			'id_pelamar' => $id_pelamar,
@@ -8120,10 +8120,10 @@ class Ujian extends CI_Controller
 		}
 
 		// Redirect ke halaman lain
-		echo '<script>window.top.location.href = "'. base_url('Pelamar/Ujian/start_ujian_skd2/') . $id_ujian . '/1' . $rdr .'";</script>';
+		echo '<script>window.top.location.href = "' . base_url('Pelamar/Ujian/start_ujian_skd2/') . $id_ujian . '/1' . $rdr . '";</script>';
 	}
 
-		
+
 	public function masukkan_jawaban_skd_endSub2()
 	{
 		$id_pelamar = $this->input->post('id_pelamar');
@@ -8132,7 +8132,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-		
+
 		// Membuat array data untuk disimpan atau diperbarui dalam database
 		$data = array(
 			'id_pelamar' => $id_pelamar,
@@ -8168,7 +8168,7 @@ class Ujian extends CI_Controller
 		}
 
 		// Redirect ke halaman lain
-		echo '<script>window.top.location.href = "'. base_url('Pelamar/Ujian/start_ujian_skd3/') . $id_ujian . '/1' . $rdr .'";</script>';
+		echo '<script>window.top.location.href = "' . base_url('Pelamar/Ujian/start_ujian_skd3/') . $id_ujian . '/1' . $rdr . '";</script>';
 	}
 
 	public function masukkan_jawaban_skd_endSub3()
@@ -8179,7 +8179,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-		
+
 		// Membuat array data untuk disimpan atau diperbarui dalam database
 		$data = array(
 			'id_pelamar' => $id_pelamar,
@@ -8213,7 +8213,7 @@ class Ujian extends CI_Controller
 				$this->db->update('tb_data_jawaban_skd', $data, $where);
 			}
 		}
-		echo '<script>window.top.location.href = "'. base_url('Pelamar/Ujian/start_ujian_skd4/') . $id_ujian . '/1' . $rdr .'";</script>';
+		echo '<script>window.top.location.href = "' . base_url('Pelamar/Ujian/start_ujian_skd4/') . $id_ujian . '/1' . $rdr . '";</script>';
 		//redirect('Pelamar/Ujian/frame_latihan_cfit_2/');
 	}
 
@@ -8225,7 +8225,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-		
+
 		// Membuat array data untuk disimpan atau diperbarui dalam database
 		$data = array(
 			'id_pelamar' => $id_pelamar,
@@ -8260,7 +8260,7 @@ class Ujian extends CI_Controller
 				$this->db->update('tb_data_jawaban_skd', $data, $where);
 			}
 		}
-		echo '<script>window.top.location.href = "'. base_url('Pelamar/Ujian/start_ujian_skd5/') . $id_ujian . '/1' . $rdr .'";</script>';
+		echo '<script>window.top.location.href = "' . base_url('Pelamar/Ujian/start_ujian_skd5/') . $id_ujian . '/1' . $rdr . '";</script>';
 	}
 
 	public function masukkan_jawaban_skd_endSub5()
@@ -8271,7 +8271,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-		
+
 		// Membuat array data untuk disimpan atau diperbarui dalam database
 		$data = array(
 			'id_pelamar' => $id_pelamar,
@@ -8305,7 +8305,7 @@ class Ujian extends CI_Controller
 				$this->db->update('tb_data_jawaban_skd', $data, $where);
 			}
 		}
-		echo '<script>window.top.location.href = "'. base_url('Pelamar/Ujian/start_ujian_skd6/') . $id_ujian . '/1' . $rdr .'";</script>';		
+		echo '<script>window.top.location.href = "' . base_url('Pelamar/Ujian/start_ujian_skd6/') . $id_ujian . '/1' . $rdr . '";</script>';
 	}
 
 	public function masukkan_jawaban_skd_endSub6()
@@ -8316,7 +8316,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-		
+
 		// Membuat array data untuk disimpan atau diperbarui dalam database
 		$data = array(
 			'id_pelamar' => $id_pelamar,
@@ -8337,7 +8337,7 @@ class Ujian extends CI_Controller
 			'nomor_soal' => $nomor_soal,
 			'jenis_soal' => $this->input->post('jenis_soal')
 		);
-	
+
 		$query = $this->db->get_where('tb_data_jawaban_skd', $where);
 
 		if ($query->num_rows() == 0) {
@@ -8351,7 +8351,7 @@ class Ujian extends CI_Controller
 				$this->db->update('tb_data_jawaban_skd', $data, $where);
 			}
 		}
-		echo '<script>window.top.location.href = "'. base_url('Pelamar/Ujian/start_ujian_skd7/') . $id_ujian . '/1' . $rdr .'";</script>';
+		echo '<script>window.top.location.href = "' . base_url('Pelamar/Ujian/start_ujian_skd7/') . $id_ujian . '/1' . $rdr . '";</script>';
 		//redirect('Pelamar/Ujian/frame_latihan_cfit_2/');
 	}
 
@@ -8363,7 +8363,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-		
+
 		// Membuat array data untuk disimpan atau diperbarui dalam database
 		$data = array(
 			'id_pelamar' => $id_pelamar,
@@ -8384,7 +8384,7 @@ class Ujian extends CI_Controller
 			'nomor_soal' => $nomor_soal,
 			'jenis_soal' => $this->input->post('jenis_soal')
 		);
-	
+
 		$query = $this->db->get_where('tb_data_jawaban_skd', $where);
 
 		if ($query->num_rows() == 0) {
@@ -8398,7 +8398,7 @@ class Ujian extends CI_Controller
 				$this->db->update('tb_data_jawaban_skd', $data, $where);
 			}
 		}
-		echo '<script>window.top.location.href = "'. base_url('Pelamar/Ujian/start_ujian_skd8/') . $id_ujian . '/1' . $rdr .'";</script>';
+		echo '<script>window.top.location.href = "' . base_url('Pelamar/Ujian/start_ujian_skd8/') . $id_ujian . '/1' . $rdr . '";</script>';
 		//redirect('Pelamar/Ujian/frame_latihan_cfit_2/');
 	}
 
@@ -8410,7 +8410,7 @@ class Ujian extends CI_Controller
 		$subtes = $this->input->post('subtes');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
-		
+
 		// Membuat array data untuk disimpan atau diperbarui dalam database
 		$data = array(
 			'id_pelamar' => $id_pelamar,
@@ -8446,5 +8446,247 @@ class Ujian extends CI_Controller
 		}
 		echo '<script>window.top.location.href = "testulispsikotes";</script>';
 		//redirect('Pelamar/Ujian/frame_latihan_cfit_2/');
+	}
+
+
+
+	// Studi Kasus Mekanik Mesin
+	public function start_ujian_sk_mekanik_mesin($rdr)
+	{
+		$data['sk_mekanik_mesin'] = $this->Mdl_ujian->get_questions_sk_mekanik_mesin(1);
+		$this->load->view('pelamar/ujian/studi_kasus/mekanik_mesin/v_mekanik_mesin', $data);
+	}
+
+	public function frame_ujian_sk_mekanik_mesin($id_ujian, $rdr)
+	{
+		$id_pelamar = $this->session->userdata('ses_id');
+		$id_lowongan = $this->session->userdata('sesIdLowongan');
+		$data['sk_mesin'] = $this->Mdl_ujian->get_questions_sk_mekanik_mesin($rdr);
+
+		if (!empty($data['sk_mesin'])) {
+			$id_soal = $data['sk_mesin']->id;
+			$nomor_soal = $data['sk_mesin']->no_soal;
+		}
+
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $id_lowongan AND no_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar and kategori='mesin'");
+		$data['jawaban'] = $query->row();
+
+		$this->load->view('pelamar/ujian/studi_kasus/mekanik_mesin/frame_ujian_mekanik_mesin', $data);
+	}
+
+	public function masukkan_jawaban_sk_mekanik_mesin($redirect = null)
+	{
+		$id_pelamar = $this->input->post('id_pelamar');
+		$id_lowongan = $this->input->post('id_lowongan');
+		$id_ujian = $this->input->post('id_ujian');
+		$nomor_soal = $this->input->post('nomor_soal');
+		$jawaban = $this->input->post('jawaban');
+
+		if ($redirect == 1) {
+			$rdr = $nomor_soal - 1;
+		} elseif ($redirect == 2) {
+			$rdr = $nomor_soal + 1;
+		} elseif ($redirect == 0) {
+			$rdr = $nomor_soal;
+		}
+
+		$data = array(
+			'id_pelamar' => $id_pelamar,
+			'id_lowongan' => $id_lowongan,
+			'id_ujian' => $id_ujian,
+			'no_soal' => $nomor_soal,
+			'jawaban' => $jawaban,
+			'kategori' => 'mesin'
+		);
+
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $id_lowongan AND no_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar and kategori='mesin'");
+
+		if ($query->num_rows() == 0) {
+			if (!empty($jawaban)) {
+				$insert = $this->Mdl_ujian->insert_jawaban_sk_mekanik_mesin($data);
+			}
+			redirect('Pelamar/Ujian/frame_ujian_sk_mekanik_mesin/' . $id_ujian . '/' . $rdr);
+		} else {
+			$where = array(
+				'id_ujian' => $id_ujian,
+				'no_soal' => $nomor_soal,
+				'kategori' => 'mesin'
+			);
+			$data2 = array(
+				'jawaban' => $jawaban
+			);
+			if (!empty($jawaban)) {
+				$update = $this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_sk_mekanik');
+			}
+			redirect('Pelamar/Ujian/frame_ujian_sk_mekanik_mesin/' . $id_ujian . '/' . $rdr);
+		}
+	}
+
+	public function masukkan_jawaban_endsk_mekanik_mesin($redirect = null)
+	{
+		$id_pelamar = $this->input->post('id_pelamar');
+		$id_lowongan = $this->input->post('id_lowongan');
+		$id_ujian = $this->input->post('id_ujian');
+		$nomor_soal = $this->input->post('nomor_soal');
+		$jawaban = $this->input->post('jawaban');
+
+		if ($redirect == 1) {
+			$rdr = $nomor_soal - 1;
+		} elseif ($redirect == 2) {
+			$rdr = $nomor_soal + 1;
+		} elseif ($redirect == 0) {
+			$rdr = $nomor_soal;
+		}
+
+		$data = array(
+			'id_pelamar' => $id_pelamar,
+			'id_lowongan' => $id_lowongan,
+			'id_ujian' => $id_ujian,
+			'no_soal' => $nomor_soal,
+			'jawaban' => $jawaban,
+			'kategori' => 'mesin'
+		);
+
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $id_lowongan AND no_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar and kategori='mesin'");
+
+		if ($query->num_rows() == 0) {
+			if (!empty($jawaban)) {
+				$insert = $this->Mdl_ujian->insert_jawaban_sk_mekanik_mesin($data);
+			}
+			echo '<script>window.top.location.href = "testulispsikotes";</script>';
+		} else {
+			$where = array(
+				'id_ujian' => $id_ujian,
+				'no_soal' => $nomor_soal,
+				'kategori' => 'mesin'
+			);
+			$data2 = array(
+				'jawaban' => $jawaban
+			);
+			if (!empty($jawaban)) {
+				$update = $this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_sk_mekanik');
+			}
+			echo '<script>window.top.location.href = "testulispsikotes";</script>';
+		}
+	}
+
+
+	// Studi Kasus Mekanik Pendingin
+	public function start_ujian_sk_mekanik_pendingin($rdr)
+	{
+		$data['sk_mekanik_pendingin'] = $this->Mdl_ujian->get_questions_sk_mekanik_pendingin(1);
+		$this->load->view('pelamar/ujian/studi_kasus/mekanik_pendingin/v_mekanik_pendingin', $data);
+	}
+
+	public function frame_ujian_sk_mekanik_pendingin($id_ujian, $rdr)
+	{
+		$id_pelamar = $this->session->userdata('ses_id');
+		$id_lowongan = $this->session->userdata('sesIdLowongan');
+		$data['sk_pendingin'] = $this->Mdl_ujian->get_questions_sk_mekanik_pendingin($rdr);
+
+		if (!empty($data['sk_pendingin'])) {
+			$id_soal = $data['sk_pendingin']->id;
+			$nomor_soal = $data['sk_pendingin']->no_soal;
+		}
+
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $id_lowongan AND no_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar and kategori='pendingin'");
+		$data['jawaban'] = $query->row();
+
+		$this->load->view('pelamar/ujian/studi_kasus/mekanik_pendingin/frame_ujian_mekanik_pendingin', $data);
+	}
+
+	public function masukkan_jawaban_sk_mekanik_pendingin($redirect = null)
+	{
+		$id_pelamar = $this->input->post('id_pelamar');
+		$id_lowongan = $this->input->post('id_lowongan');
+		$id_ujian = $this->input->post('id_ujian');
+		$nomor_soal = $this->input->post('nomor_soal');
+		$jawaban = $this->input->post('jawaban');
+
+		if ($redirect == 1) {
+			$rdr = $nomor_soal - 1;
+		} elseif ($redirect == 2) {
+			$rdr = $nomor_soal + 1;
+		} elseif ($redirect == 0) {
+			$rdr = $nomor_soal;
+		}
+
+		$data = array(
+			'id_pelamar' => $id_pelamar,
+			'id_lowongan' => $id_lowongan,
+			'id_ujian' => $id_ujian,
+			'no_soal' => $nomor_soal,
+			'jawaban' => $jawaban,
+			'kategori' => 'pendingin'
+		);
+
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $id_lowongan AND no_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar and kategori='pendingin'");
+
+		if ($query->num_rows() == 0) {
+			if (!empty($jawaban)) {
+				$insert = $this->Mdl_ujian->insert_jawaban_sk_mekanik_pendingin($data);
+			}
+			redirect('Pelamar/Ujian/frame_ujian_sk_mekanik_pendingin/' . $id_ujian . '/' . $rdr);
+		} else {
+			$where = array(
+				'id_ujian' => $id_ujian,
+				'no_soal' => $nomor_soal,
+				'kategori' => 'pendingin'
+			);
+			$data2 = array(
+				'jawaban' => $jawaban
+			);
+			if (!empty($jawaban)) {
+				$update = $this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_sk_mekanik');
+			}
+			redirect('Pelamar/Ujian/frame_ujian_sk_mekanik_pendingin/' . $id_ujian . '/' . $rdr);
+		}
+	}
+	public function masukkan_jawaban_endsk_mekanik_pendingin($redirect = null)
+	{
+		$id_pelamar = $this->input->post('id_pelamar');
+		$id_lowongan = $this->input->post('id_lowongan');
+		$id_ujian = $this->input->post('id_ujian');
+		$nomor_soal = $this->input->post('nomor_soal');
+		$jawaban = $this->input->post('jawaban');
+
+		if ($redirect == 1) {
+			$rdr = $nomor_soal - 1;
+		} elseif ($redirect == 2) {
+			$rdr = $nomor_soal + 1;
+		} elseif ($redirect == 0) {
+			$rdr = $nomor_soal;
+		}
+
+		$data = array(
+			'id_pelamar' => $id_pelamar,
+			'id_lowongan' => $id_lowongan,
+			'id_ujian' => $id_ujian,
+			'no_soal' => $nomor_soal,
+			'jawaban' => $jawaban,
+			'kategori' => 'pendingin'
+		);
+
+		$query = $this->db->query("SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $id_lowongan AND no_soal = $nomor_soal AND id_ujian = $id_ujian AND id_pelamar = $id_pelamar and kategori='pendingin'");
+
+		if ($query->num_rows() == 0) {
+			if (!empty($jawaban)) {
+				$insert = $this->Mdl_ujian->insert_jawaban_sk_mekanik_pendingin($data);
+			}
+			echo '<script>window.top.location.href = "testulispsikotes";</script>';
+		} else {
+			$where = array(
+				'id_ujian' => $id_ujian,
+				'no_soal' => $nomor_soal,
+				'kategori' => 'pendingin'
+			);
+			$data2 = array(
+				'jawaban' => $jawaban
+			);
+			if (!empty($jawaban)) {
+				$update = $this->Mdl_ujian->update($where, $data2, 'tb_data_jawaban_sk_mekanik');
+			}
+			echo '<script>window.top.location.href = "testulispsikotes";</script>';
+		}
 	}
 }

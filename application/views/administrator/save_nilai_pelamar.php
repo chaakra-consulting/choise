@@ -685,7 +685,7 @@ foreach ($a as $key) {
 		// echo "<br>";
 		// echo "SELECT count(tb_data_jawaban_ist.nilai) AS jumlah,tb_data_diri.tanggal_lahir as tgl_lhr FROM tb_data_jawaban_ist INNER JOIN tb_data_diri ON tb_data_jawaban_ist.id_pelamar=tb_data_diri.id_pelamar WHERE tb_data_jawaban_ist.subtes=$i AND tb_data_jawaban_ist.nilai=1 AND tb_data_jawaban_ist.id_lowongan = $lowongan AND tb_data_jawaban_ist.id_pelamar = $id_pelamars";
 		// echo "<br>";
-		$nilai = $this->db->query("SELECT count(tb_data_jawaban_ist.nilai) AS jumlah,tb_data_diri.tanggal_lahir as tgl_lhr FROM tb_data_jawaban_ist INNER JOIN tb_data_diri ON tb_data_jawaban_ist.id_pelamar=tb_data_diri.id_pelamar WHERE tb_data_jawaban_ist.subtes=$i AND tb_data_jawaban_ist.nilai=1 AND tb_data_jawaban_ist.id_lowongan = $lowongan AND tb_data_jawaban_ist.id_pelamar = $id_pelamars")->result_array();
+		$nilai = $this->db->query("SELECT count(tb_data_jawaban_ist.nilai) AS jumlah FROM tb_data_jawaban_ist INNER JOIN tb_data_diri ON tb_data_jawaban_ist.id_pelamar=tb_data_diri.id_pelamar WHERE tb_data_jawaban_ist.subtes=$i AND tb_data_jawaban_ist.nilai=1 AND tb_data_jawaban_ist.id_lowongan = $lowongan AND tb_data_jawaban_ist.id_pelamar = $id_pelamars")->result_array();
 		$nilaipersubtes = $nilai[0]['jumlah'];
 		if ($umur >= 21 && $umur <= 25) {
 			if ($i == 1) {

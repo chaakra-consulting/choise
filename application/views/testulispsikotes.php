@@ -21,7 +21,7 @@ $tb_lowongan = $this->db->query("SELECT * FROM tb_lowongan WHERE id_lowongan=$id
   <!--/.row-->
   <div class="row">
     <div class="col-lg-12">
-    <h1 class="page-header">Tes Tulis dan Tes Psikotes</h1>
+      <h1 class="page-header">Tes Tulis dan Tes Psikotes</h1>
     </div>
   </div>
   <!--/.row-->
@@ -117,7 +117,7 @@ $tb_lowongan = $this->db->query("SELECT * FROM tb_lowongan WHERE id_lowongan=$id
   <?php }
         } ?>
 
- <!-- Papi -->
+  <!-- Papi -->
   <tr>
     <?php
     foreach ($papi as $key_papi) {
@@ -344,8 +344,8 @@ $tb_lowongan = $this->db->query("SELECT * FROM tb_lowongan WHERE id_lowongan=$id
           echo "Ujian sudah berakhir";
         } ?>
       </td>
-    </tr>
-  <?php }
+</tr>
+<?php }
   } ?>
 
 <!-- Studi Manajerial -->
@@ -372,8 +372,8 @@ $tb_lowongan = $this->db->query("SELECT * FROM tb_lowongan WHERE id_lowongan=$id
 </tr>
 <?php   }
   } ?>
-  
-  <!-- Studi LDG -->
+
+<!-- Studi LDG -->
 <tr>
   <?php
   foreach ($studi_ldg as $key_studi_ldg) {
@@ -701,7 +701,7 @@ if ($jk[0]->jenis_kelamin == "L") {
 </tr>
 <?php   }
   } ?>
-  <!-- TKB Frontliner Staff -->
+<!-- TKB Frontliner Staff -->
 <tr>
   <?php
   $tkb_frontliner = $this->db->query("SELECT * FROM tb_ujian_tkb_frontlinerstaff")->result_array();
@@ -925,107 +925,107 @@ if ($jk[0]->jenis_kelamin == "L") {
   } ?>
 
 <!-- BELBIN -->
-    <tr>
-        <?php
-        $belbin = $this->db->query("SELECT * FROM tb_ujian_belbin")->result_array();
-        foreach ($belbin as $key_belbin) {
-          if ($key_belbin['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
-            <td><?php echo $no++; ?></td>
-        <td><?php echo $key_belbin['nama_ujian']; ?></td>
-        <td><?php echo date('d F Y H:i:s', strtotime($key_belbin['waktu_dimulai'])) ?> WIB</td>
-        <td><?php echo date('d F Y H:i:s', strtotime($key_belbin['waktu_berakhir'])) ?> WIB</td>
-        <td>
-
-          <?php
-          date_default_timezone_set("Asia/Jakarta");
-          if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_belbin['waktu_dimulai']))) {
-            echo "belum dimulai";
-          } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_belbin['waktu_dimulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_belbin['waktu_berakhir']))) { ?>
-            <a href="<?php echo base_url('Pelamar/Pelamar/belbin/' . $id_pelamar . '/' . $key_belbin['id_ujian_belbin']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
-          <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_belbin['waktu_berakhir']))) {
-            echo "Ujian sudah berakhir";
-          } ?>                            
-        </td>
-  </tr>
-<?php   }
-    } ?>
-    <!-- GRAFIS 1-->
-  <tr>
-        <?php
-        $grafis = $this->db->query("SELECT * FROM tb_ujian_grafis")->result_array();
-        foreach ($grafis as $key_grafis) {
-          if ($key_grafis['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
-            <td><?php echo $no++; ?></td>
-        <td><?php echo $key_grafis['nama_ujian']; ?></td>
-        <td><?php echo date('d F Y H:i:s', strtotime($key_grafis['waktu_dimulai'])) ?> WIB</td>
-        <td><?php echo date('d F Y H:i:s', strtotime($key_grafis['waktu_berakhir'])) ?> WIB</td>
-        <td>
-
-          <?php
-          date_default_timezone_set("Asia/Jakarta");
-          if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_grafis['waktu_dimulai']))) {
-            echo "belum dimulai";
-          } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_grafis['waktu_dimulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_grafis['waktu_berakhir']))) { ?>
-            <a href="<?php echo base_url('Pelamar/Pelamar/grafis/' . $id_pelamar . '/' . $key_grafis['id_ujian_grafis']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
-          <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_grafis['waktu_berakhir']))) {
-            echo "Ujian sudah berakhir";
-          } ?>                            
-        </td>
-  </tr>
-<?php   }
-    } ?>
-
- <!-- GRAFIS 2-->
-  <tr>
-        <?php
-        $grafis = $this->db->query("SELECT * FROM tb_ujian_grafis2")->result_array();
-        foreach ($grafis2 as $key_grafis2) {
-          if ($key_grafis2['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
-            <td><?php echo $no++; ?></td>
-        <td><?php echo $key_grafis2['nama_ujian']; ?></td>
-        <td><?php echo date('d F Y H:i:s', strtotime($key_grafis2['waktu_dimulai'])) ?> WIB</td>
-        <td><?php echo date('d F Y H:i:s', strtotime($key_grafis2['waktu_berakhir'])) ?> WIB</td>
-        <td>
-
-          <?php
-          date_default_timezone_set("Asia/Jakarta");
-          if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_grafis2['waktu_dimulai']))) {
-            echo "belum dimulai";
-          } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_grafis2['waktu_dimulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_grafis2['waktu_berakhir']))) { ?>
-            <a href="<?php echo base_url('Pelamar/Pelamar/grafis2/' . $id_pelamar . '/' . $key_grafis2['id_ujian_grafis']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
-          <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_grafis2['waktu_berakhir']))) {
-            echo "Ujian sudah berakhir";
-          } ?>                            
-        </td>
-  </tr>
-<?php   }
-    } ?>
- <!-- SKD -->
 <tr>
-    <?php
-    $skd = $this->db->query("SELECT * FROM tb_ujian_skd")->result_array();
-            foreach ($skd as $key_skd) {
-              if ($key_skd['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
-                <td><?php echo $no++; ?></td>
-                <td><?php echo $key_skd['nama_ujian']; ?></td>
-                <td><?php echo date('d F Y H:i:s', strtotime($key_skd['waktu_dimulai'])) ?> WIB</td>
-                <td><?php echo date('d F Y H:i:s', strtotime($key_skd['waktu_berakhir'])) ?> WIB</td>
-                <td>
+  <?php
+  $belbin = $this->db->query("SELECT * FROM tb_ujian_belbin")->result_array();
+  foreach ($belbin as $key_belbin) {
+    if ($key_belbin['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_belbin['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_belbin['waktu_dimulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_belbin['waktu_berakhir'])) ?> WIB</td>
+      <td>
 
-                  <?php
-                  date_default_timezone_set("Asia/Jakarta");
-                  if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_skd['waktu_dimulai']))) {
-                    echo "belum dimulai";
-                  } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_skd['waktu_dimulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_skd['waktu_berakhir']))) { ?>
-                    <a href="<?php echo base_url('Pelamar/Pelamar/skd/' . $id_pelamar . '/' . $key_skd['id_ujian_skd']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
-                  <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_skd['waktu_berakhir']))) {
-                    echo "Ujian sudah berakhir";
-                  } ?>
-                </td>
-          </tr>
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_belbin['waktu_dimulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_belbin['waktu_dimulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_belbin['waktu_berakhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Pelamar/belbin/' . $id_pelamar . '/' . $key_belbin['id_ujian_belbin']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_belbin['waktu_berakhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+<?php   }
+  } ?>
+<!-- GRAFIS 1-->
+<tr>
+  <?php
+  $grafis = $this->db->query("SELECT * FROM tb_ujian_grafis")->result_array();
+  foreach ($grafis as $key_grafis) {
+    if ($key_grafis['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_grafis['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_grafis['waktu_dimulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_grafis['waktu_berakhir'])) ?> WIB</td>
+      <td>
 
-      <?php }
-            } ?>
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_grafis['waktu_dimulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_grafis['waktu_dimulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_grafis['waktu_berakhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Pelamar/grafis/' . $id_pelamar . '/' . $key_grafis['id_ujian_grafis']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_grafis['waktu_berakhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+<?php   }
+  } ?>
+
+<!-- GRAFIS 2-->
+<tr>
+  <?php
+  $grafis = $this->db->query("SELECT * FROM tb_ujian_grafis2")->result_array();
+  foreach ($grafis2 as $key_grafis2) {
+    if ($key_grafis2['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_grafis2['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_grafis2['waktu_dimulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_grafis2['waktu_berakhir'])) ?> WIB</td>
+      <td>
+
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_grafis2['waktu_dimulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_grafis2['waktu_dimulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_grafis2['waktu_berakhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Pelamar/grafis2/' . $id_pelamar . '/' . $key_grafis2['id_ujian_grafis']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_grafis2['waktu_berakhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+<?php   }
+  } ?>
+<!-- SKD -->
+<tr>
+  <?php
+  $skd = $this->db->query("SELECT * FROM tb_ujian_skd")->result_array();
+  foreach ($skd as $key_skd) {
+    if ($key_skd['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_skd['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_skd['waktu_dimulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_skd['waktu_berakhir'])) ?> WIB</td>
+      <td>
+
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_skd['waktu_dimulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_skd['waktu_dimulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_skd['waktu_berakhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Pelamar/skd/' . $id_pelamar . '/' . $key_skd['id_ujian_skd']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_skd['waktu_berakhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+
+<?php }
+  } ?>
 
 <!-- EPPS -->
 <tr>
@@ -1077,6 +1077,62 @@ if ($jk[0]->jenis_kelamin == "L") {
     }
   } ?>
 </tr>
+
+
+<!-- ujian Studi Kasus Mekanik Mesin -->
+<tr>
+  <?php
+  $studi_kasus_mesin = $this->db->query("SELECT * FROM  tb_ujian_sk_mekanik_mesin")->result_array();
+  foreach ($studi_kasus_mesin as $key_studi_kasus_mesin) {
+    if ($key_studi_kasus_mesin['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_studi_kasus_mesin['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_studi_kasus_mesin['waktu_mulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_studi_kasus_mesin['waktu_akhir'])) ?> WIB</td>
+      <td>
+
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_studi_kasus_mesin['waktu_mulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_studi_kasus_mesin['waktu_mulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_studi_kasus_mesin['waktu_akhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Ujian/start_ujian_sk_mekanik_mesin/' . $id_pelamar . '/' . $key_studi_kasus_mesin['id_ujian_sk_mekanik_m']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_studi_kasus_mesin['waktu_akhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+<?php   }
+  } ?>
+
+<!-- ujian Studi Kasus Mekanik pendingin -->
+<tr>
+  <?php
+  $studi_kasus_pendingin = $this->db->query("SELECT * FROM  tb_ujian_sk_mekanik_pendingin")->result_array();
+  foreach ($studi_kasus_pendingin as $key_studi_kasus_pendingin) {
+    if ($key_studi_kasus_pendingin['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_studi_kasus_pendingin['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_studi_kasus_pendingin['waktu_mulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_studi_kasus_pendingin['waktu_akhir'])) ?> WIB</td>
+      <td>
+
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_studi_kasus_pendingin['waktu_mulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_studi_kasus_pendingin['waktu_mulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_studi_kasus_pendingin['waktu_akhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Ujian/start_ujian_sk_mekanik_pendingin/' . $id_pelamar . '/' . $key_studi_kasus_pendingin['id_ujian_sk_mekanik_p']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_studi_kasus_pendingin['waktu_akhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+<?php   }
+  } ?>
+
+
+
 
         </tbody>
       </table>

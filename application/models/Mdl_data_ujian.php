@@ -28,7 +28,7 @@ class Mdl_data_ujian extends CI_Model
 		$query = $this->db->query("SELECT * FROM tb_ujian_ist");
 		return $query->result_array();
 	}
-	
+
 	public function ambildata_ujian_holland()
 	{
 		$query = $this->db->query("SELECT * FROM tb_ujian_holland");
@@ -160,7 +160,7 @@ class Mdl_data_ujian extends CI_Model
 		$query = $this->db->query("SELECT * FROM tb_ujian_epps where kategori=1");
 		return $query->result_array();
 	}
-	
+
 	public function ambildata_ujian_inggris()
 	{
 		$query = $this->db->query("SELECT * FROM tb_ujian_inggris");
@@ -188,6 +188,21 @@ class Mdl_data_ujian extends CI_Model
 		$query = $this->db->query("SELECT * FROM tb_ujian_leadership");
 		return $query->result_array();
 	}
+
+	public function ambildata_sk_mekanik_mesin()
+	{
+		$query = $this->db->query("SELECT * FROM tb_ujian_sk_mekanik_mesin");
+		return $query->result_array();
+	}
+
+	public function ambildata_sk_mekanik_pendingin()
+	{
+		$query = $this->db->query("SELECT * FROM tb_ujian_sk_mekanik_pendingin");
+		return $query->result_array();
+	}
+
+
+
 
 	public function tambahdata_ujian($paket)
 	{
@@ -282,7 +297,7 @@ class Mdl_data_ujian extends CI_Model
 		$this->db->insert('tb_ujian_leadership', $paket);
 		return $this->db->affected_rows();
 	}
-	
+
 	public function tambahdata_ujian_msdt($paket)
 	{
 		$this->db->insert('tb_ujian_msdt', $paket);

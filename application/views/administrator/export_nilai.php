@@ -47,6 +47,7 @@ header("Expires: 0");
 			<th class="tg-c3ow" colspan="3" style="background-color: Yellow;">Kontak Psikologis</th>
 			<th class="tg-c3ow" rowspan="2" colspan="12" style="background-color: Yellow;">IST</th>
 			<th class="tg-c3ow" colspan="9" style="background-color: Yellow;">Belbin</th>
+			<th class="tg-c3ow" colspan="48" style="background-color: Yellow;">Studi Kasus Mekanik</th>
 		</tr>
 		<tr>
 			<!-- PAPI -->
@@ -174,7 +175,7 @@ header("Expires: 0");
 					<center>Keseluruhan</center>
 				</b></td>
 
-				<!-- TPA 2-->
+			<!-- TPA 2-->
 			<td colspan="9" class="tg-0pky"><b>
 					<center>Verbal</center>
 				</b></td>
@@ -215,7 +216,7 @@ header("Expires: 0");
 				</b></td>
 			<td colspan="3" class="tg-0pky"><b>
 					<center>Total</center>
-			</b></td>
+				</b></td>
 
 			<!-- KONTRAK PSIKOLOGIS -->
 			<td rowspan="3" class="tg-0pky"><b>
@@ -228,7 +229,7 @@ header("Expires: 0");
 					<center>Kategori</center>
 				</b></td>
 
-		    <!-- BELBIN -->
+			<!-- BELBIN -->
 			<td class="tg-0pky" rowspan="3"><b>
 					<center>Implementor</center>
 				</b></td>
@@ -255,6 +256,14 @@ header("Expires: 0");
 				</b></td>
 			<td class="tg-0pky" rowspan="3"><b>
 					<center>Specialist</center>
+				</b></td>
+
+			<!-- Studi Kasus Mekanik -->
+			<td class="tg-0pky" colspan="24"><b>
+					<center>Mesin</center>
+				</b></td>
+			<td class="tg-0pky" colspan="24"><b>
+					<center>Pendingin</center>
 				</b></td>
 		</tr>
 		<tr>
@@ -663,7 +672,7 @@ header("Expires: 0");
 				</b></td>
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
-			</b></td>
+				</b></td>
 
 			<!-- TKP -->
 			<td class="tg-0pky" rowspan="2"><b>
@@ -671,16 +680,16 @@ header("Expires: 0");
 				</b></td>
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
-			</b></td>
+				</b></td>
 
 			<!-- Army -->
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
-			</b></td>
+				</b></td>
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
 				</b></td>
-			
+
 			<!-- B.Inggris -->
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Grammer</center>
@@ -694,7 +703,7 @@ header("Expires: 0");
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
 				</b></td>
-			
+
 			<!-- TKB -->
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
@@ -839,63 +848,63 @@ header("Expires: 0");
 				</b></td>
 
 			<!-- SKD -->
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
-				</b></td>		
-			<td class="tg-0pky"  rowspan="2"><b>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
-				</b></td>	
-			<td class="tg-0pky"  rowspan="2"><b>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
-				</b></td>	
-			<td class="tg-0pky"  rowspan="2"><b>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
-				</b></td>	
-			<td class="tg-0pky"  rowspan="2"><b>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
-				</b></td>	
-			<td class="tg-0pky"  rowspan="2"><b>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Jawaban Benar</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
-			<td class="tg-0pky"  rowspan="2"><b>
+			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
-				</b></td>		
+				</b></td>
 
 			<!-- IST -->
 			<td class="tg-0pky" rowspan="2">&nbsp;</td>
@@ -931,6 +940,46 @@ header("Expires: 0");
 				</b></td>
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
+				</b></td>
+
+			<!-- Studi Kasus Mekanik -->
+
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>1</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>2</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>3</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>4</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>5</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>6</center>
+				</b></td>
+
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>1</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>2</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>3</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>4</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>5</center>
+				</b></td>
+			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>6</center>
 				</b></td>
 		</tr>
 		<tr>
@@ -1108,7 +1157,7 @@ header("Expires: 0");
 			<td class="tg-0pky"><b>
 					<center>Kategori</center>
 				</b></td>
-		
+
 			<!-- TPA 2 -->
 			<td class="tg-0pky"><b>
 					<center>Jawaban Benar</center>
@@ -1230,12 +1279,13 @@ header("Expires: 0");
 				echo "Kurang";
 			}
 		}
-		function kategori_cepat_l($nilai) {
+		function kategori_cepat_l($nilai)
+		{
 			// Ambil data diri pelamar hanya jika jenis kelaminnya adalah "L" (laki-laki)
-		
+
 			if ($nilai >= 63 && $nilai <= 100) {
 				echo "BS";
-			} elseif ($nilai >= 56 && $nilai <= 62 ) {
+			} elseif ($nilai >= 56 && $nilai <= 62) {
 				echo "B";
 			} elseif ($nilai >= 53 && $nilai <= 55) {
 				echo "C+";
@@ -1251,12 +1301,13 @@ header("Expires: 0");
 				echo "Kurang";
 			}
 		}
-		function kategori_cepat_p($nilai) {
+		function kategori_cepat_p($nilai)
+		{
 			// Ambil data diri pelamar hanya jika jenis kelaminnya adalah "L" (laki-laki)
-		
+
 			if ($nilai >= 73 && $nilai <= 100) {
 				echo "BS";
-			} elseif ($nilai >= 64 && $nilai <= 72 ) {
+			} elseif ($nilai >= 64 && $nilai <= 72) {
 				echo "B";
 			} elseif ($nilai >= 61 && $nilai <= 63) {
 				echo "C+";
@@ -1273,12 +1324,13 @@ header("Expires: 0");
 			}
 		}
 
-		function kategori_army($nilai) {
+		function kategori_army($nilai)
+		{
 			// Ambil data diri pelamar hanya jika jenis kelaminnya adalah "L" (laki-laki)
-		
+
 			if ($nilai >= 10 && $nilai <= 12) {
 				echo "Sangat Baik";
-			} elseif ($nilai >= 7 && $nilai <= 9 ) {
+			} elseif ($nilai >= 7 && $nilai <= 9) {
 				echo "Baik";
 			} elseif ($nilai >= 4 && $nilai <= 6) {
 				echo "Cukup";
@@ -2223,7 +2275,7 @@ header("Expires: 0");
 				}
 			} else {
 				// Usia default jika data diri tidak ditemukan sama sekali
-				$umur = 21; 
+				$umur = 21;
 			}
 			// echo "Lahir = " . $umurdb[0]['tgl_lhr'] . "<br>";
 			// echo "UMUR = " . $umur . "<br>";
@@ -9200,7 +9252,7 @@ header("Expires: 0");
 			// echo "X = " . $keyj2['X'] . " | <br>";
 			// echo "Code = " . $codeL . "<br>";
 			// echo "Kategori = " . $kategoriL;
-			
+
 			// Nilai Cepat Teliti
 			$benarcepat = 0;
 			$datajcepat = $this->db->query("SELECT * FROM tb_data_jawaban_cepat WHERE id_pelamar=$keypel->id_pelamar AND id_lowongan =$lowongan ORDER BY no_soal")->result();
@@ -9240,7 +9292,7 @@ header("Expires: 0");
 				foreach ($datajtkp as $index => $jawaban) {
 					$jawaban_peserta = $jawaban->jawaban;
 					$nomor_soal = $jawaban->no_soal;
-					
+
 					// Mencari data soal yang sesuai dengan nomor soal pada jawaban peserta
 					foreach ($datasoaltkp as $soal) {
 						if ($soal->nomor_soal == $nomor_soal) {
@@ -9271,7 +9323,6 @@ header("Expires: 0");
 					if ($datajarmy[$i]->jawaban == $datasoalarmy[$i]->jawaban) {
 						$benararmy = $benararmy + 5;
 					}
-					
 				}
 			}
 
@@ -9290,10 +9341,10 @@ header("Expires: 0");
 				}
 			}
 			// Inggris Vocab
-// 			$benaring1to25 = 0;
-// 			$benaring26to30 = 0;
-// 			$benaring31to40 = 0;
-// 			$benaring41to50 = 0;
+			// 			$benaring1to25 = 0;
+			// 			$benaring26to30 = 0;
+			// 			$benaring31to40 = 0;
+			// 			$benaring41to50 = 0;
 			$benaring1to30 = 0;
 			$benaring31to80 = 0;
 
@@ -9309,23 +9360,23 @@ header("Expires: 0");
 					$jawabanSoal = $datasoaling[$i]->jawaban;
 
 					// Memisahkan perbandingan berdasarkan rentang nomor soal
-				// 	if ($i >= 0 && $i < 25) {
-				// 		if ($jawabanPelamar == $jawabanSoal) {
-				// 			$benaring1to25++;
-				// 		}
-				// 	} elseif ($i >= 25 && $i < 30) {
-				// 		if ($jawabanPelamar == $jawabanSoal) {
-				// 			$benaring26to30++;
-				// 		}
-				// 	} elseif ($i >= 30 && $i < 40) {
-				// 		if ($jawabanPelamar == $jawabanSoal) {
-				// 			$benaring31to40++;
-				// 		}
-				// 	} elseif ($i >= 40 && $i < 50) {
-				// 		if ($jawabanPelamar == $jawabanSoal) {
-				// 			$benaring41to50++;
-				// 		}
-				// 	}
+					// 	if ($i >= 0 && $i < 25) {
+					// 		if ($jawabanPelamar == $jawabanSoal) {
+					// 			$benaring1to25++;
+					// 		}
+					// 	} elseif ($i >= 25 && $i < 30) {
+					// 		if ($jawabanPelamar == $jawabanSoal) {
+					// 			$benaring26to30++;
+					// 		}
+					// 	} elseif ($i >= 30 && $i < 40) {
+					// 		if ($jawabanPelamar == $jawabanSoal) {
+					// 			$benaring31to40++;
+					// 		}
+					// 	} elseif ($i >= 40 && $i < 50) {
+					// 		if ($jawabanPelamar == $jawabanSoal) {
+					// 			$benaring41to50++;
+					// 		}
+					// 	}
 					if ($i >= 0 && $i < 30) {
 						if ($jawabanPelamar == $jawabanSoal) {
 							$benaring1to30++;
@@ -9397,7 +9448,7 @@ header("Expires: 0");
 			<tr>
 				<td rowspan="2"><?= $nourutpelamar; ?></td>
 				<!-- <td rowspan="2"><?= $pelamar[0]['nama_pelamar']; ?></td> -->
-				 <td rowspan="2"><?= !empty($pelamar) ? $pelamar[0]['nama_pelamar'] : 'ID: ' . $keypel->id_pelamar; ?></td>
+				<td rowspan="2"><?= !empty($pelamar) ? $pelamar[0]['nama_pelamar'] : 'ID: ' . $keypel->id_pelamar; ?></td>
 				<td rowspan="2"><?= $total_nilai_sub; ?></td>
 				<td rowspan="2"><?= $iqcfit; ?></td>
 				<td rowspan="2"><b><?= $katecfit; ?></b></td>
@@ -9545,10 +9596,10 @@ header("Expires: 0");
 				<td rowspan="2"><?= $benararmy * 1 ?></td>
 				<td rowspan="2"><?php kategori_army(($benararmy * 1)) ?></td>
 				<!-- B.Ing -->
-				<td rowspan="2"><?= $benaring1to30/30 * 100 ?></td>
-				<td rowspan="2"><?= $benaring31to80/50 * 100 ?></td>
-				<td rowspan="2"><?= ($benaring/80) * 100 ?></td>
-				<td rowspan="2"><?php kategori_n((($benaring/80) * 100)) ?></td>
+				<td rowspan="2"><?= $benaring1to30 / 30 * 100 ?></td>
+				<td rowspan="2"><?= $benaring31to80 / 50 * 100 ?></td>
+				<td rowspan="2"><?= ($benaring / 80) * 100 ?></td>
+				<td rowspan="2"><?php kategori_n((($benaring / 80) * 100)) ?></td>
 				<!-- accounting -->
 				<td rowspan="2"><?= $benaracc * 2 ?></td>
 				<td rowspan="2"><?php kategori_n(($benaracc * 2)) ?></td>
@@ -9564,8 +9615,8 @@ header("Expires: 0");
 				<!-- frontliner -->
 				<td rowspan="2"><?= $benarfront * 2 ?></td>
 				<td rowspan="2"><?php kategori_n(($benarfront * 2)) ?></td>
-				
-				
+
+
 				<!-- TPA PANJANG -->
 				<?php
 				TPA($this->db, $keypel->id_pelamar, $lowongan, '1', 'kosakata');
@@ -9616,7 +9667,7 @@ header("Expires: 0");
 				SKDtes($this->db, $keypel->id_pelamar, $lowongan, '8');
 				SKDtotal($this->db, $keypel->id_pelamar, $lowongan);
 				?>
-				
+
 				<td>Individual</td>
 				<td><?= hitung_korelasi($this->db, $lowongan, $keypel->id_pelamar, 'individual'); ?></td>
 				<td>
@@ -9649,6 +9700,70 @@ header("Expires: 0");
 				} ?>
 				<td><?= $gesamtrs; ?></td>
 				<td rowspan="2"><b><?= $kategoriist; ?></b></td>
+				<!-- Belbin -->
+				<td rowspan="2"><b>
+						<center>-</center>
+					</b></td>
+				<td rowspan="2"><b>
+						<center>-</center>
+					</b></td>
+				<td rowspan="2"><b>
+						<center>-</center>
+					</b></td>
+				<td rowspan="2"><b>
+						<center>-</center>
+					</b></td>
+				<td rowspan="2"><b>
+						<center>-</center>
+					</b></td>
+				<td rowspan="2"><b>
+						<center>-</center>
+					</b></td>
+				<td rowspan="2"><b>
+						<center>-</center>
+					</b></td>
+				<td rowspan="2"><b>
+						<center>-</center>
+					</b></td>
+				<td rowspan="2"><b>
+						<center>-</center>
+					</b></td>
+
+				<!-- Studi Kasus Mekanik -->
+				<?php
+				$q = "SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $lowongan AND id_pelamar=$keypel->id_pelamar and kategori='mesin' AND id_ujian = 1 ORDER BY no_soal ASC";
+				$sk_mesin = $this->db->query($q)->result_array();
+
+				if (count($sk_mesin) == 0) {
+					for ($j = 0; $j < 6; $j++) {
+						echo "<td rowspan='2' colspan='4'><b><center>-</center></b></td>";
+					}
+				} else {
+
+					for ($i = 0; $i < count($sk_mesin); $i++) {
+						$jawaban = $sk_mesin[$i]['jawaban'];
+						echo "<td rowspan='2' colspan='4'><b>$jawaban</b></td>";
+					}
+				}
+
+				?>
+				<?php
+				$q = "SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $lowongan AND id_pelamar=$keypel->id_pelamar and kategori='pendingin' AND id_ujian = 1 ORDER BY no_soal ASC";
+				$sk_pendingin = $this->db->query($q)->result_array();
+
+				if (count($sk_pendingin) == 0) {
+					for ($j = 0; $j < 6; $j++) {
+						echo "<td rowspan='2' colspan='4'><b><center>-</center></b></td>";
+					}
+				} else {
+
+					for ($i = 0; $i < count($sk_pendingin); $i++) {
+						$jawaban = $sk_pendingin[$i]['jawaban'];
+						echo "<td rowspan='2' colspan='4'><b>$jawaban</b></td>";
+					}
+				}
+
+				?>
 			</tr>
 			<tr>
 				<td><b>NEED</b></td>
