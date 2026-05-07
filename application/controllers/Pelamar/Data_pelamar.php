@@ -128,31 +128,29 @@ class Data_pelamar extends CI_Controller
 		$email = $this->db->query("SELECT email FROM tb_pelamar where id_pelamar=$id_detail")->row()->email;
 		$data_pendidikan = $this->Mdl_data_pelamar->ambildata_pendidikan($id_detail);
 		$data_pendidikan_non = $this->Mdl_data_pelamar->ambildata_pendidikan_non($id_detail);
-		$data_pengalaman= $this->Mdl_data_pelamar->ambildata_pengalaman($id_detail);
+		$data_pengalaman = $this->Mdl_data_pelamar->ambildata_pengalaman($id_detail);
 
 
-        $counter = 1;
-        foreach ($data_pendidikan as &$row) {
-            $row['no'] = $counter; 
-            $counter++;
-        }
+		$counter = 1;
+		foreach ($data_pendidikan as &$row) {
+			$row['no'] = $counter;
+			$counter++;
+		}
 		unset($row);
 
 		$counterNon = 1;
 		foreach ($data_pendidikan_non as &$row) {
-			$row['no_nonformal'] = $counterNon; 
+			$row['no_nonformal'] = $counterNon;
 			$counterNon++;
-		}
-        unset($row);
-
-		$counterPengalaman = 1;
-		foreach ($data_pengalaman as &$row) {
-			$row['no_pengalaman'] = $counterPengalaman; 
-			$counterPengalaman++;
 		}
 		unset($row);
 
-		print_r($data_pengalaman);
+		$counterPengalaman = 1;
+		foreach ($data_pengalaman as &$row) {
+			$row['no_pengalaman'] = $counterPengalaman;
+			$counterPengalaman++;
+		}
+		unset($row);
 
 		$social_media = array(
 			'facebook' => $data_pelamar[0]['facebook'],
@@ -182,14 +180,15 @@ class Data_pelamar extends CI_Controller
 		$templateProcessor->setValue('lowongan', $lowongan);
 		$templateProcessor->setValue('jenis_kelamin', $data_pelamar[0]['jenis_kelamin']);
 		$templateProcessor->setValue('social_media', $this->get_only_active_social_media($social_media));
-		
+
 		$templateProcessor->cloneRowAndSetValues('no', $data_pendidikan);
 		$templateProcessor->cloneRowAndSetValues('no_nonformal', $data_pendidikan_non);
 		$templateProcessor->cloneRowAndSetValues('no_pengalaman', $data_pengalaman);
-		$templateProcessor->setValue('pendidikan_terakhir', $data_pendidikan[count($data_pendidikan) - 1]['nama_institusi']. ' - '.$data_pendidikan[count($data_pendidikan) - 1]['jenjang_pendidikan']." ".$data_pendidikan[count($data_pendidikan) - 1]['jurusan']);
-		
+		$templateProcessor->setValue('pendidikan_terakhir', $data_pendidikan[count($data_pendidikan) - 1]['nama_institusi'] . ' - ' . $data_pendidikan[count($data_pendidikan) - 1]['jenjang_pendidikan'] . " " . $data_pendidikan[count($data_pendidikan) - 1]['jurusan']);
+
 		$file_name = 'Hasil_Assessment_' . time() . '.docx';
-		$temp_file = sys_get_temp_dir() . '/' . $file_name;
+		$temp_dir = FCPATH . 'upload/assessment_temp/';
+		$temp_file = $temp_dir . $file_name;
 		$templateProcessor->saveAs($temp_file);
 
 		// 6. Read the temp file, trigger the download, and clean up
@@ -199,7 +198,7 @@ class Data_pelamar extends CI_Controller
 		@unlink($temp_file);
 
 		if (ob_get_length()) {
-			ob_clean();
+			ob_end_clean();
 		}
 
 		// Force the browser to download the file
