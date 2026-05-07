@@ -11,6 +11,8 @@ header("Content-Disposition: attachment; filename=nilai ($waktu) - " . $nilai[0]
 header("Pragma: no-cache");
 header("Expires: 0");
 
+
+
 ?>
 
 <h3 colspan="10">Data Nilai Pelamar pada Lowongan <?php echo $nilai[0]['nama_jabatan']; ?> diperusahaan <?php echo $nilai[0]['nama_perusahaan']; ?></h3> <br>
@@ -47,7 +49,8 @@ header("Expires: 0");
 			<th class="tg-c3ow" colspan="3" style="background-color: Yellow;">Kontak Psikologis</th>
 			<th class="tg-c3ow" rowspan="2" colspan="12" style="background-color: Yellow;">IST</th>
 			<th class="tg-c3ow" colspan="9" style="background-color: Yellow;">Belbin</th>
-			<th class="tg-c3ow" colspan="48" style="background-color: Yellow;">Studi Kasus Mekanik</th>
+			<th class="tg-c3ow" rowspan="2" style="background-color: Yellow;">Tes Learning Agility</th>
+			<th class="tg-c3ow" colspan="48" rowspan="2" style="background-color: Yellow;">Studi Kasus Mekanik</th>
 		</tr>
 		<tr>
 			<!-- PAPI -->
@@ -259,12 +262,12 @@ header("Expires: 0");
 				</b></td>
 
 			<!-- Studi Kasus Mekanik -->
-			<td class="tg-0pky" colspan="24"><b>
+			<!-- <td class="tg-0pky" colspan="24"><b>
 					<center>Mesin</center>
 				</b></td>
 			<td class="tg-0pky" colspan="24"><b>
 					<center>Pendingin</center>
-				</b></td>
+				</b></td> -->
 		</tr>
 		<tr>
 			<!-- CFIT -->
@@ -941,10 +944,23 @@ header("Expires: 0");
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
 				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
+					<center>Nilai</center>
+				</b></td>
 
 			<!-- Studi Kasus Mekanik -->
+			<?php
+			$q = "SELECT * FROM tb_soal_studi_kasus_mekanik  ORDER BY id ASC";
+			$pertanyaan = $this->db->query($q)->result();
+			foreach ($pertanyaan as $key) {
+				$soal = $key->soal;
+				echo '<td class="tg-0pky" colspan="4" rowspan="2"><b>
+					<center>' . $soal . '</center>
+				</b></td>';
+			}
+			?>
 
-			<td class="tg-0pky" colspan="4" rowspan="2"><b>
+			<!-- <td class="tg-0pky" colspan="4" rowspan="2"><b>
 					<center>1</center>
 				</b></td>
 			<td class="tg-0pky" colspan="4" rowspan="2"><b>
@@ -964,23 +980,23 @@ header("Expires: 0");
 				</b></td>
 
 			<td class="tg-0pky" colspan="4" rowspan="2"><b>
-					<center>1</center>
+					<center>7</center>
 				</b></td>
 			<td class="tg-0pky" colspan="4" rowspan="2"><b>
-					<center>2</center>
+					<center>8</center>
 				</b></td>
 			<td class="tg-0pky" colspan="4" rowspan="2"><b>
-					<center>3</center>
+					<center>9</center>
 				</b></td>
 			<td class="tg-0pky" colspan="4" rowspan="2"><b>
-					<center>4</center>
+					<center>10</center>
 				</b></td>
 			<td class="tg-0pky" colspan="4" rowspan="2"><b>
-					<center>5</center>
+					<center>11</center>
 				</b></td>
 			<td class="tg-0pky" colspan="4" rowspan="2"><b>
-					<center>6</center>
-				</b></td>
+					<center>12</center>
+				</b></td> -->
 		</tr>
 		<tr>
 			<!-- TPA PANJANG -->
@@ -1226,6 +1242,60 @@ header("Expires: 0");
 	</thead>
 	<tbody>
 		<?php
+		function scoring_learning_agility($db, $id_pelamar)
+		{
+			$id_ujian = 1;
+
+			$bobot_per_soal = 2;
+
+			$db->select('nomor_soal, jawaban');
+			$querySoal = $db->get('tb_soal_learning_agility');
+			$dataSoal = $querySoal->result_array();
+
+			$kunciJawaban = [];
+			foreach ($dataSoal as $row) {
+				$kunciJawaban[$row['nomor_soal']] = strtoupper(trim($row['jawaban']));
+			}
+
+
+			$db->select('no_soal, jawaban');
+			$db->where('id_pelamar', $id_pelamar);
+			$db->where('id_ujian', $id_ujian);
+			$queryJawaban = $db->get('tb_data_jawaban_learning_agility');
+			$dataJawabanUser = $queryJawaban->result_array();
+
+			$jawabanPeserta = [];
+			foreach ($dataJawabanUser as $row) {
+				$jawabanPeserta[$row['no_soal']] = strtoupper(trim($row['jawaban']));
+			}
+
+			$jumlahBenar = 0;
+			$jumlahSalah = 0;
+			$jumlahKosong = 0;
+
+			foreach ($kunciJawaban as $nomorSoal => $jawabanBenar) {
+				// Semak jika peserta menjawab soalan ini dan tidak kosong
+				if (isset($jawabanPeserta[$nomorSoal]) && $jawabanPeserta[$nomorSoal] !== '') {
+					$jawabanUser = $jawabanPeserta[$nomorSoal];
+
+					if ($jawabanUser === $jawabanBenar) {
+						$jumlahBenar++;
+						$status = 'Benar';
+					} else {
+						$jumlahSalah++;
+						$status = 'Salah';
+					}
+				} else {
+					$jawabanUser = null;
+					$jumlahKosong++;
+					$status = 'Kosong';
+				}
+			}
+
+			$totalSkor = $jumlahBenar * $bobot_per_soal;
+
+			return $totalSkor;
+		}
 		// hitung korelasi - KONTRAK PSIKOLOGIS
 		function hitung_korelasi($db, $id_lowongan, $id_pelamar, $segi)
 		{
@@ -9729,13 +9799,17 @@ header("Expires: 0");
 						<center>-</center>
 					</b></td>
 
+				<td rowspan="2">
+						<center><?= scoring_learning_agility($this->db,$keypel->id_pelamar) ?></center>
+					</td>
+
 				<!-- Studi Kasus Mekanik -->
 				<?php
-				$q = "SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $lowongan AND id_pelamar=$keypel->id_pelamar and kategori='mesin' AND id_ujian = 1 ORDER BY no_soal ASC";
+				$q = "SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $lowongan AND id_pelamar=$keypel->id_pelamar AND id_ujian = 1 ORDER BY no_soal ASC";
 				$sk_mesin = $this->db->query($q)->result_array();
 
 				if (count($sk_mesin) == 0) {
-					for ($j = 0; $j < 6; $j++) {
+					for ($j = 0; $j < 12; $j++) {
 						echo "<td rowspan='2' colspan='4'><b><center>-</center></b></td>";
 					}
 				} else {
@@ -9747,23 +9821,7 @@ header("Expires: 0");
 				}
 
 				?>
-				<?php
-				$q = "SELECT * FROM tb_data_jawaban_sk_mekanik WHERE id_lowongan = $lowongan AND id_pelamar=$keypel->id_pelamar and kategori='pendingin' AND id_ujian = 1 ORDER BY no_soal ASC";
-				$sk_pendingin = $this->db->query($q)->result_array();
 
-				if (count($sk_pendingin) == 0) {
-					for ($j = 0; $j < 6; $j++) {
-						echo "<td rowspan='2' colspan='4'><b><center>-</center></b></td>";
-					}
-				} else {
-
-					for ($i = 0; $i < count($sk_pendingin); $i++) {
-						$jawaban = $sk_pendingin[$i]['jawaban'];
-						echo "<td rowspan='2' colspan='4'><b>$jawaban</b></td>";
-					}
-				}
-
-				?>
 			</tr>
 			<tr>
 				<td><b>NEED</b></td>

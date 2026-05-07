@@ -54,6 +54,7 @@
                 </tr>
                 <tr>
                   <th class="align-middle">Lihat</th>
+                  <th class="align-middle">Download Assessment</th>
                   <th class="align-middle">Status Lowongan</th>
                   <th class="align-middle">Status Ujian</th>
                   <th class="align-middle">Download</th>
@@ -66,7 +67,7 @@
                 foreach ($array as $key) { ?>
                   <tr>
                     <td class="align-middle"><?php echo $no; ?></td>
-                        <td class="align-middle"><?php echo $key['nama_pelamar'] ?></td>
+                    <td class="align-middle"><?php echo $key['nama_pelamar'] ?></td>
                     <?php
                     if ($key['status_lamaran'] == "Belum ada tindakan") {
                       $badges = 'badge badge-pill badge-warning';
@@ -87,6 +88,10 @@
                       <div class="btn-group" role="group" aria-label="Basic example">
                         <button data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Lihat Data Pelamar" type="button" class="btn btn-primary"><a style="color: #fff" href="<?php echo base_url('Pelamar/Data_pelamar/detail_pelamar/' . $key['id_pelamar']) ?>"><i class="fa fa-eye"></i></a></button>&nbsp;
                       </div>
+                    </td>
+                    <td class="align-middle">
+                     <a data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Download Assessment" type="button" class="btn btn-primary" href="<?php echo base_url('Pelamar/Data_pelamar/get_assessment/' . $key['id_pelamar']) ?>?id_lowongan=<?php echo $key['id_lowongan'] ?>">Download Assessment</a>
+
                     </td>
                     <td class="align-middle">
                       <div class="btn-group" role="group" aria-label="Basic example">
@@ -112,7 +117,7 @@
               </tbody>
             </table>
             <div class="text-center mt-4">
-                <?= $pagination ?>
+              <?= $pagination ?>
             </div>
           </div>
         </div>

@@ -16,6 +16,11 @@ class Mdl_data_ujian extends CI_Model
 		$query = $this->db->query("SELECT * FROM tb_ujian");
 		return $query->result_array();
 	}
+	public function ambildata_ujian_2a()
+	{
+		$query = $this->db->query("SELECT * FROM tb_ujian_cfit_2a");
+		return $query->result_array();
+	}
 
 	public function ambildata_ujian_skd()
 	{
@@ -37,6 +42,11 @@ class Mdl_data_ujian extends CI_Model
 	public function ambildata_ujian_cepat()
 	{
 		$query = $this->db->query("SELECT * FROM tb_ujian_cepat");
+		return $query->result_array();
+	}
+	public function ambildata_ujian_learning_agility()
+	{
+		$query = $this->db->query("SELECT * FROM tb_ujian_learning_agility");
 		return $query->result_array();
 	}
 	public function ambildata_ujian_tray()
@@ -176,6 +186,11 @@ class Mdl_data_ujian extends CI_Model
 	public function ambildata_ujian2($id)
 	{
 		$query = $this->db->query("SELECT * FROM tb_ujian WHERE id_ujian=$id");
+		return $query->result_array();
+	}
+	public function ambildata_cfit2a($id)
+	{
+		$query = $this->db->query("SELECT * FROM tb_ujian_cfit_2a WHERE id_ujian=$id");
 		return $query->result_array();
 	}
 	public function ambildata_ujian_skd2($id)

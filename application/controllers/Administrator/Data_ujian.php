@@ -58,7 +58,7 @@ class Data_ujian extends CI_Controller
 		$waktuujian3 = $this->input->post('waktu_ujiansubtes3');
 		$waktuujian4 = $this->input->post('waktu_ujiansubtes4');
 		$pembuat = $this->input->post('id_admin');
-	
+
 		if ($this->input->post('status') == "aktif") {
 			$status = "aktif";
 		} else {
@@ -122,6 +122,88 @@ class Data_ujian extends CI_Controller
 			where id_ujian=1");
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian CFIT Berhasil di Update.');
 		redirect('Administrator/Data_ujian/');
+	}
+
+	public function cfit_ujian2a()
+	{
+		$paket['array'] = $this->Mdl_data_ujian->ambildata_ujian_2a();
+		$this->load->view('administrator/manage_ujian_cfit_2a', $paket);
+	}
+
+	public function cfit_ujian2a_update()
+	{
+		$namates = $this->input->post('nama_ujian');
+		$datetime_mulai = $this->input->post('waktu_mulai');
+		$waktult = $this->input->post('waktu_latihan');
+		$waktuujian1 = $this->input->post('waktu_ujiansubtes1');
+		$waktuujian2 = $this->input->post('waktu_ujiansubtes2');
+		$waktuujian3 = $this->input->post('waktu_ujiansubtes3');
+		$waktuujian4 = $this->input->post('waktu_ujiansubtes4');
+		$pembuat = $this->input->post('id_admin');
+
+		if ($this->input->post('status') == "aktif") {
+			$status = "aktif";
+		} else {
+			$status = "tidak aktif";
+		}
+
+		$startltsub1 = $datetime_mulai;
+		$endltsub1 = tambahmenit($startltsub1, $waktult);
+		$startujiansub1 = $endltsub1;
+		$endujiansub1 = tambahmenit($startujiansub1, $waktuujian1);
+
+		$startltsub2 = $endujiansub1;
+		$endltsub2 = tambahmenit($startltsub2, $waktult);
+		$startujiansub2 = $endltsub2;
+		$endujiansub2 = tambahmenit($startujiansub2, $waktuujian2);
+
+		$startltsub3 = $endujiansub2;
+		$endltsub3 = tambahmenit($startltsub3, $waktult);
+		$startujiansub3 = $endltsub3;
+		$endujiansub3 = tambahmenit($startujiansub3, $waktuujian3);
+
+		$startltsub4 = $endujiansub3;
+		$endltsub4 = tambahmenit($startltsub4, $waktult);
+		$startujiansub4 = $endltsub4;
+		$endujiansub4 = tambahmenit($startujiansub4, $waktuujian4);
+
+		echo "waktu mulai ujian $datetime_mulai.<br>";
+		echo "waktu latihan subtes 1 ($waktult menit) dari $startltsub1 hingga $endltsub1. <br>";
+		echo "waktu UJIAN subtes 1 ($waktuujian1 menit) dari $startujiansub1 hingga $endujiansub1. <br>";
+		echo "waktu latihan subtes 2 ($waktult menit) dari $startltsub2 hingga $endltsub2. <br>";
+		echo "waktu UJIAN subtes 2 ($waktuujian2 menit) dari $startujiansub2 hingga $endujiansub2. <br>";
+		echo "waktu latihan subtes 3 ($waktult menit) dari $startltsub3 hingga $endltsub3. <br>";
+		echo "waktu UJIAN subtes 3 ($waktuujian3 menit) dari $startujiansub3 hingga $endujiansub3. <br>";
+		echo "waktu latihan subtes 4 ($waktult menit) dari $startltsub4 hingga $endltsub4. <br>";
+		echo "waktu UJIAN subtes 4 ($waktuujian4 menit) dari $startujiansub4 hingga $endujiansub4. <br>";
+		echo "waktu Selesai ujian $endujiansub4.<br>";
+
+
+		// "INSERT INTO tb_ujian (
+		// 	id_ujian,nama_ujian,waktu_dimulai,waktu_berakhir
+		// 	,start_lat_sub1,end_lat_sub1, start_uji_sub1, end_uji_sub1
+		// 	,start_lat_sub2,end_lat_sub2, start_uji_sub2, end_uji_sub2
+		// 	,start_lat_sub3,end_lat_sub3, start_uji_sub3, end_uji_sub3
+		// 	,start_lat_sub4,end_lat_sub4, start_uji_sub4, end_uji_sub4
+		// 	,durasi,nama_pembuat,STATUS
+		// 	) VALUE (
+		// 	'1','$namates','$datetime_mulai','$endujiansub4',
+		// 	'$startltsub1','$endltsub1','$startujiansub1','$endujiansub1',
+		// 	'$startltsub2','$endltsub2','$startujiansub2','$endujiansub2',
+		// 	'$startltsub3','$endltsub3','$startujiansub3','$endujiansub3',
+		// 	'$startltsub4','$endltsub4','$startujiansub4','$endujiansub4',
+		// 	1950,'Administrator','tersedia'
+		// 	)";
+		$this->db->query("UPDATE tb_ujian_cfit_2a SET
+			nama_ujian='$namates',waktu_dimulai='$datetime_mulai',waktu_berakhir='$endujiansub4'
+			,start_lat_sub1='$startltsub1',end_lat_sub1='$endltsub1', start_uji_sub1='$startujiansub1', end_uji_sub1='$endujiansub1'
+			,start_lat_sub2='$startltsub2',end_lat_sub2='$endltsub2', start_uji_sub2='$startujiansub2', end_uji_sub2='$endujiansub2'
+			,start_lat_sub3='$startltsub3',end_lat_sub3='$endltsub3', start_uji_sub3='$startujiansub3', end_uji_sub3='$endujiansub3'
+			,start_lat_sub4='$startltsub4',end_lat_sub4='$endltsub4', start_uji_sub4='$startujiansub4', end_uji_sub4='$endujiansub4'
+			,durasi='1950',nama_pembuat='$pembuat',STATUS='$status'
+			where id_ujian=1");
+		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian CFIT 2a Berhasil di Update.');
+		redirect('Administrator/Data_ujian/cfit_ujian2a');
 	}
 
 	// -------------------------CRUD IST------------------------------------
@@ -266,6 +348,34 @@ class Data_ujian extends CI_Controller
 		redirect('Administrator/Data_ujian/ujian_holland');
 	}
 
+	// -------------------------CRUD Learning Agility------------------------------------
+	public function ujian_learning_agility()
+	{
+		$paket['array'] = $this->Mdl_data_ujian->ambildata_ujian_learning_agility();
+		$this->load->view('administrator/manage_ujian_learning_agility', $paket);
+	}
+
+	public function updatelearning_agility()
+	{
+		$namates = $this->input->post('nama_ujian');
+		$datetime_mulai = $this->input->post('waktu_mulai');
+		$waktuujian = $this->input->post('waktu_ujian');
+
+		if ($this->input->post('status') == "aktif") {
+			$status = "aktif";
+		} else {
+			$status = "tidak aktif";
+		}
+
+		$startujian = $datetime_mulai;
+		$endujian = tambahmenit($startujian, $waktuujian);
+
+		$this->db->query("UPDATE tb_ujian_learning_agility SET nama_ujian='$namates',waktu_mulai='$datetime_mulai',waktu_akhir='$endujian',STATUS='$status' where id_ujian_learning_agility=1");
+		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian Learning Agility Berhasil di Update.');
+
+		redirect('Administrator/Data_ujian/ujian_learning_agility');
+	}
+
 	// -------------------------CRUD Cepat------------------------------------
 	public function ujian_cepat()
 	{
@@ -274,13 +384,13 @@ class Data_ujian extends CI_Controller
 	}
 
 	public function updatecepat()
-	{	
+	{
 		$namates = $this->input->post('nama_ujian');
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
 		$waktult = $this->input->post('waktu_latihan');
 		$pembuat = $this->input->post('id_admin');
-		
+
 		if ($this->input->post('status') == "aktif") {
 			$status = "aktif";
 		} else {
@@ -291,7 +401,7 @@ class Data_ujian extends CI_Controller
 		$endlt = tambahmenit($startlt, $waktult);
 		$startujian = $endlt;
 		$endujian = tambahmenit($startujian, $waktuujian);
-		
+
 		echo "waktu mulai ujian $datetime_mulai.<br>";
 		echo "waktu latihan ($waktult menit) dari $startlt hingga $endlt. <br>";
 		echo "waktu UJIAN ($waktuujian menit) dari $startujian hingga $endujian. <br>";
@@ -299,7 +409,7 @@ class Data_ujian extends CI_Controller
 		$this->db->query("UPDATE tb_ujian_cepat SET nama_ujian='$namates',waktu_mulai='$datetime_mulai',waktu_akhir='$endujian'
 		,start_lat='$startlt',end_lat='$endlt', start_uji='$startujian', end_uji='$endujian', STATUS='$status' where id_ujian_cepat=1");
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian CEPAT Berhasil di Update.');
-		
+
 		redirect('Administrator/Data_ujian/ujian_cepat');
 	}
 
@@ -311,14 +421,14 @@ class Data_ujian extends CI_Controller
 	}
 
 	public function updatetray()
-	{	
+	{
 		$namates = $this->input->post('nama_ujian');
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
 		$waktult = $this->input->post('waktu_latihan');
 		$waktusoal = $this->input->post('waktu_soal');
-		
-		
+
+
 		$pembuat = $this->input->post('id_admin');
 		if ($this->input->post('status') == "aktif") {
 			$status = "aktif";
@@ -332,7 +442,7 @@ class Data_ujian extends CI_Controller
 		$endujian = tambahmenit($startujian, $waktuujian);
 		$startsoal = $endujian;
 		$endsoal = tambahmenit($startsoal, $waktusoal);
-		
+
 		echo "waktu mulai ujian $datetime_mulai.<br>";
 		echo "waktu latihan ($waktult menit) dari $startlt hingga $endlt. <br>";
 		echo "waktu UJIAN ($waktuujian menit) dari $startujian hingga $endujian. <br>";
@@ -341,9 +451,9 @@ class Data_ujian extends CI_Controller
 
 		$this->db->query("UPDATE tb_ujian_tray SET nama_ujian='$namates',waktu_mulai='$datetime_mulai',waktu_akhir='$endsoal'
 		,start_lat='$startlt',end_lat='$endlt', start_uji='$startujian', end_uji='$endujian', start_soal='$startsoal', end_soal='$endsoal', STATUS='$status' where id_ujian_tray=1");
-		
+
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian In-Tray Berhasil di Update.');
-		
+
 		redirect('Administrator/Data_ujian/ujian_tray');
 	}
 
@@ -360,7 +470,7 @@ class Data_ujian extends CI_Controller
 		$namates = $this->input->post('nama_ujian');
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
-	
+
 		if ($this->input->post('status') == "aktif") {
 			$status = "aktif";
 		} else {
@@ -388,7 +498,7 @@ class Data_ujian extends CI_Controller
 		$namates = $this->input->post('nama_ujian');
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
-		
+
 		if ($this->input->post('status') == "aktif") {
 			$status = "aktif";
 		} else {
@@ -416,7 +526,7 @@ class Data_ujian extends CI_Controller
 		$namates = $this->input->post('nama_ujian');
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
-		
+
 		if ($this->input->post('status') == "aktif") {
 			$status = "aktif";
 		} else {
@@ -444,7 +554,7 @@ class Data_ujian extends CI_Controller
 		$namates = $this->input->post('nama_ujian');
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
-		
+
 		if ($this->input->post('status') == "aktif") {
 			$status = "aktif";
 		} else {
@@ -514,7 +624,7 @@ class Data_ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian Studi Kasus Manajerial Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_kasus_m');
 	}
-	
+
 	// -------------------------CRUD Kasus LDG------------------------------------
 	public function ujian_kasus_ldg()
 	{
@@ -584,7 +694,7 @@ class Data_ujian extends CI_Controller
 		$namates = $this->input->post('nama_ujian');
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
-		
+
 		if ($this->input->post('status') == "aktif") {
 			$status = "aktif";
 		} else {
@@ -613,7 +723,7 @@ class Data_ujian extends CI_Controller
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
 		$pembuat = $this->input->post('id_admin');
-		
+
 		if ($this->input->post('status') == "aktif") {
 			$status = "aktif";
 		} else {
@@ -1035,7 +1145,7 @@ class Data_ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian TPA Verbal Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_tpa');
 	}
-	
+
 	public function updatetpa2()
 	{
 		$namates = $this->input->post('nama_ujian');
@@ -1059,7 +1169,7 @@ class Data_ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian TPA Kuantitatif Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_tpa');
 	}
-	
+
 	public function updatetpa3()
 	{
 		$namates = $this->input->post('nama_ujian');
@@ -1117,7 +1227,7 @@ class Data_ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian TPA Verbal Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_tpa2');
 	}
-	
+
 	public function updatetpa2_2()
 	{
 		$namates = $this->input->post('nama_ujian');
@@ -1141,7 +1251,7 @@ class Data_ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian TPA Kuantitatif Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_tpa2');
 	}
-	
+
 	public function updatetpa2_3()
 	{
 		$namates = $this->input->post('nama_ujian');
@@ -1165,7 +1275,7 @@ class Data_ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian TPA Penalaran Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_tpa2');
 	}
-	
+
 	// -------------------------CRUD Army------------------------------------
 	public function ujian_army()
 	{
@@ -1174,7 +1284,7 @@ class Data_ujian extends CI_Controller
 	}
 
 	public function updatearmy()
-	{	
+	{
 		$namates = $this->input->post('nama_ujian');
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
@@ -1191,7 +1301,7 @@ class Data_ujian extends CI_Controller
 		$endlt = tambahmenit($startlt, $waktult);
 		$startujian = $endlt;
 		$endujian = tambahmenit($startujian, $waktuujian);
-		
+
 		echo "waktu mulai ujian $datetime_mulai.<br>";
 		echo "waktu latihan ($waktult menit) dari $startlt hingga $endlt. <br>";
 		echo "waktu UJIAN ($waktuujian menit) dari $startujian hingga $endujian. <br>";
@@ -1199,9 +1309,9 @@ class Data_ujian extends CI_Controller
 
 		$this->db->query("UPDATE tb_ujian_army SET nama_ujian='$namates',waktu_mulai='$datetime_mulai',waktu_akhir='$endujian'
 		,start_lat='$startlt',end_lat='$endlt', start_uji='$startujian', end_uji='$endujian', STATUS='$status' where id_ujian_army=1");
-		
+
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian ARMY Berhasil di Update.');
-		
+
 		redirect('Administrator/Data_ujian/ujian_army');
 	}
 
@@ -1338,7 +1448,7 @@ class Data_ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian GRAFIS 1 & 2 Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_grafis');
 	}
-	
+
 	// -------------------------CRUD SKD------------------------------------
 	public function ujian_skd()
 	{

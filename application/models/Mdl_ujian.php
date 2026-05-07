@@ -44,6 +44,37 @@ class Mdl_ujian extends CI_Model
 		return $this->db->affected_rows();
 	}
 
+
+	//CFIT 2a
+	public function get_cfit2a_questions_subtes_1($rdr)
+	{
+		$query = $this->db->query("SELECT * FROM tb_soal_cfit_2a WHERE subtes = 1 AND type_soal = 'Ujian' AND nomor_soal='$rdr' ");
+		return $query->row();
+	}
+	public function insert_jawaban_cfit2a($paket)
+	{
+		$this->db->insert('tb_data_jawaban_cfit_2a', $paket);
+		return $this->db->affected_rows();
+	}
+
+	public function get_cfit2a_questions_subtes_2($rdr)
+	{
+		$query = $this->db->query("SELECT * FROM tb_soal_cfit_2a WHERE subtes = 2 AND type_soal = 'Ujian' AND nomor_soal='$rdr' ");
+		return $query->row();
+	}
+
+	public function get_cfit2a_questions_subtes_3($rdr)
+	{
+		$query = $this->db->query("SELECT * FROM tb_soal_cfit_2a WHERE subtes = 3 AND type_soal = 'Ujian' AND nomor_soal='$rdr' ");
+		return $query->row();
+	}
+
+	public function get_cfit2a_questions_subtes_4($rdr)
+	{
+		$query = $this->db->query("SELECT * FROM tb_soal_cfit_2a WHERE subtes = 4 AND type_soal = 'Ujian' AND nomor_soal='$rdr' ");
+		return $query->row();
+	}
+
 	// DATA IST
 	public function get_questions_ist_subtes_1($rdr)
 	{
@@ -473,7 +504,7 @@ class Mdl_ujian extends CI_Model
 	//Data Studi Kasus Mekanik Mesin
 	public function get_questions_sk_mekanik_mesin($rdr)
 	{
-		$query = $this->db->query("SELECT * FROM tb_soal_studi_kasus_mekanik WHERE no_soal=$rdr and kategori='mesin' ORDER BY `tb_soal_studi_kasus_mekanik`.`no_soal` ASC");
+		$query = $this->db->query("SELECT * FROM tb_soal_studi_kasus_mekanik WHERE id=$rdr ORDER BY `tb_soal_studi_kasus_mekanik`.`no_soal` ASC");
 		return $query->row();
 	}
 
@@ -493,6 +524,20 @@ class Mdl_ujian extends CI_Model
 	public function insert_jawaban_sk_mekanik_pendingin($paket)
 	{
 		$this->db->insert('tb_data_jawaban_sk_mekanik', $paket);
+		return $this->db->affected_rows();
+	}
+
+
+	//Learning Agility
+	public function get_questions_learning_agility($rdr)
+	{
+		$query = $this->db->query("SELECT * FROM tb_soal_learning_agility WHERE nomor_soal=$rdr  ORDER BY `tb_soal_learning_agility`.`nomor_soal` ASC");
+		return $query->row();
+	}
+
+	public function insert_jawaban_learning_agility($paket)
+	{
+		$this->db->insert('tb_data_jawaban_learning_agility', $paket);
 		return $this->db->affected_rows();
 	}
 }

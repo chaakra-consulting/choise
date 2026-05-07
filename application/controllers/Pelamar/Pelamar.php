@@ -39,7 +39,7 @@ class Pelamar extends CI_Controller
 		$this->load->view('dasbor');
 	}
 
-    public function get_kota()
+	public function get_kota()
 	{
 		$provinsi_id = $this->input->post('provinsi_id');
 		$this->db->like('id', $provinsi_id, 'after');
@@ -49,8 +49,8 @@ class Pelamar extends CI_Controller
 		echo json_encode($data_kota);
 	}
 
-    public function get_kecamatan()
-    {
+	public function get_kecamatan()
+	{
 		$kota_id = $this->input->post('kota_id');
 		$this->db->like('id', $kota_id, 'after');
 		$data_kecamatan = $this->db->get('t_kecamatan')->result();
@@ -59,15 +59,15 @@ class Pelamar extends CI_Controller
 		echo json_encode($data_kecamatan);
 	}
 
-    public function get_kelurahan()
-    {
+	public function get_kelurahan()
+	{
 		$kecamatan_id = $this->input->post('kecamatan_id');
 		$this->db->like('id', $kecamatan_id, 'after');
 		$data_kelurahan = $this->db->get('t_kelurahan')->result();
 
 		header('Content-Type:application/json');
 		echo json_encode($data_kelurahan);
-    }
+	}
 
 	public function uploadImage($idUpload)
 	{
@@ -457,87 +457,87 @@ class Pelamar extends CI_Controller
 	}
 
 	public function tambahdatadiri()
-    {
-        $this->form_validation->set_rules('nama_pelamar', 'Nama Lengkap', 'trim|required', ['required' => '%s wajib diisi.']);
-        $this->form_validation->set_rules('nik', 'NIK', 'trim|required|numeric|is_unique[tb_data_diri.nik]', [
-            'required'  => '%s wajib diisi.',
-            'numeric'   => '%s harus berupa angka.',
-            'is_unique' => '%s ini sudah terdaftar.'
-        ]);
-        $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'trim|required', ['required' => '%s wajib diisi.']);
-        $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'trim|required', ['required' => '%s wajib diisi.']);
-        $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('agama', 'Agama', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('status_perkawinan', 'Status Perkawinan', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('anak_ke', 'Anak ke', 'trim|required|numeric', ['required' => '%s wajib diisi.', 'numeric' => '%s harus angka.']);
-        $this->form_validation->set_rules('dari_x_sdr', 'Dari bersaudara', 'trim|required|numeric', ['required' => '%s wajib diisi.', 'numeric' => '%s harus angka.']);
-        $this->form_validation->set_rules('no_hp', 'Nomor WA', 'trim|required|numeric', ['required' => '%s wajib diisi.', 'numeric' => '%s harus angka.']);
-        
-        $this->form_validation->set_rules('ktp_jalan', 'Alamat Jalan (KTP)', 'trim|required', ['required' => '%s wajib diisi.']);
-        $this->form_validation->set_rules('ktp_provinsi_id', 'Provinsi (KTP)', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('ktp_kota_id', 'Kabupaten/Kota (KTP)', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('ktp_kecamatan_id', 'Kecamatan (KTP)', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('ktp_kelurahan_id', 'Kelurahan/Desa (KTP)', 'trim|required', ['required' => '%s wajib dipilih.']);
-        
-        $this->form_validation->set_rules('domisili_jalan', 'Alamat Jalan (Domisili)', 'trim|required', ['required' => '%s wajib diisi.']);
-        $this->form_validation->set_rules('domisili_provinsi_id', 'Provinsi (Domisili)', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('domisili_kota_id', 'Kabupaten/Kota (Domisili)', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('domisili_kecamatan_id', 'Kecamatan (Domisili)', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('domisili_kelurahan_id', 'Kelurahan/Desa (Domisili)', 'trim|required', ['required' => '%s wajib dipilih.']);
+	{
+		$this->form_validation->set_rules('nama_pelamar', 'Nama Lengkap', 'trim|required', ['required' => '%s wajib diisi.']);
+		$this->form_validation->set_rules('nik', 'NIK', 'trim|required|numeric|is_unique[tb_data_diri.nik]', [
+			'required'  => '%s wajib diisi.',
+			'numeric'   => '%s harus berupa angka.',
+			'is_unique' => '%s ini sudah terdaftar.'
+		]);
+		$this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'trim|required', ['required' => '%s wajib diisi.']);
+		$this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'trim|required', ['required' => '%s wajib diisi.']);
+		$this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('agama', 'Agama', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('status_perkawinan', 'Status Perkawinan', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('anak_ke', 'Anak ke', 'trim|required|numeric', ['required' => '%s wajib diisi.', 'numeric' => '%s harus angka.']);
+		$this->form_validation->set_rules('dari_x_sdr', 'Dari bersaudara', 'trim|required|numeric', ['required' => '%s wajib diisi.', 'numeric' => '%s harus angka.']);
+		$this->form_validation->set_rules('no_hp', 'Nomor WA', 'trim|required|numeric', ['required' => '%s wajib diisi.', 'numeric' => '%s harus angka.']);
 
-        if ($this->form_validation->run() == FALSE) {
-            $data['provinsi'] = $this->db->get('t_provinsi')->result();
-            $this->load->view('tambahdatadiri', $data);
-        } else {
-            $ktp_jalan = $this->input->post('ktp_jalan');
-            $ktp_provinsi_nama = $this->input->post('ktp_provinsi_nama');
-            $ktp_kota_nama = $this->input->post('ktp_kota_nama');
-            $ktp_kecamatan_nama = $this->input->post('ktp_kecamatan_nama');
-            $ktp_kelurahan_nama = $this->input->post('ktp_kelurahan_nama');
-            $alamat_ktp_lengkap = $ktp_jalan . ", Kel/Desa " . $ktp_kelurahan_nama . ", Kec. " . $ktp_kecamatan_nama . ", " . $ktp_kota_nama . ", Provinsi " . $ktp_provinsi_nama;
-            
-            $domisili_jalan = $this->input->post('domisili_jalan');
-            $domisili_provinsi_nama = $this->input->post('domisili_provinsi_nama');
-            $domisili_kota_nama = $this->input->post('domisili_kota_nama');
-            $domisili_kecamatan_nama = $this->input->post('domisili_kecamatan_nama');
-            $domisili_kelurahan_nama = $this->input->post('domisili_kelurahan_nama');
-            $alamat_domisili_lengkap = $domisili_jalan . ", Kel/Desa " . $domisili_kelurahan_nama . ", Kec. " . $domisili_kecamatan_nama . ", " . $domisili_kota_nama . ", Provinsi " . $domisili_provinsi_nama;
+		$this->form_validation->set_rules('ktp_jalan', 'Alamat Jalan (KTP)', 'trim|required', ['required' => '%s wajib diisi.']);
+		$this->form_validation->set_rules('ktp_provinsi_id', 'Provinsi (KTP)', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('ktp_kota_id', 'Kabupaten/Kota (KTP)', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('ktp_kecamatan_id', 'Kecamatan (KTP)', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('ktp_kelurahan_id', 'Kelurahan/Desa (KTP)', 'trim|required', ['required' => '%s wajib dipilih.']);
 
-            $send = [
-                'id_pelamar' => $this->input->post('id_pelamar'),
-                'nik' => $this->input->post('nik'),
-                'nama_pelamar' => $this->input->post('nama_pelamar'),
-                'alamat' => $alamat_domisili_lengkap,
-                'tempat_lahir' => $this->input->post('tempat_lahir'),
-                'tanggal_lahir' => $this->input->post('tgl_lahir'),
-                'alamat_ktp' => $alamat_ktp_lengkap,
-                'status_perkawinan' => $this->input->post('status_perkawinan'),
-                'agama' => $this->input->post('agama'),
-                'anak_ke' => $this->input->post('anak_ke'),
-                'dari_x_sdr' => $this->input->post('dari_x_sdr'),
-                'jenis_kelamin' => $this->input->post('gender'),
-                'no_hp' => $this->input->post('no_hp'),
-                'facebook' => $this->input->post('facebook'),
-                'instagram' => $this->input->post('instagram'),
-                'twitter' => $this->input->post('twitter'),
-                'linkedin' => $this->input->post('linkedin'),
-                'ktp_jalan' => $this->input->post('ktp_jalan'),
-                'ktp_provinsi_id' => $this->input->post('ktp_provinsi_id'),
-                'ktp_kota_id' => $this->input->post('ktp_kota_id'),
-                'ktp_kecamatan_id' => $this->input->post('ktp_kecamatan_id'),
-                'ktp_kelurahan_id' => $this->input->post('ktp_kelurahan_id'),
-                'domisili_jalan' => $this->input->post('domisili_jalan'),
-                'domisili_provinsi_id' => $this->input->post('domisili_provinsi_id'),
-                'domisili_kota_id' => $this->input->post('domisili_kota_id'),
-                'domisili_kecamatan_id' => $this->input->post('domisili_kecamatan_id'),
-                'domisili_kelurahan_id' => $this->input->post('domisili_kelurahan_id'),
-            ];
+		$this->form_validation->set_rules('domisili_jalan', 'Alamat Jalan (Domisili)', 'trim|required', ['required' => '%s wajib diisi.']);
+		$this->form_validation->set_rules('domisili_provinsi_id', 'Provinsi (Domisili)', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('domisili_kota_id', 'Kabupaten/Kota (Domisili)', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('domisili_kecamatan_id', 'Kecamatan (Domisili)', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('domisili_kelurahan_id', 'Kelurahan/Desa (Domisili)', 'trim|required', ['required' => '%s wajib dipilih.']);
 
-            $this->Mdl_home->isi_data_diri($send);
-            $this->session->set_flashdata('msg', 'Data Berhasil Ditambahkan!');
-            redirect('Pelamar/Pelamar/profilawal/');
-        }
-    }
+		if ($this->form_validation->run() == FALSE) {
+			$data['provinsi'] = $this->db->get('t_provinsi')->result();
+			$this->load->view('tambahdatadiri', $data);
+		} else {
+			$ktp_jalan = $this->input->post('ktp_jalan');
+			$ktp_provinsi_nama = $this->input->post('ktp_provinsi_nama');
+			$ktp_kota_nama = $this->input->post('ktp_kota_nama');
+			$ktp_kecamatan_nama = $this->input->post('ktp_kecamatan_nama');
+			$ktp_kelurahan_nama = $this->input->post('ktp_kelurahan_nama');
+			$alamat_ktp_lengkap = $ktp_jalan . ", Kel/Desa " . $ktp_kelurahan_nama . ", Kec. " . $ktp_kecamatan_nama . ", " . $ktp_kota_nama . ", Provinsi " . $ktp_provinsi_nama;
+
+			$domisili_jalan = $this->input->post('domisili_jalan');
+			$domisili_provinsi_nama = $this->input->post('domisili_provinsi_nama');
+			$domisili_kota_nama = $this->input->post('domisili_kota_nama');
+			$domisili_kecamatan_nama = $this->input->post('domisili_kecamatan_nama');
+			$domisili_kelurahan_nama = $this->input->post('domisili_kelurahan_nama');
+			$alamat_domisili_lengkap = $domisili_jalan . ", Kel/Desa " . $domisili_kelurahan_nama . ", Kec. " . $domisili_kecamatan_nama . ", " . $domisili_kota_nama . ", Provinsi " . $domisili_provinsi_nama;
+
+			$send = [
+				'id_pelamar' => $this->input->post('id_pelamar'),
+				'nik' => $this->input->post('nik'),
+				'nama_pelamar' => $this->input->post('nama_pelamar'),
+				'alamat' => $alamat_domisili_lengkap,
+				'tempat_lahir' => $this->input->post('tempat_lahir'),
+				'tanggal_lahir' => $this->input->post('tgl_lahir'),
+				'alamat_ktp' => $alamat_ktp_lengkap,
+				'status_perkawinan' => $this->input->post('status_perkawinan'),
+				'agama' => $this->input->post('agama'),
+				'anak_ke' => $this->input->post('anak_ke'),
+				'dari_x_sdr' => $this->input->post('dari_x_sdr'),
+				'jenis_kelamin' => $this->input->post('gender'),
+				'no_hp' => $this->input->post('no_hp'),
+				'facebook' => $this->input->post('facebook'),
+				'instagram' => $this->input->post('instagram'),
+				'twitter' => $this->input->post('twitter'),
+				'linkedin' => $this->input->post('linkedin'),
+				'ktp_jalan' => $this->input->post('ktp_jalan'),
+				'ktp_provinsi_id' => $this->input->post('ktp_provinsi_id'),
+				'ktp_kota_id' => $this->input->post('ktp_kota_id'),
+				'ktp_kecamatan_id' => $this->input->post('ktp_kecamatan_id'),
+				'ktp_kelurahan_id' => $this->input->post('ktp_kelurahan_id'),
+				'domisili_jalan' => $this->input->post('domisili_jalan'),
+				'domisili_provinsi_id' => $this->input->post('domisili_provinsi_id'),
+				'domisili_kota_id' => $this->input->post('domisili_kota_id'),
+				'domisili_kecamatan_id' => $this->input->post('domisili_kecamatan_id'),
+				'domisili_kelurahan_id' => $this->input->post('domisili_kelurahan_id'),
+			];
+
+			$this->Mdl_home->isi_data_diri($send);
+			$this->session->set_flashdata('msg', 'Data Berhasil Ditambahkan!');
+			redirect('Pelamar/Pelamar/profilawal/');
+		}
+	}
 
 	public function tambahdatakeluarga()
 	{
@@ -741,78 +741,78 @@ class Pelamar extends CI_Controller
 			redirect('Pelamar/Pelamar/profilawal/');
 		}
 	}
-	
+
 	public function ubahdatadiri($id_update)
-    {
-        $this->form_validation->set_rules('nama_pelamar', 'Nama Lengkap', 'trim|required', ['required' => '%s wajib diisi.']);
-        $this->form_validation->set_rules('nik', 'NIK', 'trim|required|numeric', ['required' => '%s wajib diisi.', 'numeric' => '%s harus berupa angka.']);
-        $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'trim|required', ['required' => '%s wajib diisi.']);
-        $this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'trim|required', ['required' => '%s wajib diisi.']);
-        $this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('agama', 'Agama', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('status_perkawinan', 'Status Perkawinan', 'trim|required', ['required' => '%s wajib dipilih.']);
-        $this->form_validation->set_rules('anak_ke', 'Anak ke', 'trim|required|numeric');
-        $this->form_validation->set_rules('dari_x_sdr', 'Dari bersaudara', 'trim|required|numeric');
-        $this->form_validation->set_rules('no_hp', 'Nomor WA', 'trim|required|numeric');
+	{
+		$this->form_validation->set_rules('nama_pelamar', 'Nama Lengkap', 'trim|required', ['required' => '%s wajib diisi.']);
+		$this->form_validation->set_rules('nik', 'NIK', 'trim|required|numeric', ['required' => '%s wajib diisi.', 'numeric' => '%s harus berupa angka.']);
+		$this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'trim|required', ['required' => '%s wajib diisi.']);
+		$this->form_validation->set_rules('tgl_lahir', 'Tanggal Lahir', 'trim|required', ['required' => '%s wajib diisi.']);
+		$this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('agama', 'Agama', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('status_perkawinan', 'Status Perkawinan', 'trim|required', ['required' => '%s wajib dipilih.']);
+		$this->form_validation->set_rules('anak_ke', 'Anak ke', 'trim|required|numeric');
+		$this->form_validation->set_rules('dari_x_sdr', 'Dari bersaudara', 'trim|required|numeric');
+		$this->form_validation->set_rules('no_hp', 'Nomor WA', 'trim|required|numeric');
 
-        $this->form_validation->set_rules('ktp_jalan', 'Alamat Jalan (KTP)', 'trim|required');
-        $this->form_validation->set_rules('ktp_provinsi_id', 'Provinsi (KTP)', 'trim|required');
-        $this->form_validation->set_rules('ktp_kota_id', 'Kabupaten/Kota (KTP)', 'trim|required');
-        $this->form_validation->set_rules('ktp_kecamatan_id', 'Kecamatan (KTP)', 'trim|required');
-        $this->form_validation->set_rules('ktp_kelurahan_id', 'Kelurahan/Desa (KTP)', 'trim|required');
-        
-        $this->form_validation->set_rules('domisili_jalan', 'Alamat Jalan (Domisili)', 'trim|required');
-        $this->form_validation->set_rules('domisili_provinsi_id', 'Provinsi (Domisili)', 'trim|required');
-        $this->form_validation->set_rules('domisili_kota_id', 'Kabupaten/Kota (Domisili)', 'trim|required');
-        $this->form_validation->set_rules('domisili_kecamatan_id', 'Kecamatan (Domisili)', 'trim|required');
-        $this->form_validation->set_rules('domisili_kelurahan_id', 'Kelurahan/Desa (Domisili)', 'trim|required');
+		$this->form_validation->set_rules('ktp_jalan', 'Alamat Jalan (KTP)', 'trim|required');
+		$this->form_validation->set_rules('ktp_provinsi_id', 'Provinsi (KTP)', 'trim|required');
+		$this->form_validation->set_rules('ktp_kota_id', 'Kabupaten/Kota (KTP)', 'trim|required');
+		$this->form_validation->set_rules('ktp_kecamatan_id', 'Kecamatan (KTP)', 'trim|required');
+		$this->form_validation->set_rules('ktp_kelurahan_id', 'Kelurahan/Desa (KTP)', 'trim|required');
 
-        if ($this->form_validation->run() == FALSE) {
-            $indexrow['data'] = $this->Mdl_data_pelamar->ambildata_pelamar($id_update);
-            $indexrow['provinsi'] = $this->db->get('t_provinsi')->result();
-            $this->load->view('ubahdatadiri', $indexrow);
-        } else {
-            $alamat_ktp_lengkap = $this->input->post('ktp_jalan') . ", Kel/Desa " . $this->input->post('ktp_kelurahan_nama') . ", Kec " . $this->input->post('ktp_kecamatan_nama') . ", " . $this->input->post('ktp_kota_nama') . ", Provinsi " . $this->input->post('ktp_provinsi_nama');
-            $alamat_domisili_lengkap = $this->input->post('domisili_jalan') . ", Kel/Desa " . $this->input->post('domisili_kelurahan_nama') . ", Kec " . $this->input->post('domisili_kecamatan_nama') . ", " . $this->input->post('domisili_kota_nama') . ", Provinsi " . $this->input->post('domisili_provinsi_nama');
+		$this->form_validation->set_rules('domisili_jalan', 'Alamat Jalan (Domisili)', 'trim|required');
+		$this->form_validation->set_rules('domisili_provinsi_id', 'Provinsi (Domisili)', 'trim|required');
+		$this->form_validation->set_rules('domisili_kota_id', 'Kabupaten/Kota (Domisili)', 'trim|required');
+		$this->form_validation->set_rules('domisili_kecamatan_id', 'Kecamatan (Domisili)', 'trim|required');
+		$this->form_validation->set_rules('domisili_kelurahan_id', 'Kelurahan/Desa (Domisili)', 'trim|required');
 
-            $id_pelamar = $this->input->post('id_pelamar');
-            $send = [
-                'nik' => $this->input->post('nik'),
-                'nama_pelamar' => $this->input->post('nama_pelamar'),
-                'tempat_lahir' => $this->input->post('tempat_lahir'),
-                'tanggal_lahir' => $this->input->post('tgl_lahir'),
-                'jenis_kelamin' => $this->input->post('gender'),
-                'agama' => $this->input->post('agama'),
-                'status_perkawinan' => $this->input->post('status_perkawinan'),
-                'anak_ke' => $this->input->post('anak_ke'),
-                'dari_x_sdr' => $this->input->post('dari_x_sdr'),
-                'no_hp' => $this->input->post('no_hp'),
-                'facebook' => $this->input->post('facebook'),
-                'instagram' => $this->input->post('instagram'),
-                'twitter' => $this->input->post('twitter'),
-                'linkedin' => $this->input->post('linkedin'),
-                
-                'alamat_ktp' => $alamat_ktp_lengkap,
-                'ktp_jalan' => $this->input->post('ktp_jalan'),
-                'ktp_provinsi_id' => $this->input->post('ktp_provinsi_id'),
-                'ktp_kota_id' => $this->input->post('ktp_kota_id'),
-                'ktp_kecamatan_id' => $this->input->post('ktp_kecamatan_id'),
-                'ktp_kelurahan_id' => $this->input->post('ktp_kelurahan_id'),
+		if ($this->form_validation->run() == FALSE) {
+			$indexrow['data'] = $this->Mdl_data_pelamar->ambildata_pelamar($id_update);
+			$indexrow['provinsi'] = $this->db->get('t_provinsi')->result();
+			$this->load->view('ubahdatadiri', $indexrow);
+		} else {
+			$alamat_ktp_lengkap = $this->input->post('ktp_jalan') . ", Kel/Desa " . $this->input->post('ktp_kelurahan_nama') . ", Kec " . $this->input->post('ktp_kecamatan_nama') . ", " . $this->input->post('ktp_kota_nama') . ", Provinsi " . $this->input->post('ktp_provinsi_nama');
+			$alamat_domisili_lengkap = $this->input->post('domisili_jalan') . ", Kel/Desa " . $this->input->post('domisili_kelurahan_nama') . ", Kec " . $this->input->post('domisili_kecamatan_nama') . ", " . $this->input->post('domisili_kota_nama') . ", Provinsi " . $this->input->post('domisili_provinsi_nama');
 
-                'alamat' => $alamat_domisili_lengkap,
-                'domisili_jalan' => $this->input->post('domisili_jalan'),
-                'domisili_provinsi_id' => $this->input->post('domisili_provinsi_id'),
-                'domisili_kota_id' => $this->input->post('domisili_kota_id'),
-                'domisili_kecamatan_id' => $this->input->post('domisili_kecamatan_id'),
-                'domisili_kelurahan_id' => $this->input->post('domisili_kelurahan_id')
-            ];
+			$id_pelamar = $this->input->post('id_pelamar');
+			$send = [
+				'nik' => $this->input->post('nik'),
+				'nama_pelamar' => $this->input->post('nama_pelamar'),
+				'tempat_lahir' => $this->input->post('tempat_lahir'),
+				'tanggal_lahir' => $this->input->post('tgl_lahir'),
+				'jenis_kelamin' => $this->input->post('gender'),
+				'agama' => $this->input->post('agama'),
+				'status_perkawinan' => $this->input->post('status_perkawinan'),
+				'anak_ke' => $this->input->post('anak_ke'),
+				'dari_x_sdr' => $this->input->post('dari_x_sdr'),
+				'no_hp' => $this->input->post('no_hp'),
+				'facebook' => $this->input->post('facebook'),
+				'instagram' => $this->input->post('instagram'),
+				'twitter' => $this->input->post('twitter'),
+				'linkedin' => $this->input->post('linkedin'),
 
-            $this->Mdl_data_pelamar->modelupdate($id_pelamar, $send);
-            $this->session->set_flashdata('msg_update', 'Data Diri Berhasil diupdate');
-            redirect('Pelamar/Pelamar/profilawal');
-        }
-    }
-	
+				'alamat_ktp' => $alamat_ktp_lengkap,
+				'ktp_jalan' => $this->input->post('ktp_jalan'),
+				'ktp_provinsi_id' => $this->input->post('ktp_provinsi_id'),
+				'ktp_kota_id' => $this->input->post('ktp_kota_id'),
+				'ktp_kecamatan_id' => $this->input->post('ktp_kecamatan_id'),
+				'ktp_kelurahan_id' => $this->input->post('ktp_kelurahan_id'),
+
+				'alamat' => $alamat_domisili_lengkap,
+				'domisili_jalan' => $this->input->post('domisili_jalan'),
+				'domisili_provinsi_id' => $this->input->post('domisili_provinsi_id'),
+				'domisili_kota_id' => $this->input->post('domisili_kota_id'),
+				'domisili_kecamatan_id' => $this->input->post('domisili_kecamatan_id'),
+				'domisili_kelurahan_id' => $this->input->post('domisili_kelurahan_id')
+			];
+
+			$this->Mdl_data_pelamar->modelupdate($id_pelamar, $send);
+			$this->session->set_flashdata('msg_update', 'Data Diri Berhasil diupdate');
+			redirect('Pelamar/Pelamar/profilawal');
+		}
+	}
+
 	public function ubahdatakeluarga($id_update)
 	{
 		$this->form_validation->set_rules('nama_ayah', 'Nama', 'trim|required');
@@ -937,15 +937,34 @@ class Pelamar extends CI_Controller
 		$paket['arrayU'] = $this->Mdl_data_ujian->ambildata_ujian2($id_ujian);
 		$this->load->view('cfit', $paket);
 	}
+	public function cfit_2a($id_pelamar, $id_ujian)
+	{
+		$idUjian = $this->session->set_userdata('ses_ujian', $id_ujian);
+		$paket['array'] = $this->Mdl_data_pelamar->ambildata_pelamar($id_pelamar);
+		$paket['arrayU'] = $this->Mdl_data_ujian->ambildata_cfit2a($id_ujian);
+		$this->load->view('cfit_2a', $paket);
+	}
 
 	public function latihancfit1()
 	{
 		$this->load->view('latihancfit1');
 	}
+	public function latihan_2a_cfit1()
+	{
+		$this->load->view('latihan_2a_cfit1');
+	}
 
 	public function jawabancontoh()
 	{
 		$this->load->view('jawabancontoh');
+	}
+	public function jawabancontoh_2a_cfit()
+	{
+		$jawaban1 = $this->input->post('jawaban_latihan');
+		$jawaban2 = $this->input->post('jawaban_latihan2');
+		$this->session->set_userdata('ses_jawab1', $jawaban1);
+		$this->session->set_userdata('ses_jawab2', $jawaban2);
+		$this->load->view('jawabancontoh_cfit_2a');
 	}
 
 	public function skd($id_pelamar, $id_ujian)
@@ -955,7 +974,7 @@ class Pelamar extends CI_Controller
 		$paket['skdU'] = $this->Mdl_data_ujian->ambildata_ujian_skd2($id_ujian);
 		$this->load->view('skd', $paket);
 	}
-	
+
 	public function ist($id_pelamar, $id_ujian)
 	{
 		$idUjian = $this->session->set_userdata('ses_ujian', $id_ujian);
@@ -979,7 +998,7 @@ class Pelamar extends CI_Controller
 		$this->session->set_userdata('ses_jawab2', $jawaban2);
 		$this->load->view('jawabancontoh_ist');
 	}
-	
+
 	public function belbin($id_pelamar, $id_ujian)
 	{
 		$idUjian = $this->session->set_userdata('ses_ujian', $id_ujian);
@@ -1039,4 +1058,11 @@ class Pelamar extends CI_Controller
 	// {
 	// 	force_download('upload/dokumen/ESSAY_KOMPETENSI_TEKNO_ITS.pdf');
 	// }
+
+	public function test_history() {
+		$id_pelamar = $this->session->userdata('ses_id');
+		$data['data_pelamar'] = $this->Mdl_data_pelamar->ambildata_pelamar($id_pelamar);
+		$data['pelamar'] = $this->db->query("SELECT * FROM tb_pelamar WHERE id_pelamar = $id_pelamar")->row();
+		$this->load->view('pelamar/test_history', $data);
+	}
 }

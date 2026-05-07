@@ -43,6 +43,7 @@ $kontrak_psikologis = $this->db->query("SELECT * FROM tb_ujian_kontrak_psikologi
 $grafis = $this->db->query("SELECT * FROM tb_ujian_grafis WHERE `status`='aktif'")->result();
 $grafis2 = $this->db->query("SELECT * FROM tb_ujian_grafis2 WHERE `status`='aktif'")->result();
 $epps = $this->db->query("SELECT * FROM tb_ujian_epps WHERE `status`='aktif'")->result();
+$learning_agility = $this->db->query("SELECT * FROM tb_ujian_learning_agility WHERE `status`='aktif'")->result();
 
 if (
 	empty($query) &&
@@ -82,7 +83,8 @@ if (
 	empty($belbin) &&
 	empty($grafis) &&
 	empty($grafis2) &&
-	empty($epps)
+	empty($epps) &&
+	empty($learning_agility)
 ) {
 	// echo "Data Kosong";
 	$cek = "";

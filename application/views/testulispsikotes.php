@@ -67,80 +67,107 @@ $tb_lowongan = $this->db->query("SELECT * FROM tb_lowongan WHERE id_lowongan=$id
 
       <?php }
             } ?>
-      <!-- ist -->
+
       <tr>
         <?php
-        $cek_khusus = $this->db->query("SELECT * FROM tb_ujian_ist")->result();
-        $khusus = $cek_khusus[0]->khusus;
-        foreach ($ist as $key_ist) {
-          if ($key_ist['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+        $cfit_2a = $this->db->query("SELECT * FROM  tb_ujian_cfit_2a")->result_array();
+        foreach ($cfit_2a as $key_cfit_2a) {
+          if ($key_cfit_2a['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
             <td><?php echo $no++; ?></td>
-            <td><?php echo $key_ist['nama_ujian']; ?></td>
-            <?php if ($khusus == 'aktif') { ?>
-              <td><?php
-                  $wkt_start = date('d F Y H:i:s', strtotime($cek_khusus[0]->start_lat_sub5));
-                  echo date('d F Y H:i:s', strtotime($cek_khusus[0]->start_lat_sub5));
-                  ?> WIB</td>
-              <td><?php
-                  $wkt_stop = date('d F Y H:i:s', strtotime($cek_khusus[0]->end_uji_sub6));
-                  echo date('d F Y H:i:s', strtotime($cek_khusus[0]->end_uji_sub6));
-                  ?> WIB</td>
-            <?php } else { ?>
-              <td><?php
-                  $wkt_start = date('d F Y H:i:s', strtotime($key_ist['waktu_dimulai']));
-                  echo date('d F Y H:i:s', strtotime($key_ist['waktu_dimulai']));
-                  ?> WIB</td>
-              <td><?php
-                  $wkt_stop = date('d F Y H:i:s', strtotime($key_ist['waktu_berakhir']));
-                  echo date('d F Y H:i:s', strtotime($key_ist['waktu_berakhir']));
-                  ?> WIB</td>
-            <?php } ?>
+            <td><?php echo $key_cfit_2a['nama_ujian']; ?></td>
+            <td><?php echo date('d F Y H:i:s', strtotime($key_cfit_2a['waktu_dimulai'])) ?> WIB</td>
+            <td><?php echo date('d F Y H:i:s', strtotime($key_cfit_2a['waktu_berakhir'])) ?> WIB</td>
             <td>
 
               <?php
               date_default_timezone_set("Asia/Jakarta");
-              if (date('d F Y H:i:s') < $wkt_start) {
+              if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_cfit_2a['waktu_dimulai']))) {
                 echo "belum dimulai";
-              } elseif (date('d F Y H:i:s') >= $wkt_start && date('d F Y H:i:s') <= $wkt_stop) { ?>
-                <?php if ($khusus == 'aktif') {
-                  $this->session->set_userdata('ses_ujian', $key_ist['id_ujian']);
-                ?>
-                  <a href="<?php echo base_url('Pelamar/Ujian/latihan_ist5_2/') ?>" class="btn btn-primary">Kerjakan Sekarang</a>
-                <?php } else { ?>
-                  <a href="<?php echo base_url('Pelamar/Pelamar/ist/' . $id_pelamar . '/' . $key_ist['id_ujian']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
-                <?php } ?>
-              <?php } elseif (date('d F Y H:i:s') > $wkt_stop) {
+              } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_cfit_2a['waktu_dimulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_cfit_2a['waktu_berakhir']))) { ?>
+                <a href="<?php echo base_url('Pelamar/Pelamar/cfit_2a/' . $id_pelamar . '/' . $key_cfit_2a['id_ujian']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+              <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_cfit_2a['waktu_berakhir']))) {
                 echo "Ujian sudah berakhir";
               } ?>
             </td>
       </tr>
-  <?php }
+  <?php   }
         } ?>
 
-  <!-- Papi -->
+
+  <!-- ist -->
   <tr>
     <?php
-    foreach ($papi as $key_papi) {
-      if ($key_papi['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+    $cek_khusus = $this->db->query("SELECT * FROM tb_ujian_ist")->result();
+    $khusus = $cek_khusus[0]->khusus;
+    foreach ($ist as $key_ist) {
+      if ($key_ist['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
         <td><?php echo $no++; ?></td>
-        <td><?php echo $key_papi['nama_ujian']; ?></td>
-        <td><?php echo date('d F Y H:i:s', strtotime($key_papi['waktu_mulai'])) ?> WIB</td>
-        <td><?php echo date('d F Y H:i:s', strtotime($key_papi['waktu_akhir'])) ?> WIB</td>
+        <td><?php echo $key_ist['nama_ujian']; ?></td>
+        <?php if ($khusus == 'aktif') { ?>
+          <td><?php
+              $wkt_start = date('d F Y H:i:s', strtotime($cek_khusus[0]->start_lat_sub5));
+              echo date('d F Y H:i:s', strtotime($cek_khusus[0]->start_lat_sub5));
+              ?> WIB</td>
+          <td><?php
+              $wkt_stop = date('d F Y H:i:s', strtotime($cek_khusus[0]->end_uji_sub6));
+              echo date('d F Y H:i:s', strtotime($cek_khusus[0]->end_uji_sub6));
+              ?> WIB</td>
+        <?php } else { ?>
+          <td><?php
+              $wkt_start = date('d F Y H:i:s', strtotime($key_ist['waktu_dimulai']));
+              echo date('d F Y H:i:s', strtotime($key_ist['waktu_dimulai']));
+              ?> WIB</td>
+          <td><?php
+              $wkt_stop = date('d F Y H:i:s', strtotime($key_ist['waktu_berakhir']));
+              echo date('d F Y H:i:s', strtotime($key_ist['waktu_berakhir']));
+              ?> WIB</td>
+        <?php } ?>
         <td>
 
           <?php
           date_default_timezone_set("Asia/Jakarta");
-          if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_papi['waktu_mulai']))) {
+          if (date('d F Y H:i:s') < $wkt_start) {
             echo "belum dimulai";
-          } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_papi['waktu_mulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_papi['waktu_akhir']))) { ?>
-            <a href="<?php echo base_url('Pelamar/Ujian/panduan_papi/' . $id_pelamar . '/' . $key_papi['id_ujian_papi']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
-          <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_papi['waktu_akhir']))) {
+          } elseif (date('d F Y H:i:s') >= $wkt_start && date('d F Y H:i:s') <= $wkt_stop) { ?>
+            <?php if ($khusus == 'aktif') {
+              $this->session->set_userdata('ses_ujian', $key_ist['id_ujian']);
+            ?>
+              <a href="<?php echo base_url('Pelamar/Ujian/latihan_ist5_2/') ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+            <?php } else { ?>
+              <a href="<?php echo base_url('Pelamar/Pelamar/ist/' . $id_pelamar . '/' . $key_ist['id_ujian']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+            <?php } ?>
+          <?php } elseif (date('d F Y H:i:s') > $wkt_stop) {
             echo "Ujian sudah berakhir";
           } ?>
         </td>
   </tr>
-<?php   }
+<?php }
     } ?>
+
+<!-- Papi -->
+<tr>
+  <?php
+  foreach ($papi as $key_papi) {
+    if ($key_papi['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_papi['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_papi['waktu_mulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_papi['waktu_akhir'])) ?> WIB</td>
+      <td>
+
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_papi['waktu_mulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_papi['waktu_mulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_papi['waktu_akhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Ujian/panduan_papi/' . $id_pelamar . '/' . $key_papi['id_ujian_papi']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_papi['waktu_akhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+<?php   }
+  } ?>
 
 
 <!-- holland -->
@@ -1082,7 +1109,7 @@ if ($jk[0]->jenis_kelamin == "L") {
 <!-- ujian Studi Kasus Mekanik Mesin -->
 <tr>
   <?php
-  $studi_kasus_mesin = $this->db->query("SELECT * FROM  tb_ujian_sk_mekanik_mesin")->result_array();
+  $studi_kasus_mesin = $this->db->query("SELECT * FROM  tb_ujian_sk_mekanik_pendingin")->result_array();
   foreach ($studi_kasus_mesin as $key_studi_kasus_mesin) {
     if ($key_studi_kasus_mesin['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
       <td><?php echo $no++; ?></td>
@@ -1130,6 +1157,34 @@ if ($jk[0]->jenis_kelamin == "L") {
 </tr>
 <?php   }
   } ?>
+
+
+<!-- ujian Studi Learning Agility -->
+<tr>
+  <?php
+  $tes_learning_agility = $this->db->query("SELECT * FROM  tb_ujian_learning_agility")->result_array();
+  foreach ($tes_learning_agility as $key_tes_learning_agility) {
+    if ($key_tes_learning_agility['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_tes_learning_agility['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_tes_learning_agility['waktu_mulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_tes_learning_agility['waktu_akhir'])) ?> WIB</td>
+      <td>
+
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_tes_learning_agility['waktu_mulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_tes_learning_agility['waktu_mulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_tes_learning_agility['waktu_akhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Ujian/start_ujian_learning_agility/' . $id_pelamar . '/1') ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_tes_learning_agility['waktu_akhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+<?php   }
+  } ?>
+
 
 
 

@@ -4,7 +4,7 @@
 
 	<div class="col-sm-6">
 
-		<h3><b>Soal Nomor <?php echo $sk_mesin->no_soal ?></b></h3>
+		<h3><b>Soal Nomor <?php echo $sk_mesin->id ?></b></h3>
 
 		<!-- <p id="time"></p> -->
 
@@ -33,12 +33,12 @@
 
 				<input type="hidden" name="id_ujian" value="1">
 
-				<input type="hidden" name="nomor_soal" value="<?php echo $sk_mesin->no_soal ?>">
+				<input type="hidden" name="nomor_soal" value="<?php echo $sk_mesin->id ?>">
 
 
 				<div class="baten">
 
-					<?php if ($sk_mesin->no_soal != 1) { ?>
+					<?php if ($sk_mesin->id != 1) { ?>
 
 						<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_sk_mekanik_mesin/1') ?>"> <i class="fa fa-arrow-circle-left"> </i> Sebelumnya
 
@@ -48,7 +48,7 @@
 
 					</button>
 
-					<?php if ($sk_mesin->no_soal != 6) { ?>
+					<?php if ($sk_mesin->id != 12) { ?>
 
 						<button type="submit" style="margin-top: 5%" class="btn btn-primary" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_sk_mekanik_mesin/2') ?>"> Selanjutnya <i class="fa fa-arrow-circle-right"></i>
 
@@ -56,7 +56,7 @@
 
 					<?php } ?>
 
-					<?php if ($sk_mesin->no_soal >= 6) { ?>
+					<?php if ($sk_mesin->id >= 12) { ?>
 
 						<button type="submit" style="margin-top: 5%" class="btn btn-danger" formaction="<?php echo base_url('Pelamar/Ujian/masukkan_jawaban_endsk_mekanik_mesin') ?>" class="btn btn-primary" onclick="return confirm('Apakah anda yakin ingin mengakhiri ujian?');"> Selesai <i class="fa fa-arrow-circle-right"></i>
 
