@@ -165,13 +165,32 @@ class Data_pelamar extends CI_Controller
 			return;
 		}
 		$tanggal_lahir = new DateTime($data_pelamar[0]['tanggal_lahir']);
+		$bulan = [
+			1 => 'Januari',
+			'Februari',
+			'Maret',
+			'April',
+			'Mei',
+			'Juni',
+			'Juli',
+			'Agustus',
+			'September',
+			'Oktober',
+			'November',
+			'Desember'
+		];
+
+		$tanggal = $tanggal_lahir->format('d');
+		$nama_bulan = $bulan[(int)$tanggal_lahir->format('m')];
+		$tahun = $tanggal_lahir->format('Y');
+
 		\PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
 		$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template_path);
 
 		$templateProcessor->setValue('nama', $data_pelamar[0]['nama_pelamar']);
 		$templateProcessor->setValue('agama', $data_pelamar[0]['agama']);
 		$templateProcessor->setValue('tempat_lahir', $data_pelamar[0]['tempat_lahir']);
-		$templateProcessor->setValue('tanggal_lahir', $tanggal_lahir->format('d-m-Y'));
+		$templateProcessor->setValue('tanggal_lahir', $tanggal . ' ' . $nama_bulan . ' ' . $tahun);
 		$templateProcessor->setValue('anak_ke', $data_pelamar[0]['anak_ke']);
 		$templateProcessor->setValue('dari_x_sdr', $data_pelamar[0]['dari_x_sdr']);
 		$templateProcessor->setValue('alamat', $data_pelamar[0]['alamat']);
