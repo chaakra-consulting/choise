@@ -620,7 +620,7 @@
 
     function loadHollandChart(id_lowongan, ) {
         $.ajax({
-            url: '<?= base_url('pelamar/Pelamar/load_holland') ?>?id_lowongan=' + id_lowongan,
+            url: '<?= base_url('Pelamar/Pelamar/load_holland') ?>?id_lowongan=' + id_lowongan,
             method: 'GET',
             success: function(response) {
                 var hollandData = response.data;
