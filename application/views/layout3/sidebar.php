@@ -123,11 +123,11 @@
 					<em class="fa fa-user">&nbsp;</em> Profil Saya
 				</a>
 			</li>
-			<li class="<?php if ($this->uri->segment(3) == "test_history") { echo "active"; } ?>">
+			<!-- <li class="<?php if ($this->uri->segment(3) == "test_history") { echo "active"; } ?>">
 				<a href="<?php echo base_url('Pelamar/Pelamar/test_history') ?>">
 					<em class="fa fa-history">&nbsp;</em> Nilai Tes Saya
 				</a>
-			</li>
+			</li> -->
 			<li class="<?php if ($this->uri->segment(3) == "lowongantersedia") { echo "active"; } ?>">
 				<a href="<?php echo base_url('Pelamar/Lamaran/lowongantersedia') ?>">
 					<em class="fa fa-suitcase">&nbsp;</em> Lowongan Tersedia
