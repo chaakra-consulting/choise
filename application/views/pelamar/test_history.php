@@ -369,7 +369,7 @@
                 </div>
             </div>
             <div class="card p-4 w-100">
-                <h5 class="card-title text-center">HOLLAND RISEC</h5>
+                <h5 class="card-title text-center">HOLLAND RIASEC</h5>
                 <div class="chart-data" style="text-align: center;">
                     <h4 class="text-center">Filter berdasarkan lowongan yang sudah dilamar</h4>
                 </div>
