@@ -164,13 +164,14 @@ class Data_pelamar extends CI_Controller
 			show_error('Template document not found at: ' . $template_path);
 			return;
 		}
+		$tanggal_lahir = new DateTime($data_pelamar[0]['tanggal_lahir']);
 		\PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
 		$templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($template_path);
 
 		$templateProcessor->setValue('nama', $data_pelamar[0]['nama_pelamar']);
 		$templateProcessor->setValue('agama', $data_pelamar[0]['agama']);
 		$templateProcessor->setValue('tempat_lahir', $data_pelamar[0]['tempat_lahir']);
-		$templateProcessor->setValue('tanggal_lahir', $data_pelamar[0]['tanggal_lahir']);
+		$templateProcessor->setValue('tanggal_lahir', $tanggal_lahir->format('d-m-Y'));
 		$templateProcessor->setValue('anak_ke', $data_pelamar[0]['anak_ke']);
 		$templateProcessor->setValue('dari_x_sdr', $data_pelamar[0]['dari_x_sdr']);
 		$templateProcessor->setValue('alamat', $data_pelamar[0]['alamat']);
@@ -178,7 +179,7 @@ class Data_pelamar extends CI_Controller
 		$templateProcessor->setValue('status_perkawinan', $data_pelamar[0]['status_perkawinan']);
 		$templateProcessor->setValue('email', $email);
 		$templateProcessor->setValue('lowongan', $lowongan);
-		$templateProcessor->setValue('jenis_kelamin', $data_pelamar[0]['jenis_kelamin']);
+		$templateProcessor->setValue('jenis_kelamin', $data_pelamar[0]['jenis_kelamin'] == 'L' ? 'Pria' : 'Wanita');
 		$templateProcessor->setValue('social_media', $this->get_only_active_social_media($social_media));
 
 		$templateProcessor->cloneRowAndSetValues('no', $data_pendidikan);
@@ -186,7 +187,7 @@ class Data_pelamar extends CI_Controller
 		$templateProcessor->cloneRowAndSetValues('no_pengalaman', $data_pengalaman);
 		$templateProcessor->setValue('pendidikan_terakhir', $data_pendidikan[count($data_pendidikan) - 1]['nama_institusi'] . ' - ' . $data_pendidikan[count($data_pendidikan) - 1]['jenjang_pendidikan'] . " " . $data_pendidikan[count($data_pendidikan) - 1]['jurusan']);
 
-		$file_name = 'Hasil_Assessment_' . time() . '.docx';
+		$file_name = 'Hasil_Assessment_' . $data_pelamar[0]['nama_pelamar'] . '.docx';
 		$temp_dir = FCPATH . 'upload/assessment_temp/';
 		$temp_file = $temp_dir . $file_name;
 		$templateProcessor->saveAs($temp_file);

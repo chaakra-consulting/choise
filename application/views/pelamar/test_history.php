@@ -15,7 +15,6 @@
 
     body {
         background-color: var(--bg-body);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         color: var(--theme-text-dark);
         font-size: 1rem;
         /* Adapts to the 18px root */
@@ -321,17 +320,19 @@
 
                             <!-- Added col-sm-8 to take up 2/3 of the row on small screens -->
                             <div class="col-md-10 col-sm-8 col-xs-12 mb-3">
-                                <label class="text-muted mb-2 font-weight-bold" style="font-size: 1.1rem;">Semester</label>
-                                <select class="form-control form-control-custom">
-                                    <option>Semester 5</option>
-                                    <option>Semester 6</option>
+                                <label class="text-muted mb-2 font-weight-bold" style="font-size: 1.1rem;">Lowongan Kerja</label>
+                                <select id="lowonganKerja" class="form-control form-control-custom">
+                                    <option value="-">Pilih Lowongan Kerja</option>
+                                    <?php foreach ($lowongan_kerja as $lowongan): ?>
+                                        <option value="<?= $lowongan->id_lowongan ?>"><?= $lowongan->nama_jabatan ?> - <?= $lowongan->nama_perusahaan ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
 
                             <!-- Added col-sm-4 to take up 1/3 of the row on small screens -->
                             <div class="col-md-2 col-sm-4 col-xs-12 mb-3">
                                 <!-- Resized button: height reduced to 40px, font-size reduced to 1rem -->
-                                <button class="btn btn-primary" style="height: 40px; border-radius: 10px; font-weight: bold; font-size: 1rem;">Filter</button>
+                                <button id="filterBtn" class="btn btn-primary" style="height: 40px; border-radius: 10px; font-weight: bold; font-size: 1rem;">Filter</button>
                             </div>
 
                         </div>
@@ -362,21 +363,22 @@
                                 <div class="detail-label mt-2">Username:</div>
                                 <div class="detail-value"><?= $pelamar->username; ?></div>
                             </div>
-                            <div class="col-sm-4 col-xs-12 mb-3">
-                                <div class="detail-label">Status Perkawinan:</div>
-                                <div class="detail-value"><?= $data_pelamar[0]['status_perkawinan']; ?></div>
-                                <div class="detail-label mt-2">Tempat, Tanggal Lahir:</div>
-                                <div class="detail-value"><?= $data_pelamar[0]['tempat_lahir']; ?>, <?= $data_pelamar[0]['tanggal_lahir']; ?></div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="card p-4 w-100">
+                <h5 class="card-title text-center">HOLLAND RISEC</h5>
+                <div class="chart-data" style="text-align: center;">
+                    <h4 class="text-center">Filter berdasarkan lowongan yang sudah dilamar</h4>
+                </div>
+            </div>
 
             <!-- 2. Marks & Historical Chart Row -->
-            <div class="row bs3-flex-row">
-                <!-- Marks Table -->
-                <div class="col-md-5 col-xs-12 col-sm-12 d-flex">
+            <!-- <div class="row"> -->
+            <!-- Marks Table -->
+            <!-- <div class="col-md-5 col-xs-12 col-sm-12 d-flex">
                     <div class="card p-4 w-100">
                         <h5 class="card-title">Marks</h5>
                         <div class="table-responsive">
@@ -423,24 +425,21 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <!-- Historical Performance Chart -->
-                <div class="col-md-7 col-sm-12 col-xs-12 d-flex">
+            <!-- Historical Performance Chart -->
+            <!-- <div class="col-md-10 col-sm-12 col-xs-12 d-flex">
                     <div class="card p-4 w-100">
                         <h5 class="card-title text-center">HOLLAND RISEC</h5>
-                        <div class="line-chart-container">
-                            <canvas id="riasecChart"></canvas>
-                        </div>
-                        <div class="text-center mt-3">
-                            <strong>Resulting Code:</strong> <span class="text-theme" style="font-size: 1.2rem;">IRE</span> (Engineer)
+                        <div class="chart-data" style="text-align: center;">
+                            <h4 style=" padding-top: 45%;">Filter berdasarkan lowongan yang sudah dilamar</h4>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> -->
+            <!-- </div> -->
 
             <!-- 3. Total Grade Details -->
-            <div class="card p-4 ">
+            <!-- <div class="card p-4 ">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="card-title mb-0">Total Grade Details</h5>
                     <a href="#" class="text-muted small" style="font-style: italic;">See details <i class="fas fa-ellipsis-h ml-1"></i></a>
@@ -471,7 +470,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
@@ -576,6 +575,20 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+    $('#filterBtn').on('click', function() {
+        if ($('#lowonganKerja').val() != '-') {
+            $('.chart-data').empty().html(`  <div class="line-chart-container">
+                                <canvas id="riasecChart"></canvas>
+                            </div>
+                            <div class="text-center mt-3">
+                                <p id="recommendationText"></p>
+                            </div>`);
+            loadHollandChart($('#lowonganKerja').val());
+
+        } else {
+            $('.chart-data').empty().html(` <h4 class="text-center">Filter berdasarkan lowongan yang sudah dilamar</h4>`);
+        }
+    });
     const themePurple = '#FBC02D';
     const themeLight = '#ece8ff';
 
@@ -605,80 +618,101 @@
         }
     });
 
-   const riasecData = {
-        Realistic: 40,
-        Investigative: 45,
-        Artistic: 15,
-        Social: 10,
-        Enterprising: 30,
-        Conventional: 20
-    };
+    function loadHollandChart(id_lowongan, ) {
+        $.ajax({
+            url: '<?= base_url('pelamar/Pelamar/load_holland') ?>?id_lowongan=' + id_lowongan,
+            method: 'GET',
+            success: function(response) {
+                var hollandData = response.data;
+                var recommendation = response.recommendation;
+                console.log(response.data);
+                $('#recommendationText').text(recommendation);
+                if (hollandData != null) {
+                    var riasecData = {
+                        Realistic: hollandData.nilai_r,
+                        Investigative: hollandData.nilai_i,
+                        Artistic: hollandData.nilai_a,
+                        Social: hollandData.nilai_s,
+                        Enterprising: hollandData.nilai_e,
+                        Conventional: hollandData.nilai_k
+                    };
 
-    const ctxRiasec = document.getElementById('riasecChart').getContext('2d');
-    
-    new Chart(ctxRiasec, {
-        type: 'doughnut',
-        data: {
-            labels: [
-                'Realistic (R)', 
-                'Investigative (I)', 
-                'Artistic (A)', 
-                'Social (S)', 
-                'Enterprising (E)', 
-                'Conventional (C)'
-            ],
-            datasets: [{
-                data: [
-                    riasecData.Realistic, 
-                    riasecData.Investigative, 
-                    riasecData.Artistic, 
-                    riasecData.Social, 
-                    riasecData.Enterprising, 
-                    riasecData.Conventional
-                ],
-                // Colors mapped to each category
-                backgroundColor: [
-                    '#e74a3b', // Red for Realistic
-                    '#4e73df', // Blue for Investigative
-                    '#f6c23e', // Yellow for Artistic
-                    '#1cc88a', // Green for Social
-                    '#36b9cc', // Cyan for Enterprising
-                    '#858796'  // Gray for Conventional
-                ],
-                borderWidth: 2,
-                borderColor: '#ffffff',
-                hoverOffset: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'right', // Puts the legend on the right side
-                    labels: {
-                        font: {
-                            size: 12,
-                            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                    var ctxRiasec = document.getElementById('riasecChart').getContext('2d');
+
+                    new Chart(ctxRiasec, {
+                        type: 'polarArea',
+                        data: {
+                            labels: [
+                                'Realistic (R)',
+                                'Investigative (I)',
+                                'Artistic (A)',
+                                'Social (S)',
+                                'Enterprising (E)',
+                                'Conventional (C)'
+                            ],
+                            datasets: [{
+                                data: [
+                                    riasecData.Realistic,
+                                    riasecData.Investigative,
+                                    riasecData.Artistic,
+                                    riasecData.Social,
+                                    riasecData.Enterprising,
+                                    riasecData.Conventional
+                                ],
+                                // Colors mapped to each category
+                                backgroundColor: [
+                                    '#e74a3b', // Red for Realistic
+                                    '#4e73df', // Blue for Investigative
+                                    '#f6c23e', // Yellow for Artistic
+                                    '#1cc88a', // Green for Social
+                                    '#36b9cc', // Cyan for Enterprising
+                                    '#858796' // Gray for Conventional
+                                ],
+                                borderWidth: 2,
+                                borderColor: '#ffffff',
+                                hoverOffset: 5
+                            }]
                         },
-                        color: '#6b7280',
-                        usePointStyle: true,
-                        padding: 15
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return ` ${context.label}: ${context.raw} pts`;
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'right', // Puts the legend on the right side
+                                    labels: {
+                                        font: {
+                                            size: 12,
+                                            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                                        },
+                                        color: '#6b7280',
+                                        usePointStyle: true,
+                                        padding: 15
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return ` ${context.label}: ${context.raw} pts`;
+                                        }
+                                    }
+                                }
+                            },
+                            cutout: '65%', // Controls the thickness of the donut ring
+                            animation: {
+                                animateScale: true,
+                                animateRotate: true
+                            }
                         }
-                    }
+                    });
+                } else {
+                    $('.chart-data').empty().html(` <h4 class="text-center">Nilai ujian di lowongan tersebut tidak ditemukan</h4>`);
                 }
+
             },
-            cutout: '65%', // Controls the thickness of the donut ring
-            animation: {
-                animateScale: true,
-                animateRotate: true
+            error: function(xhr, status, error) {
+                console.error('Error fetching Holland data:', error);
             }
-        }
-    });
-   </script>
+        })
+
+    }
+</script>

@@ -1059,10 +1059,46 @@ class Pelamar extends CI_Controller
 	// 	force_download('upload/dokumen/ESSAY_KOMPETENSI_TEKNO_ITS.pdf');
 	// }
 
-	public function test_history() {
+	public function test_history()
+	{
 		$id_pelamar = $this->session->userdata('ses_id');
+		$data['lowongan_kerja'] = $this->db->query("SELECT tb_apply.id_lowongan, tb_lowongan.nama_jabatan, tb_perusahaan.nama_perusahaan FROM `tb_apply` JOIN tb_lowongan on tb_apply.id_lowongan = tb_lowongan.id_lowongan JOIN tb_perusahaan on tb_apply.id_perusahaan = tb_perusahaan.id_perusahaan WHERE id_pelamar = $id_pelamar && status_lamaran = 'Diterima' && status_ujian='aktif'")->result();
 		$data['data_pelamar'] = $this->Mdl_data_pelamar->ambildata_pelamar($id_pelamar);
 		$data['pelamar'] = $this->db->query("SELECT * FROM tb_pelamar WHERE id_pelamar = $id_pelamar")->row();
 		$this->load->view('pelamar/test_history', $data);
+		// var_dump($data['lowongan_kerja']);
+	}
+
+	public function load_holland()
+	{
+		$id_pelamar = $this->session->userdata('ses_id');
+		$id_lowongan = $this->input->get('id_lowongan', TRUE);
+		$holland = $this->db->query("SELECT * FROM tb_data_jawaban_holland WHERE id_pelamar = $id_pelamar AND id_lowongan = $id_lowongan order by id_jawaban_holland desc limit 1 ")->row();
+		$holland_result = array(
+			'r' => $holland->nilai_r,
+			'i' => $holland->nilai_i,
+			'a' => $holland->nilai_a,
+			's' => $holland->nilai_s,
+			'e' => $holland->nilai_e,
+			'k' => $holland->nilai_k
+		);
+		$highest_value = max($holland_result);
+		$top_traits = array_keys($holland_result, $highest_value);
+		// var_dump(implode(', ', $top_traits));
+		header('Content-Type: application/json');
+		echo json_encode(['data' => $holland,"recommendation" => $this->show_recommendation($top_traits[0])]);
+	}
+
+	private function show_recommendation($holland_result)
+	{
+		$recommendations = [
+			'R' => 'Kepribadian yang menunjukkan individu sebagai seseorang yang memiliki kemampuan atletis atau teknis dan suka bekerja dengan menggunakan alat, mesin atau pekerjaan luar ruangan. Contoh: Mekanik, Teknisi, atau Konstruksi',
+			'I' => 'Kepribadian yang menunjukkan individu sebagai seseorang yang suka untuk belajar, menganalisa, mengevaluasi dan menemukan solusi untuk sebuah masalah. Contoh karir: Guru, Ilmuwan, Peneliti',
+			'A' => 'Kepribadian yang menunjukkan individu sebagai seseorang yang artistik, inovatif dan menyukai pekerjaan yang tidak terstruktur serta menggunakan kreativitas dan imajinasi untuk mengekspresikan diri. Contoh: Desainer, penulis, aktor',
+			'S' => 'Kepribadian yang menunjukkan individu sebagai seseorang yang suka bekerja dengan orang lain seperti menyembuhkan, melatih, dan mengajar orang lain. Umumnya tidak suka bekerja dengan mesin atau alat. Contoh: Perawat, guru, terapis.',
+			'E' => 'Kepribadian yang menunjukkan individu sebagai seseorang yang suka bekerja dengan orang lain seperti meyakinkan, memimpin, dan mengelola untuk mendapatkan keutungan. Contoh: Sales, marketing, pengusaha',
+			'K' => 'Kepribadian yang menunjukkan individu sebagai seseorang yang menyukai data, perhitungan angka dan kemampuan klerikal serta mengikuti instruksi detail. Lebih menyukai situasi yang terstruktur. Contoh: Akuntan, klerikal, administrasi'
+		];
+		return  $recommendations[strtoupper($holland_result)];
 	}
 }
