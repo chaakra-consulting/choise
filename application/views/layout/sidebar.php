@@ -448,6 +448,13 @@
             </a>
           </li>
           <li>
+            <a class="treeview-item <?php if ($this->uri->segment(3) == "Soal_cfit2a" || $this->uri->segment(2) == "Soal_cfit2a") {
+                                      echo "active";
+                                    } ?>" href="<?php echo base_url('Soal/Soal_cfit2a') ?>">
+              <i class="icon fa fa-circle-o"></i> CFIT 2a
+            </a>
+          </li>
+          <li>
             <a class="treeview-item <?php if ($this->uri->segment(2) == "Soal_ist") {
                                       echo "active";
                                     } ?>"

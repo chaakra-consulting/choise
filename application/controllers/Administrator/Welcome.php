@@ -38,8 +38,51 @@ class Welcome extends CI_Controller
 
 	public function index()
 	{
+		// Get gender distribution
+		$data['genderDistribution'] = $this->db->query("SELECT jenis_kelamin, COUNT(*) AS jumlah FROM tb_data_diri GROUP BY jenis_kelamin")->result_array();
+		$data['monthLabels'] = [
+			"Januari",
+			"Februari",
+			"Maret",
+			"April",
+			"Mei",
+			"Juni",
+			"Juli",
+			"Agustus",
+			"September",
+			"Oktober",
+			"November",
+			"Desember"
+		];
 
-		$this->load->view('administrator/dashboard');
+		// 2. Initialize the data array with 12 zeroes [0, 0, 0, ...]
+		$monthlyData = array_fill(0, 12, 0);
+
+		// 3. RAW SQL QUERY (No Models, No Query Builder)
+		$sql = "SELECT 
+                    MONTH(jadwal_seleksi) AS apply_month, 
+                    COUNT(id_lowongan) AS total_applies 
+                FROM tb_lowongan 
+                WHERE YEAR(jadwal_seleksi) = YEAR(CURRENT_DATE()) AND status='tersedia'
+                GROUP BY MONTH(jadwal_seleksi)
+                ORDER BY apply_month ASC";
+
+		// Execute the raw query using CI3's base query method
+		$query = $this->db->query($sql);
+
+		// 4. Map the results over the zero-filled array
+		if ($query->num_rows() > 0) {
+			foreach ($query->result_array() as $row) {
+				// MySQL MONTH() returns 1-12. Subtract 1 to match PHP's 0-11 index.
+				$monthIndex = (int)$row['apply_month'] - 1;
+				$monthlyData[$monthIndex] = (int)$row['total_applies'];
+			}
+		}
+
+		// 5. Pass to the view
+		$data['monthlyData'] = $monthlyData;
+		$data['currentYear'] = date('Y');
+		$this->load->view('administrator/dashboard', $data);
 	}
 	public function data_pelamar()
 	{
@@ -444,7 +487,7 @@ class Welcome extends CI_Controller
 	}
 	// END CRUD FAQ
 	// =============================================================================================
-	
+
 	public function sync_login_sso()
 	{
 		$user_id = $this->session->userdata('ses_id');
@@ -562,5 +605,4 @@ class Welcome extends CI_Controller
 		// Mengembalikan hasil response
 		return $response;
 	}
-
 }

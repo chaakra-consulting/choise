@@ -295,6 +295,44 @@
         display: flex;
         flex-wrap: wrap;
     }
+
+    .locked-container {
+        position: relative;
+    }
+
+    .blurred-content {
+        /* Apply the blur effect */
+        filter: blur(8px);
+        /* Prevent users from clicking or selecting the text to bypass the blur */
+        pointer-events: none;
+        user-select: none;
+        opacity: 0.7;
+    }
+
+    .premium-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        /* Slight dark overlay to make the text pop */
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .premium-icon {
+        font-size: 3rem;
+        color: #ffc107;
+        /* Bootstrap Warning Yellow */
+        margin-bottom: 15px;
+    }
 </style>
 <?php $this->load->view('layout3/navbar') ?>
 <?php $this->load->view('layout3/sidebar') ?>
@@ -476,98 +514,131 @@
 
         <!-- RIGHT COLUMN -->
         <div class="col-md-5 col-sm-12 col-xs-12">
+            <!-- Container holding both the overlay and the blurred content -->
+            <div class="locked-container">
 
-            <!-- 4. Final Score -->
-            <div class="card p-4">
-                <h5 class="card-title">Final Score:</h5>
-                <div class="d-flex align-items-center justify-content-around mt-2">
-                    <div class="score-circle-container">
-                        <canvas id="scoreChart"></canvas>
-                        <div class="score-text-center">82%</div>
+                <!-- The Locked Message Overlay -->
+                <div class="premium-overlay">
+                    <!-- Using a standard SVG lock icon (you can swap this for FontAwesome if you use it) -->
+                    <svg class="premium-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
+                    </svg>
+                    <h4 class="text-dark font-weight-bold">Konten Premium</h4>
+                    <p class="text-dark"><strong>Lakukan upgrade untuk melihat konten ini</strong></p>
+                    <button class="btn btn-warning mt-2"><strong>Lakukan Upgrade</strong></button>
+                </div>
+
+                <!-- The Original Content (Blurred) -->
+                <div class="blurred-content">
+                    <!-- 4. Final Score -->
+                    <div class="card p-4 mb-3">
+                        <h5 class="card-title">Final Score:</h5>
+                        <div class="d-flex align-items-center justify-content-around mt-2">
+                            <div class="score-circle-container">
+                                <canvas id="scoreChart"></canvas>
+                                <div class="score-text-center">82%</div>
+                            </div>
+                            <div class="d-flex flex-column align-items-end">
+                                <div class="large-grade">B</div>
+                                <div class="score-disclaimer mt-2 w-75">
+                                    final grade based on both academic subjects as well as activities and conducts
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-flex flex-column align-items-end">
-                        <div class="large-grade">B</div>
-                        <div class="score-disclaimer mt-2 w-75">
-                            final grade based on both academic subjects as well as activities and conducts
+
+                    <!-- 5. Activities & Conduct -->
+                    <div class="card p-4">
+                        <h5 class="card-title">Activities & Conduct</h5>
+
+                        <div class="mb-4">
+                            <div class="activity-grade">A</div>
+                            <div class="small text-theme mb-1">Attentiveness</div>
+                            <div class="progress progress-custom">
+                                <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 91%;">
+                                    <span class="progress-value-badge">91%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="activity-grade">B</div>
+                            <div class="small text-theme mb-1">Punctuality</div>
+                            <div class="progress progress-custom">
+                                <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 85%;">
+                                    <span class="progress-value-badge">85%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="activity-grade">A<sup>+</sup></div>
+                            <div class="small text-theme mb-1">Neat and Orderly</div>
+                            <div class="progress progress-custom">
+                                <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 97%;">
+                                    <span class="progress-value-badge">97%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="activity-grade">B<sup>+</sup></div>
+                            <div class="small text-theme mb-1">Extracurriculars</div>
+                            <div class="progress progress-custom">
+                                <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 87%;">
+                                    <span class="progress-value-badge">87%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <div class="activity-grade">B<sup>+</sup></div>
+                            <div class="small text-theme mb-1">Extracurriculars</div>
+                            <div class="progress progress-custom">
+                                <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 87%;">
+                                    <span class="progress-value-badge">87%</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-
-            <!-- 5. Activities & Conduct -->
-            <div class="card p-4">
-                <h5 class="card-title">Activities & Conduct</h5>
-
-                <div class="mb-4">
-                    <div class="activity-grade">A</div>
-                    <div class="small text-theme mb-1">Attentiveness</div>
-                    <div class="progress progress-custom">
-                        <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 91%;">
-                            <span class="progress-value-badge">91%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <div class="activity-grade">B</div>
-                    <div class="small text-theme mb-1">Punctuality</div>
-                    <div class="progress progress-custom">
-                        <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 85%;">
-                            <span class="progress-value-badge">85%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <div class="activity-grade">A<sup>+</sup></div>
-                    <div class="small text-theme mb-1">Neat and Orderly</div>
-                    <div class="progress progress-custom">
-                        <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 97%;">
-                            <span class="progress-value-badge">97%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <div class="activity-grade">B<sup>+</sup></div>
-                    <div class="small text-theme mb-1">Extracurriculars</div>
-                    <div class="progress progress-custom">
-                        <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 87%;">
-                            <span class="progress-value-badge">87%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-2">
-                    <div class="activity-grade">B<sup>+</sup></div>
-                    <div class="small text-theme mb-1">Extracurriculars</div>
-                    <div class="progress progress-custom">
-                        <div class="progress-bar progress-bar-custom" role="progressbar" style="width: 87%;">
-                            <span class="progress-value-badge">87%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
     <!-- 6. Grading Scale Footer Banner -->
     <div class="row">
         <div class="col-xs-12">
-            <div class="bg-theme grading-banner shadow-sm">
-                <h5 class="mb-0 font-weight-bold d-flex align-items-center" style="margin-top:0;">Grading Scale:</h5>
-                <span>A+: 100-96</span>
-                <span>A: 95-91</span>
-                <span>B+: 90-86</span>
-                <span>B: 85-81</span>
-                <span>C: 80-76</span>
-                <span>D: 75 Below</span>
-                <i class="far fa-question-circle text-white ml-2" style="font-size: 1.1rem; cursor:pointer;"></i>
+
+            <!-- Container holding both the overlay and the blurred content -->
+            <div class="locked-container">
+
+                <!-- The Locked Message Overlay (Adjusted horizontally for the slim banner) -->
+                <div class="premium-overlay" style="flex-direction: row; gap: 15px; padding: 10px;">
+                    <svg class="premium-icon" style="margin-bottom: 0; width: 24px; height: 24px;" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
+                    </svg>
+                    <h6 class="text-dark font-weight-bold mb-0">Fitur Premium</h6>
+                    <button class="btn btn-warning btn-sm m-0"><strong>Lakukan Upgrade</strong></button>
+                </div>
+
+                <!-- The Original Content (Blurred) -->
+                <div class="bg-theme grading-banner shadow-sm blurred-content">
+                    <h5 class="mb-0 font-weight-bold d-flex align-items-center" style="margin-top:0;">Grading Scale:</h5>
+                    <span>A+: 100-96</span>
+                    <span>A: 95-91</span>
+                    <span>B+: 90-86</span>
+                    <span>B: 85-81</span>
+                    <span>C: 80-76</span>
+                    <span>D: 75 Below</span>
+                    <i class="far fa-question-circle text-white ml-2" style="font-size: 1.1rem; cursor:pointer;"></i>
+                </div>
+
             </div>
+
         </div>
     </div>
-
 
 
 </div>

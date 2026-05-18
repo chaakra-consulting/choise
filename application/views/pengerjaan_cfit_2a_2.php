@@ -38,7 +38,7 @@ var x = setInterval(function() {
 	if (distance < 0) {
 		clearInterval(x);
 		alert('Waktu Ujian Subtes 2 Telah Berakhir');
-		window.location.href = '<?php echo base_url('Pelamar/Ujian/latihan_cfit_2a_subtes_2/'.$id_ujian); ?>';
+		window.location.href = '<?php echo base_url('Pelamar/Ujian/latihan_cfit_2a_subtes_3/'.$id_ujian); ?>';
 	}
 }, 1000);
 </script>
