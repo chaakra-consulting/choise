@@ -33,7 +33,7 @@
         </div>
         <div class="tile-body">
           <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="sampleTable">
+            <table class="table table-hover table-bordered" id="data">
               <thead>
                 <tr>
                   <th>No</th>
@@ -48,61 +48,12 @@
                   <th>Instagram</th>
                   <th>Twitter</th>
                   <th>Username</th>
-                  <th>Passsord</th>
+                  <th>Password</th>
                   <th>Status Akun</th>
-                  <th>Aksi</th>
+                  <!-- <th>Aksi</th> -->
                 </tr>
               </thead>
-              <tbody>
-                <?php
-                $modal = 0;
-                $no = 1;
-                foreach ($array as $key) { ?>
 
-                  <div class="modal fade" id="myModal<?php echo $modal ?>" role="dialog">
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title">Hapus</h4>
-                        </div>
-                        <div class="modal-body">
-                          <p>Ingin hapus <?php echo $key['nama_psikolog'] ?>?</p>
-                          <a href="<?php echo base_url('Administrator/Welcome/hapus_psikolog/' . $key['id_psikolog']) ?>" title="Hapus Data"><button type="button" class="btn btn-danger" style="margin-left: 170px;">Hapus <i class="fa fa-trash"></i></button></a>
-                        </div>
-                        <div class="modal-footer">
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <tr>
-                    <td><?php echo $no++ ?></td>
-                    <td><?php echo $key['nama_pelamar'] ?></td>
-                    <td><?php echo $key['alamat'] ?></td>
-                    <td><?php echo $key['tempat_lahir'] ?></td>
-                    <td><?php echo $key['tanggal_lahir'] ?></td>
-                    <td><?php echo $key['jenis_kelamin'] ?></td>
-                    <td><?php echo $key['no_hp'] ?></td>
-                    <td><?php echo $key['email'] ?></td>
-                    <td><?php echo $key['facebook'] ?></td>
-                    <td><?php echo $key['instagram'] ?></td>
-                    <td><?php echo $key['twitter'] ?></td>
-                    <td><?php echo $key['username'] ?></td>
-                    <td><?php echo $key['confirm_password'] ?></td>
-                    <td><?php echo $key['status'] == 0 ? 'Tidak Aktif' : 'Aktif' ?></td>
-                    <td>
-                      <div class="btn-group" role="group" aria-label="Basic example">
-                        <?php if ($key['status'] == 0) {; ?>
-                          &nbsp; <button data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Verifikasi Akun" type="button" class="btn btn-primary"><a style="color: #fff" href="<?php echo base_url('Administrator/Welcome/verifikasi_pelamar/' . $key['id']) ?>">Verifikasi Akun</a></button>
-                        <?php } else {
-                          echo ' ';
-                        } ?>
-                      </div>
-                    </td>
-                  </tr>
-                <?php $modal++;
-                } ?>
-              </tbody>
             </table>
           </div>
         </div>
@@ -111,3 +62,127 @@
   </div>
 </main>
 <?php $this->load->view('layout/footer'); ?>
+<script>
+  $(document).ready(function() {
+    $('#data').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "order": [],
+      "ajax": {
+        "url": "<?php echo base_url('Administrator/Welcome/pelamar_data') ?>",
+        // dataSrc: "",
+        type: "POST",
+      },
+      columns: [{
+          data: "id_row",
+          name: "id_row",
+          render: function(data, type, row, meta) {
+            return meta.row + meta.settings._iDisplayStart + 1;
+          },
+        },
+        {
+          data: "nama_pelamar",
+          name: "nama_pelamar",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          },
+        },
+        {
+          data: "alamat",
+          name: "alamat",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          },
+        },
+        {
+          data: "tempat_lahir",
+          name: "tempat_lahir",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          },
+        },
+        {
+          data: "tanggal_lahir",
+          name: "tanggal_lahir",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          },
+        },
+        {
+          data: "jenis_kelamin",
+          name: "jenis_kelamin",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          },
+        },
+        {
+          data: "no_hp",
+          name: "no_hp",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          },
+        },
+        {
+          data: "email",
+          name: "email",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          },
+        },
+        {
+          data: "facebook",
+          name: "facebook",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          }
+        },
+        {
+          data: "instagram",
+          name: "instagram",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          }
+        },
+        {
+          data: "twitter",
+          name: "twitter",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          }
+        },
+        {
+          data: "username",
+          name: "username",
+          render: function(data, type, row, meta) {
+            return (data === null || data === "") ? "-" : data;
+          }
+        },
+        {
+          data: "password",
+          name: "password",
+          render: function(data, type, row, meta) {
+            return "********";
+          }
+        },
+        {
+          data: "status",
+          name: "status",
+          render: function(data, type, row, meta) {
+            return data;
+          }
+        },
+
+        // {
+        //   data: null,
+        //   name: "aksi",
+        //   render: (data, type, row, meta) => {
+        //     var edit_url = "url"
+        //     return `<div class="btn-group" role="group">
+        //             <a href="${edit_url.replace(':var', data.id)}" class="btn btn-warning ml-2"><i class="fa fa-edit" style="margin-right: -3px !important; color:white;"></i></a>
+        //           </div>`
+        //   }
+        // }
+      ]
+    });
+  });
+</script>

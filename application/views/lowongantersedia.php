@@ -1,4 +1,18 @@
 <?php $this->load->view('layout3/header') ?>
+<style>
+    .text-truncate-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        /* Limits the text to 2 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        /* Optional: Set a fixed line-height to ensure perfect vertical alignment */
+        line-height: 1.2em;
+        max-height: 2.4em;
+        /* line-height * 2 */
+    }
+</style>
 <?php $this->load->view('layout3/navbar') ?>
 <?php $this->load->view('layout3/sidebar') ?>
 
@@ -28,7 +42,7 @@
         $id_perusahaan = $key['id_perusahaan'];
         $nama_perusahaan = $key['id_perusahaan'];
 
-        $perusahaan = $this->db->query("SELECT * FROM tb_perusahaan"); 
+        $perusahaan = $this->db->query("SELECT * FROM tb_perusahaan");
 
         foreach ($perusahaan->result() as $key_perusahaan) {
             if ($key_perusahaan->id_perusahaan == $key['id_perusahaan']) {
@@ -37,17 +51,25 @@
             }
         }
     ?>
-        <div class="col-md-6 col-lg-3 mb-3 mb-lg-3" data-aos="fade-up">
-            <div class="unit-4 d-block">
-                <div class="card-img-block">
-                    <img style="width: 130px" class="card-img-top" src="<?php echo (!empty($key['logo_perusahaan']) ? 
-                        base_url('./upload/logo_perusahaan/' . $key['logo_perusahaan']) : base_url('./upload/logo_perusahaan/img_default.jpg')); ?>">
-                </div><br>
-                <h3><?php echo $key['nama_jabatan']; ?></h3>
-                <p><?php echo $key['nama_perusahaan']; ?></p>
-                <div>
-                    <a href="<?php echo base_url('Pelamar/Lamaran/lamarlowongan/' . $id_lowongan) ?>" class="btn btn-primary mr-2 mb-2">Lihat Lowongan</a>
+        <div class="col-md-6 col-lg-3 mb-4 d-flex" data-aos="fade-up">
+
+            <div class="unit-4 d-flex flex-column w-100 h-100 p-4 shadow-sm bg-white rounded">
+
+                <div class="card-img-block mb-3 d-flex align-items-center justify-content-center" style="height: 120px;">
+                    <img style="max-height: 100%; max-width: 130px; object-fit: contain;" class="card-img-top"
+                        src="<?php echo (!empty($logo_perusahaan) ? base_url('./upload/logo_perusahaan/' . $logo_perusahaan) : base_url('./upload/logo_perusahaan/img_default.jpg')); ?>" alt="Logo">
                 </div>
+
+                <h3 class="h5 font-weight-bold mb-2 text-truncate-2" title="<?php echo $key['nama_jabatan']; ?>">
+                    <?php echo $key['nama_jabatan']; ?>
+                </h3>
+
+                <p class="text-muted mb-4 text-truncate-2"><?php echo $nama_perusahaan; ?></p>
+
+                <div class="mt-auto w-100">
+                    <a href="<?php echo base_url('Pelamar/Lamaran/lamarlowongan/' . $id_lowongan) ?>" class="btn btn-primary w-100 mb-2">Lihat Lowongan</a>
+                </div>
+
             </div>
         </div>
     <?php } ?>

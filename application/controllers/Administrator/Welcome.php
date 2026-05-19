@@ -86,10 +86,86 @@ class Welcome extends CI_Controller
 	}
 	public function data_pelamar()
 	{
+		//   $data = $this->db->query("SELECT *,a.id_pelamar as id FROM tb_pelamar a LEFT JOIN tb_data_diri b ON a.`id_pelamar`=b.`id_pelamar`")->result_array();
 		// $paket['array'] = $this->Mdl_data_pelamar->ambildata_pelamar_();
-		$paket['array'] = $this->db->query("SELECT *,a.id_pelamar as id FROM tb_pelamar a LEFT JOIN tb_data_diri b ON a.`id_pelamar`=b.`id_pelamar`")->result_array();
-		$this->load->view('administrator/data_pelamar', $paket);
+		$this->load->view('administrator/data_pelamar');
 	}
+
+	public function pelamar_data()
+	{
+		$draw   = $this->input->post('draw');
+		$start  = $this->input->post('start');
+		$length = $this->input->post('length');
+		$search = $this->input->post('search')['value'] ?? '';
+		$order  = $this->input->post('order');
+
+		$colMap = [
+			0  => 'a.id_pelamar',
+			1  => 'b.nama_pelamar',
+			2  => 'b.alamat',
+			3  => 'b.tempat_lahir',
+			4  => 'b.tanggal_lahir',
+			5  => 'b.jenis_kelamin',
+			6  => 'b.no_hp',
+			7  => 'a.email',
+			8  => 'b.facebook',
+			9  => 'b.instagram',
+			10 => 'b.twitter',
+			11 => 'a.username',
+			12 => 'a.password',
+			13 => 'a.status'
+		];
+
+		
+		$this->db->from('tb_pelamar a');
+		$this->db->join('tb_data_diri b', 'a.id_pelamar = b.id_pelamar', 'left');
+
+		
+		$totalRecords = $this->db->count_all_results('', FALSE);
+
+
+		if (!empty($search)) {
+			$this->db->group_start();
+			$this->db->like('b.nama_pelamar', $search);
+			$this->db->or_like('b.alamat', $search);
+			$this->db->or_like('a.email', $search);
+			$this->db->or_like('b.no_hp', $search);
+			$this->db->or_like('a.username', $search);
+			$this->db->group_end();
+		}
+
+		
+		$filteredRecords = $this->db->count_all_results('', FALSE);
+
+		// 7. Apply Ordering
+		if (isset($order[0]['column']) && isset($colMap[$order[0]['column']])) {
+			$this->db->order_by($colMap[$order[0]['column']], $order[0]['dir']);
+		} else {
+			$this->db->order_by('b.nama_pelamar', 'DESC');
+		}
+
+		
+		if ($length != -1) {
+			$this->db->limit($length, $start);
+		}
+
+		
+		$this->db->select('a.*, b.*, a.id_pelamar as id_row');
+		$query = $this->db->get();
+		$data = ($query && $query->num_rows() > 0) ? $query->result_array() : [];
+
+		
+		$response = array(
+			"draw"            => intval($draw),
+			"recordsTotal"    => $totalRecords,
+			"recordsFiltered" => $filteredRecords,
+			"data"            => $data
+		);
+
+		header('Content-Type: application/json');
+		echo json_encode($response);
+	}
+
 	public function verifikasi_pelamar($id)
 	{
 		$this->db->query("UPDATE tb_pelamar SET status='1' where id_pelamar=$id");
