@@ -35,7 +35,12 @@
     <?php
     $id_pelamar = $this->session->userdata('ses_id');
     $apply = $this->db->query("SELECT * FROM tb_apply WHERE id_pelamar = $id_pelamar");
-
+    $count_data = count($array);
+    if ($count_data == 0) {?>
+        <div class="alert alert-warning" role="alert">
+           Lowongan Tersedia Kosong
+        </div>
+    <?php }else{
 
     foreach ($array as $key) {
         $id_lowongan = $key['id_lowongan'];
@@ -72,7 +77,7 @@
 
             </div>
         </div>
-    <?php } ?>
+    <?php }} ?>
 
     <!-- KEBUTUHAN REKRUTMEN RSUD KRIAN SIDOARJO -->
 
