@@ -1,4 +1,18 @@
 <?php $this->load->view('layout3/header') ?>
+<style>
+	.text-truncate-2 {
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		/* Limits the text to 2 lines */
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		/* Optional: Set a fixed line-height to ensure perfect vertical alignment */
+		line-height: 1.2em;
+		max-height: 2.4em;
+		/* line-height * 2 */
+	}
+</style>
 <?php $this->load->view('layout3/navbar') ?>
 <?php $this->load->view('layout3/sidebar') ?>
 
@@ -46,35 +60,52 @@
 				}
 			}
 		?>
-			<div class="col-md-6 col-lg-3 mb-3 mb-lg-3" data-aos="fade-up">
-				<div class="unit-4 d-block">
-					<div class="card-img-block">
-						<img class="card-img-top" width="100" src="<?php echo ($logo_perusahaan != '' ? base_url('./upload/logo_perusahaan/' . $logo_perusahaan) : base_url('./upload/logo_perusahaan/img_default.jpg')); ?>">
-						<!-- <img class="card-img-top" style="width: 50%;" src="<?php echo base_url('assets3/images/companylogohighrespng.png') ?>" alt="Card image cap"> -->
-					</div><br>
-					<h3><?php echo $nama_lowongan ?></h3>
-					<p><?php echo $nama_perusahaan ?></p><br>
+			<div class="col-md-6 col-lg-3 mb-4 d-flex" data-aos="fade-up">
+
+				<div class="unit-4 d-flex flex-column w-100 h-100 p-4 shadow-sm bg-white rounded">
+
+					<div class="card-img-block mb-3 d-flex align-items-center justify-content-center" style="height: 120px;">
+						<img style="max-height: 100%; max-width: 130px; object-fit: contain;" class="card-img-top"
+							src="<?php echo (!empty($logo_perusahaan) ? base_url('./upload/logo_perusahaan/' . $logo_perusahaan) : base_url('./upload/logo_perusahaan/img_default.jpg')); ?>" alt="Logo">
+					</div>
+
+					<h3 class="h5 font-weight-bold mb-2 text-truncate-2" title="<?= $nama_lowongan ?>">
+						<?= $nama_lowongan ?>
+					</h3>
+
+					<p class="text-muted mb-4 text-truncate-2"><?= $nama_perusahaan ?></p>
 					<?php if ($lowtersedia == "tersedia") { ?>
 						<?php if ($status_lamaran == "Diterima" && $status_ujian == "aktif") { ?>
 							<!--<div>
 							<a href="<?php echo base_url('Pelamar/Lamaran/jadwalseleksi/' . $id_lowongan) ?>" class="btn btn-primary btn-block mr-2 mb-2">Lihat Jadwal</a>
 						</div>-->
-							<div class="button-lm-tittle">
+							<div class="mt-auto w-100">
 								<a href="<?php echo base_url('Pelamar/Pelamar/ujian/' . $id_lowongan) ?>" class="btn btn-primary btn-block mr-2 mb-2">Ujian Saya</a>
 							</div>
-						<?php } ?>
+
+
+						<?php }else{ ?>
+						<div class="mt-auto w-100">
+								<button href="#" disabled class="btn btn-primary btn-block mr-2 mb-2">Lamaran Ditolak</button>
+							</div>
+						<?php }?>
 						<?php $id_pelamar = $this->session->userdata('ses_id') ?>
 						<!-- <div class="button-lm-tittle">
 						<a href="<?php echo base_url('Pelamar/Pengumuman/pengumuman/' . $id_apply) ?>" class="btn btn-primary btn-block mr-2 mb-2">Pengumuman</a>
 					</div> -->
-					<?php }
-					?>
+					<?php }else{?>
+						<div class="mt-auto w-100">
+								<button href="#" disabled class="btn btn-primary btn-block mr-2 mb-2">Lamaran tidak Tersedia</button>
+							</div>
+					<?php } ?>
+
 				</div>
-			</div><?php
-				} ?>
-		</div>
+			</div>
+		<?php
+		} ?>
 	</div>
-	<!--/.row-->
+</div>
+<!--/.row-->
 </div>
 <!--/.main-->
 

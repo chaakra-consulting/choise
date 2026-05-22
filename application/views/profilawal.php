@@ -42,7 +42,7 @@
 
 	<div class="col-sm-12" style="background-color: #fff; padding-top: 10px; padding-bottom: 20px; padding-right: 10px; padding-left: 10px; margin-bottom: 20px; border-radius: 5px;">
 		<div class="col-sm-12">
-			<b style="color: red">Patikan di dalam penulisan Nama Lengkap tidak ada tanda "." (titik) "," (koma)</b><br><br>
+			<b style="color: red">Pastikan di dalam penulisan Nama Lengkap tidak ada tanda "." (titik) "," (koma)</b><br><br>
 			<h3><b>Data Diri</b></h3>
 			<?php
 			$data_diri = $this->db->query("SELECT * FROM tb_data_diri WHERE id_pelamar = $id_pelamar");
