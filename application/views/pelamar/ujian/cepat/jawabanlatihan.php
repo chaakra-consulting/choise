@@ -168,7 +168,7 @@ $id_pelamar = $this->session->userdata('ses_id');?>
 		
 
 <div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin-top: 20px; margin-bottom: 20px">
-<a href="<?php echo base_url('Pelamar/Ujian/start_ujian_cepat/' . $idUjian); ?>" class="btn btn-primary mr-2 mb-2">Kerjakan Sekarang</a>
+<a href="<?php echo base_url('Pelamar/Daftar_ujian/Cepat_teliti/'); ?>" class="btn btn-primary mr-2 mb-2">Kerjakan Sekarang</a>
 
 
 
