@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricavy Police - Choise</title>
+    <title>Privacy Policy - Choise</title>
     <link rel="icon" href="<?php echo base_url('assets/images/shortcuticon.png'); ?>" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -108,8 +108,8 @@
             </ol>
                 <ol type="1">
                     <li>"Data Pribadi" adalah informasi milik Pengguna, yang mengidentifikasi keterangan terkait Pengguna yang bersangkutan;</li>
-                    <li>"Kami" merujuk pada CV Chaakralogi (Chaakra Consulting) beserta perwakilan dan/atau kuasanya yang sah;</li>
-                    <li>"Anda" merujuk pada Pengguna Layanan CV Chaakralogi (Chaakra Consulting);</li>
+                    <li>"Kami" merujuk pada (Chaakra Consulting) beserta perwakilan dan/atau kuasanya yang sah;</li>
+                    <li>"Anda" merujuk pada Pengguna Layanan (Chaakra Consulting);</li>
                     <li>"Syarat dan Ketentuan" merupakan ketentuan dan syarat dari penggunaan Layanan;</li>
                     <li>“Layanan” memiliki arti sebagaimana ditetapkan dalam Syarat dan Ketentuan.</li>
                     <li>“Partner/Mitra” adalah pihak ketiga yang bekerja sama dengan Kami dalam melakukan pelayanan kepada klien. Seperti: Pemerintah Daerah, Perusahaan, BUMN, BUMD dan pihak lain yang terlibat dalam bagian Layanan Kami;</li>
@@ -127,7 +127,7 @@
                             <li>Penggunaan "cookies" saat browser Anda mengakses dan Anda masuk untuk menggunakan Layanan Kami. Jika statusnya diaktifkan (enabled), cookies akan menyimpan sejumlah kecil data pada komputer Anda tentang aktifitas Anda dalam menggunakan Layanan Kami.</li>
                         </ol>
                     </li>
-                    <li>CV Chaakralogi (Chaakra Consulting) tidak memperdagangkan Data Pribadi yang Kami peroleh dari sumber-sumber tersebut di atas melalui aktivitas dalam rangka menggunakan Layanan Kami.</li>
+                    <li>(Chaakra Consulting) tidak memperdagangkan Data Pribadi yang Kami peroleh dari sumber-sumber tersebut di atas melalui aktivitas dalam rangka menggunakan Layanan Kami.</li>
                     <li>Dalam mengelola Data Pribadi, Kami tunduk pada ketentuan peraturan perundang-undangan yang berlaku di Indonesia, termasuk namun tidak terbatas pada Undang-Undang Nomor 27 Tahun 2022 tentang perlindungan data pribadi beserta peraturan pelaksananya dan peraturan perundang-undangan terkait lainnya.</li>
                     <li>Anda dengan ini setuju bahwa kegagalan Anda untuk memberikan Data Pribadi yang benar dan akurat akan membuat Anda bertanggung jawab atas segala kerugian yang timbul, termasuk atas kerugian Kami dan pihak ketiga lainnya. Selain itu, atas kelalaian tersebut, Kami berwenang untuk menutup akses Anda terhadap Layanan Kami.</li>
                
@@ -143,7 +143,7 @@
                         <li>Memenuhi Layanan dengan membagi Data Pribadi dengan para Partner Kami, untuk pelaksanaan setiap Layanan yang Kami adakan dengan mereka atau Anda;</li>
                         <li>Pengembangan Layanan Kami, termasuk namun tidak terbatas pada pemecahan masalah, analisis data, pengujian, penelitian, tujuan statistik serta survei;</li>
                         <li>Memberitahu Anda tentang perubahan-perubahan terhadap layanan Kami;</li>
-                        <li>Memenuhi persyaratan-persyaratan hukum yang berlaku pada CV Chaakralogi (Chaakra Consulting) berdasarkan peraturan perundang-undangan yang berlaku;</li>
+                        <li>Memenuhi persyaratan-persyaratan hukum yang berlaku pada (Chaakra Consulting) berdasarkan peraturan perundang-undangan yang berlaku;</li>
                         <li>Memeriksa identitas dan/atau kewenangan dari para wakil atau kuasa Anda yang menghubungi Kami dan untuk menanggapi permintaan, pertanyaan atau instruksi dari para kuasa yang telah diperiksa tersebut;</li>
                         <li>Untuk memasarkan produk yang terkait dengan Layanan melalui berbagai metode komunikasi termasuk surat, telepon, SMS, fax, email, internet, riset pasar, dan merancang atau menyaring produk atau layanan yang serupa termasuk dengan melakukan riset pasar, analisis data, dan survei;</li>
                         <li>Melakukan manajemen internal untuk mengoperasikan kontrol terhadap sistem informasi dan manajemen serta melaksanakan audit internal atau mengizinkan pelaksanaan audit eksternal apabila dibutuhkan.</li>
@@ -184,7 +184,7 @@
                 <li>Perubahan Kebijakan Privasi</li></strong>
                 </ol>
                 <ol style="list-style-type: none;">
-                <li>Kebijakan Privasi ini mungkin diubah dan/atau diperbaharui dari waktu ke waktu tanpa pemberitahuan sebelumnya. Kami menghimbau agar Anda membaca secara seksama dan memeriksa halaman Kebijakan Privasi ini dari waktu ke waktu untuk mengetahui perubahan apapun yang dapat terjadi. Dengan tetap mengakses dan menggunakan Situs Web dan Layanan CV Chaakralogi (Chaakra Consulting), maka pengguna dianggap menyetujui perubahan-perubahan dalam Kebijakan Privasi ini.</li>
+                <li>Kebijakan Privasi ini mungkin diubah dan/atau diperbaharui dari waktu ke waktu tanpa pemberitahuan sebelumnya. Kami menghimbau agar Anda membaca secara seksama dan memeriksa halaman Kebijakan Privasi ini dari waktu ke waktu untuk mengetahui perubahan apapun yang dapat terjadi. Dengan tetap mengakses dan menggunakan Situs Web dan Layanan (Chaakra Consulting), maka pengguna dianggap menyetujui perubahan-perubahan dalam Kebijakan Privasi ini.</li>
                 </ol>
                 <strong><ol start="10">
                 <li>Kontak</li></strong>
@@ -201,7 +201,7 @@
                 </ol>
                 <ol type="1">
                     <li>“Personal Data” means information owned by User, which identify explanation related to the relevant User;</li>
-                    <li>“We” or “Us” shall refer to CV Chaakralogi (Chaakra Consulting) along with its authorized representative and/or proxy;</li>
+                    <li>“We” or “Us” shall refer to (Chaakra Consulting) along with its authorized representative and/or proxy;</li>
                     <li>“You” shall refer to the User of Chaakra Consulting Service;</li>
                     <li>“Terms and Conditions” means all terms and conditions of the user of Service;</li>
                     <li>“Service” shall have the meaning given to it under the Terms and Conditions;</li>
@@ -220,7 +220,7 @@
                             <li>Use of “cookies” while Your browser is accessing, and You are entering Our Service. If the status is enabled, the cookies would save some amount of data of Your computer regarding Your activities in using Our Service.</li>
                         </ol>
                     </li>
-                    <li>CV Chaakralogi (Chaakra Consulting) does not trade any Personal Data that We obtained from the abovementioned sources through activities conducted in the context of the use of Our Service.</li>
+                    <li>(Chaakra Consulting) does not trade any Personal Data that We obtained from the abovementioned sources through activities conducted in the context of the use of Our Service.</li>
                     <li>In managing the Personal Data, We are subject to applicable laws and regulations in Indonesia, including but not limited to the Law No. 27 of 2022 concerning personal data protection, along with the relevant implementing regulations and other related laws and regulations.</li>
                     <li>You hereby agree that Your failure to provide correct and accurate Personal Data shall cause You liable of any loss that arise, including the loss arising out of Our loss and other third party. Moreover, upon such negligence, We are authorized to close Your access to Our Service.</li>
                 </ol>
@@ -236,7 +236,7 @@
                         <li>Providing the Service by sharing the Personal Data with Our Partner, for the conduct of each Service that We perform with them or with You;</li>
                         <li>Development of Our Service, including but not limited to problem solving, data analysis, examination, research, statistical purposes, as well as survey;</li>
                         <li>Informing You on any of changes occurred to Our service;</li>
-                        <li>Fulfillment of legal requirements applicable at CV Chaakralogi (Chaakra Consulting) in accordance with the applicable laws and regulations;</li>
+                        <li>Fulfillment of legal requirements applicable at (Chaakra Consulting) in accordance with the applicable laws and regulations;</li>
                         <li>Examining the identity and/or authorization of Your representatives or proxy who contacted Us and to respond any request, query or instruction from such examined representatives;</li>
                         <li>Marketing the products related to Service through various method of communication, including letter, telephone, SMS, facsimile, email, internet, market research, and designing or filtering similar product or
                         service, including by conducting market research, data analysis, and survey;</li>
@@ -285,7 +285,7 @@
             <li>Changes to Privacy Policy</li></strong>  
                     </ol>
                     <ol style="list-style-type: none;">
-                    <li>This Privacy Policy may be amended and/or updated from time to time without prior notice. We advise You to read carefully and review this Privacy Policy page from time to time to know any change that may occurred. By accessing and using Website and Service of CV Chaakralogi (Chaakra Consulting), user shall be deemed to agree on the changes in this Privacy Policy.</li>
+                    <li>This Privacy Policy may be amended and/or updated from time to time without prior notice. We advise You to read carefully and review this Privacy Policy page from time to time to know any change that may occurred. By accessing and using Website and Service of (Chaakra Consulting), user shall be deemed to agree on the changes in this Privacy Policy.</li>
                     </ol>  
                     <br>
                     <strong><ol start="10">
