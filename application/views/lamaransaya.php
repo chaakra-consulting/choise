@@ -84,9 +84,13 @@
 							</div>
 
 
-						<?php }else{ ?>
+						<?php }else if ($status_lamaran == "Ditolak") { ?>
 						<div class="mt-auto w-100">
 								<button href="#" disabled class="btn btn-primary btn-block mr-2 mb-2">Lamaran Ditolak</button>
+							</div>
+						<?php }else{ ?>
+						<div class="mt-auto w-100">
+								<button href="#" disabled class="btn btn-primary btn-block mr-2 mb-2">Proses Seleksi</button>
 							</div>
 						<?php }?>
 						<?php $id_pelamar = $this->session->userdata('ses_id') ?>
