@@ -62,6 +62,7 @@ class Daftar extends CI_Controller
 				$send['confirm_password'] = $this->input->post('repass');
 
 				$send['encrypt_email']		= md5($this->input->post('email'));
+				$send['source']		= $this->input->post('source');
 
 				$kembalian['jumlah'] = $this->Mdl_home->register($send);
 

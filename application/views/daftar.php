@@ -61,6 +61,8 @@
                         <input class="input100" type="password" name="repass" id="confirm_password" placeholder="Konfirmasi Kata Sandi" id="txtComfirmPassword">
                         <span class="focus-input100"></span>
                     </div>
+                    <input hidden type="text" name="source" value="<?= password_verify('jobstreet', $this->input->get('ref'))   ? "jobstreet" :"choise" ?>">
+                    <!-- <?=password_hash('jobstreet', PASSWORD_BCRYPT)?> -->
 
                     <div class="container-login100-form-btn p-t-26">
                         <input type="submit" value="Daftar" class="login100-form-btn"  >
