@@ -48,8 +48,8 @@
                 <tr>
                   <th rowspan="2" class="align-middle">No</th>
                   <th rowspan="2" class="align-middle">Nama Pelamar</th>
-                  <th rowspan="2" class="align-middle">Status Lamaran</th>
                   <th rowspan="2" class="align-middle">Sumber</th>
+                  <th rowspan="2" class="align-middle">Status Lamaran</th>
                   <th rowspan="2" class="align-middle">Status Keikutsertaan Ujian Online</th>
                   <th colspan="4" class="align-middle">Aksi</th>
                 </tr>
