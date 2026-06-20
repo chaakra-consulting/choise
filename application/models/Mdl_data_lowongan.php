@@ -23,9 +23,10 @@ class Mdl_data_lowongan extends CI_Model {
 	public function ambildata_apply($id = FALSE, $limit = 100, $offset = 0)
 	{
 		if($id==TRUE){
-			$this->db->select('tb_apply.*, tb_data_diri.nama_pelamar, tb_data_diri.tanggal_lahir, tb_data_diri.no_hp');
+			$this->db->select('tb_apply.*, tb_data_diri.nama_pelamar, tb_data_diri.tanggal_lahir, tb_data_diri.no_hp, tb_pelamar.source');
 			$this->db->from('tb_apply');
 			$this->db->join('tb_data_diri', 'tb_data_diri.id_pelamar = tb_apply.id_pelamar', 'left');
+			$this->db->join('tb_pelamar', 'tb_pelamar.id_pelamar = tb_apply.id_pelamar');
 			$this->db->where('tb_apply.id_lowongan', $id);
 			$this->db->limit($limit, $offset);
 			$query = $this->db->get();

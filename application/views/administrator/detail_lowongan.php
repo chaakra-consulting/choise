@@ -49,6 +49,7 @@
                   <th rowspan="2" class="align-middle">No</th>
                   <th rowspan="2" class="align-middle">Nama Pelamar</th>
                   <th rowspan="2" class="align-middle">Status Lamaran</th>
+                  <th rowspan="2" class="align-middle">Sumber</th>
                   <th rowspan="2" class="align-middle">Status Keikutsertaan Ujian Online</th>
                   <th colspan="4" class="align-middle">Aksi</th>
                 </tr>
@@ -82,6 +83,7 @@
                       $badges2 = 'badge badge-pill badge-primary';
                     }
                     ?>
+                    <td class="align-middle"><?php echo strtoupper($key['source']) ?></td>
                     <td class="align-middle"><span class="<?php echo $badges ?>"><?php echo $key['status_lamaran'] ?></span></td>
                     <td class="align-middle"><span class="<?php echo $badges2 ?>"><?php echo $key['status_ujian'] == 'aktif' ? 'Aktif' : 'Tidak Aktif'; ?></span></td>
                     <td class="align-middle">
