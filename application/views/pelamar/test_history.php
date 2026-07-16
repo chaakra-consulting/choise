@@ -347,6 +347,70 @@
         </ol>
     </div>
 
+    <!-- Upgrade Modal -->
+    <div class="modal fade" id="upgradeModal" tabindex="-1" role="dialog" aria-labelledby="upgradeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 90%; max-width: 700px; margin-top: 5rem;">
+            <div class="modal-content" style="border-radius: 16px; border: none; overflow: hidden;">
+
+                <!-- Modal Header -->
+                <div class="modal-header border-bottom-0" style="border-bottom: 2px solid var(--theme-light-purple); padding: 20px 25px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="font-size: 1.8rem;">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-center font-weight-bold" id="upgradeModalLabel" style="color: var(--theme-purple); font-size: 1.5rem;">
+                        Pilih Paket Upgrade Anda
+                    </h4>
+                    <p class="text-muted text-center mb-0 mt-2">Buka kunci semua fitur premium dan analisis riwayat nilai secara penuh.</p>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body" style="padding: 30px 25px;">
+                    <div class="row bs3-flex-row">
+
+                        <!-- Basic/Pro Plan -->
+                        <div class="col-sm-6 mb-3">
+                            <div class="card p-4 shadow-sm" style="border: 2px solid var(--theme-light-purple); margin-bottom: 0; height: 100%;">
+                                <h3 class="font-weight-bold text-center mt-0" style="color: var(--theme-text-dark);">Pro</h3>
+                                <h4 class="text-center text-theme font-weight-bold">Rp 49.000 <small class="text-muted" style="font-size: 0.9rem;">/ bulan</small></h4>
+                                <hr style="border-color: var(--theme-light-purple);">
+                                <ul class="list-unstyled" style="line-height: 2.5; font-size: 1.1rem;">
+                                    <li><em class="fa fa-check text-success ml-1"></em> Buka Final Score Chart</li>
+                                    <li><em class="fa fa-check text-success ml-1"></em> Analisis Holland RIASEC</li>
+                                    <li><em class="fa fa-times text-danger ml-1" style="opacity: 0.5;"></em> <span class="text-muted">Prioritas Lamaran Kerja</span></li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <button class="btn btn-default w-100" style="border-radius: 10px; font-weight: bold; border-color: var(--theme-purple); color: var(--theme-purple);">Pilih Pro</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Plan -->
+                        <div class="col-sm-6 mb-3">
+                            <div class="card p-4 shadow-sm bg-theme" style="margin-bottom: 0; height: 100%; position: relative;">
+                                <!-- Best Value Badge -->
+                                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #ff5722; color: white; padding: 2px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                                    TERPOPULER
+                                </div>
+                                <h3 class="font-weight-bold text-center mt-0 text-white">Premium</h3>
+                                <h4 class="text-center font-weight-bold text-white">Rp 99.000 <small style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">/ bulan</small></h4>
+                                <hr style="border-color: rgba(255,255,255,0.2);">
+                                <ul class="list-unstyled text-white" style="line-height: 2.5; font-size: 1.1rem;">
+                                    <li><em class="fa fa-check ml-1"></em> Buka Final Score Chart</li>
+                                    <li><em class="fa fa-check ml-1"></em> Analisis Holland RIASEC</li>
+                                    <li><em class="fa fa-check ml-1"></em> Prioritas Lamaran Kerja</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <button class="btn btn-default w-100" style="border-radius: 10px; font-weight: bold; color: var(--theme-purple); background-color: white; border: none;">Pilih Premium</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <div class="row bs3-flex-row" style="padding-top: 2rem;">
         <!-- LEFT COLUMN -->
@@ -525,7 +589,7 @@
                     </svg>
                     <h4 class="text-dark font-weight-bold">Konten Premium</h4>
                     <p class="text-dark"><strong>Lakukan upgrade untuk melihat konten ini</strong></p>
-                    <button class="btn btn-warning mt-2"><strong>Lakukan Upgrade</strong></button>
+                    <button class="btn btn-warning mt-2" data-toggle="modal" data-target="#upgradeModal"><strong>Lakukan Upgrade</strong></button>
                 </div>
 
                 <!-- The Original Content (Blurred) -->
@@ -620,7 +684,7 @@
                         <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
                     </svg>
                     <h6 class="text-dark font-weight-bold mb-0">Fitur Premium</h6>
-                    <button class="btn btn-warning btn-sm m-0"><strong>Lakukan Upgrade</strong></button>
+                    <button class="btn btn-warning btn-sm m-0" data-toggle="modal" data-target="#upgradeModal"><strong>Lakukan Upgrade</strong></button>
                 </div>
 
                 <!-- The Original Content (Blurred) -->
@@ -646,6 +710,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+    // $(document).ready(function() {
+    //     $('.premium-overlay .btn-warning').on('click', function(e) {
+    //         e.preventDefault();
+    //         $('#upgradeModal').modal('show');
+    //     });
+    // });
     $('#filterBtn').on('click', function() {
         if ($('#lowonganKerja').val() != '-') {
             $('.chart-data').empty().html(`  <div class="line-chart-container">

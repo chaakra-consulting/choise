@@ -926,6 +926,7 @@ class Pelamar extends CI_Controller
 		$paket['rmib_wanita'] = $this->Mdl_data_ujian->ambildata_ujian_rmib_wanita();
 		$paket['belbin'] = $this->Mdl_data_ujian->ambildata_ujian_belbin();
 		$paket['grafis'] = $this->Mdl_data_ujian->ambildata_ujian_grafis();
+		$paket['tiki_d'] = $this->Mdl_data_ujian->ambildata_ujian_tiki_d();
 		$paket['grafis2'] = $this->Mdl_data_ujian->ambildata_ujian_grafis2();
 		$this->load->view('testulispsikotes', $paket);
 	}

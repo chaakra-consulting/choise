@@ -51,9 +51,10 @@ class Ujian extends CI_Controller
 		$paket['studi_ldg'] = $this->Mdl_data_ujian->ambildata_ujian_studi_ldg();
 		$paket['studi_manajerial'] = $this->Mdl_data_ujian->ambildata_ujian_studi_manajerial();
 		$paket['hitung'] = $this->Mdl_data_ujian->ambildata_ujian_hitung();
-		$paket['papi'] = $this->Mdl_data_ujian->ambildata_ujian_papi();
+		$paket['papi'] = $this->Mdl_data_ujian->ambildata_ujiann_papi();
 		$paket['belbin'] = $this->Mdl_data_ujian->ambildata_ujian_belbin();
 		$paket['ist'] = $this->Mdl_data_ujian->ambildata_ujian_ist();
+		$paket['tiki_d'] = $this->Mdl_data_ujian->ambildata_ujian_tiki_d();
 		$paket['msdt'] = $this->Mdl_data_ujian->ambildata_ujian_msdt();
 		$paket['disc'] = $this->Mdl_data_ujian->ambildata_ujian_disc();
 		$paket['talent'] = $this->Mdl_data_ujian->ambildata_ujian_talent();

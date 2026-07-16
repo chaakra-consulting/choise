@@ -318,6 +318,117 @@ class Data_ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian IST Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_ist');
 	}
+	// -------------------------CRUD IST------------------------------------
+	public function ujian_tiki_d()
+	{
+		$paket['array'] = $this->Mdl_data_ujian->ambildata_ujian_tiki_d();
+		$this->load->view('administrator/manage_ujian_tiki_d', $paket);
+	}
+
+	public function update_tiki_d()
+	{
+		$namates = $this->input->post('nama_ujian');
+		$datetime_mulai = $this->input->post('waktu_mulai');
+		$waktult = $this->input->post('waktu_latihan');
+		$waktult9 = $this->input->post('waktu_latihan9');
+		$waktuujian1 = $this->input->post('waktu_ujiansubtes1');
+		$waktuujian2 = $this->input->post('waktu_ujiansubtes2');
+		$waktuujian3 = $this->input->post('waktu_ujiansubtes3');
+		$waktuujian4 = $this->input->post('waktu_ujiansubtes4');
+		$waktuujian5 = $this->input->post('waktu_ujiansubtes5');
+		// $waktuujian6 = $this->input->post('waktu_ujiansubtes6');
+		$waktuujian7 = $this->input->post('waktu_ujiansubtes7');
+		$waktuujian8 = $this->input->post('waktu_ujiansubtes8');
+		$waktuujian9 = $this->input->post('waktu_ujiansubtes9');
+		// $waktuujian10 = $this->input->post('waktu_ujiansubtes10');
+		$pembuat = $this->input->post('id_admin');
+
+		if ($this->input->post('status') == "aktif") {
+			$status = "aktif";
+		} else {
+			$status = "tidak aktif";
+		}
+
+		if ($this->input->post('khusus') == "aktif") {
+			$khusus_ist = "aktif";
+		} else {
+			$khusus_ist = "tidak aktif";
+		}
+
+		$startltsub1 = $datetime_mulai;
+		$endltsub1 = tambahmenit($startltsub1, $waktult);
+		$startujiansub1 = $endltsub1;
+		$endujiansub1 = tambahmenit($startujiansub1, $waktuujian1);
+
+		$startltsub2 = $endujiansub1;
+		$endltsub2 = tambahmenit($startltsub2, $waktult);
+		$startujiansub2 = $endltsub2;
+		$endujiansub2 = tambahmenit($startujiansub2, $waktuujian2);
+
+		$startltsub3 = $endujiansub2;
+		$endltsub3 = tambahmenit($startltsub3, $waktult);
+		$startujiansub3 = $endltsub3;
+		$endujiansub3 = tambahmenit($startujiansub3, $waktuujian3);
+
+		$startltsub4 = $endujiansub3;
+		$endltsub4 = tambahmenit($startltsub4, $waktult);
+		$startujiansub4 = $endltsub4;
+		$endujiansub4 = tambahmenit($startujiansub4, $waktuujian4);
+
+		$startltsub5 = $endujiansub4;
+		$endltsub5 = tambahmenit($startltsub5, $waktult);
+		$startujiansub5 = $endltsub5;
+		$endujiansub5 = tambahmenit($startujiansub5, $waktuujian5);
+
+		
+
+		$startltsub7 = $endujiansub5;
+		$endltsub7 = tambahmenit($startltsub7, $waktult);
+		$startujiansub7 = $endltsub7;
+		$endujiansub7 = tambahmenit($startujiansub7, $waktuujian7);
+
+		$startltsub8 = $endujiansub7;
+		$endltsub8 = tambahmenit($startltsub8, $waktult);
+		$startujiansub8 = $endltsub8;
+		$endujiansub8 = tambahmenit($startujiansub8, $waktuujian8);
+
+		$startltsub9 = $endujiansub8;
+		$endltsub9 = tambahmenit($startltsub9, $waktult9);
+		$startujiansub9 = $endltsub9;
+		$endujiansub9 = tambahmenit($startujiansub9, $waktuujian9);
+
+		
+		// "INSERT INTO tb_ujian (
+		// 	id_ujian,nama_ujian,waktu_dimulai,waktu_berakhir
+		// 	,start_lat_sub1,end_lat_sub1, start_uji_sub1, end_uji_sub1
+		// 	,start_lat_sub2,end_lat_sub2, start_uji_sub2, end_uji_sub2
+		// 	,start_lat_sub3,end_lat_sub3, start_uji_sub3, end_uji_sub3
+		// 	,start_lat_sub4,end_lat_sub4, start_uji_sub4, end_uji_sub4
+		// 	,durasi,nama_pembuat,STATUS
+		// 	) VALUE (
+		// 	'1','$namates','$datetime_mulai','$endujiansub4',
+		// 	'$startltsub1','$endltsub1','$startujiansub1','$endujiansub1',
+		// 	'$startltsub2','$endltsub2','$startujiansub2','$endujiansub2',
+		// 	'$startltsub3','$endltsub3','$startujiansub3','$endujiansub3',
+		// 	'$startltsub4','$endltsub4','$startujiansub4','$endujiansub4',
+		// 	1950,'Administrator','tersedia'
+		// 	)";
+		$this->db->query("UPDATE tb_ujian_tiki_d SET
+			nama_ujian='$namates',waktu_mulai='$datetime_mulai',waktu_akhir='$endujiansub9'
+			,start_lat_sub1='$startltsub1',end_lat_sub1='$endltsub1', start_uji_sub1='$startujiansub1', end_uji_sub1='$endujiansub1'
+			,start_lat_sub2='$startltsub2',end_lat_sub2='$endltsub2', start_uji_sub2='$startujiansub2', end_uji_sub2='$endujiansub2'
+			,start_lat_sub3='$startltsub3',end_lat_sub3='$endltsub3', start_uji_sub3='$startujiansub3', end_uji_sub3='$endujiansub3'
+			,start_lat_sub4='$startltsub4',end_lat_sub4='$endltsub4', start_uji_sub4='$startujiansub4', end_uji_sub4='$endujiansub4'
+			,start_lat_sub4='$startltsub4',end_lat_sub4='$endltsub4', start_uji_sub4='$startujiansub4', end_uji_sub4='$endujiansub4'
+			,start_lat_sub5='$startltsub5',end_lat_sub5='$endltsub5', start_uji_sub5='$startujiansub5', end_uji_sub5='$endujiansub5'
+			,start_lat_sub7='$startltsub7',end_lat_sub7='$endltsub7', start_uji_sub7='$startujiansub7', end_uji_sub7='$endujiansub7'
+			,start_lat_sub8='$startltsub8',end_lat_sub8='$endltsub8', start_uji_sub8='$startujiansub8', end_uji_sub8='$endujiansub8'
+			,start_lat_sub9='$startltsub9',end_lat_sub9='$endltsub9', start_uji_sub9='$startujiansub9', end_uji_sub9='$endujiansub9'
+			,durasi='1950',nama_pembuat='$pembuat',STATUS='$status'
+			where id_ujian=1");
+		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian TIKI(Dasar) Berhasil di Update.');
+		redirect('Administrator/Data_ujian/ujian_tiki_d');
+	}
 
 
 	// -------------------------CRUD Holland------------------------------------

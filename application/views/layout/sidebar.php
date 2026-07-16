@@ -155,6 +155,14 @@
             </a>
           </li>
           <li>
+            <a class="treeview-item <?php if ($this->uri->segment(3) == "ujian_tiki_d") {
+                                      echo "active";
+                                    } ?>"
+              href="<?php echo base_url('Administrator/Data_ujian/ujian_tiki_d') ?>">
+              <i class="icon fa fa-circle-o"></i> TIKI(Tes Intelektual Kolektif Indonesia) Dasar
+            </a>
+          </li>
+          <li>
             <a class="treeview-item <?php if ($this->uri->segment(3) == "ujian_papi") {
                                       echo "active";
                                     } ?>"

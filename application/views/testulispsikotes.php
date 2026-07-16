@@ -144,6 +144,41 @@ $tb_lowongan = $this->db->query("SELECT * FROM tb_lowongan WHERE id_lowongan=$id
 <?php }
     } ?>
 
+  <!-- TIKI D -->
+  <tr>
+    <?php
+    $cek_khusus = $this->db->query("SELECT * FROM tb_ujian_tiki_d")->result();
+    foreach ($tiki_d as $key_tiki_d) {
+      if ($key_tiki_d['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+        <td><?php echo $no++; ?></td>
+        <td><?php echo $key_tiki_d['nama_ujian']; ?></td>
+       
+          <td><?php
+              $wkt_start = date('d F Y H:i:s', strtotime($key_tiki_d['waktu_mulai']));
+              echo date('d F Y H:i:s', strtotime($key_tiki_d['waktu_mulai']));
+              ?> WIB</td>
+          <td><?php
+              $wkt_stop = date('d F Y H:i:s', strtotime($key_tiki_d['waktu_akhir']));
+              echo date('d F Y H:i:s', strtotime($key_tiki_d['waktu_akhir']));
+              ?> WIB</td>
+        <td>
+
+          <?php
+          date_default_timezone_set("Asia/Jakarta");
+          if (date('d F Y H:i:s') < $wkt_start) {
+            echo "belum dimulai";
+          } elseif (date('d F Y H:i:s') >= $wkt_start && date('d F Y H:i:s') <= $wkt_stop) { ?>
+            
+              <a href="<?php echo base_url('Pelamar/Daftar_ujian/Tiki_d/') ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+         
+          <?php } elseif (date('d F Y H:i:s') > $wkt_stop) {
+            echo "Ujian sudah berakhir";
+          } ?>
+        </td>
+  </tr>
+<?php }
+    } ?>
+
 <!-- Papi -->
 <tr>
   <?php

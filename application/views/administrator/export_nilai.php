@@ -6,10 +6,10 @@ ini_set('display_errors', 1);
 date_default_timezone_set('Asia/Jakarta');
 $nilai = $this->db->query("SELECT nama_jabatan,nama_perusahaan FROM tb_lowongan a LEFT JOIN tb_perusahaan b ON a.`id_perusahaan`=b.`id_perusahaan` WHERE id_lowongan=$lowongan")->result_array();
 $waktu = date('d-m-Y  H:i:s');
-header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=nilai ($waktu) - " . $nilai[0]['nama_jabatan'] . " di perusahaan " . $nilai[0]['nama_perusahaan'] . ".xls");
-header("Pragma: no-cache");
-header("Expires: 0");
+// header("Content-type: application/octet-stream");
+// header("Content-Disposition: attachment; filename=nilai ($waktu) - " . $nilai[0]['nama_jabatan'] . " di perusahaan " . $nilai[0]['nama_perusahaan'] . ".xls");
+// header("Pragma: no-cache");
+// header("Expires: 0");
 
 
 
@@ -22,6 +22,7 @@ header("Expires: 0");
 			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">No</th>
 			<th class="tg-0pky" rowspan="4" style="background-color: Yellow;">Nama</th>
 			<th class="tg-c3ow" colspan="3" rowspan="2" style="background-color: Yellow;">CFIT</th>
+			<th class="tg-c3ow" colspan="3" rowspan="2" style="background-color: Yellow;">CFIT 2a</th>
 			<th class="tg-c3ow" colspan="6" rowspan="2" style="background-color: Yellow;">Holland</th>
 			<th class="tg-0pky" colspan="10" rowspan="2" style="background-color: Yellow;">Essay</th>
 			<th class="tg-c3ow" colspan="20" style="background-color: Yellow;">Papi</th>
@@ -271,6 +272,17 @@ header("Expires: 0");
 		</tr>
 		<tr>
 			<!-- CFIT -->
+			<td class="tg-0pky" rowspan="2"><b>
+					<center>Nilai</center>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
+					<center>IQ</center>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
+					<center>Kategori</center>
+				</b></td>
+
+			<!-- CFIT 2a -->
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Nilai</center>
 				</b></td>
@@ -1861,6 +1873,50 @@ header("Expires: 0");
 			} elseif ($iqcfit <= 69) {
 				$katecfit = 'Intellectual deficient';
 			}
+			// End Perhitungan CFIT
+
+
+			//Perhitungan CFIT 2a
+			$cfit2a_jawaban_sub1 = $this->db->query("SELECT * FROM tb_data_jawaban_cfit_2a WHERE subtes = 1 AND id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar");
+			$cfit2a_jawaban_sub2 = $this->db->query("SELECT * FROM tb_data_jawaban_cfit_2a WHERE subtes = 2 AND id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar");
+			$cfit2a_jawaban_sub3 = $this->db->query("SELECT * FROM tb_data_jawaban_cfit_2a WHERE subtes = 3 AND id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar");
+			$cfit2a_jawaban_sub4 = $this->db->query("SELECT * FROM tb_data_jawaban_cfit_2a WHERE subtes = 4 AND id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar");
+
+			$cfit2a_nilai_sub1 = 0;
+			$cfit2a_nilai_sub2 = 0;
+			$cfit2a_nilai_sub3 = 0;
+			$cfit2a_nilai_sub4 = 0;
+			foreach ($cfit2a_jawaban_sub1->result() as $jawsub1) {
+				$nomor_soal = $jawsub1->nomor_soal;
+				if ($jawsub1->jawaban == $jawsub1->jawaban_kunci) {
+					$cfit2a_nilai_sub1 = $cfit2a_nilai_sub1 + 1;
+				}
+			}
+
+			foreach ($cfit2a_jawaban_sub2->result() as $jawsub2) {
+				$nomor_soal = $jawsub2->nomor_soal;
+				if ($jawsub2->jawaban == $jawsub2->jawaban_kunci && $jawsub2->jawaban2 == $jawsub2->jawaban_kunci2) {
+					$cfit2a_nilai_sub2 = $cfit2a_nilai_sub2 + 1;
+				}
+			}
+
+			foreach ($cfit2a_jawaban_sub3->result() as $jawsub3) {
+				$nomor_soal = $jawsub3->nomor_soal;
+				if ($jawsub3->jawaban == $jawsub3->jawaban_kunci) {
+					$cfit2a_nilai_sub3 = $cfit2a_nilai_sub3 + 1;
+				}
+			}
+
+			foreach ($cfit2a_jawaban_sub4->result() as $jawsub4) {
+				$nomor_soal = $jawsub4->nomor_soal;
+				if ($jawsub4->jawaban == $jawsub4->jawaban_kunci) {
+					$cfit2a_nilai_sub4 = $cfit2a_nilai_sub4 + 1;
+				}
+			}
+
+			$cfit2a_total_nilai_sub = $cfit2a_nilai_sub1 + $cfit2a_nilai_sub2 + $cfit2a_nilai_sub3 + $cfit2a_nilai_sub4;
+
+			//End Perhitungan CFIT 2a
 
 			$holland = $this->db->query("SELECT * FROM tb_data_jawaban_holland WHERE id_lowongan = $lowongan AND id_pelamar=$keypel->id_pelamar ORDER BY id_jawaban_holland DESC LIMIT 1")->result_array();
 			$essay = $this->db->query("SELECT * FROM tb_jawaban_essay WHERE id_lowongan = $lowongan AND id_pelamar=$keypel->id_pelamar ORDER BY id_jawaban DESC LIMIT 1")->result_array();
@@ -9522,6 +9578,9 @@ header("Expires: 0");
 				<td rowspan="2"><?= $total_nilai_sub; ?></td>
 				<td rowspan="2"><?= $iqcfit; ?></td>
 				<td rowspan="2"><b><?= $katecfit; ?></b></td>
+				<td rowspan="2"><?= $cfit2a_total_nilai_sub; ?></td>
+				<td rowspan="2">CFIT 2a IQ</td>
+				<td rowspan="2"><b>Kategori CFIT 2a</b></td>
 				<td rowspan="2"><?= count($holland) == 0 ? 0 : $holland[0]['nilai_r']; ?></td>
 				<td rowspan="2"><?= count($holland) == 0 ? 0 : $holland[0]['nilai_i']; ?></td>
 				<td rowspan="2"><?= count($holland) == 0 ? 0 : $holland[0]['nilai_a']; ?></td>
