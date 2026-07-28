@@ -22,6 +22,7 @@ class Mdl_home extends CI_Model
         ');
         $this->db->from('tb_lowongan as l');
         $this->db->join('tb_perusahaan as p', 'l.id_perusahaan = p.id_perusahaan', 'left');
+		$this->db->where('l.status', 'tersedia');
         $this->db->where('l.jadwal_seleksi >=', 'CURRENT_DATE()', FALSE);
         return $this->db->get()->result_array();
 	}
