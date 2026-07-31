@@ -400,6 +400,14 @@
             </a>
           </li>
           <li>
+            <a class="treeview-item <?php if ($this->uri->segment(3) == "ujian_tpa_pascasarjana") {
+                                      echo "active";
+                                    } ?>"
+              href="<?php echo base_url('Administrator/Data_ujian/ujian_tpa_pascasarjana') ?>">
+              <i class="icon fa fa-circle-o"></i> TPA Pascasarjana
+            </a>
+          </li>
+          <li>
             <a class="treeview-item <?php if ($this->uri->segment(3) == "ujian_belbin") {
                                       echo "active";
                                     } ?>"

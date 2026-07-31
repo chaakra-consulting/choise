@@ -1625,6 +1625,34 @@ class Data_ujian extends CI_Controller
 		redirect('Administrator/Data_ujian/ujian_skd');
 	}
 
+	// -------------------------CRUD TPA Pascasarjana------------------------------------
+	public function ujian_tpa_pascasarjana()
+	{
+		$paket['array'] = $this->Mdl_data_ujian->ambildata_ujian_tpa_pascasarjana();
+		$this->load->view('administrator/manage_ujian_tpa_pascasarjana', $paket);
+	}
+
+	public function update_tpa_pascasarjana()
+	{
+		$namates = $this->input->post('nama_ujian');
+		$datetime_mulai = $this->input->post('waktu_mulai');
+		$waktuujian = $this->input->post('waktu_ujian');
+		$pembuat = $this->input->post('id_admin');
+
+		if ($this->input->post('status') == "aktif") {
+			$status = "aktif";
+		} else {
+			$status = "tidak aktif";
+		}
+
+		$startujian = $datetime_mulai;
+		$endujian = tambahmenit($startujian, $waktuujian);
+
+		$this->db->query("UPDATE tb_ujian_tpa_pascasarjana SET nama_ujian='$namates',waktu_mulai='$datetime_mulai',waktu_akhir='$endujian',STATUS='$status' where id=1");
+		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian TPA Pascasarjana Berhasil di Update.');
+		redirect('Administrator/Data_ujian/ujian_tpa_pascasarjana');
+	}
+
 	// -------------------------CRUD END-----------------------------------
 	public function aktifkansemua()
 	{

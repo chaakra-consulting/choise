@@ -167,6 +167,7 @@ class Tiki_d extends CI_Controller
 		$nomor_soal = $this->input->post('nomor_soal');
 		$subtes = $this->input->post('subtes');
 		$id_pelamar = $this->session->userdata('ses_id');
+		$id_lowongan = $this->session->userdata('sesIdLowongan');
 
 		// Fetch the specific question
 		$soal = $this->db->get_where('tb_soal_tiki_d', [
@@ -178,7 +179,8 @@ class Tiki_d extends CI_Controller
 		$jawaban = $this->db->get_where('tb_data_jawaban_tiki_d', [
 			'nomor_soal' => $nomor_soal,
 			'subtes' => $subtes,
-			'id_pelamar' => $id_pelamar
+			'id_pelamar' => $id_pelamar,
+			'id_lowongan' => $id_lowongan
 		])->row();
 
 		echo json_encode([

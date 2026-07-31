@@ -55,7 +55,8 @@ class Cepat_teliti extends CI_Controller
 		$id_ujian = $this->input->post('id_ujian');
 		$nomor_soal = $this->input->post('nomor_soal');
 		$id_pelamar = $this->session->userdata('ses_id');
-
+		$id_lowongan = $this->session->userdata('sesIdLowongan');
+		
 		// Fetch the specific question
 		$soal = $this->db->get_where('tb_soal_cepat', [
 			'nomor_soal' => $nomor_soal
@@ -64,7 +65,8 @@ class Cepat_teliti extends CI_Controller
 		// Fetch user's previous answer if it exists
 		$jawaban = $this->db->get_where('tb_data_jawaban_cepat', [
 			'no_soal' => $nomor_soal,
-			'id_pelamar' => $id_pelamar
+			'id_pelamar' => $id_pelamar,
+			'id_lowongan' => $id_lowongan
 		])->row();
 
 		echo json_encode([

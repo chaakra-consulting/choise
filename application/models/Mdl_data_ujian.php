@@ -45,6 +45,12 @@ class Mdl_data_ujian extends CI_Model
 		$query = $this->db->query("SELECT * FROM tb_ujian_holland");
 		return $query->result_array();
 	}
+	public function ambildata_ujian_tpa_pascasarjana()
+	{
+		$query = $this->db->query("SELECT * FROM tb_ujian_tpa_pascasarjana");
+		return $query->result_array();
+	}
+	
 	public function ambildata_ujian_cepat()
 	{
 		$query = $this->db->query("SELECT * FROM tb_ujian_cepat");
