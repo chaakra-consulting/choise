@@ -1,4 +1,5 @@
 <?php $this->load->view('layout3/header2') ?>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -17,6 +18,16 @@
     body {
         font-family: 'Inter', sans-serif;
         background-color: var(--bg-body);
+    }
+
+   
+    .question-text img,
+    .choice-text img,
+    #text-wrapper img {
+        max-width: 100% !important;
+        height: auto !important; 
+        max-height: 300px;
+        object-fit: contain;
     }
 
     /* Typography */
@@ -80,12 +91,11 @@
         }
     }
 
-    /* Horizontal Options Styling */
+  /* Horizontal Options Styling */
     .options-container {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 16px;
+        flex-direction: column; /* Changed from row to stack them neatly */
+        gap: 12px; /* Adjusted gap for vertical list */
         margin-top: 15px;
         margin-bottom: 40px;
     }
@@ -94,6 +104,7 @@
         display: block;
         cursor: pointer;
         margin: 0;
+        width: 100%; /* Ensures all cards have a consistent full width */
     }
 
     .custom-radio-card input[type="radio"] {
@@ -104,14 +115,14 @@
         border: 2px solid var(--border-color);
         border-radius: 10px;
         padding: 12px 24px;
-        text-align: center;
+        text-align: left; /* FIX: Aligns the text to the left */
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         background-color: #fff;
         display: flex;
-        align-items: center;
+        align-items: flex-start; /* FIX: Keeps the letter (a, b, c) at the top if the text wraps to multiple lines */
         cursor: pointer;
-        min-width: 90px;
-        justify-content: center;
+        width: 100%;
+        justify-content: flex-start; /* FIX: Aligns the flex items to the left */
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
     }
 
@@ -327,10 +338,13 @@
     <!-- START OF TEST INSTRUCTIONS (BOOTSTRAP 3) -->
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-info" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-top: 15px; margin-bottom: 10px;">
-                <div class="panel-heading" style="background: #F59E0B !important;  border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                    <h3 class="panel-title" style="font-weight: 600; font-family: 'Inter', sans-serif;" id="instruction-title">
-                        
+            <div class="panel panel-info"
+                style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-top: 15px; margin-bottom: 10px;">
+                <div class="panel-heading"
+                    style="background: #F59E0B !important;  border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                    <h3 class="panel-title" style="font-weight: 600; font-family: 'Inter', sans-serif;"
+                        id="instruction-title">
+
                     </h3>
                 </div>
                 <div class="panel-body" style="color: var(--text-dark); font-size: 15px;" id="instruction-body">
@@ -358,7 +372,7 @@
         <div class="row">
 
             <div class="col-md-8 col-sm-12 left-panel">
-                
+
                 <h3 class="question-number">Soal Nomor <span id="display-number">1</span></h3>
                 <hr style="margin-top: 15px; margin-bottom: 25px; border-top: 2px solid #F1F5F9;">
 
@@ -375,35 +389,35 @@
                         <div class="custom-radio-card">
                             <input type="radio" id="optionA" name="jawaban" value="A">
                             <label for="optionA" class="card-content">
-                                <span class="choice-letter">A. </span>
+                                <span class="choice-letter">a. </span>
                                 <span class="choice-text" id="text-opsi-a"></span>
                             </label>
                         </div>
                         <div class="custom-radio-card">
                             <input type="radio" id="optionB" name="jawaban" value="B">
                             <label for="optionB" class="card-content">
-                                <span class="choice-letter">B. </span>
+                                <span class="choice-letter">b. </span>
                                 <span class="choice-text" id="text-opsi-b"></span>
                             </label>
                         </div>
                         <div class="custom-radio-card">
                             <input type="radio" id="optionC" name="jawaban" value="C">
                             <label for="optionC" class="card-content">
-                                <span class="choice-letter">C. </span>
+                                <span class="choice-letter">c. </span>
                                 <span class="choice-text" id="text-opsi-c"></span>
                             </label>
                         </div>
                         <div class="custom-radio-card">
                             <input type="radio" id="optionD" name="jawaban" value="D">
                             <label for="optionD" class="card-content">
-                                <span class="choice-letter">D. </span>
+                                <span class="choice-letter">d. </span>
                                 <span class="choice-text" id="text-opsi-d"></span>
                             </label>
                         </div>
                         <div class="custom-radio-card">
                             <input type="radio" id="optionE" name="jawaban" value="E">
                             <label for="optionE" class="card-content">
-                                <span class="choice-letter">E. </span>
+                                <span class="choice-letter">e. </span>
                                 <span class="choice-text" id="text-opsi-e"></span>
                             </label>
                         </div>
@@ -505,6 +519,7 @@
                         <div class="col">
                             <div class="collapse multi-collapse" id="question-text">
                                 <div class="card card-body">
+                                <h3 style="text-align: justify; font-size: 22px; font-weight: bold;">Paragraf ini untuk menjawab soal 31-35</h3>
                                     <p style="text-align: justify; font-size: 16px;">(1) Sebuah studi menunjukkan bahwa
                                         anak yang dibiasakan mendengarkan cerita sejak dini akan dikenalkan dengan
                                         kebiasaan
@@ -560,6 +575,7 @@
                         <div class="col">
                             <div class="collapse multi-collapse" id="question-text">
                                 <div class="card card-body">
+                                <h3 style="text-align: justify; font-size: 22px; font-weight: bold;">Paragraf ini untuk menjawab soal 36-40</h3>
                                     <p style="text-align: justify; font-size: 16px;">
 (1) Generasi hari ini berbeda dengan generasi sebelumnya karena generasi hari ini lahir di tengah kecanggihan teknologi digital sehingga mereka dimanjakan game (2)Sejatinya, online dan media sosial.
 smartphone mendukung proses belajar- mengajar sehingga proses transfer of knowledge dan pembinaan karakter dan keterampilan berjalan lancar. (3) Namun, kita juga sering menjumpai remaja yang berada dalam sebuah forum tanpa berkomunikasi satu dengan yang lain, karena asyik dengan dunianya sendiri. (4) Meminjam bahasa Don Tapscott (2013), generasi ini adalah generasi acuh-tak acuh. (5) Minat mereka hanya mengenai budaya populer, para pesohor, dan teman-teman mereka. (6) Hal itu menunjukkan bahwa teknologi digital membawa sejumlah dampak positif dan negatif.
@@ -620,23 +636,28 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
                         ` : res.soal);
                     $('#text-opsi-a').html(res.opsi_a.includes("a.png") ?
                         ` <img src="<?= base_url('upload/bank_soal/tpa_pascasarjana/'); ?>/soal-${currentSoal}/a.png" alt="" style="height: 100px;">
-                    ` : res.opsi_a.charAt(0).toUpperCase() + res.opsi_a.slice(1));
+                    ` : res.opsi_a);
                     $('#text-opsi-b').html(res.opsi_b.includes("b.png") ?
                         ` <img src="<?= base_url('upload/bank_soal/tpa_pascasarjana/'); ?>/soal-${currentSoal}/b.png" alt="" style="height: 100px;">
-                    ` : res.opsi_b.charAt(0).toUpperCase() + res.opsi_b.slice(1));
+                    ` : res.opsi_b);
                     $('#text-opsi-c').html(res.opsi_c.includes("c.png") ?
                         ` <img src="<?= base_url('upload/bank_soal/tpa_pascasarjana/'); ?>/soal-${currentSoal}/c.png" alt="" style="height: 100px;">
-                    ` : res.opsi_c.charAt(0).toUpperCase() + res.opsi_c.slice(1));
+                    ` : res.opsi_c);
                     $('#text-opsi-d').html(res.opsi_d.includes("d.png") ?
                         ` <img src="<?= base_url('upload/bank_soal/tpa_pascasarjana/'); ?>/soal-${currentSoal}/d.png" alt="" style="height: 100px;">
-                    ` : res.opsi_d.charAt(0).toUpperCase() + res.opsi_d.slice(1));
+                    ` : res.opsi_d);
                     $('#text-opsi-e').html(res.opsi_e.includes("e.png") ?
                         ` <img src="<?= base_url('upload/bank_soal/tpa_pascasarjana/'); ?>/soal-${currentSoal}/e.png" alt="" style="height: 100px;">
-                    ` : res.opsi_e.charAt(0).toUpperCase() + res.opsi_e.slice(1));
+                    ` : res.opsi_e);
 
-                    
+
                     if (res.jawaban) {
                         $('input[name="jawaban"][value="' + res.jawaban + '"]').prop('checked', true);
+                    }
+
+                    if (window.MathJax) {
+                        MathJax.typesetPromise().then(() => {
+                        });
                     }
                 }
             });
@@ -644,7 +665,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
 
 
         function setInstructions(questionNumber) {
-            if (questionNumber >=1 && questionNumber <= 30) {
+            if (questionNumber >= 1 && questionNumber <= 30) {
                 $('#instruction-title').html(`<i class="glyphicon glyphicon-info-sign" style="margin-right: 5px; padding-top: 10px;"></i> Petunjuk Pengerjaan Soal 1-30`);
                 $('#instruction-body').html(`
                 <p>Pada no 1-30, pilih salah satu jawaban <strong>(A, B, C, D, atau E)</strong> yang menurut Anda paling tepat dari pilihan yang ada, di setiap kelompok soal memiliki instruksi berbeda</p>
@@ -654,7 +675,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
                         <li> <strong>(a : b = c : d)</strong> Anda diminta mencari persamaan kata dari pola padanan yang tersedia</li>
                     </ul>
                 `);
-            }else if (questionNumber >=31 && questionNumber <= 40) {
+            } else if (questionNumber >= 31 && questionNumber <= 40) {
                 $('#instruction-title').html(`<i class="glyphicon glyphicon-info-sign" style="margin-right: 5px; padding-top: 10px;"></i> Petunjuk Pengerjaan Soal 31-40`);
                 $('#instruction-body').html(`
                 <p>Pada no 31-40, pilih salah satu jawaban <strong>(A, B, C, D, atau E)</strong> yang menurut Anda paling tepat dari pilihan yang ada, di setiap kelompok soal memiliki instruksi berbeda</p>
@@ -662,7 +683,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
                 <li>Anda diminta untuk menjawab pertanyaan berdasarkan paragraf yang sudah disediakan</li>
                 </ul>
                 `);
-            }else if (questionNumber >=41 && questionNumber <= 70) {
+            } else if (questionNumber >= 41 && questionNumber <= 70) {
                 $('#instruction-title').html(`<i class="glyphicon glyphicon-info-sign" style="margin-right: 5px; padding-top: 10px;"></i> Petunjuk Pengerjaan Soal 41-70`);
                 $('#instruction-body').html(`
                 <p>Pada no 41-70, pilih salah satu jawaban <strong>(A, B, C, D, atau E)</strong> yang menurut Anda paling tepat dari pilihan yang ada, di setiap kelompok soal memiliki instruksi berbeda</p>
@@ -670,7 +691,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
                 <li>Silahkan menghitung jawaban yang paling tepat untuk menjawab berdasarkan pilihan yang tersedia</li>
                 </ul>
                 `);
-            }else if (questionNumber >=71 && questionNumber <= 90) {
+            } else if (questionNumber >= 71 && questionNumber <= 90) {
                 $('#instruction-title').html(`<i class="glyphicon glyphicon-info-sign" style="margin-right: 5px; padding-top: 10px;"></i> Petunjuk Pengerjaan Soal 71-90`);
                 $('#instruction-body').html(`
                 <p>Pada no 71-90, pilih salah satu jawaban <strong>(A, B, C, D, atau E)</strong> yang menurut Anda paling tepat dari pilihan yang ada, di setiap kelompok soal memiliki instruksi berbeda</p>
@@ -678,10 +699,10 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
                 <li>Silahkan memilih jawaban yang paling sesuai untuk mengisi jawaban pilihan yang ada dibawah ini</li>
                 </ul>
                 `);
-            }else{
-                $('#instruction-title').html(`<i class="glyphicon glyphicon-info-sign" style="margin-right: 5px; padding-top: 10px;"></i> Petunjuk Pengerjaan Soal 71-90`);
+            } else {
+                $('#instruction-title').html(`<i class="glyphicon glyphicon-info-sign" style="margin-right: 5px; padding-top: 10px;"></i> Petunjuk Pengerjaan Soal 91-110`);
                 $('#instruction-body').html(`
-                <p>Pada no 71-90, pilih salah satu jawaban <strong>(A, B, C, D, atau E)</strong> yang menurut Anda paling tepat dari pilihan yang ada, di setiap kelompok soal memiliki instruksi berbeda</p>
+                <p>Pada no 91-110, pilih salah satu jawaban <strong>(A, B, C, D, atau E)</strong> yang menurut Anda paling tepat dari pilihan yang ada, di setiap kelompok soal memiliki instruksi berbeda</p>
                 <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.6;">
                 <li>Silahkan memilih jawaban yang paling sesuai dan pilih jawaban yang ada untuk mengisi lanjutan/urutan yang paling tepat atas pola yang ada di setiap soal</li>
                 </ul>
@@ -703,7 +724,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
                 // Trigger Finish Exam if it's the last question
                 let konfirmasi = confirm("Apakah Anda yakin ingin menyelesaikan ujian ini?");
                 if (konfirmasi) {
-                    window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Tiki_d/latihan2'); ?>';
+                    window.location.href = '<?php echo base_url("Pelamar/Pelamar/testulispsikotes/" . $id_ujian); ?>';
                 }
             }
         });
@@ -749,7 +770,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
             if (distance < 0) {
                 clearInterval(x);
                 alert('Waktu Ujian Cepat Teliti Telah Berakhir, Semua Jawaban Telah Terekam');
-                // window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Tiki_d/latihan2'); ?>';
+                window.location.href = '<?php echo base_url("Pelamar/Pelamar/testulispsikotes/" . $id_ujian); ?>';
             }
         }, 1000);
 
