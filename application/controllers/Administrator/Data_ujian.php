@@ -1634,6 +1634,8 @@ class Data_ujian extends CI_Controller
 
 	public function update_tpa_pascasarjana()
 	{
+		$waktuujian1 = $this->input->post('waktu_ujiansubtes1');
+		$waktuujian2 = $this->input->post('waktu_ujiansubtes2');
 		$namates = $this->input->post('nama_ujian');
 		$datetime_mulai = $this->input->post('waktu_mulai');
 		$waktuujian = $this->input->post('waktu_ujian');
@@ -1645,10 +1647,18 @@ class Data_ujian extends CI_Controller
 			$status = "tidak aktif";
 		}
 
-		$startujian = $datetime_mulai;
-		$endujian = tambahmenit($startujian, $waktuujian);
+		
+		
+		$startujiansub1 = $datetime_mulai;
+		$endujiansub1 = tambahmenit($startujiansub1, $waktuujian1);
 
-		$this->db->query("UPDATE tb_ujian_tpa_pascasarjana SET nama_ujian='$namates',waktu_mulai='$datetime_mulai',waktu_akhir='$endujian',STATUS='$status' where id=1");
+		$startujiansub2 = $endujiansub1;
+		$endujiansub2 = tambahmenit($startujiansub2, $waktuujian2);
+
+		$this->db->query("UPDATE tb_ujian_tpa_pascasarjana SET nama_ujian='$namates'
+		,waktu_mulai='$datetime_mulai',start_uji_sub1='$startujiansub1',end_uji_sub1='$endujiansub1'
+		,start_uji_sub2='$startujiansub2',end_uji_sub2='$endujiansub2'
+		,waktu_akhir='$endujiansub2',STATUS='$status' where id=1");
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian TPA Pascasarjana Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_tpa_pascasarjana');
 	}

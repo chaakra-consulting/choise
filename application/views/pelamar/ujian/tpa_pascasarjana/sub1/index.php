@@ -326,7 +326,7 @@
 <div class="col-sm-12 main">
     <div class="row" style="margin-bottom: 10px; z-index: 1; display: flex; align-items: center;">
         <div class="col-xs-6 col-lg-6">
-            <h3 class="exam-header-title">TPA Pascasarjana</h3>
+            <h3 class="exam-header-title">TPA Pascasarjana Sub Tes 1</h3>
         </div>
         <div class="col-xs-6 col-lg-6 text-right" style="text-align: right; margin-top: 20px;">
             <div class="timer-badge">
@@ -364,7 +364,7 @@
     $id_ujian = $this->session->userdata('ses_cepat');
     $ujian = $this->db->query("SELECT * FROM tb_ujian_tpa_pascasarjana WHERE id = 1");
     foreach ($ujian->result() as $key) {
-        $end = $key->waktu_akhir;
+        $end = $key->end_uji_sub1;
     }
     ?>
 
@@ -476,6 +476,7 @@
                 dataType: 'json',
                 data: {
                     id_ujian: id_ujian,
+                    subtes:1
                 },
                 success: function(res) {
                     totalSoal = parseInt(res.total);
@@ -627,6 +628,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
                 data: {
                     id_ujian: id_ujian,
                     nomor_soal: currentSoal,
+                    subtes:1
 
                 },
                 success: function(res) {
@@ -724,7 +726,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
                 // Trigger Finish Exam if it's the last question
                 let konfirmasi = confirm("Apakah Anda yakin ingin menyelesaikan ujian ini?");
                 if (konfirmasi) {
-                    window.location.href = '<?php echo base_url("Pelamar/Pelamar/testulispsikotes/" . $id_ujian); ?>';
+                    window.location.href = '<?php echo base_url("Pelamar/Daftar_ujian/Tpa_pascasarjana/subtes2"); ?>';
                 }
             }
         });
@@ -741,6 +743,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
                     id_ujian: id_ujian,
                     nomor_soal: currentSoal,
                     jawaban: jawaban_terpilih,
+                    subtes:1
 
                 },
                 success: function(res) {
@@ -770,7 +773,7 @@ seumur hidup, bukan demi ujian semata. (9) Guru tidak perlu khawatir jika siswa 
             if (distance < 0) {
                 clearInterval(x);
                 alert('Waktu Ujian Cepat Teliti Telah Berakhir, Semua Jawaban Telah Terekam');
-                window.location.href = '<?php echo base_url("Pelamar/Pelamar/testulispsikotes/" . $id_ujian); ?>';
+                window.location.href = '<?php echo base_url("Pelamar/Daftar_ujian/Tpa_pascasarjana/subtes2"); ?>';
             }
         }, 1000);
 

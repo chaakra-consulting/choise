@@ -57,8 +57,14 @@
                   <input class="form-control time" name="waktu_mulai" value="<?php echo $key['waktu_mulai'] ?>" type="text" required>
                 </div>
                 <div class="form-group">
-                  <label class="control-label">Waktu Ujian (Menit)</label>
-                  <input class="form-control" name="waktu_ujian" value="<?php echo (strtotime($key['waktu_akhir']) - strtotime($key['waktu_mulai'])) / 60 ?>" type="text" required>
+                  <label class="control-label">Waktu Ujian Sub Tes 1 (Menit)</label>
+                  <input class="form-control" name="waktu_ujiansubtes1" value="<?php echo (strtotime($key['end_uji_sub1']) - strtotime($key['start_uji_sub1'])) / 60 ?>" type="text" required>
+                  <?php echo date("H:i:s", strtotime($key['start_uji_sub1'])) ?> - <?php echo date("H:i:s", strtotime($key['end_uji_sub1'])) ?>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Waktu Ujian Sub Tes 2 (Menit)</label>
+                  <input class="form-control" name="waktu_ujiansubtes2" value="<?php echo (strtotime($key['end_uji_sub2']) - strtotime($key['start_uji_sub2'])) / 60 ?>" type="text" required>
+                  <?php echo date("H:i:s", strtotime($key['start_uji_sub2'])) ?> - <?php echo date("H:i:s", strtotime($key['end_uji_sub2'])) ?>
                 </div>
                 <div class="form-group">
                   <label class="control-label">Waktu Berakhir</label>

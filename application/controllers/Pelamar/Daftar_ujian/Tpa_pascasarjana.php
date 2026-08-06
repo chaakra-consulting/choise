@@ -18,7 +18,12 @@ class Tpa_pascasarjana extends CI_Controller
 
 	function index()
 	{
-		$this->load->view('pelamar/ujian/tpa_pascasarjana/index');
+		$this->load->view('pelamar/ujian/tpa_pascasarjana/sub1/index');
+	}
+
+	function subtes2()
+	{
+		$this->load->view('pelamar/ujian/tpa_pascasarjana/sub2/index');
 	}
 
 	public function get_all_data()
@@ -27,15 +32,17 @@ class Tpa_pascasarjana extends CI_Controller
 		$id_pelamar = $this->session->userdata('ses_id');
 		$id_lowongan = $this->session->userdata('sesIdLowongan');
 
+		$subtes = $this->input->post('subtes');
 		// 1. Fetch ALL questions for this exam
 		$this->db->order_by('nomor_soal', 'ASC');
-		$soal = $this->db->get_where('tb_soal_tpa_pascasarjana')->result();
+		$soal = $this->db->get_where('tb_soal_tpa_pascasarjana', ['subtes' => $subtes])->result();
 
 		// 2. Fetch ALL answers the user has already saved
 		$jawaban_query = $this->db->get_where('tb_data_jawaban_tpa_pascasarjana', [
 			'id_ujian' => $id_ujian,
 			'id_pelamar' => $id_pelamar,
-			'id_lowongan' => $id_lowongan
+			'id_lowongan' => $id_lowongan,
+			'subtes' => $subtes
 		])->result();
 
 		// Format answers so it's easy for Javascript to read (e.g., [ 1 => 'A', 2 => 'C' ])
@@ -56,16 +63,19 @@ class Tpa_pascasarjana extends CI_Controller
 		$nomor_soal = $this->input->post('nomor_soal');
 		$id_pelamar = $this->session->userdata('ses_id');
 		$id_lowongan = $this->session->userdata('sesIdLowongan');
+		$subtes = $this->input->post('subtes');
 
 		// Fetch the specific question
 		$soal = $this->db->get_where('tb_soal_tpa_pascasarjana', [
 			'nomor_soal' => $nomor_soal,
+			'subtes' => $subtes
 		])->row();
 
 		// Fetch user's previous answer if it exists
 		$jawaban = $this->db->get_where('tb_data_jawaban_tpa_pascasarjana', [
 			'nomor_soal' => $nomor_soal,
 			'id_pelamar' => $id_pelamar,
+			'subtes' => $subtes,
 			'id_lowongan' => $id_lowongan
 		])->row();
 
@@ -88,14 +98,16 @@ class Tpa_pascasarjana extends CI_Controller
 		$id_ujian = 1;
 		$id_pelamar = $this->session->userdata('ses_id');
 		$id_lowongan = $this->session->userdata('sesIdLowongan');
+		$subtes = $this->input->post('subtes');
 
 		// Total number of questions
-		$total_soal = $this->db->count_all_results('tb_soal_tpa_pascasarjana');
+		$total_soal = $this->db->where('subtes', $subtes)->count_all_results('tb_soal_tpa_pascasarjana');
 
 		// Fetch only the question numbers that have been answered by this user
 		$dijawab_query = $this->db->select('nomor_soal')->get_where('tb_data_jawaban_tpa_pascasarjana', [
 			'id_ujian' => $id_ujian,
 			'id_pelamar' => $id_pelamar,
+			'subtes' => $subtes,
 			'id_lowongan' => $id_lowongan
 		])->result_array();
 
@@ -113,6 +125,7 @@ class Tpa_pascasarjana extends CI_Controller
 		$id_ujian = 1;
 		$nomor_soal = $this->input->post('nomor_soal');
 		$jawaban = $this->input->post('jawaban');
+		$subtes = $this->input->post('subtes');
 
 		if ($jawaban) {
 
@@ -123,6 +136,7 @@ class Tpa_pascasarjana extends CI_Controller
 				'id_ujian' => $id_ujian,
 				'nomor_soal' => $nomor_soal,
 				'id_pelamar' => $id_pelamar,
+				'subtes' => $subtes,
 				'id_lowongan' => $id_lowongan
 			];
 
