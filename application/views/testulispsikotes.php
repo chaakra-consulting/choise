@@ -195,7 +195,7 @@ $tb_lowongan = $this->db->query("SELECT * FROM tb_lowongan WHERE id_lowongan=$id
         if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_papi['waktu_mulai']))) {
           echo "belum dimulai";
         } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_papi['waktu_mulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_papi['waktu_akhir']))) { ?>
-          <a href="<?php echo base_url('Pelamar/Ujian/panduan_papi/' . $id_pelamar . '/' . $key_papi['id_ujian_papi']) ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+          <a href="<?php echo base_url('Pelamar/Daftar_ujian/Papikostik/latihan') ?>" class="btn btn-primary">Kerjakan Sekarang</a>
         <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_papi['waktu_akhir']))) {
           echo "Ujian sudah berakhir";
         } ?>

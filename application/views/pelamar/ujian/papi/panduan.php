@@ -23,7 +23,7 @@
 </div>	<!--/.main-->
 
 <div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin-top: 20px; margin-bottom: 20px">
-	<a href="<?php echo base_url('Pelamar/Ujian/start_ujian_papikostik/'.$idUjian) ?>" class="btn btn-primary mr-2 mb-2">Selanjutnya</a>
+	<a href="<?php echo base_url('Pelamar/Daftar_ujian/Papikostik/') ?>" class="btn btn-primary mr-2 mb-2">Selanjutnya</a>
 </div>
 <!-- 
 <script type="text/javascript">

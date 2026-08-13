@@ -11,6 +11,15 @@ foreach ($holland->result() as $key_uHolland) {
 }
 ?>
 <form action="<?php echo base_url("Pelamar/Ujian/jawaban_holland/") ?>" method="post">
+<?php if ($latest): ?>
+	<div style="margin-top: 20px;">
+		<div class="alert alert-warning" role="alert" style="margin: 0 20px 0 20px;">
+			<h4 class="alert-heading">Perhatian !</h4>
+			<p>Anda sudah mengisi ujian ini, jawaban anda sudah tersimpan di sistem kami. Anda tidak dapat mengubah jawaban anda</p>
+		</div>
+	</div>
+<?php endif; ?>
+	
 	<div class="col-sm-12 main">
 		<div class="row" style="margin-bottom: -50px;">
 			<div class="col-lg-9">
@@ -20,7 +29,7 @@ foreach ($holland->result() as $key_uHolland) {
 				<h4 style="margin-top: 35px" align="right">Waktu pengerjaan <span id="time"></span> detik</h4>
 			</div>
 		</div>
-		<!--/.row-->
+
 		<div class="col-sm-12" style="background-color: #f9243f; padding: 30px; border-radius: 5px; margin-bottom: 20px;">
 			<h4 style="color: #fff;"><b>Petunjuk Pengisian</b></h4>
 			<p style="color: #fff">Pada kuesioner ini terdiri atas 6 tabel, masing-masing tabel terdiri atas 3 kolom kosong yang harus diisi oleh Bapak/Ibu sekalian dengan menggunakan tanda (<i class="fa fa-check"></i>) pada pernyataan yang mencerminkan diri Bapak/Ibu sekalian pada beberapa pertanyaan yang telah disediakan. Untuk pemilihan masing-masing pernyataan sangat memungkinkan untuk memilih atau mencentang (<i class="fa fa-check"></i>) lebih dari satu pernyataan pada masing-masing kolom. Oleh karena itu, kami mengharapkan Bapak/Ibu mencermati dengan seksama setiap pernyataan yang ada, kemudian memilih satu atau lebih dari pernyataan pada masing-masing kolom yang tersedia pada tabel tersebut.</p>
@@ -270,7 +279,7 @@ foreach ($holland->result() as $key_uHolland) {
 						<td><input class="form-check-input" type="checkbox" onclick="calc_k(this)" value="1"> Bekerja secara teliti dan detail</td>
 					</tr>
 					<tr>
-						<td><input class="form-check-input" type="checkbox" onclick="calc_k(this)" value="1"> Efisian</td>
+						<td><input class="form-check-input" type="checkbox" onclick="calc_k(this)" value="1"> Efisien</td>
 						<td>-</td>
 						<td>-</td>
 					</tr>
@@ -282,10 +291,12 @@ foreach ($holland->result() as $key_uHolland) {
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin-top: 20px;">
+	<div class="col-sm-12 button-lm-tittle justify-content-center text-center" style="margin: 20px 0 20px 0" id="btn-wrapper">
 		<input style="margin-bottom: 2%" type="submit" class="btn btn-primary mr-2 mb-2" value="Selesai"></a>
 	</div>
 </form>
+
+
 
 <script type="text/javascript">
 	var total_r = 0;
@@ -295,8 +306,7 @@ foreach ($holland->result() as $key_uHolland) {
 	var total_a = 0;
 	var total_k = 0;
 
-	function calc_r(checkbox)
-	{
+	function calc_r(checkbox) {
 		var value = parseInt(checkbox.value);
 
 		if (checkbox.checked)
@@ -306,8 +316,7 @@ foreach ($holland->result() as $key_uHolland) {
 		document.getElementById("result_input").value = total_r;
 	}
 
-	function calc_i(checkbox)
-	{
+	function calc_i(checkbox) {
 		var value = parseInt(checkbox.value);
 
 		if (checkbox.checked)
@@ -317,8 +326,7 @@ foreach ($holland->result() as $key_uHolland) {
 		document.getElementById("hasil_i").value = total_i;
 	}
 
-	function calc_a(checkbox)
-	{
+	function calc_a(checkbox) {
 		var value = parseInt(checkbox.value);
 
 		if (checkbox.checked)
@@ -328,8 +336,7 @@ foreach ($holland->result() as $key_uHolland) {
 		document.getElementById("hasil_a").value = total_a;
 	}
 
-	function calc_s(checkbox)
-	{
+	function calc_s(checkbox) {
 		var value = parseInt(checkbox.value);
 
 		if (checkbox.checked)
@@ -339,8 +346,7 @@ foreach ($holland->result() as $key_uHolland) {
 		document.getElementById("hasil_s").value = total_s;
 	}
 
-	function calc_e(checkbox)
-	{
+	function calc_e(checkbox) {
 		var value = parseInt(checkbox.value);
 
 		if (checkbox.checked)
@@ -350,8 +356,7 @@ foreach ($holland->result() as $key_uHolland) {
 		document.getElementById("hasil_e").value = total_e;
 	}
 
-	function calc_k(checkbox)
-	{
+	function calc_k(checkbox) {
 		var value = parseInt(checkbox.value);
 
 		if (checkbox.checked)
@@ -429,3 +434,13 @@ foreach ($holland->result() as $key_uHolland) {
 
 
 <?php $this->load->view('layout3/footer') ?>
+
+<?php if ($latest): ?>
+	<script>
+		$(document).ready(function() {
+			$('#btn-wrapper').empty();
+			$('#btn-wrapper').append('<a  class="btn btn-primary mr-2 mb-2" href="<?php echo base_url('Pelamar/Pelamar/testulispsikotes') ?>">Kembali ke halaman Tes</a></a>');
+			$('[type="checkbox"]').prop('disabled', true);
+		})
+	</script>
+<?php endif; ?>

@@ -3380,9 +3380,11 @@ class Ujian extends CI_Controller
 	//HOLLAND
 	public function ujian_holland($id_pelamar, $id_ujian)
 	{
+		$id_pelamar = $this->session->userdata('ses_id');
 		$idUjianHolland = $this->session->set_userdata('ses_ujianHolland', $id_ujian);
-
-		$this->load->view('pelamar/ujian/holland');
+		$id_lowongan = $this->session->userdata('sesIdLowongan');
+		$get_latest = $this->db->where('id_lowongan',$id_lowongan)->where('id_pelamar',$id_pelamar)->count_all_results('tb_data_jawaban_holland');
+		$this->load->view('pelamar/ujian/holland', array('latest' => $get_latest>0));
 	}
 
 	public function jawaban_holland()
