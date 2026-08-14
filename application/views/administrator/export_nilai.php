@@ -8881,25 +8881,44 @@ header("Expires: 0");
 
 				<!-- tpa pascasarjana -->
 				<?php
-				$soal = $this->db->query("SELECT * FROM tb_soal_tpa_pascasarjana")->result();
+				$soal_sub1 = $this->db->query("SELECT * FROM tb_soal_tpa_pascasarjana WHERE subtes = 1")->result();
 
-				$kunci_jawaban = array();
-				foreach ($soal as $s) {
-					$kunci_jawaban[$s->nomor_soal] = $s->jawaban;
+				$kunci_jawaban_sub1 = array();
+				foreach ($soal_sub1 as $s) {
+					$kunci_jawaban_sub1[$s->nomor_soal] = $s->jawaban;
 				}
 
-				$jawaban_benar_tpa_pasca = 0;
-				$jawaban = $this->db->query("SELECT * FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar");
+				$jawaban_benar_tpa_pasca_sub1 = 0;
+				$jawaban_sub1 = $this->db->query("SELECT * FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar AND subtes = 1");
 
-				foreach ($jawaban->result() as $jawaban_tpa) {
+				foreach ($jawaban_sub1->result() as $jawaban_tpa) {
 					$nomor_soal = $jawaban_tpa->nomor_soal;
 
-					if (isset($kunci_jawaban[$nomor_soal]) && $jawaban_tpa->jawaban == $kunci_jawaban[$nomor_soal]) {
-						$jawaban_benar_tpa_pasca = $jawaban_benar_tpa_pasca + 1;
+					if (isset($kunci_jawaban_sub1[$nomor_soal]) && $jawaban_tpa->jawaban == $kunci_jawaban_sub1[$nomor_soal]) {
+						$jawaban_benar_tpa_pasca_sub1 = $jawaban_benar_tpa_pasca_sub1 + 1;
 					}
 				}
 				?>
-				<td rowspan="2"><?= $jawaban_benar_tpa_pasca * 0.9 ?></td>
+				<?php
+				$soal_sub2 = $this->db->query("SELECT * FROM tb_soal_tpa_pascasarjana WHERE subtes = 2")->result();
+
+				$kunci_jawaban_sub2 = array();
+				foreach ($soal_sub2 as $s) {
+					$kunci_jawaban_sub2[$s->nomor_soal] = $s->jawaban;
+				}
+
+				$jawaban_benar_tpa_pasca_sub2 = 0;
+				$jawaban_sub2 = $this->db->query("SELECT * FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar AND subtes = 2");
+
+				foreach ($jawaban_sub2->result() as $jawaban_tpa) {
+					$nomor_soal = $jawaban_tpa->nomor_soal;
+
+					if (isset($kunci_jawaban_sub2[$nomor_soal]) && $jawaban_tpa->jawaban == $kunci_jawaban_sub2[$nomor_soal]) {
+						$jawaban_benar_tpa_pasca_sub2 = $jawaban_benar_tpa_pasca_sub2 + 1;
+					}
+				}
+				?>
+				<td rowspan="2"><?= ($jawaban_benar_tpa_pasca_sub1 * 0.9) + ($jawaban_benar_tpa_pasca_sub2 * 0.11) ?></td>
 				<!-- accounting -->
 				<td rowspan="2"><?= $benaracc * 2 ?></td>
 				<td rowspan="2"><?php kategori_n(($benaracc * 2)) ?></td>
