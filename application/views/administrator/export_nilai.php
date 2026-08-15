@@ -1,7 +1,9 @@
 <?php
-
-error_reporting(0);
+ini_set('max_execution_time', 300); // 5 minutes
+set_time_limit(300);
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 date_default_timezone_set('Asia/Jakarta');
 $nilai = $this->db->query("SELECT nama_jabatan,nama_perusahaan FROM tb_lowongan a LEFT JOIN tb_perusahaan b ON a.`id_perusahaan`=b.`id_perusahaan` WHERE id_lowongan=$lowongan")->result_array();
