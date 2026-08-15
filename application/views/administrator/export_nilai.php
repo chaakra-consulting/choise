@@ -8881,42 +8881,57 @@ header("Expires: 0");
 
 				<!-- tpa pascasarjana -->
 				<?php
-				$soal_sub1 = $this->db->query("SELECT * FROM tb_soal_tpa_pascasarjana WHERE subtes = 1")->result();
-
-				$kunci_jawaban_sub1 = array();
+				// 1. DO THIS ONCE: Fetch the answer keys BEFORE the applicant loop starts
+				$kunci_jawaban_sub1 = [];
+				$soal_sub1 = $this->db->query("SELECT nomor_soal, jawaban FROM tb_soal_tpa_pascasarjana WHERE subtes = 1")->result();
 				foreach ($soal_sub1 as $s) {
 					$kunci_jawaban_sub1[$s->nomor_soal] = $s->jawaban;
 				}
 
-				$jawaban_benar_tpa_pasca_sub1 = 0;
-				$jawaban_sub1 = $this->db->query("SELECT * FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar AND subtes = 1");
-
-				foreach ($jawaban_sub1->result() as $jawaban_tpa) {
-					$nomor_soal = $jawaban_tpa->nomor_soal;
-
-					if (isset($kunci_jawaban_sub1[$nomor_soal]) && $jawaban_tpa->jawaban == $kunci_jawaban_sub1[$nomor_soal]) {
-						$jawaban_benar_tpa_pasca_sub1 = $jawaban_benar_tpa_pasca_sub1 + 1;
-					}
-				}
-				?>
-				<?php
-				$soal_sub2 = $this->db->query("SELECT * FROM tb_soal_tpa_pascasarjana WHERE subtes = 2")->result();
-
-				$kunci_jawaban_sub2 = array();
+				$kunci_jawaban_sub2 = [];
+				$soal_sub2 = $this->db->query("SELECT nomor_soal, jawaban FROM tb_soal_tpa_pascasarjana WHERE subtes = 2")->result();
 				foreach ($soal_sub2 as $s) {
 					$kunci_jawaban_sub2[$s->nomor_soal] = $s->jawaban;
 				}
 
-				$jawaban_benar_tpa_pasca_sub2 = 0;
-				$jawaban_sub2 = $this->db->query("SELECT * FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar AND subtes = 2");
+				// ---------------------------------------------------------
+				// 2. START YOUR APPLICANT LOOP HERE (e.g., foreach ($pelamar as $keypel))
+				// ---------------------------------------------------------
 
-				foreach ($jawaban_sub2->result() as $jawaban_tpa) {
-					$nomor_soal = $jawaban_tpa->nomor_soal;
+				// Scoring Subtes 1
+				$jawaban_benar_tpa_pasca_sub1 = 0;
 
-					if (isset($kunci_jawaban_sub2[$nomor_soal]) && $jawaban_tpa->jawaban == $kunci_jawaban_sub2[$nomor_soal]) {
-						$jawaban_benar_tpa_pasca_sub2 = $jawaban_benar_tpa_pasca_sub2 + 1;
+				// Use Query Bindings (?) to prevent SQL syntax crashes if variables are ever empty
+				$sql_sub1 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = ? AND id_pelamar = ? AND subtes = 1";
+				$jawaban_sub1 = $this->db->query($sql_sub1, array($lowongan, $keypel->id_pelamar));
+
+				if ($jawaban_sub1) {
+					foreach ($jawaban_sub1->result() as $jawaban_tpa) {
+						$nomor_soal = $jawaban_tpa->nomor_soal;
+						if (isset($kunci_jawaban_sub1[$nomor_soal]) && $jawaban_tpa->jawaban == $kunci_jawaban_sub1[$nomor_soal]) {
+							$jawaban_benar_tpa_pasca_sub1++;
+						}
 					}
 				}
+
+				// Scoring Subtes 2
+				$jawaban_benar_tpa_pasca_sub2 = 0;
+
+				$sql_sub2 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = ? AND id_pelamar = ? AND subtes = 2";
+				$jawaban_sub2 = $this->db->query($sql_sub2, array($lowongan, $keypel->id_pelamar));
+
+				if ($jawaban_sub2) {
+					foreach ($jawaban_sub2->result() as $jawaban_tpa) {
+						$nomor_soal = $jawaban_tpa->nomor_soal;
+						if (isset($kunci_jawaban_sub2[$nomor_soal]) && $jawaban_tpa->jawaban == $kunci_jawaban_sub2[$nomor_soal]) {
+							$jawaban_benar_tpa_pasca_sub2++;
+						}
+					}
+				}
+
+				// ---------------------------------------------------------
+				// END APPLICANT LOOP
+				// ---------------------------------------------------------
 				?>
 				<td rowspan="2"><?= ($jawaban_benar_tpa_pasca_sub1 * 0.9) + ($jawaban_benar_tpa_pasca_sub2 * 0.11) ?></td>
 				<!-- accounting -->
