@@ -42,6 +42,7 @@ header("Expires: 0");
 			<th class="tg-c3ow" rowspan="2" colspan="2" style="background-color: Yellow;">Tes Karakteristik Pribadi</th>
 			<th class="tg-c3ow" rowspan="2" colspan="2" style="background-color: Yellow;">Army Alpha</th>
 			<th class="tg-c3ow" rowspan="2" colspan="4" style="background-color: Yellow;">Bahasa Inggris</th>
+			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">TPA Pascasarjana</th>
 			<th class="tg-c3ow" colspan="10" style="background-color: Yellow;">Tes Kompetensi Bidang (TKB)</th>
 			<th class="tg-c3ow" colspan="39" style="background-color: Yellow;">TPA Panjang</th>
 			<th class="tg-c3ow" colspan="24" style="background-color: Yellow;">TPA Pendek</th>
@@ -1710,6 +1711,8 @@ header("Expires: 0");
 				. '</td>');
 			echo $a;
 		}
+
+
 		$nourutpelamar = 1;
 		$a = $this->db->query("SELECT * FROM tb_apply WHERE id_lowongan=$lowongan AND status_lamaran='Diterima'")->result();
 		foreach ($a as $keypel) {
@@ -1755,108 +1758,6 @@ header("Expires: 0");
 			}
 
 			$total_nilai_sub = $nilai_sub1 + $nilai_sub2 + $nilai_sub3 + $nilai_sub4;
-
-			// if ($total_nilai_sub == 0) {
-			// 	$iqcfit = 38;
-			// } else if ($total_nilai_sub == 1) {
-			// 	$iqcfit = 40;
-			// } else if ($total_nilai_sub == 2) {
-			// 	$iqcfit = 43;
-			// } else if ($total_nilai_sub == 3) {
-			// 	$iqcfit = 45;
-			// } else if ($total_nilai_sub == 4) {
-			// 	$iqcfit = 47;
-			// } else if ($total_nilai_sub == 5) {
-			// 	$iqcfit = 48;
-			// } else if ($total_nilai_sub == 6) {
-			// 	$iqcfit = 52;
-			// } else if ($total_nilai_sub == 7) {
-			// 	$iqcfit = 55;
-			// } else if ($total_nilai_sub == 8) {
-			// 	$iqcfit = 57;
-			// } else if ($total_nilai_sub == 9) {
-			// 	$iqcfit = 60;
-			// } else if ($total_nilai_sub == 10) {
-			// 	$iqcfit = 63;
-			// } else if ($total_nilai_sub == 11) {
-			// 	$iqcfit = 67;
-			// } else if ($total_nilai_sub == 12) {
-			// 	$iqcfit = 70;
-			// } else if ($total_nilai_sub == 13) {
-			// 	$iqcfit = 72;
-			// } else if ($total_nilai_sub == 14) {
-			// 	$iqcfit = 75;
-			// } else if ($total_nilai_sub == 15) {
-			// 	$iqcfit = 78;
-			// } else if ($total_nilai_sub == 16) {
-			// 	$iqcfit = 81;
-			// } else if ($total_nilai_sub == 17) {
-			// 	$iqcfit = 85;
-			// } else if ($total_nilai_sub == 18) {
-			// 	$iqcfit = 88;
-			// } else if ($total_nilai_sub == 19) {
-			// 	$iqcfit = 91;
-			// } else if ($total_nilai_sub == 20) {
-			// 	$iqcfit = 94;
-			// } else if ($total_nilai_sub == 21) {
-			// 	$iqcfit = 96;
-			// } else if ($total_nilai_sub == 22) {
-			// 	$iqcfit = 100;
-			// } else if ($total_nilai_sub == 23) {
-			// 	$iqcfit = 103;
-			// } else if ($total_nilai_sub == 24) {
-			// 	$iqcfit = 106;
-			// } else if ($total_nilai_sub == 25) {
-			// 	$iqcfit = 109;
-			// } else if ($total_nilai_sub == 26) {
-			// 	$iqcfit = 113;
-			// } else if ($total_nilai_sub == 27) {
-			// 	$iqcfit = 116;
-			// } else if ($total_nilai_sub == 28) {
-			// 	$iqcfit = 119;
-			// } else if ($total_nilai_sub == 29) {
-			// 	$iqcfit = 121;
-			// } else if ($total_nilai_sub == 30) {
-			// 	$iqcfit = 124;
-			// } else if ($total_nilai_sub == 31) {
-			// 	$iqcfit = 128;
-			// } else if ($total_nilai_sub == 32) {
-			// 	$iqcfit = 131;
-			// } else if ($total_nilai_sub == 33) {
-			// 	$iqcfit = 133;
-			// } else if ($total_nilai_sub == 34) {
-			// 	$iqcfit = 137;
-			// } else if ($total_nilai_sub == 35) {
-			// 	$iqcfit = 140;
-			// } else if ($total_nilai_sub == 36) {
-			// 	$iqcfit = 142;
-			// } else if ($total_nilai_sub == 37) {
-			// 	$iqcfit = 145;
-			// } else if ($total_nilai_sub == 38) {
-			// 	$iqcfit = 149;
-			// } else if ($total_nilai_sub == 39) {
-			// 	$iqcfit = 152;
-			// } else if ($total_nilai_sub == 40) {
-			// 	$iqcfit = 155;
-			// } else if ($total_nilai_sub == 41) {
-			// 	$iqcfit = 157;
-			// } else if ($total_nilai_sub == 42) {
-			// 	$iqcfit = 161;
-			// } else if ($total_nilai_sub == 43) {
-			// 	$iqcfit = 165;
-			// } else if ($total_nilai_sub == 44) {
-			// 	$iqcfit = 167;
-			// } else if ($total_nilai_sub == 45) {
-			// 	$iqcfit = 169;
-			// } else if ($total_nilai_sub == 46) {
-			// 	$iqcfit = 173;
-			// } else if ($total_nilai_sub == 47) {
-			// 	$iqcfit = 176;
-			// } else if ($total_nilai_sub == 48) {
-			// 	$iqcfit = 179;
-			// } else if ($total_nilai_sub == 49) {
-			// 	$iqcfit = 183;
-			// }
 
 			$iqcfit_map = [
 				0 => 38,
@@ -1910,7 +1811,7 @@ header("Expires: 0");
 				48 => 179,
 				49 => 183
 			];
-			
+
 			$iqcfit = $iqcfit_map[$total_nilai_sub] ?? 0;
 
 			if ($iqcfit >= 130) {
@@ -2479,865 +2380,58 @@ header("Expires: 0");
 				if ($umur >= 21 && $umur <= 25) {
 					if ($i == 1) {
 						$arrayconvert = [68, 71, 74, 76, 79, 82, 85, 88, 91, 94, 97, 100, 103, 106, 109, 112, 115, 118, 121, 124, 126];
-						if ($nilaipersubtes == 0) {
-							$convert = $arrayconvert[0];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 1) {
-							$convert = $arrayconvert[1];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 2) {
-							$convert = $arrayconvert[2];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 3) {
-							$convert = $arrayconvert[3];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 4) {
-							$convert = $arrayconvert[4];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 5) {
-							$convert = $arrayconvert[5];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 6) {
-							$convert = $arrayconvert[6];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 7) {
-							$convert = $arrayconvert[7];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 8) {
-							$convert = $arrayconvert[8];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 9) {
-							$convert = $arrayconvert[9];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 10) {
-							$convert = $arrayconvert[10];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 11) {
-							$convert = $arrayconvert[11];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 12) {
-							$convert = $arrayconvert[12];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 13) {
-							$convert = $arrayconvert[13];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 14) {
-							$convert = $arrayconvert[14];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 15) {
-							$convert = $arrayconvert[15];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 16) {
-							$convert = $arrayconvert[16];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 17) {
-							$convert = $arrayconvert[17];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 18) {
-							$convert = $arrayconvert[18];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 19) {
-							$convert = $arrayconvert[19];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 20) {
-							$convert = $arrayconvert[20];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} else {
-							$convert = 0;
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						}
+						$convert = $arrayconvert[$nilaipersubtes] ?? 0;
+						$arrayss[] = $convert;
+						$arrayrs[] = $nilaipersubtes;
 					} elseif ($i == 2) {
 						$arrayconvert = [63, 66, 70, 74, 77, 81, 84, 88, 91, 95, 99, 102, 106, 109, 113, 116, 120, 124, 127, 131, 134];
-						if ($nilaipersubtes == 0) {
-							$convert = $arrayconvert[0];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 1) {
-							$convert = $arrayconvert[1];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 2) {
-							$convert = $arrayconvert[2];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 3) {
-							$convert = $arrayconvert[3];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 4) {
-							$convert = $arrayconvert[4];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 5) {
-							$convert = $arrayconvert[5];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 6) {
-							$convert = $arrayconvert[6];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 7) {
-							$convert = $arrayconvert[7];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 8) {
-							$convert = $arrayconvert[8];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 9) {
-							$convert = $arrayconvert[9];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 10) {
-							$convert = $arrayconvert[10];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 11) {
-							$convert = $arrayconvert[11];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 12) {
-							$convert = $arrayconvert[12];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 13) {
-							$convert = $arrayconvert[13];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 14) {
-							$convert = $arrayconvert[14];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 15) {
-							$convert = $arrayconvert[15];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 16) {
-							$convert = $arrayconvert[16];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 17) {
-							$convert = $arrayconvert[17];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 18) {
-							$convert = $arrayconvert[18];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 19) {
-							$convert = $arrayconvert[19];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 20) {
-							$convert = $arrayconvert[20];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} else {
-							$convert = 0;
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						}
+						$convert = $arrayconvert[$nilaipersubtes] ?? 0;
+						$arrayss[] = $convert;
+						$arrayrs[] = $nilaipersubtes;
 					} elseif ($i == 3) {
 
 						// echo $nilaipersubtes . "aaaa<br>";
 						$arrayconvert = [76, 78, 81, 83, 86, 88, 91, 93, 96, 98, 101, 103, 106, 108, 111, 113, 116, 118, 121, 123, 126];
-						if ($nilaipersubtes == 0) {
-							$convert = $arrayconvert[0];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 1) {
-							$convert = $arrayconvert[1];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 2) {
-							$convert = $arrayconvert[2];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 3) {
-							$convert = $arrayconvert[3];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 4) {
-							$convert = $arrayconvert[4];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 5) {
-							$convert = $arrayconvert[5];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 6) {
-							$convert = $arrayconvert[6];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 7) {
-							$convert = $arrayconvert[7];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 8) {
-							$convert = $arrayconvert[8];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 9) {
-							$convert = $arrayconvert[9];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 10) {
-							$convert = $arrayconvert[10];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 11) {
-							$convert = $arrayconvert[11];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 12) {
-							$convert = $arrayconvert[12];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 13) {
-							$convert = $arrayconvert[13];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 14) {
-							$convert = $arrayconvert[14];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 15) {
-							$convert = $arrayconvert[15];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 16) {
-							$convert = $arrayconvert[16];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 17) {
-							$convert = $arrayconvert[17];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 18) {
-							$convert = $arrayconvert[18];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 19) {
-							$convert = $arrayconvert[19];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 20) {
-							$convert = $arrayconvert[20];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} else {
-							$convert = 0;
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						}
+						$convert = $arrayconvert[$nilaipersubtes] ?? 0;
+						$arrayss[] = $convert;
+						$arrayrs[] = $nilaipersubtes;
 					} elseif ($i == 4) {
 						$arrayconvert = [69, 72, 75, 78, 81, 83, 86, 89, 92, 94, 97, 100, 103, 106, 108, 111, 114, 117, 119, 122, 125];
-						if ($nilaipersubtes == 0) {
-							$convert = $arrayconvert[0];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 1) {
-							$convert = $arrayconvert[1];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 2) {
-							$convert = $arrayconvert[2];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 3) {
-							$convert = $arrayconvert[3];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 4) {
-							$convert = $arrayconvert[4];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 5) {
-							$convert = $arrayconvert[5];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 6) {
-							$convert = $arrayconvert[6];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 7) {
-							$convert = $arrayconvert[7];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 8) {
-							$convert = $arrayconvert[8];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 9) {
-							$convert = $arrayconvert[9];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 10) {
-							$convert = $arrayconvert[10];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 11) {
-							$convert = $arrayconvert[11];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 12) {
-							$convert = $arrayconvert[12];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 13) {
-							$convert = $arrayconvert[13];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 14) {
-							$convert = $arrayconvert[14];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 15) {
-							$convert = $arrayconvert[15];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 16) {
-							$convert = $arrayconvert[16];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 17) {
-							$convert = $arrayconvert[17];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 18) {
-							$convert = $arrayconvert[18];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 19) {
-							$convert = $arrayconvert[19];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 20) {
-							$convert = $arrayconvert[20];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} else {
-							$convert = 0;
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						}
+						$convert = $arrayconvert[$nilaipersubtes] ?? 0;
+						$arrayss[] = $convert;
+						$arrayrs[] = $nilaipersubtes;
 					} elseif ($i == 5) {
 						$arrayconvert = [74, 77, 79, 82, 85, 88, 91, 94, 97, 99, 102, 105, 108, 111, 114, 117, 119, 122, 125, 128, 131];
-						if ($nilaipersubtes == 0) {
-							$convert = $arrayconvert[0];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 1) {
-							$convert = $arrayconvert[1];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 2) {
-							$convert = $arrayconvert[2];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 3) {
-							$convert = $arrayconvert[3];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 4) {
-							$convert = $arrayconvert[4];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 5) {
-							$convert = $arrayconvert[5];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 6) {
-							$convert = $arrayconvert[6];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 7) {
-							$convert = $arrayconvert[7];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 8) {
-							$convert = $arrayconvert[8];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 9) {
-							$convert = $arrayconvert[9];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 10) {
-							$convert = $arrayconvert[10];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 11) {
-							$convert = $arrayconvert[11];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 12) {
-							$convert = $arrayconvert[12];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 13) {
-							$convert = $arrayconvert[13];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 14) {
-							$convert = $arrayconvert[14];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 15) {
-							$convert = $arrayconvert[15];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 16) {
-							$convert = $arrayconvert[16];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 17) {
-							$convert = $arrayconvert[17];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 18) {
-							$convert = $arrayconvert[18];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 19) {
-							$convert = $arrayconvert[19];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 20) {
-							$convert = $arrayconvert[20];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} else {
-							$convert = 0;
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						}
+						$convert = $arrayconvert[$nilaipersubtes] ?? 0;
+						$arrayss[] = $convert;
+						$arrayrs[] = $nilaipersubtes;
 					} elseif ($i == 6) {
 						$arrayconvert = [77, 80, 82, 84, 87, 89, 91, 94, 96, 99, 101, 103, 106, 108, 110, 113, 115, 118, 120, 122, 125];
-						if ($nilaipersubtes == 0) {
-							$convert = $arrayconvert[0];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 1) {
-							$convert = $arrayconvert[1];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 2) {
-							$convert = $arrayconvert[2];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 3) {
-							$convert = $arrayconvert[3];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 4) {
-							$convert = $arrayconvert[4];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 5) {
-							$convert = $arrayconvert[5];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 6) {
-							$convert = $arrayconvert[6];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 7) {
-							$convert = $arrayconvert[7];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 8) {
-							$convert = $arrayconvert[8];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 9) {
-							$convert = $arrayconvert[9];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 10) {
-							$convert = $arrayconvert[10];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 11) {
-							$convert = $arrayconvert[11];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 12) {
-							$convert = $arrayconvert[12];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 13) {
-							$convert = $arrayconvert[13];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 14) {
-							$convert = $arrayconvert[14];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 15) {
-							$convert = $arrayconvert[15];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 16) {
-							$convert = $arrayconvert[16];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 17) {
-							$convert = $arrayconvert[17];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 18) {
-							$convert = $arrayconvert[18];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 19) {
-							$convert = $arrayconvert[19];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 20) {
-							$convert = $arrayconvert[20];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} else {
-							$convert = 0;
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						}
+						$convert = $arrayconvert[$nilaipersubtes] ?? 0;
+						$arrayss[] = $convert;
+						$arrayrs[] = $nilaipersubtes;
 					} elseif ($i == 7) {
 						$arrayconvert = [70, 73, 76, 79, 81, 84, 87, 90, 93, 96, 99, 101, 104, 107, 110, 113, 116, 119, 121, 124, 127];
-						if ($nilaipersubtes == 0) {
-							$convert = $arrayconvert[0];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 1) {
-							$convert = $arrayconvert[1];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 2) {
-							$convert = $arrayconvert[2];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 3) {
-							$convert = $arrayconvert[3];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 4) {
-							$convert = $arrayconvert[4];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 5) {
-							$convert = $arrayconvert[5];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 6) {
-							$convert = $arrayconvert[6];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 7) {
-							$convert = $arrayconvert[7];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 8) {
-							$convert = $arrayconvert[8];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 9) {
-							$convert = $arrayconvert[9];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 10) {
-							$convert = $arrayconvert[10];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 11) {
-							$convert = $arrayconvert[11];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 12) {
-							$convert = $arrayconvert[12];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 13) {
-							$convert = $arrayconvert[13];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 14) {
-							$convert = $arrayconvert[14];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 15) {
-							$convert = $arrayconvert[15];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 16) {
-							$convert = $arrayconvert[16];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 17) {
-							$convert = $arrayconvert[17];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 18) {
-							$convert = $arrayconvert[18];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 19) {
-							$convert = $arrayconvert[19];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 20) {
-							$convert = $arrayconvert[20];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} else {
-							$convert = 0;
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						}
+						$convert = $arrayconvert[$nilaipersubtes] ?? 0;
+						$arrayss[] = $convert;
+						$arrayrs[] = $nilaipersubtes;
 					} elseif ($i == 8) {
 						$arrayconvert = [72, 75, 77, 80, 83, 86, 89, 92, 95, 97, 100, 103, 106, 109, 112, 115, 117, 120, 123, 126, 129];
-						if ($nilaipersubtes == 0) {
-							$convert = $arrayconvert[0];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 1) {
-							$convert = $arrayconvert[1];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 2) {
-							$convert = $arrayconvert[2];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 3) {
-							$convert = $arrayconvert[3];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 4) {
-							$convert = $arrayconvert[4];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 5) {
-							$convert = $arrayconvert[5];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 6) {
-							$convert = $arrayconvert[6];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 7) {
-							$convert = $arrayconvert[7];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 8) {
-							$convert = $arrayconvert[8];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 9) {
-							$convert = $arrayconvert[9];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 10) {
-							$convert = $arrayconvert[10];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 11) {
-							$convert = $arrayconvert[11];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 12) {
-							$convert = $arrayconvert[12];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 13) {
-							$convert = $arrayconvert[13];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 14) {
-							$convert = $arrayconvert[14];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 15) {
-							$convert = $arrayconvert[15];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 16) {
-							$convert = $arrayconvert[16];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 17) {
-							$convert = $arrayconvert[17];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 18) {
-							$convert = $arrayconvert[18];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 19) {
-							$convert = $arrayconvert[19];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 20) {
-							$convert = $arrayconvert[20];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} else {
-							$convert = 0;
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						}
+						$convert = $arrayconvert[$nilaipersubtes] ?? 0;
+						$arrayss[] = $convert;
+						$arrayrs[] = $nilaipersubtes;
 					} else {
 						$arrayconvert = [75, 77, 80, 82, 84, 87, 89, 91, 94, 96, 98, 101, 103, 105, 108, 110, 112, 115, 117, 119, 122];
-						if ($nilaipersubtes == 0) {
-							$convert = $arrayconvert[0];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 1) {
-							$convert = $arrayconvert[1];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 2) {
-							$convert = $arrayconvert[2];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 3) {
-							$convert = $arrayconvert[3];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 4) {
-							$convert = $arrayconvert[4];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 5) {
-							$convert = $arrayconvert[5];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 6) {
-							$convert = $arrayconvert[6];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 7) {
-							$convert = $arrayconvert[7];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 8) {
-							$convert = $arrayconvert[8];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 9) {
-							$convert = $arrayconvert[9];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 10) {
-							$convert = $arrayconvert[10];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 11) {
-							$convert = $arrayconvert[11];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 12) {
-							$convert = $arrayconvert[12];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 13) {
-							$convert = $arrayconvert[13];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 14) {
-							$convert = $arrayconvert[14];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 15) {
-							$convert = $arrayconvert[15];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 16) {
-							$convert = $arrayconvert[16];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 17) {
-							$convert = $arrayconvert[17];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 18) {
-							$convert = $arrayconvert[18];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 19) {
-							$convert = $arrayconvert[19];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} elseif ($nilaipersubtes == 20) {
-							$convert = $arrayconvert[20];
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						} else {
-							$convert = 0;
-							array_push($arrayss, $convert);
-							array_push($arrayrs, $nilaipersubtes);
-						}
+						$convert = $arrayconvert[$nilaipersubtes] ?? 0;
+						$arrayss[] = $convert;
+						$arrayrs[] = $nilaipersubtes;
 					}
 					$totalrs = array_sum($arrayrs);
 					$arraynilaigesamtss = [67, 70, 74, 78, 82, 86, 90, 93, 97, 101, 105, 109, 113, 117, 120, 124, 128, 132];
 					$gesamtrs = $totalrs;
-					if ($totalrs >= 1 && $totalrs <= 10) {
-						$gesamtss = $arraynilaigesamtss[0];
-					} elseif ($totalrs >= 11 && $totalrs <= 20) {
-						$gesamtss = $arraynilaigesamtss[1];
-					} elseif ($totalrs >= 21 && $totalrs <= 30) {
-						$gesamtss = $arraynilaigesamtss[2];
-					} elseif ($totalrs >= 31 && $totalrs <= 40) {
-						$gesamtss = $arraynilaigesamtss[3];
-					} elseif ($totalrs >= 41 && $totalrs <= 50) {
-						$gesamtss = $arraynilaigesamtss[4];
-					} elseif ($totalrs >= 51 && $totalrs <= 60) {
-						$gesamtss = $arraynilaigesamtss[5];
-					} elseif ($totalrs >= 61 && $totalrs <= 70) {
-						$gesamtss = $arraynilaigesamtss[6];
-					} elseif ($totalrs >= 71 && $totalrs <= 80) {
-						$gesamtss = $arraynilaigesamtss[7];
-					} elseif ($totalrs >= 81 && $totalrs <= 90) {
-						$gesamtss = $arraynilaigesamtss[8];
-					} elseif ($totalrs >= 91 && $totalrs <= 100) {
-						$gesamtss = $arraynilaigesamtss[9];
-					} elseif ($totalrs >= 101 && $totalrs <= 110) {
-						$gesamtss = $arraynilaigesamtss[10];
-					} elseif ($totalrs >= 111 && $totalrs <= 120) {
-						$gesamtss = $arraynilaigesamtss[11];
-					} elseif ($totalrs >= 121 && $totalrs <= 130) {
-						$gesamtss = $arraynilaigesamtss[12];
-					} elseif ($totalrs >= 131 && $totalrs <= 140) {
-						$gesamtss = $arraynilaigesamtss[13];
-					} elseif ($totalrs >= 141 && $totalrs <= 150) {
-						$gesamtss = $arraynilaigesamtss[14];
-					} elseif ($totalrs >= 151 && $totalrs <= 160) {
-						$gesamtss = $arraynilaigesamtss[15];
-					} elseif ($totalrs >= 161 && $totalrs <= 170) {
-						$gesamtss = $arraynilaigesamtss[16];
-					} elseif ($totalrs >= 171 && $totalrs <= 180) {
-						$gesamtss = $arraynilaigesamtss[17];
+					if ($totalrs >= 1 && $totalrs <= 180) {
+						$index = intdiv($totalrs - 1, 10);
+						$gesamtss = $arraynilaigesamtss[$index] ?? 0;
 					} else {
 						$gesamtss = 0;
 					}
@@ -9784,6 +8878,47 @@ header("Expires: 0");
 				<td rowspan="2"><?= $benaring31to80 / 50 * 100 ?></td>
 				<td rowspan="2"><?= ($benaring / 80) * 100 ?></td>
 				<td rowspan="2"><?php kategori_n((($benaring / 80) * 100)) ?></td>
+
+				<!-- tpa pascasarjana -->
+				<?php
+				$soal_sub1 = $this->db->query("SELECT * FROM tb_soal_tpa_pascasarjana WHERE subtes = 1")->result();
+
+				$kunci_jawaban_sub1 = array();
+				foreach ($soal_sub1 as $s) {
+					$kunci_jawaban_sub1[$s->nomor_soal] = $s->jawaban;
+				}
+
+				$jawaban_benar_tpa_pasca_sub1 = 0;
+				$jawaban_sub1 = $this->db->query("SELECT * FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar AND subtes = 1");
+
+				foreach ($jawaban_sub1->result() as $jawaban_tpa) {
+					$nomor_soal = $jawaban_tpa->nomor_soal;
+
+					if (isset($kunci_jawaban_sub1[$nomor_soal]) && $jawaban_tpa->jawaban == $kunci_jawaban_sub1[$nomor_soal]) {
+						$jawaban_benar_tpa_pasca_sub1 = $jawaban_benar_tpa_pasca_sub1 + 1;
+					}
+				}
+				?>
+				<?php
+				$soal_sub2 = $this->db->query("SELECT * FROM tb_soal_tpa_pascasarjana WHERE subtes = 2")->result();
+
+				$kunci_jawaban_sub2 = array();
+				foreach ($soal_sub2 as $s) {
+					$kunci_jawaban_sub2[$s->nomor_soal] = $s->jawaban;
+				}
+
+				$jawaban_benar_tpa_pasca_sub2 = 0;
+				$jawaban_sub2 = $this->db->query("SELECT * FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = $lowongan AND id_pelamar = $keypel->id_pelamar AND subtes = 2");
+
+				foreach ($jawaban_sub2->result() as $jawaban_tpa) {
+					$nomor_soal = $jawaban_tpa->nomor_soal;
+
+					if (isset($kunci_jawaban_sub2[$nomor_soal]) && $jawaban_tpa->jawaban == $kunci_jawaban_sub2[$nomor_soal]) {
+						$jawaban_benar_tpa_pasca_sub2 = $jawaban_benar_tpa_pasca_sub2 + 1;
+					}
+				}
+				?>
+				<td rowspan="2"><?= ($jawaban_benar_tpa_pasca_sub1 * 0.9) + ($jawaban_benar_tpa_pasca_sub2 * 0.11) ?></td>
 				<!-- accounting -->
 				<td rowspan="2"><?= $benaracc * 2 ?></td>
 				<td rowspan="2"><?php kategori_n(($benaracc * 2)) ?></td>
