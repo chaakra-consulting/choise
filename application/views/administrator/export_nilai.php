@@ -8935,7 +8935,10 @@ header("Expires: 0");
 				// END APPLICANT LOOP
 				// ---------------------------------------------------------
 				?>
-				<td rowspan="2">12345678</td>
+				<td rowspan="2"><?php 
+				echo ($jawaban_benar_tpa_pasca_sub1 * 0.9) + ($jawaban_benar_tpa_pasca_sub2 * 0.11);
+				 ?></td>
+				<!-- <td rowspan="2">123456</td> -->
 				<!-- accounting -->
 				<td rowspan="2"><?= $benaracc * 2 ?></td>
 				<td rowspan="2"><?php kategori_n(($benaracc * 2)) ?></td>
