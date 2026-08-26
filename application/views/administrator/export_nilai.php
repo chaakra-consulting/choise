@@ -45,6 +45,7 @@ header("Expires: 0");
 			<th class="tg-c3ow" rowspan="2" colspan="2" style="background-color: Yellow;">Army Alpha</th>
 			<th class="tg-c3ow" rowspan="2" colspan="4" style="background-color: Yellow;">Bahasa Inggris</th>
 			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">TPA Pascasarjana</th>
+			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">PAPs UGM</th>
 			<th class="tg-c3ow" colspan="10" style="background-color: Yellow;">Tes Kompetensi Bidang (TKB)</th>
 			<th class="tg-c3ow" colspan="39" style="background-color: Yellow;">TPA Panjang</th>
 			<th class="tg-c3ow" colspan="24" style="background-color: Yellow;">TPA Pendek</th>
@@ -8508,7 +8509,9 @@ header("Expires: 0");
 			}
 			$codeL = "";
 			for ($i = 1; $i <= 4; $i++) {
-				$codeL = $codeL . $hasilrangkingL[$i];
+				if (isset($hasilrangkingL[$i])) {
+					$codeL .= $hasilrangkingL[$i];
+				}
 			}
 			// echo "<br>";
 			if ($hasilrangkingL['1'] == "HD") {
@@ -8930,13 +8933,38 @@ header("Expires: 0");
 						}
 					}
 				}
+				?>
+				<!-- PAPs UGM -->
+				<?php
+				// 1. DO THIS ONCE: Fetch the answer keys BEFORE the applicant loop starts
+				$kunci_jawaban_paps_ugm = [];
+				$soal_paps_ugm = $this->db->query("SELECT nomor_soal, jawaban FROM tb_soal_paps_ugm")->result();
+				foreach ($soal_paps_ugm as $s) {
+					$kunci_jawaban_paps_ugm[$s->nomor_soal] = $s->jawaban;
+				}
 
-				// ---------------------------------------------------------
-				// END APPLICANT LOOP
-				// ---------------------------------------------------------
+
+				$jawaban_benar_paps_ugm = 0;
+
+				// Use Query Bindings (?) to prevent SQL syntax crashes if variables are ever empty
+				$sql_paps_ugm = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_paps_ugm WHERE id_lowongan = ? AND id_pelamar = ?";
+				$jawaban_paps_ugm = $this->db->query($sql_paps_ugm, array($lowongan, $keypel->id_pelamar));
+
+				if ($jawaban_paps_ugm) {
+					foreach ($jawaban_paps_ugm->result() as $jawaban_paps) {
+						$nomor_soal = $jawaban_paps->nomor_soal;
+						if (isset($kunci_jawaban_paps_ugm[$nomor_soal]) && $jawaban_paps->jawaban == $kunci_jawaban_paps_ugm[$nomor_soal]) {
+							$jawaban_benar_paps_ugm++;
+						}
+					}
+				}
+
 				?>
 				<td rowspan="2"><?php 
 				echo ($jawaban_benar_tpa_pasca_sub1 * 0.9) + ($jawaban_benar_tpa_pasca_sub2 * 0.11);
+				 ?></td>
+				<td rowspan="2"><?php 
+				echo ($jawaban_benar_paps_ugm * 0.8);
 				 ?></td>
 				<!-- <td rowspan="2">123456</td> -->
 				<!-- accounting -->
