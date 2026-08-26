@@ -1170,14 +1170,6 @@
                 <li>Choose only one correct answer for each question from the provided options: A, B, C, or D.</li>
                 </ul>
                 `);
-            } else if (questionNumber >= 71 && questionNumber <= 90) {
-                $('#instruction-title').html(`<i class="glyphicon glyphicon-info-sign" style="margin-right: 5px; padding-top: 10px;"></i> Directions Questions Number 71-90`);
-                $('#instruction-body').html(`
-                <p>Pada no 71-90, pilih salah satu jawaban <strong>(A, B, C, D, atau E)</strong> yang menurut Anda paling tepat dari pilihan yang ada, di setiap kelompok soal memiliki instruksi berbeda</p>
-                <ul style="margin-bottom: 0; padding-left: 20px; line-height: 1.6;">
-                <li>Silahkan memilih jawaban yang paling sesuai untuk mengisi jawaban pilihan yang ada dibawah ini</li>
-                </ul>
-                `);
             } else {
                 $('#instruction-title').html(`<i class="glyphicon glyphicon-info-sign" style="margin-right: 5px; padding-top: 10px;"></i> Directions Questions Number 91-110`);
                 $('#instruction-body').html(`

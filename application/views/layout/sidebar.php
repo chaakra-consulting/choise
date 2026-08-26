@@ -408,6 +408,14 @@
             </a>
           </li>
           <li>
+            <a class="treeview-item <?php if ($this->uri->segment(3) == "ujian_paps_ugm") {
+                                      echo "active";
+                                    } ?>"
+              href="<?php echo base_url('Administrator/Data_ujian/ujian_paps_ugm') ?>">
+              <i class="icon fa fa-circle-o"></i> PAPs UGM
+            </a>
+          </li>
+          <li>
             <a class="treeview-item <?php if ($this->uri->segment(3) == "ujian_belbin") {
                                       echo "active";
                                     } ?>"

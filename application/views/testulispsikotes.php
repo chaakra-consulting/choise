@@ -987,6 +987,32 @@ if ($jk[0]->jenis_kelamin == "L") {
 </tr>
 <?php   }
   } ?>
+
+<!-- TPA PAPs UGM -->
+<tr>
+  <?php
+  $tpa = $this->db->query("SELECT * FROM tb_ujian_paps_ugm")->result_array();
+  foreach ($tpa as $key_tpa) {
+    if ($key_tpa['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_tpa['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_tpa['waktu_mulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_tpa['waktu_akhir'])) ?> WIB</td>
+      <td>
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_tpa['waktu_mulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_tpa['waktu_mulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_tpa['waktu_akhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Daftar_ujian/Tes_paps_ugm/') ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_tpa['waktu_akhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+<?php   }
+  } ?>
+
 <!-- Kontrak Psikologis-->
 <tr>
   <?php
