@@ -312,7 +312,7 @@
             </div>
             <div class="contact-info">
             <h3><i class="fas fa-map-marker-alt"></i> Chaakra Consulting Office</h3>
-                <p>Jl. Jambangan VII B No.14, Jambangan, Kec. Jambangan, Kota SBY, Jawa Timur 60232</p>
+                <p>Jl. Karah Agung No.01 PIK A, Jambangan, Kec. Jambangan, Surabaya, Jawa Timur 60232</p>
             </div>
         </div>
     </footer>

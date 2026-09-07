@@ -39,7 +39,7 @@
                   </div>
                 <?php endif; ?>
 
-                <?php echo form_open('home/talent_test_proses'); ?>
+                <?php echo form_open('Home/talent_test_proses'); ?>
                 <input type="hidden" name="id_paket" value="<?php echo $paket['id_paket']; ?>">
 
                 <div class="row">
@@ -67,8 +67,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="tempat_lahir">Tempat Lahir</label>
-                      <select name="tempat_lahir" id="tempat_lahir" class="form-control select2 <?php echo form_error('tempat_lahir')
-                                                                                                  ? 'is-invalid' : ''; ?>" data-placeholder="Pilih Kota" required>
+                      <select name="tempat_lahir" id="tempat_lahir" class="form-control <?php echo form_error('tempat_lahir')
+                                                                                          ? 'is-invalid' : ''; ?>" data-placeholder="Pilih Kota" required>
                         <option value=""></option>
                         <?php foreach ($kota as $k) : ?>
                           <option value="<?php echo $k['nama']; ?>" <?php echo set_value('tempat_lahir', $k['nama']) ?>><?php echo $k['nama']; ?></option>
@@ -108,7 +108,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="kepentingan">Kepentingan Mengikuti Test</label>
-                      <select name="kepentingan" id="kepentingan" class="form-control select2 <?php echo form_error('kepentingan') ? 'is-invalid' : ''; ?>" required>
+                      <select name="kepentingan" id="kepentingan" class="form-control  <?php echo form_error('kepentingan') ? 'is-invalid' : ''; ?>" required>
                         <option value="">Pilih Kepentingan</option>
                         <?php foreach ($kepentingan_options as $option) : ?>
                           <option value="<?php echo $option['option_text']; ?>" <?php echo set_select('kepentingan', $option['option_text']); ?>>
@@ -124,22 +124,32 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="jadwal_tanggal">Tanggal Test</label>
-                      <input type="date" name="jadwal_tanggal" id="jadwal_tanggal" class="form-control <?php echo form_error('jadwal_tanggal') ? 'is-invalid' : ''; ?>" value="<?php echo set_value('jadwal_tanggal'); ?>" required>
+                      <input type="date"  min="<?= date('Y-m-d') ?>" name="jadwal_tanggal" id="jadwal_tanggal" class="form-control <?php echo form_error('jadwal_tanggal') ? 'is-invalid' : ''; ?>" value="<?php echo set_value('jadwal_tanggal'); ?>" required>
                       <div class="invalid-feedback"><?php echo form_error('jadwal_tanggal'); ?></div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="jadwal_waktu">Waktu Test</label>
-                      <input type="time" name="jadwal_waktu" id="jadwal_waktu" class="form-control <?php echo form_error('jadwal_waktu') ? 'is-invalid' : ''; ?>" value="<?php echo set_value('jadwal_waktu'); ?>" required autocomplete="off">
+
+                      <select name="jadwal_waktu" id="jadwal_waktu" class="form-control select2 <?php echo form_error('jadwal_waktu') ? 'is-invalid' : ''; ?>" required>
+                        <option value="">- </option>
+                        <option value="08:00 - 10:00">08:00 - 10:00</option>
+                        <option value="10:00 - 12:00">10:00 - 12:00</option>
+                        <option value="12:00 - 14:00">12:00 - 14:00</option>
+                        <option value="14:00 - 16:00">14:00 - 16:00</option>
+                        <option value="16:00 - 18:00">16:00 - 18:00</option>
+                      </select>
                       <div class="invalid-feedback"><?php echo form_error('jadwal_waktu'); ?></div>
+                      <!-- <input type="time" name="jadwal_waktu" id="jadwal_waktu" class="form-control <?php echo form_error('jadwal_waktu') ? 'is-invalid' : ''; ?>" value="<?php echo set_value('jadwal_waktu'); ?>" required autocomplete="off"> -->
+                      <!-- <div class="invalid-feedback"><?php echo form_error('jadwal_waktu'); ?></div> -->
                     </div>
                   </div>
                 </div>
                 <hr class="my-4">
                 <button type="submit" class="btn btn-primary btn-lg btn-block mb-3">Lanjut ke Pembayaran</button>
                 <?php echo form_close(); ?>
-                <a href="<?php echo site_url('home/#pelatihan-section'); ?>" class="btn btn-secondary btn-lg btn-block">Kembali</a>
+                <a href="<?php echo site_url('Home/#pelatihan-section'); ?>" class="btn btn-secondary btn-lg btn-block">Kembali</a>
               </div>
             </div>
           </div>

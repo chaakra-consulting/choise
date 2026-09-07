@@ -24,7 +24,7 @@
         </p>
         <h4 style='text-align:left;'><b>Alamat</b></h4>
         <p class="mb-0" style='text-align:left;'>
-          <a href="https://maps.app.goo.gl/MVjhna5cRPrWtaDF7" target="_blank">Jl. Jambangan VII B No.14, Jambangan, Kec. Jambangan, Kota SBY, Jawa Timur 60232</a>
+          <a href="https://maps.app.goo.gl/VFTj6fifkN3VYUJF7" target="_blank">Jl. Karah Agung No.01 PIK A, Jambangan, Kec. Jambangan, Surabaya, Jawa Timur 60232</a>
         </p>
       </div>
     </div>
@@ -87,6 +87,78 @@
     }
     return true;
   }
+</script>
+<script>
+  $(document).ready(function() {
+  const $dateInput = $('#jadwal_tanggal'); 
+  const $timeSelect = $('#jadwal_waktu');
+
+  $dateInput.on('change', validateTimeSlots);
+
+  function validateTimeSlots() {
+    const selectedDateStr = $dateInput.val();
+    
+    if (!selectedDateStr) {
+      $timeSelect.prop('disabled', true);
+      
+      if ($timeSelect.hasClass('select2-hidden-accessible')) {
+        $timeSelect.trigger('change.select2'); 
+      }
+      return;
+    } else {
+      $timeSelect.prop('disabled', false); 
+    }
+
+    const now = new Date();
+    const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    const [year, month, day] = selectedDateStr.split('-').map(Number);
+    const selectedDate = new Date(year, month - 1, day);
+
+    $timeSelect.find('option').each(function() {
+      const $option = $(this);
+      const optionVal = $option.val();
+      
+      if (!optionVal || optionVal.trim() === "-") return; 
+
+      let isPassed = false;
+
+      if (selectedDate < todayMidnight) {
+        isPassed = true;
+      } 
+      else if (selectedDate.getTime() === todayMidnight.getTime()) {
+        
+        const startTimeStr = optionVal.split(' - ')[0].trim(); 
+        const [startHour, startMinute] = startTimeStr.split(':').map(Number);
+
+        const slotStartTime = new Date();
+        slotStartTime.setHours(startHour, startMinute, 0, 0);
+
+        if (now >= slotStartTime) {
+          isPassed = true;
+        }
+      }
+
+      $option.prop('disabled', isPassed);
+      
+      if (isPassed) { 
+        $option.hide(); 
+      } else { 
+        $option.show(); 
+      }
+    });
+
+    if ($timeSelect.find('option:selected').prop('disabled')) {
+      $timeSelect.val('');
+    }
+
+    if ($timeSelect.hasClass('select2-hidden-accessible')) {
+      $timeSelect.trigger('change.select2');
+    }
+  }
+
+  validateTimeSlots();
+});
 </script>
 </body>
 </html>

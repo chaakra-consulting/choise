@@ -117,17 +117,18 @@ class Home extends CI_Controller
 		$paket = $this->m_paket->get_paket_by_id($id_paket);
 
 		if ($this->form_validation->run() == FALSE) {
+			var_dump(validation_errors());
 			$this->talent_test_daftar($this->input->post('id_paket'));
 		} else {
 			// Gabungkan tanggal dan waktu menjadi satu string datetime
-			$jadwal_test = $this->input->post('jadwal_tanggal') . ' ' . $this->input->post('jadwal_waktu') . ':00'; // Tambahkan detik jika diperlukan
+			$jadwal_test = $this->input->post('jadwal_tanggal') . ' ' . $this->input->post('jadwal_waktu'); // Tambahkan detik jika diperlukan
 
 			// Validasi jadwal gabungan
-			if (!$this->validate_schedule($jadwal_test)) {
-				$this->form_validation->set_message('validate_schedule', 'Jadwal yang dipilih tidak boleh tanggal yang sudah lewat.');
-				$this->talent_test_daftar($this->input->post('id_paket'));
-				return;
-			}
+			// if (!$this->validate_schedule($jadwal_test)) {
+			// 	$this->form_validation->set_message('validate_schedule', 'Jadwal yang dipilih tidak boleh tanggal yang sudah lewat.');
+			// 	$this->talent_test_daftar($this->input->post('id_paket'));
+			// 	return;
+			// }
 
 			$order_id = 'TT-' . time() . rand(100, 999);
 			$nomor_va_dummy = '8808' . preg_replace('/[^0-9]/', '', $this->input->post('no_hp'));
@@ -163,6 +164,7 @@ class Home extends CI_Controller
 				$snap_token = null;
 				log_message('error', 'Midtrans Error: ' . $e->getMessage());
 			}
+			// var_dump($snap_token);
 
 			$pendaftar_data = [
 				'order_id'                    => $order_id,
