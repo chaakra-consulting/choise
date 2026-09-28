@@ -44,6 +44,7 @@ header("Expires: 0");
 			<th class="tg-c3ow" rowspan="2" colspan="2" style="background-color: Yellow;">Tes Karakteristik Pribadi</th>
 			<th class="tg-c3ow" rowspan="2" colspan="2" style="background-color: Yellow;">Army Alpha</th>
 			<th class="tg-c3ow" rowspan="2" colspan="4" style="background-color: Yellow;">Bahasa Inggris</th>
+			<th class="tg-c3ow" colspan="5" rowspan="2" style="background-color: Yellow;">Ujian Tes Taruna Nusantara</th>
 			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">TPA Pascasarjana</th>
 			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">PAPs UGM</th>
 			<th class="tg-c3ow" colspan="10" style="background-color: Yellow;">Tes Kompetensi Bidang (TKB)</th>
@@ -154,6 +155,9 @@ header("Expires: 0");
 			<td colspan="2" class="tg-0pky"><b>
 					<center>Frontliner</center>
 				</b></td>
+
+			
+			<!-- Tarnus -->
 
 			<!-- TPA Panjang-->
 			<td colspan="12" class="tg-0pky"><b>
@@ -721,6 +725,23 @@ header("Expires: 0");
 				</b></td>
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
+				</b></td>
+			
+				<!-- Tarnus -->
+			<td class="tg-0pky" rowspan="2"><b>
+					<center>B.Indo</center>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
+					<center>Matematika</center>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
+					<center>IPA</center>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
+					<center>Bahasa Inggris</center>
+				</b></td>
+			<td class="tg-0pky" rowspan="2"><b>
+					<center>Psikotes</center>
 				</b></td>
 
 			<!-- TKB -->
@@ -8884,9 +8905,43 @@ header("Expires: 0");
 				<td rowspan="2"><?= ($benaring / 80) * 100 ?></td>
 				<td rowspan="2"><?php kategori_n((($benaring / 80) * 100)) ?></td>
 
+				<!-- Tarnus -->
+				 <?php
+				function get_tarnus_result($lowongan, $keypel, $kategori){
+					$CI =& get_instance();
+					$kunci_jawaban_tarnus = [];
+					$jawaban_benar = 0;
+					$soal_sub1 = $CI->db->query("SELECT nomor_soal, jawaban FROM tb_soal_tarnus WHERE kategori = '$kategori'")->result();
+					foreach ($soal_sub1 as $s) {
+						$kunci_jawaban_tarnus[$s->nomor_soal] = $s->jawaban;
+					}
+					
+					$sql_sub1 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_tarnus WHERE id_lowongan = ? AND id_pelamar = ? AND kategori = ?";
+					$jawaban = $CI->db->query($sql_sub1, array($lowongan, $keypel->id_pelamar, $kategori));
+
+					if ($jawaban) {
+						foreach ($jawaban->result() as $jawaban_tarnus) {
+							$nomor_soal = $jawaban_tarnus->nomor_soal;
+							if (isset($kunci_jawaban_tarnus[$nomor_soal]) && $jawaban_tarnus->jawaban == $kunci_jawaban_tarnus[$nomor_soal]) {
+							
+								$jawaban_benar++;
+							}
+						}
+					}
+					
+					return $jawaban_benar;
+				}
+				
+				?>
+				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'b_indo') * 2.5) ?></td>
+				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'matematika') * 2.5) ?></td>
+				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'ipa') * 2.5) ?></td>
+				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'b_ing') * 2.5) ?></td>
+				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'psikotes') * 2) ?></td>
+
 				<!-- tpa pascasarjana -->
 				<?php
-				// 1. DO THIS ONCE: Fetch the answer keys BEFORE the applicant loop starts
+				
 				$kunci_jawaban_sub1 = [];
 				$soal_sub1 = $this->db->query("SELECT nomor_soal, jawaban FROM tb_soal_tpa_pascasarjana WHERE subtes = 1")->result();
 				foreach ($soal_sub1 as $s) {
@@ -8899,14 +8954,10 @@ header("Expires: 0");
 					$kunci_jawaban_sub2[$s->nomor_soal] = $s->jawaban;
 				}
 
-				// ---------------------------------------------------------
-				// 2. START YOUR APPLICANT LOOP HERE (e.g., foreach ($pelamar as $keypel))
-				// ---------------------------------------------------------
 
-				// Scoring Subtes 1
 				$jawaban_benar_tpa_pasca_sub1 = 0;
 
-				// Use Query Bindings (?) to prevent SQL syntax crashes if variables are ever empty
+				
 				$sql_sub1 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = ? AND id_pelamar = ? AND subtes = 1";
 				$jawaban_sub1 = $this->db->query($sql_sub1, array($lowongan, $keypel->id_pelamar));
 
@@ -8936,7 +8987,7 @@ header("Expires: 0");
 				?>
 				<!-- PAPs UGM -->
 				<?php
-				// 1. DO THIS ONCE: Fetch the answer keys BEFORE the applicant loop starts
+				
 				$kunci_jawaban_paps_ugm = [];
 				$soal_paps_ugm = $this->db->query("SELECT nomor_soal, jawaban FROM tb_soal_paps_ugm")->result();
 				foreach ($soal_paps_ugm as $s) {
@@ -8946,7 +8997,7 @@ header("Expires: 0");
 
 				$jawaban_benar_paps_ugm = 0;
 
-				// Use Query Bindings (?) to prevent SQL syntax crashes if variables are ever empty
+				
 				$sql_paps_ugm = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_paps_ugm WHERE id_lowongan = ? AND id_pelamar = ?";
 				$jawaban_paps_ugm = $this->db->query($sql_paps_ugm, array($lowongan, $keypel->id_pelamar));
 
