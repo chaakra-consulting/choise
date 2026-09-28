@@ -436,7 +436,7 @@
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    id_ujian: id_ujian,
+                    id_ujian: 1,
                     kategori: 'ipa'
                 },
                 success: function (res) {
@@ -560,7 +560,7 @@
                 // Trigger Finish Exam if it's the last question
                 let konfirmasi = confirm("Apakah Anda yakin ingin menyelesaikan ujian ini?");
                 if (konfirmasi) {
-                    window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Tarnus/b_ing'); ?>';
+                    window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Tarnus/psikotes'); ?>';
                 }
             }
         });
@@ -606,7 +606,7 @@
             if (distance < 0) {
                 clearInterval(x);
                 alert('Waktu Ujian Tarnus IPA Telah Berakhir, Semua Jawaban Telah Terekam');
-                window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Tarnus/b_ing'); ?>';
+                window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Tarnus/psikotes'); ?>';
             }
         }, 1000);
 

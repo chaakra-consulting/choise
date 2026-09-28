@@ -402,7 +402,7 @@
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    id_ujian: id_ujian,
+                    id_ujian: 1,
                     kategori: 'b_indo'
                 },
                 success: function(res) {
@@ -471,7 +471,7 @@
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    id_ujian: id_ujian,
+                    id_ujian: 1,
                     nomor_soal: currentSoal,
                      kategori: 'b_indo'
                 },

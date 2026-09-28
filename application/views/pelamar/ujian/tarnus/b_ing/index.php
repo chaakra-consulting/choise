@@ -436,7 +436,7 @@
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    id_ujian: id_ujian,
+                    id_ujian: 1,
                     kategori: 'b_ing'
                 },
                 success: function (res) {
