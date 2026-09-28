@@ -455,6 +455,14 @@
               <i class="icon fa fa-circle-o"></i> EPPS
             </a>
           </li>
+          <li>
+            <a class="treeview-item <?php if ($this->uri->segment(3) == "ujian_tarnus") {
+                                      echo "active";
+                                    } ?>"
+              href="<?php echo base_url('Administrator/Data_ujian/ujian_tarnus') ?>">
+              <i class="icon fa fa-circle-o"></i> Ujian Masuk Taruna Nusantara
+            </a>
+          </li>
         </ul>
       </li>
       <li class="treeview <?php if ($this->uri->segment(1) == "Soal") {

@@ -430,6 +430,60 @@ class Data_ujian extends CI_Controller
 		redirect('Administrator/Data_ujian/ujian_tiki_d');
 	}
 
+	// -------------------------CRUD Ujian Tarnus------------------------------------
+	public function ujian_tarnus()
+	{
+		$paket['array'] = $this->Mdl_data_ujian->ambildata_ujian_tarnus();
+		$this->load->view('administrator/manage_ujian_tarnus', $paket);
+	}
+
+	public function update_tarnus()
+	{
+		$namates = $this->input->post('nama_ujian');
+		$datetime_mulai = $this->input->post('waktu_mulai');
+		$waktuujian_b_indo = $this->input->post('waktu_ujiansub_b_indo');
+		$waktuujian_matematika = $this->input->post('waktu_ujiansub_matematika');
+		$waktuujian_b_ing = $this->input->post('waktu_ujiansub_b_ing');
+		$waktuujian_ipa = $this->input->post('waktu_ujiansub_ipa');
+		$waktuujian_psikotes = $this->input->post('waktu_ujiansub_psikotes');
+		$pembuat = $this->input->post('id_admin');
+
+		if ($this->input->post('status') == "aktif") {
+			$status = "aktif";
+		} else {
+			$status = "tidak aktif";
+		}
+
+		$startujian_b_indo = $datetime_mulai;
+		$endujian_b_indo = tambahmenit($startujian_b_indo, $waktuujian_b_indo);
+
+		$startujian_matematika = $endujian_b_indo;
+		$endujian_matematika = tambahmenit($startujian_matematika, $waktuujian_matematika);
+
+		$startujian_b_ing = $endujian_matematika;
+		$endujian_b_ing = tambahmenit($startujian_b_ing, $waktuujian_b_ing);
+
+		$startujian_ipa = $endujian_b_ing;
+		$endujian_ipa = tambahmenit($startujian_ipa, $waktuujian_ipa);
+
+		$startujian_psikotes = $endujian_ipa;
+		$endujian_psikotes = tambahmenit($startujian_psikotes, $waktuujian_psikotes);
+
+
+
+		$this->db->query("UPDATE tb_ujian_tarnus SET
+			nama_ujian='$namates',waktu_mulai='$datetime_mulai',waktu_akhir='$endujian_psikotes'
+			, start_uji_b_indo='$startujian_b_indo', end_uji_b_indo='$endujian_b_indo'
+			, start_uji_matematika='$startujian_matematika', end_uji_matematika='$endujian_matematika'
+			, start_uji_b_ing='$startujian_b_ing', end_uji_b_ing='$endujian_b_ing'
+			, start_uji_ipa='$startujian_ipa', end_uji_ipa='$endujian_ipa'
+			, start_uji_psikotes='$startujian_psikotes', end_uji_psikotes='$endujian_psikotes'
+			,durasi='1950',nama_pembuat='$pembuat',STATUS='$status'
+			where id_ujian=1");
+		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian Masuk Taruna Nusantara Berhasil di Update.');
+		redirect('Administrator/Data_ujian/ujian_tarnus');
+	}
+
 
 	// -------------------------CRUD Holland------------------------------------
 	public function ujian_holland()
