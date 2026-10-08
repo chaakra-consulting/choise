@@ -263,13 +263,14 @@ class Home extends CI_Controller
 		$data['progress_data'] = $this->calculate_exam_progress($pendaftar['id_pendaftar_pelatihan']);
 		$data['jadwal_test'] = $pendaftar['jadwal_test'];
 		$data['current_time'] = date('Y-m-d H:i:s');
-		$data['countdown_status'] = $this->get_countdown_status($pendaftar['jadwal_test']);
+		$jadwal_test = explode(' - ', $pendaftar['jadwal_test'])[0];
+		$data['countdown_status'] = $this->get_countdown_status($jadwal_test);
 		$data['is_talent_test'] = true;
 		$data['is_pelamar'] = false;
 		log_message('debug', 'Jadwal Test dari DB: ' . $pendaftar['jadwal_test']);
 		log_message('debug', 'Current Time: ' . date('Y-m-d H:i:s'));
 		
-		$data['countdown_status'] = $this->get_countdown_status($pendaftar['jadwal_test']);
+		$data['countdown_status'] = $this->get_countdown_status($jadwal_test);
 		log_message('debug', 'Countdown Status: ' . json_encode($data['countdown_status']));
 		
 		$this->load->view('talent_test/dashboard', $data);

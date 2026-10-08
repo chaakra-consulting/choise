@@ -1497,7 +1497,16 @@ class TalentTest extends CI_Controller
                 'nilai' => $answer['nilai'] ?? 0,
                 'waktu_jawab' => date('Y-m-d H:i:s')
             ];
-        } else {
+        }elseif ($exam_type == 'cepat_teliti') {
+            $data = [
+                'id_pendaftar_pelatihan' => $user_id,
+                'no_soal' => $question_id,
+                'jawaban' => $answer ?? '',
+                'waktu_jawab' => date('Y-m-d H:i:s')
+            ];
+
+        } 
+        else {
             $data = [
                 'id_pendaftar_pelatihan' => $user_id,
                 'id_soal' => $question_id,
@@ -1515,7 +1524,9 @@ class TalentTest extends CI_Controller
             $where_condition['no_soal'] = $question_id;
             $where_condition['id_ujian'] = $additional_data['id_ujian'] ?? 1;
         } elseif ($exam_type == 'holland') {
-        } else {
+        }elseif ($exam_type == 'cepat_teliti') { 
+            $where_condition['no_soal'] = $question_id;
+        }else {
             $where_condition['id_soal'] = $question_id;
         }
 
@@ -2171,8 +2182,9 @@ private function get_user_answer_for_question($user_id, $exam_type, $question_id
     } elseif ($exam_type == 'holland' || $exam_type == 'rmib' || $exam_type == 'rmib_pria' || $exam_type == 'rmib_wanita') {
         // For these types, answers are handled in bulk, not per question.
         return null;
-    } else {
-        $this->db->where('id_soal', $question_id);
+    }elseif ($exam_type == 'cepat_teliti') { 
+        $this->db->where('no_soal', $question_id);
+
     }
 
     $query = $this->db->get($table_name);

@@ -358,7 +358,7 @@
                         <h4>Informasi Jadwal</h4>
                         <p class="mb-3">Ujian Anda dijadwalkan pada:</p>
                         <h5 class="text-primary">
-                            <?php echo date(' d F Y, H:i', strtotime($jadwal_test)); ?> WIB
+                            <?php echo date(' d F Y, H:i', strtotime(explode(' - ', $jadwal_test)[0])); ?> WIB
                         </h5>
                         <?php if (isset($countdown_status) && is_array($countdown_status) && $countdown_status['can_start']): ?>
                             <div class="mt-4">
@@ -487,7 +487,7 @@
                                             <i class="fa fa-chart-bar"></i> Lihat Hasil
                                         </a>
                                     <?php elseif ($status == 'Dalam Proses'): ?>
-                                        <a href="<?php echo site_url('talent-test/exam/' . $exam_type . '/panel'); ?>" class="btn btn-custom btn-continue">
+                                        <a href="<?php echo site_url('talent-test/start-exam/' . $exam_type); ?>" class="btn btn-custom btn-continue">
                                             <i class="fa fa-play"></i> Lanjutkan
                                         </a>
                                     <?php else: ?>
