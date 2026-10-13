@@ -567,7 +567,7 @@
                 // Trigger Finish Exam if it's the last question
                 let konfirmasi = confirm("Apakah Anda yakin ingin menyelesaikan ujian ini?");
                 if (konfirmasi) {
-                    window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Bappenas/sub3'); ?>';
+                    window.location.href = '<?php echo base_url("Pelamar/Pelamar/testulispsikotes/" . $id_ujian); ?>';
                 }
             }
         });
@@ -613,7 +613,7 @@
             if (distance < 0) {
                 clearInterval(x);
                 alert('Waktu Ujian Bappenas Subtes 3 Telah Berakhir, Semua Jawaban Telah Terekam');
-                window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Bappenas/sub3'); ?>';
+                window.location.href = '<?php echo base_url("Pelamar/Pelamar/testulispsikotes/" . $id_ujian); ?>';
             }
         }, 1000);
 
