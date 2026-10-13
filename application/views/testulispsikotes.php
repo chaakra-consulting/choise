@@ -1297,6 +1297,31 @@ if ($jk[0]->jenis_kelamin == "L") {
 <?php   }
   } ?>
 
+<tr>
+  <?php
+  $tes_ujian_bappenas = $this->db->query("SELECT * FROM  tb_ujian_bappenas")->result_array();
+  foreach ($tes_ujian_bappenas as $key_tes_ujian_bappenas) {
+    if ($key_tes_ujian_bappenas['status'] == "aktif" && $tb_lowongan[0]->status == "tersedia" && $tb_apply[0]->status_lamaran == 'Diterima' && $tb_apply[0]->status_ujian == 'aktif') { ?>
+      <td><?php echo $no++; ?></td>
+      <td><?php echo $key_tes_ujian_bappenas['nama_ujian']; ?></td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_tes_ujian_bappenas['waktu_mulai'])) ?> WIB</td>
+      <td><?php echo date('d F Y H:i:s', strtotime($key_tes_ujian_bappenas['waktu_akhir'])) ?> WIB</td>
+      <td>
+
+        <?php
+        date_default_timezone_set("Asia/Jakarta");
+        if (date('d F Y H:i:s') < date('d F Y H:i:s', strtotime($key_tes_ujian_bappenas['waktu_mulai']))) {
+          echo "belum dimulai";
+        } elseif (date('d F Y H:i:s') >= date('d F Y H:i:s', strtotime($key_tes_ujian_bappenas['waktu_mulai'])) && date('d F Y H:i:s') <= date('d F Y H:i:s', strtotime($key_tes_ujian_bappenas['waktu_akhir']))) { ?>
+          <a href="<?php echo base_url('Pelamar/Daftar_ujian/Bappenas/') ?>" class="btn btn-primary">Kerjakan Sekarang</a>
+        <?php } elseif (date('d F Y H:i:s') > date('d F Y H:i:s', strtotime($key_tes_ujian_bappenas['waktu_akhir']))) {
+          echo "Ujian sudah berakhir";
+        } ?>
+      </td>
+</tr>
+<?php   }
+  } ?>
+
 
 
 

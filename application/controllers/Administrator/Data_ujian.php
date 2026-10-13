@@ -318,7 +318,7 @@ class Data_ujian extends CI_Controller
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian IST Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_ist');
 	}
-	// -------------------------CRUD IST------------------------------------
+	// -------------------------CRUD TIKI D------------------------------------
 	public function ujian_tiki_d()
 	{
 		$paket['array'] = $this->Mdl_data_ujian->ambildata_ujian_tiki_d();
@@ -347,12 +347,6 @@ class Data_ujian extends CI_Controller
 			$status = "aktif";
 		} else {
 			$status = "tidak aktif";
-		}
-
-		if ($this->input->post('khusus') == "aktif") {
-			$khusus_ist = "aktif";
-		} else {
-			$khusus_ist = "tidak aktif";
 		}
 
 		$startltsub1 = $datetime_mulai;
@@ -482,6 +476,54 @@ class Data_ujian extends CI_Controller
 			where id_ujian=1");
 		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian Masuk Taruna Nusantara Berhasil di Update.');
 		redirect('Administrator/Data_ujian/ujian_tarnus');
+	}
+
+
+	// -------------------------CRUD BAPPENAS------------------------------------
+	public function ujian_bappenas()
+	{
+		$paket['array'] = $this->Mdl_data_ujian->ambildata_ujian_bappenas();
+		$this->load->view('administrator/manage_ujian_bappenas', $paket);
+	}
+
+	public function update_bappenas()
+	{
+		$namates = $this->input->post('nama_ujian');
+		$datetime_mulai = $this->input->post('waktu_mulai');
+		$waktult = $this->input->post('waktu_latihan');
+		$waktuujian1 = $this->input->post('waktu_ujiansubtes1');
+		$waktuujian2 = $this->input->post('waktu_ujiansubtes2');
+		$waktuujian3 = $this->input->post('waktu_ujiansubtes3');
+
+		$pembuat = $this->input->post('id_admin');
+
+		if ($this->input->post('status') == "aktif") {
+			$status = "aktif";
+		} else {
+			$status = "tidak aktif";
+		}
+		
+		$startujiansub1 = $datetime_mulai;
+		$endujiansub1 = tambahmenit($startujiansub1, $waktuujian1);
+
+		$startujiansub2 = $endujiansub1;
+		$endujiansub2 = tambahmenit($startujiansub2, $waktuujian2);
+
+		
+		$startujiansub3 = $endujiansub2;
+		$endujiansub3 = tambahmenit($startujiansub3, $waktuujian3);
+
+
+		
+		$this->db->query("UPDATE tb_ujian_bappenas SET
+			nama_ujian='$namates',waktu_mulai='$datetime_mulai',waktu_akhir='$endujiansub3'
+			, start_uji_sub1='$startujiansub1', end_uji_sub1='$endujiansub1'
+			, start_uji_sub2='$startujiansub2', end_uji_sub2='$endujiansub2'
+			, start_uji_sub3='$startujiansub3', end_uji_sub3='$endujiansub3'
+						,durasi='1950',nama_pembuat='$pembuat',STATUS='$status'
+			where id_ujian=1");
+		$this->session->set_flashdata('msg', 'Waktu Pelaksanaan Ujian BAPPENAS Berhasil di Update.');
+		redirect('Administrator/Data_ujian/ujian_bappenas');
 	}
 
 
