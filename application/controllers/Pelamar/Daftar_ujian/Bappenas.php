@@ -107,7 +107,7 @@ class Bappenas extends CI_Controller
 
 		// Fetch only the question numbers that have been answered by this user
 		$dijawab_query = $this->db->select('nomor_soal')->get_where('tb_data_jawaban_bappenas', [
-			'id_ujian' => $id_ujian,
+			'id_ujian' => 1,
 			'subtes' => $subtes,
 			'id_pelamar' => $id_pelamar,
 			'id_lowongan' => $id_lowongan

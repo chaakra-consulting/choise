@@ -601,7 +601,7 @@
             if (distance < 0) {
                 clearInterval(x);
                 alert('Waktu Ujian Bappenas Subtes 2 Telah Berakhir, Semua Jawaban Telah Terekam');
-                window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Bappenas/sub2'); ?>';
+                window.location.href = '<?php echo base_url('Pelamar/Daftar_ujian/Bappenas/sub3'); ?>';
             }
         }, 1000);
 

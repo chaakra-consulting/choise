@@ -46,6 +46,7 @@ header("Expires: 0");
 			<th class="tg-c3ow" rowspan="2" colspan="4" style="background-color: Yellow;">Bahasa Inggris</th>
 			<th class="tg-c3ow" colspan="5" rowspan="2" style="background-color: Yellow;">Ujian Tes Taruna Nusantara</th>
 			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">TPA Pascasarjana</th>
+			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">Ujian Bappenas</th>
 			<th class="tg-c3ow" rowspan="4" style="background-color: Yellow;">PAPs UGM</th>
 			<th class="tg-c3ow" colspan="10" style="background-color: Yellow;">Tes Kompetensi Bidang (TKB)</th>
 			<th class="tg-c3ow" colspan="39" style="background-color: Yellow;">TPA Panjang</th>
@@ -1762,6 +1763,34 @@ header("Expires: 0");
 
 			return $jawaban_benar;
 		}
+
+		//Ujian Bappenas
+		function get_bappenas_result($lowongan, $keypel, $subtes){
+			$CI = &get_instance();
+			$kunci_jawaban_bappenas = [];
+			$jawaban_benar = 0;
+			$soal_sub1 = $CI->db->query("SELECT nomor_soal, jawaban FROM tb_soal_bappenas WHERE subtes = '$subtes'")->result();
+			foreach ($soal_sub1 as $s) {
+				$kunci_jawaban_bappenas[$s->nomor_soal] = $s->jawaban;
+			}
+
+			$sql_sub1 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_bappenas WHERE id_lowongan = ? AND id_pelamar = ? AND subtes = ?";
+			$jawaban = $CI->db->query($sql_sub1, array($lowongan, $keypel->id_pelamar, $subtes));
+
+			if ($jawaban) {
+				foreach ($jawaban->result() as $jawaban_bappenas) {
+					$nomor_soal = $jawaban_bappenas->nomor_soal;
+					if (isset($kunci_jawaban_bappenas[$nomor_soal]) && $jawaban_bappenas->jawaban == $kunci_jawaban_bappenas[$nomor_soal]) {
+
+						$jawaban_benar++;
+					}
+				}
+			}
+
+			return $jawaban_benar;
+		}
+
+
 		$nourutpelamar = 1;
 		$a = $this->db->query("SELECT * FROM tb_apply WHERE id_lowongan=$lowongan AND status_lamaran='Diterima'")->result();
 		foreach ($a as $keypel) {
@@ -8931,17 +8960,13 @@ header("Expires: 0");
 				<td rowspan="2"><?php kategori_n((($benaring / 80) * 100)) ?></td>
 
 				<!-- Tarnus -->
-
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'b_indo') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'matematika') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'ipa') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'b_ing') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'psikotes') * 2) ?></td>
 
-
-				<!-- Ujian Bappenas -->
-
-
+				
 				<!-- tpa pascasarjana -->
 				<?php
 
@@ -8988,6 +9013,9 @@ header("Expires: 0");
 					}
 				}
 				?>
+				
+				
+				
 				<!-- PAPs UGM -->
 				<?php
 
@@ -9017,6 +9045,9 @@ header("Expires: 0");
 				<td rowspan="2"><?php
 								echo ($jawaban_benar_tpa_pasca_sub1 * 0.9) + ($jawaban_benar_tpa_pasca_sub2 * 0.11);
 								?></td>
+
+				<!-- Ujian Bappenas -->
+				 <td rowspan="2"><?= (get_bappenas_result($lowongan, $keypel, 1) + get_bappenas_result($lowongan, $keypel, 2) + get_bappenas_result($lowongan, $keypel, 3)) ?></td>
 				<td rowspan="2"><?php
 								echo ($jawaban_benar_paps_ugm * 0.8);
 								?></td>
