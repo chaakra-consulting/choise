@@ -8,10 +8,10 @@ error_reporting(E_ALL);
 date_default_timezone_set('Asia/Jakarta');
 $nilai = $this->db->query("SELECT nama_jabatan,nama_perusahaan FROM tb_lowongan a LEFT JOIN tb_perusahaan b ON a.`id_perusahaan`=b.`id_perusahaan` WHERE id_lowongan=$lowongan")->result_array();
 $waktu = date('d-m-Y  H:i:s');
-// header("Content-type: application/octet-stream");
-// header("Content-Disposition: attachment; filename=nilai ($waktu) - " . $nilai[0]['nama_jabatan'] . " di perusahaan " . $nilai[0]['nama_perusahaan'] . ".xls");
-// header("Pragma: no-cache");
-// header("Expires: 0");
+header("Content-type: application/octet-stream");
+header("Content-Disposition: attachment; filename=nilai ($waktu) - " . $nilai[0]['nama_jabatan'] . " di perusahaan " . $nilai[0]['nama_perusahaan'] . ".xls");
+header("Pragma: no-cache");
+header("Expires: 0");
 
 
 
@@ -156,7 +156,7 @@ $waktu = date('d-m-Y  H:i:s');
 					<center>Frontliner</center>
 				</b></td>
 
-			
+
 			<!-- Tarnus -->
 
 			<!-- TPA Panjang-->
@@ -726,8 +726,8 @@ $waktu = date('d-m-Y  H:i:s');
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>Kategori</center>
 				</b></td>
-			
-				<!-- Tarnus -->
+
+			<!-- Tarnus -->
 			<td class="tg-0pky" rowspan="2"><b>
 					<center>B.Indo</center>
 				</b></td>
@@ -1737,33 +1737,31 @@ $waktu = date('d-m-Y  H:i:s');
 		}
 
 		// Tarnus
-				function get_tarnus_result($lowongan, $keypel, $kategori){
-					$CI =& get_instance();
-					$kunci_jawaban_tarnus = [];
-					$jawaban_benar = 0;
-					$soal_sub1 = $CI->db->query("SELECT nomor_soal, jawaban FROM tb_soal_tarnus WHERE kategori = '$kategori'")->result();
-					foreach ($soal_sub1 as $s) {
-						$kunci_jawaban_tarnus[$s->nomor_soal] = $s->jawaban;
-					}
-					
-					$sql_sub1 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_tarnus WHERE id_lowongan = ? AND id_pelamar = ? AND kategori = ?";
-					$jawaban = $CI->db->query($sql_sub1, array($lowongan, $keypel->id_pelamar, $kategori));
+		function get_tarnus_result($lowongan, $keypel, $kategori)
+		{
+			$CI = &get_instance();
+			$kunci_jawaban_tarnus = [];
+			$jawaban_benar = 0;
+			$soal_sub1 = $CI->db->query("SELECT nomor_soal, jawaban FROM tb_soal_tarnus WHERE kategori = '$kategori'")->result();
+			foreach ($soal_sub1 as $s) {
+				$kunci_jawaban_tarnus[$s->nomor_soal] = $s->jawaban;
+			}
 
-					if ($jawaban) {
-						foreach ($jawaban->result() as $jawaban_tarnus) {
-							$nomor_soal = $jawaban_tarnus->nomor_soal;
-							if (isset($kunci_jawaban_tarnus[$nomor_soal]) && $jawaban_tarnus->jawaban == $kunci_jawaban_tarnus[$nomor_soal]) {
-							
-								$jawaban_benar++;
-							}
-						}
+			$sql_sub1 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_tarnus WHERE id_lowongan = ? AND id_pelamar = ? AND kategori = ?";
+			$jawaban = $CI->db->query($sql_sub1, array($lowongan, $keypel->id_pelamar, $kategori));
+
+			if ($jawaban) {
+				foreach ($jawaban->result() as $jawaban_tarnus) {
+					$nomor_soal = $jawaban_tarnus->nomor_soal;
+					if (isset($kunci_jawaban_tarnus[$nomor_soal]) && $jawaban_tarnus->jawaban == $kunci_jawaban_tarnus[$nomor_soal]) {
+
+						$jawaban_benar++;
 					}
-					
-					return $jawaban_benar;
 				}
-				
+			}
 
-
+			return $jawaban_benar;
+		}
 		$nourutpelamar = 1;
 		$a = $this->db->query("SELECT * FROM tb_apply WHERE id_lowongan=$lowongan AND status_lamaran='Diterima'")->result();
 		foreach ($a as $keypel) {
@@ -8933,7 +8931,7 @@ $waktu = date('d-m-Y  H:i:s');
 				<td rowspan="2"><?php kategori_n((($benaring / 80) * 100)) ?></td>
 
 				<!-- Tarnus -->
-				 
+
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'b_indo') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'matematika') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'ipa') * 2.5) ?></td>
@@ -8946,7 +8944,7 @@ $waktu = date('d-m-Y  H:i:s');
 
 				<!-- tpa pascasarjana -->
 				<?php
-				
+
 				$kunci_jawaban_sub1 = [];
 				$soal_sub1 = $this->db->query("SELECT nomor_soal, jawaban FROM tb_soal_tpa_pascasarjana WHERE subtes = 1")->result();
 				foreach ($soal_sub1 as $s) {
@@ -8962,7 +8960,7 @@ $waktu = date('d-m-Y  H:i:s');
 
 				$jawaban_benar_tpa_pasca_sub1 = 0;
 
-				
+
 				$sql_sub1 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_tpa_pascasarjana WHERE id_lowongan = ? AND id_pelamar = ? AND subtes = 1";
 				$jawaban_sub1 = $this->db->query($sql_sub1, array($lowongan, $keypel->id_pelamar));
 
@@ -8992,7 +8990,7 @@ $waktu = date('d-m-Y  H:i:s');
 				?>
 				<!-- PAPs UGM -->
 				<?php
-				
+
 				$kunci_jawaban_paps_ugm = [];
 				$soal_paps_ugm = $this->db->query("SELECT nomor_soal, jawaban FROM tb_soal_paps_ugm")->result();
 				foreach ($soal_paps_ugm as $s) {
@@ -9002,7 +9000,7 @@ $waktu = date('d-m-Y  H:i:s');
 
 				$jawaban_benar_paps_ugm = 0;
 
-				
+
 				$sql_paps_ugm = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_paps_ugm WHERE id_lowongan = ? AND id_pelamar = ?";
 				$jawaban_paps_ugm = $this->db->query($sql_paps_ugm, array($lowongan, $keypel->id_pelamar));
 
@@ -9016,12 +9014,12 @@ $waktu = date('d-m-Y  H:i:s');
 				}
 
 				?>
-				<td rowspan="2"><?php 
-				echo ($jawaban_benar_tpa_pasca_sub1 * 0.9) + ($jawaban_benar_tpa_pasca_sub2 * 0.11);
-				 ?></td>
-				<td rowspan="2"><?php 
-				echo ($jawaban_benar_paps_ugm * 0.8);
-				 ?></td>
+				<td rowspan="2"><?php
+								echo ($jawaban_benar_tpa_pasca_sub1 * 0.9) + ($jawaban_benar_tpa_pasca_sub2 * 0.11);
+								?></td>
+				<td rowspan="2"><?php
+								echo ($jawaban_benar_paps_ugm * 0.8);
+								?></td>
 				<!-- <td rowspan="2">123456</td> -->
 				<!-- accounting -->
 				<td rowspan="2"><?= $benaracc * 2 ?></td>
