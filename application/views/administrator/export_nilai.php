@@ -8,10 +8,10 @@ error_reporting(E_ALL);
 date_default_timezone_set('Asia/Jakarta');
 $nilai = $this->db->query("SELECT nama_jabatan,nama_perusahaan FROM tb_lowongan a LEFT JOIN tb_perusahaan b ON a.`id_perusahaan`=b.`id_perusahaan` WHERE id_lowongan=$lowongan")->result_array();
 $waktu = date('d-m-Y  H:i:s');
-header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=nilai ($waktu) - " . $nilai[0]['nama_jabatan'] . " di perusahaan " . $nilai[0]['nama_perusahaan'] . ".xls");
-header("Pragma: no-cache");
-header("Expires: 0");
+// header("Content-type: application/octet-stream");
+// header("Content-Disposition: attachment; filename=nilai ($waktu) - " . $nilai[0]['nama_jabatan'] . " di perusahaan " . $nilai[0]['nama_perusahaan'] . ".xls");
+// header("Pragma: no-cache");
+// header("Expires: 0");
 
 
 
@@ -1735,6 +1735,33 @@ header("Expires: 0");
 				. '</td>');
 			echo $a;
 		}
+
+		// Tarnus
+				function get_tarnus_result($lowongan, $keypel, $kategori){
+					$CI =& get_instance();
+					$kunci_jawaban_tarnus = [];
+					$jawaban_benar = 0;
+					$soal_sub1 = $CI->db->query("SELECT nomor_soal, jawaban FROM tb_soal_tarnus WHERE kategori = '$kategori'")->result();
+					foreach ($soal_sub1 as $s) {
+						$kunci_jawaban_tarnus[$s->nomor_soal] = $s->jawaban;
+					}
+					
+					$sql_sub1 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_tarnus WHERE id_lowongan = ? AND id_pelamar = ? AND kategori = ?";
+					$jawaban = $CI->db->query($sql_sub1, array($lowongan, $keypel->id_pelamar, $kategori));
+
+					if ($jawaban) {
+						foreach ($jawaban->result() as $jawaban_tarnus) {
+							$nomor_soal = $jawaban_tarnus->nomor_soal;
+							if (isset($kunci_jawaban_tarnus[$nomor_soal]) && $jawaban_tarnus->jawaban == $kunci_jawaban_tarnus[$nomor_soal]) {
+							
+								$jawaban_benar++;
+							}
+						}
+					}
+					
+					return $jawaban_benar;
+				}
+				
 
 
 		$nourutpelamar = 1;
@@ -8906,38 +8933,16 @@ header("Expires: 0");
 				<td rowspan="2"><?php kategori_n((($benaring / 80) * 100)) ?></td>
 
 				<!-- Tarnus -->
-				 <?php
-				function get_tarnus_result($lowongan, $keypel, $kategori){
-					$CI =& get_instance();
-					$kunci_jawaban_tarnus = [];
-					$jawaban_benar = 0;
-					$soal_sub1 = $CI->db->query("SELECT nomor_soal, jawaban FROM tb_soal_tarnus WHERE kategori = '$kategori'")->result();
-					foreach ($soal_sub1 as $s) {
-						$kunci_jawaban_tarnus[$s->nomor_soal] = $s->jawaban;
-					}
-					
-					$sql_sub1 = "SELECT nomor_soal, jawaban FROM tb_data_jawaban_tarnus WHERE id_lowongan = ? AND id_pelamar = ? AND kategori = ?";
-					$jawaban = $CI->db->query($sql_sub1, array($lowongan, $keypel->id_pelamar, $kategori));
-
-					if ($jawaban) {
-						foreach ($jawaban->result() as $jawaban_tarnus) {
-							$nomor_soal = $jawaban_tarnus->nomor_soal;
-							if (isset($kunci_jawaban_tarnus[$nomor_soal]) && $jawaban_tarnus->jawaban == $kunci_jawaban_tarnus[$nomor_soal]) {
-							
-								$jawaban_benar++;
-							}
-						}
-					}
-					
-					return $jawaban_benar;
-				}
-				
-				?>
+				 
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'b_indo') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'matematika') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'ipa') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'b_ing') * 2.5) ?></td>
 				<td rowspan="2"><?= (get_tarnus_result($lowongan, $keypel, 'psikotes') * 2) ?></td>
+
+
+				<!-- Ujian Bappenas -->
+
 
 				<!-- tpa pascasarjana -->
 				<?php
